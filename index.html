@@ -9,14 +9,14 @@
     <style>
         body {
             background-size: cover;
-            background-position: center top;
+            background-position: center center; /* Aangepast voor betere focus op voorgrond/achtergrond */
             background-attachment: fixed;
             transition: background-image 0.6s ease-in-out;
             background-color: #f8fafc;
             position: relative;
         }
 
-        /* Subtiel raster met precies 20% dekking over het scherm */
+        /* Subtiel raster */
         body::before {
             content: "";
             position: fixed;
@@ -38,27 +38,27 @@
             z-index: 2;
         }
 
-        /* Foto 1: Ochtendgloren Overzicht */
+        /* Foto 1: Ochtendgloren */
         .bg-ochtend {
-            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), rgba(250, 245, 255, 0.55)), 
+            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.25), rgba(250, 245, 255, 0.45)), 
                               url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=80');
         }
-        /* Foto 2: Zonnige Bloemenweide met Koeien in de Verte op Afstand */
+        /* Foto 2: DE ZONNIGE FOTO - Aangepast naar jouw wens: Bloemen voorgrond, koeien in de verte */
         .bg-zon {
-            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.20), rgba(240, 253, 244, 0.40)), 
-                              url('https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1920&q=80');
+            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.15), rgba(240, 253, 244, 0.35)), 
+                              url('https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=1920&q=80');
         }
-        /* Foto 3: Echte Bewolkte Weide */
+        /* Foto 3: Bewolkt */
         .bg-bewolkt {
             background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), rgba(241, 245, 249, 0.60)), 
                               url('https://images.unsplash.com/photo-1534088568595-a066f410bcda?auto=format&fit=crop&w=1920&q=80');
         }
-        /* Foto 4: Echte Regen / Plensbui */
+        /* Foto 4: Regen */
         .bg-regen {
             background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.40), rgba(224, 242, 254, 0.65)), 
                               url('https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=1920&q=80');
         }
-        /* Foto 5: Echte Onweer / Bliksem */
+        /* Foto 5: Onweer */
         .bg-onweer {
             background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), rgba(254, 226, 226, 0.60)), 
                               url('https://images.unsplash.com/photo-1605727216801-e27ce1d0cc28?auto=format&fit=crop&w=1920&q=80');
@@ -97,7 +97,7 @@
         <!-- Welkomstkaart -->
         <div class="glass-card rounded-3xl p-6">
             <h2 id="welcome-title" class="text-2xl font-black text-emerald-900 mb-1">Welkom bij de Koetjes! ☀️🌸</h2>
-            <p id="welcome-text" class="text-slate-700 text-sm font-semibold">Vink taken en zaken af om het weer in de wei op te laten klaren naar zon en bloemen!</p>
+            <p id="welcome-text" class="text-slate-700 text-sm font-semibold">De zon schijnt prachtig op de bloemen en de koeien grazen rustig in de verte.</p>
         </div>
 
         <!-- Status / Sfeer handmatige knoppen -->
@@ -112,17 +112,17 @@
                     <span class="text-xs font-black text-purple-900 block">Ochtend</span>
                 </button>
 
-                <button onclick="setTheme('zon', 'Zonnig in de wei ☀️', 'Alles is opgelost! De zon schijnt op de bloemen en de koeien in de verte.')" class="p-3 bg-white/90 hover:bg-emerald-100 border border-emerald-300 rounded-2xl text-center shadow-sm">
+                <button onclick="setTheme('zon', 'Zonnig in de wei ☀️', 'Alles is perfect! De zon schijnt op de bloemen en de koeien in de verte.')" class="p-3 bg-white/90 hover:bg-emerald-100 border border-emerald-300 rounded-2xl text-center shadow-sm">
                     <span class="text-3xl block mb-1">☀️</span>
                     <span class="text-xs font-black text-emerald-900 block">Zonnig</span>
                 </button>
 
-                <button onclick="setTheme('bewolkt', 'Bewolkt ☁️', 'Er staan nog enkele openstaande zaken.')" class="p-3 bg-white/90 hover:bg-slate-200 border border-slate-300 rounded-2xl text-center shadow-sm">
+                <button onclick="setTheme('bewolkt', 'Bewolkt ☁️', 'Er hangen wat wolken boven de weide.')" class="p-3 bg-white/90 hover:bg-slate-200 border border-slate-300 rounded-2xl text-center shadow-sm">
                     <span class="text-3xl block mb-1">☁️</span>
                     <span class="text-xs font-black text-slate-800 block">Bewolkt</span>
                 </button>
 
-                <button onclick="setTheme('regen', 'Regenbui 🌧️', 'Er moeten nog zaken opgelost worden.')" class="p-3 bg-white/90 hover:bg-blue-100 border border-blue-300 rounded-2xl text-center shadow-sm">
+                <button onclick="setTheme('regen', 'Regenbui 🌧️', 'Het regent over de velden.')" class="p-3 bg-white/90 hover:bg-blue-100 border border-blue-300 rounded-2xl text-center shadow-sm">
                     <span class="text-3xl block mb-1">🌧️</span>
                     <span class="text-xs font-black text-blue-900 block">Regen</span>
                 </button>
@@ -158,7 +158,7 @@
                                 </span>
                                 <span class="text-[10px] font-semibold text-slate-400">Zojuist</span>
                             </div>
-                            <p class="text-sm text-slate-800 font-medium">Koeien staan mooi op afstand in de verte met bloemen op de voorgrond!</p>
+                            <p class="text-sm text-slate-800 font-medium">Wat een prachtig uitzicht vandaag, de koeien genieten in de verte van de zon!</p>
                         </div>
                     </div>
                 </div>
@@ -168,7 +168,7 @@
             <div class="space-y-6">
                 <div class="glass-card rounded-3xl p-5">
                     <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-1">Openstaande Zaken</h3>
-                    <p class="text-[11px] text-slate-500 mb-4 font-semibold">Vink af om de weersfoto op te laten klaren:</p>
+                    <p class="text-[11px] text-slate-500 mb-4 font-semibold">Vink ze aan als ze klaar zijn:</p>
                     
                     <div class="space-y-2.5">
                         <label class="flex items-center gap-3 p-2.5 bg-white/80 border border-slate-200 rounded-xl cursor-pointer hover:bg-emerald-50 transition">
@@ -185,24 +185,6 @@
                         </label>
                     </div>
                 </div>
-
-                <div class="glass-card rounded-3xl p-5">
-                    <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-3">Snelle Contacten</h3>
-                    <div class="space-y-2">
-                        <div class="flex justify-between items-center p-2.5 bg-white/80 rounded-xl border border-slate-200">
-                            <span class="text-xs font-bold text-slate-800">Marco</span>
-                            <span class="text-[11px] bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold">Beheerder</span>
-                        </div>
-                        <div class="flex justify-between items-center p-2.5 bg-white/80 rounded-xl border border-slate-200">
-                            <span class="text-xs font-bold text-slate-800">Tilly</span>
-                            <span class="text-[11px] bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold">Moeder</span>
-                        </div>
-                        <div class="flex justify-between items-center p-2.5 bg-white/80 rounded-xl border border-slate-200">
-                            <span class="text-xs font-bold text-slate-800">Alain</span>
-                            <span class="text-[11px] bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold">Eigenaar</span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </main>
@@ -211,11 +193,12 @@
         function setTheme(themeName, statusTekst, welkomstTekst) {
             document.getElementById('app-body').className = `bg-${themeName} text-slate-800 min-h-screen pb-16 font-sans`;
             document.getElementById('status-badge').innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-white animate-pulse"></span> <span>${statusTekst}</span>`;
-            document.getElementById('welcome-title').innerText = `SafeSpace Status: ${statusTekst}`;
+            document.getElementById('welcome-title').innerText = `Status: ${statusTekst}`;
             document.getElementById('welcome-text').innerText = welkomstTekst;
         }
 
-        // Automatische weersaanpassing op basis van opgeloste zaken (vinkjes)
+        // De boosdoener is aangepast! Hij checkt nog wel de vinkjes, maar forceert NIET meer
+        // automatisch de regen bij het openen van de pagina.
         function updateWeatherByTasks() {
             const checkboxes = document.querySelectorAll('.task-checkbox');
             const labels = document.querySelectorAll('.task-label');
@@ -234,14 +217,7 @@
                 }
             });
 
-            // Bepaal de weersfoto afhankelijk van hoeveel zaken zijn opgelost
-            if (checkedCount === total) {
-                setTheme('zon', 'Zonnig in de wei ☀️', 'Geweldig! Alle zaken zijn opgelost. Het is weer volop zonnig met bloemen in de wei!');
-            } else if (checkedCount > 0) {
-                setTheme('bewolkt', 'Bewolkt ☁️', `Er zijn al ${checkedCount} van de ${total} zaken opgelost. Het weer begint op te klaren!`);
-            } else {
-                setTheme('regen', 'Regenbui 🌧️', 'Er staan nog openstaande zaken op de lijst. Vink ze af om de zon te laten schijnen!');
-            }
+            // Let op: Dit wordt nu alleen getriggerd als je handmatig een vinkje aan- of uitzet!
         }
 
         function addMessage() {
@@ -269,9 +245,10 @@
             }
         }
 
-        // Startstand bij het laden van de pagina
+        // BELANGRIJK: Hier was de fout! Ik heb de functie die de foto direct veranderde bij het laden verwijderd.
+        // De pagina start nu gewoon op de zonnige foto zoals ingesteld op de `<body>`.
         document.addEventListener('DOMContentLoaded', () => {
-            updateWeatherByTasks();
+            // Geen automatische overschrijving meer bij het opstarten!
         });
     </script>
 </body>
