@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SafeSpace - De Koetjes Weide 🐄</title>
+    <title>SafeSpace - Complete Besturingsomgeving 🐄</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -33,32 +33,28 @@
             z-index: 1;
         }
 
-        header, main {
+        header, main, nav {
             position: relative;
             z-index: 2;
         }
 
-        /* Foto 1: Ochtendgloren Overzicht */
+        /* Dynamische Sfeer-Achtergronden */
         .bg-ochtend {
             background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), rgba(250, 245, 255, 0.55)), 
                               url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=80');
         }
-        /* Foto 2: Zonnige Weide met Koeien Ver in de Verte */
         .bg-zon {
             background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.25), rgba(240, 253, 244, 0.45)), 
                               url('https://images.unsplash.com/photo-1595855759920-86582396756a?auto=format&fit=crop&w=1920&q=80');
         }
-        /* Foto 3: Echte Bewolkte Weide */
         .bg-bewolkt {
             background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), rgba(241, 245, 249, 0.60)), 
                               url('https://images.unsplash.com/photo-1534088568595-a066f410bcda?auto=format&fit=crop&w=1920&q=80');
         }
-        /* Foto 4: Echte Regen / Plensbui */
         .bg-regen {
             background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.40), rgba(224, 242, 254, 0.65)), 
                               url('https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=1920&q=80');
         }
-        /* Foto 5: Echte Onweer / Bliksem */
         .bg-onweer {
             background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), rgba(254, 226, 226, 0.60)), 
                               url('https://images.unsplash.com/photo-1605727216801-e27ce1d0cc28?auto=format&fit=crop&w=1920&q=80');
@@ -70,19 +66,25 @@
             border: 1px solid rgba(255, 255, 255, 0.95);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
         }
+
+        .tab-btn.active {
+            background-color: #059669;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 <body id="app-body" class="bg-zon text-slate-800 min-h-screen pb-16 font-sans">
 
     <!-- Kopbal / Header -->
     <header class="bg-white/85 backdrop-blur-md border-b border-emerald-200/60 p-4 sticky top-0 z-50 shadow-sm">
-        <div class="max-w-4xl mx-auto flex justify-between items-center">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-3">
                 <div class="bg-emerald-500 text-white p-2.5 rounded-2xl text-2xl shadow-md">🐄</div>
                 <div>
-                    <h1 class="font-extrabold text-xl text-slate-900">SafeSpace Weide</h1>
+                    <h1 class="font-extrabold text-xl text-slate-900">SafeSpace Control Center</h1>
                     <span class="text-xs text-emerald-700 font-semibold flex items-center gap-1">
-                        <i class="fa-solid fa-border-all"></i> Dynamisch Weer op Basis van Status
+                        <i class="fa-solid fa-layer-group"></i> Geïntegreerd Beheersysteem
                     </span>
                 </div>
             </div>
@@ -94,105 +96,121 @@
         </div>
     </header>
 
-    <!-- Hoofd Dashboard Container -->
-    <main class="max-w-4xl mx-auto p-4 space-y-6 mt-2">
-        <!-- Dashboard Kaart: Welkom -->
-        <div class="glass-card rounded-3xl p-6">
-            <h2 id="welcome-title" class="text-2xl font-black text-emerald-900 mb-1">Welkom bij de Koetjes! ☀️</h2>
-            <p id="welcome-text" class="text-slate-700 text-sm font-semibold">Vink taken en zaken af om het weer in de wei op te laten klaren naar zon!</p>
+    <!-- Navigatie Menu (Schakelen tussen Schermen) -->
+    <nav class="max-w-6xl mx-auto px-4 mt-4">
+        <div class="glass-card rounded-2xl p-2 flex flex-wrap gap-2 shadow-sm">
+            <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn active px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-700">
+                <i class="fa-solid fa-chart-pie"></i> Dashboard
+            </button>
+            <button onclick="switchTab('tasks')" id="tab-tasks" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-700">
+                <i class="fa-solid fa-list-check"></i> Taken Tracker
+            </button>
+            <button onclick="switchTab('user-modal')" id="tab-user-modal" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-700">
+                <i class="fa-solid fa-user-plus"></i> Gebruiker Toevoegen
+            </button>
+            <button onclick="switchTab('config')" id="tab-config" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-700">
+                <i class="fa-solid fa-sliders"></i> Configuratie
+            </button>
         </div>
+    </nav>
 
-        <!-- Dashboard Kaart: Sfeer Bediening -->
-        <div class="glass-card rounded-3xl p-5">
-            <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-4">
-                <i class="fa-solid fa-cloud-sun text-amber-500"></i> Handmatig de weide sfeer instellen:
-            </h3>
+    <!-- Hoofd Container voor de Schermen -->
+    <main class="max-w-6xl mx-auto p-4">
+
+        <!-- ================= SCHERM 1: DASHBOARD ================= -->
+        <div id="screen-dashboard" class="space-y-6">
             
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
-                <button onclick="setTheme('ochtend', 'Ochtendgloren 🌄', 'Een frisse nieuwe ochtend breekt aan!')" class="p-3 bg-white/90 hover:bg-purple-100 border border-purple-200 rounded-2xl text-center shadow-sm">
-                    <span class="text-3xl block mb-1">🌄</span>
-                    <span class="text-xs font-black text-purple-900 block">Ochtend</span>
-                </button>
-
-                <button onclick="setTheme('zon', 'Zonnig in de wei ☀️', 'Alles is opgelost! De zon schijnt volop.')" class="p-3 bg-white/90 hover:bg-emerald-100 border border-emerald-300 rounded-2xl text-center shadow-sm">
-                    <span class="text-3xl block mb-1">☀️</span>
-                    <span class="text-xs font-black text-emerald-900 block">Zonnig</span>
-                </button>
-
-                <button onclick="setTheme('bewolkt', 'Bewolkt ☁️', 'Er staan nog enkele openstaande zaken.')" class="p-3 bg-white/90 hover:bg-slate-200 border border-slate-300 rounded-2xl text-center shadow-sm">
-                    <span class="text-3xl block mb-1">☁️</span>
-                    <span class="text-xs font-black text-slate-800 block">Bewolkt</span>
-                </button>
-
-                <button onclick="setTheme('regen', 'Regenbui 🌧️', 'Er moeten nog zaken opgelost worden.')" class="p-3 bg-white/90 hover:bg-blue-100 border border-blue-300 rounded-2xl text-center shadow-sm">
-                    <span class="text-3xl block mb-1">🌧️</span>
-                    <span class="text-xs font-black text-blue-900 block">Regen</span>
-                </button>
-
-                <button onclick="setTheme('onweer', 'Onweer / Urgent! ⚡', 'Er is een acute situatie die opgelost moet worden!')" class="p-3 bg-white/90 hover:bg-rose-100 border border-rose-300 rounded-2xl text-center col-span-2 md:col-span-1 shadow-sm">
-                    <span class="text-3xl block mb-1 animate-bounce">⚡</span>
-                    <span class="text-xs font-black text-rose-800 block">Onweer</span>
-                </button>
+            <!-- Welkom & Sfeer -->
+            <div class="glass-card rounded-3xl p-6">
+                <h2 id="welcome-title" class="text-2xl font-black text-emerald-900 mb-1">Welkom bij de Koetjes Weide ☀️</h2>
+                <p id="welcome-text" class="text-slate-700 text-sm font-semibold">Bekijk de sensorwaarden, vink openstaande taken af en stuur de sfeer aan.</p>
             </div>
-        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Dashboard Kaart: Berichten uit de Stal -->
-            <div class="md:col-span-2 glass-card rounded-3xl p-5 flex flex-col justify-between">
-                <div>
+            <!-- Dashboard Sensoren / Metrics -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="glass-card rounded-2xl p-4 flex items-center gap-4">
+                    <div class="bg-amber-100 text-amber-600 p-3 rounded-xl text-xl"><i class="fa-solid fa-temperature-half"></i></div>
+                    <div>
+                        <span class="text-[11px] font-bold text-slate-400 block uppercase">Temperatuur</span>
+                        <span class="text-lg font-black text-slate-800">21°C</span>
+                    </div>
+                </div>
+                <div class="glass-card rounded-2xl p-4 flex items-center gap-4">
+                    <div class="bg-blue-100 text-blue-600 p-3 rounded-xl text-xl"><i class="fa-solid fa-droplet"></i></div>
+                    <div>
+                        <span class="text-[11px] font-bold text-slate-400 block uppercase">Luchtvochtigheid</span>
+                        <span class="text-lg font-black text-slate-800">62%</span>
+                    </div>
+                </div>
+                <div class="glass-card rounded-2xl p-4 flex items-center gap-4">
+                    <div class="bg-emerald-100 text-emerald-600 p-3 rounded-xl text-xl"><i class="fa-solid fa-cow"></i></div>
+                    <div>
+                        <span class="text-[11px] font-bold text-slate-400 block uppercase">Koeien in Weide</span>
+                        <span class="text-lg font-black text-slate-800">12 / 12</span>
+                    </div>
+                </div>
+                <div class="glass-card rounded-2xl p-4 flex items-center gap-4">
+                    <div class="bg-purple-100 text-purple-600 p-3 rounded-xl text-xl"><i class="fa-solid fa-chart-line"></i></div>
+                    <div>
+                        <span class="text-[11px] font-bold text-slate-400 block uppercase">Taakvoortgang</span>
+                        <span id="dash-progress" class="text-lg font-black text-slate-800">100%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sfeerbediening Handmatig -->
+            <div class="glass-card rounded-3xl p-5">
+                <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-4">
+                    <i class="fa-solid fa-cloud-sun text-amber-500"></i> Handmatige Sfeer & Weer Controls:
+                </h3>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+                    <button onclick="setTheme('ochtend', 'Ochtendgloren 🌄', 'Een frisse nieuwe ochtend breekt aan!')" class="p-3 bg-white/90 hover:bg-purple-100 border border-purple-200 rounded-2xl text-center shadow-sm">
+                        <span class="text-2xl block mb-1">🌄</span>
+                        <span class="text-xs font-black text-purple-900 block">Ochtend</span>
+                    </button>
+                    <button onclick="setTheme('zon', 'Zonnig in de wei ☀️', 'Alles is opgelost! De zon schijnt volop.')" class="p-3 bg-white/90 hover:bg-emerald-100 border border-emerald-300 rounded-2xl text-center shadow-sm">
+                        <span class="text-2xl block mb-1">☀️</span>
+                        <span class="text-xs font-black text-emerald-900 block">Zonnig</span>
+                    </button>
+                    <button onclick="setTheme('bewolkt', 'Bewolkt ☁️', 'Er staan nog enkele openstaande zaken.')" class="p-3 bg-white/90 hover:bg-slate-200 border border-slate-300 rounded-2xl text-center shadow-sm">
+                        <span class="text-2xl block mb-1">☁️</span>
+                        <span class="text-xs font-black text-slate-800 block">Bewolkt</span>
+                    </button>
+                    <button onclick="setTheme('regen', 'Regenbui 🌧️', 'Er moeten nog zaken opgelost worden.')" class="p-3 bg-white/90 hover:bg-blue-100 border border-blue-300 rounded-2xl text-center shadow-sm">
+                        <span class="text-2xl block mb-1">🌧️</span>
+                        <span class="text-xs font-black text-blue-900 block">Regen</span>
+                    </button>
+                    <button onclick="setTheme('onweer', 'Onweer / Urgent! ⚡', 'Er is een acute situatie die opgelost moet worden!')" class="p-3 bg-white/90 hover:bg-rose-100 border border-rose-300 rounded-2xl text-center col-span-2 md:col-span-1 shadow-sm">
+                        <span class="text-2xl block mb-1 animate-bounce">⚡</span>
+                        <span class="text-xs font-black text-rose-800 block">Onweer</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dashboard Overzicht: Berichten & Beknopte Taken -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 glass-card rounded-3xl p-5">
                     <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-4 flex items-center gap-2">
                         <i class="fa-solid fa-comments text-emerald-600"></i> Berichten uit de Stal
                     </h3>
-                    
                     <div class="flex gap-2 mb-4">
-                        <input id="message-input" type="text" placeholder="Schrijf een berichtje..." class="flex-1 bg-white border border-slate-300 focus:border-emerald-500 rounded-2xl px-4 py-3 text-sm text-slate-900 focus:outline-none font-medium">
-                        <button onclick="addMessage()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-3 rounded-2xl text-sm shadow-md">
-                            <span>Verstuur</span>
-                            <i class="fa-solid fa-paper-plane"></i>
-                        </button>
+                        <input id="message-input" type="text" placeholder="Schrijf een bericht..." class="flex-1 bg-white border border-slate-300 rounded-2xl px-4 py-3 text-sm focus:outline-none">
+                        <button onclick="addMessage()" class="bg-emerald-600 text-white font-bold px-5 py-3 rounded-2xl text-sm shadow-md">Verstuur</button>
                     </div>
-
-                    <div id="messages-list" class="space-y-3 max-h-80 overflow-y-auto pr-1">
+                    <div id="messages-list" class="space-y-3 max-h-60 overflow-y-auto">
                         <div class="bg-white/90 border border-slate-200 p-4 rounded-2xl shadow-sm">
                             <div class="flex justify-between items-center mb-1">
-                                <span class="text-xs font-bold text-emerald-800 flex items-center gap-1.5">
-                                    <span>🐮</span> Marco
-                                </span>
-                                <span class="text-[10px] font-semibold text-slate-400">Zojuist</span>
+                                <span class="text-xs font-bold text-emerald-800">🐮 Marco (Beheerder)</span>
+                                <span class="text-[10px] text-slate-400">Zojuist</span>
                             </div>
-                            <p class="text-sm text-slate-800 font-medium">Als alle taken hiernaast zijn afgevinkt, klaart het weer automatisch op naar Zonnig!</p>
+                            <p class="text-sm text-slate-800 font-medium">Welkom in het SafeSpace dashboard!</p>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Dashboard Kolom: Taken & Contacten -->
-            <div class="space-y-6">
-                <!-- Dashboard Kaart: Openstaande Zaken -->
-                <div class="glass-card rounded-3xl p-5">
-                    <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-1">Openstaande Zaken</h3>
-                    <p class="text-[11px] text-slate-500 mb-4 font-semibold">Vink af om de weersfoto op te laten klaren:</p>
-                    
-                    <div class="space-y-2.5">
-                        <label class="flex items-center gap-3 p-2.5 bg-white/80 border border-slate-200 rounded-xl cursor-pointer hover:bg-emerald-50 transition">
-                            <input type="checkbox" class="task-checkbox w-4 h-4 accent-emerald-600 rounded" onchange="updateWeatherByTasks()">
-                            <span class="task-label text-xs text-slate-800 font-bold">Koeien voeren & water checken</span>
-                        </label>
-                        <label class="flex items-center gap-3 p-2.5 bg-white/80 border border-slate-200 rounded-xl cursor-pointer hover:bg-emerald-50 transition">
-                            <input type="checkbox" class="task-checkbox w-4 h-4 accent-emerald-600 rounded" onchange="updateWeatherByTasks()">
-                            <span class="task-label text-xs text-slate-800 font-bold">Hekwerk controle weide</span>
-                        </label>
-                        <label class="flex items-center gap-3 p-2.5 bg-white/80 border border-slate-200 rounded-xl cursor-pointer hover:bg-emerald-50 transition">
-                            <input type="checkbox" class="task-checkbox w-4 h-4 accent-emerald-600 rounded" onchange="updateWeatherByTasks()">
-                            <span class="task-label text-xs text-slate-800 font-bold">Overleg en koffie met Tilly ☕</span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Dashboard Kaart: Snelle Contacten -->
                 <div class="glass-card rounded-3xl p-5">
                     <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-3">Snelle Contacten</h3>
-                    <div class="space-y-2">
+                    <div id="contact-list" class="space-y-2">
                         <div class="flex justify-between items-center p-2.5 bg-white/80 rounded-xl border border-slate-200">
                             <span class="text-xs font-bold text-slate-800">Marco</span>
                             <span class="text-[11px] bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold">Beheerder</span>
@@ -209,9 +227,143 @@
                 </div>
             </div>
         </div>
+
+
+        <!-- ================= SCHERM 2: TAKEN TRACKER ================= -->
+        <div id="screen-tasks" class="hidden space-y-6">
+            <div class="glass-card rounded-3xl p-6">
+                <h2 class="text-2xl font-black text-emerald-900 mb-1"><i class="fa-solid fa-list-check text-emerald-600"></i> Taken Tracker</h2>
+                <p class="text-slate-700 text-sm font-semibold">Beheer alle taken in de weide. Elke voltooide taak helpt de sfeer te verbeteren.</p>
+            </div>
+
+            <!-- Nieuwe Taak Toevoegen -->
+            <div class="glass-card rounded-3xl p-5">
+                <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-3">Nieuwe Taak Toevoegen</h3>
+                <div class="flex flex-col md:flex-row gap-3">
+                    <input id="new-task-title" type="text" placeholder="Omschrijving van de taak..." class="flex-1 bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
+                    <select id="new-task-priority" class="bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-700">
+                        <option value="Normaal">Prioriteit: Normaal</option>
+                        <option value="Hoog">Prioriteit: Hoog ⚡</option>
+                    </select>
+                    <button onclick="createNewTask()" class="bg-emerald-600 text-white font-bold px-6 py-2.5 rounded-xl text-sm shadow">Toevoegen</button>
+                </div>
+            </div>
+
+            <!-- Takenlijst met Vinkjes -->
+            <div class="glass-card rounded-3xl p-5">
+                <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-4">Actieve Takenlijst</h3>
+                <div id="full-tasks-list" class="space-y-3">
+                    <!-- Dynamische inhoud via JS -->
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ================= SCHERM 3: GEBRUIKER AANMAKEN (MET ROL) ================= -->
+        <div id="screen-user-modal" class="hidden space-y-6">
+            <div class="glass-card rounded-3xl p-6">
+                <h2 class="text-2xl font-black text-emerald-900 mb-1"><i class="fa-solid fa-user-plus text-emerald-600"></i> Gebruiker Toevoegen</h2>
+                <p class="text-slate-700 text-sm font-semibold">Voeg een nieuw familielid, beheerder of verzorger toe en wijs specifieke rollen toe.</p>
+            </div>
+
+            <div class="glass-card rounded-3xl p-6 max-w-2xl mx-auto">
+                <form onsubmit="event.preventDefault(); addNewUser();" class="space-y-4">
+                    <div>
+                        <label class="text-xs font-bold text-slate-700 block mb-1">Volledige Naam</label>
+                        <input id="user-fullname" type="text" placeholder="bijv. Sanne de Vries" required class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold text-slate-700 block mb-1">E-mailadres</label>
+                        <input id="user-email" type="email" placeholder="sanne@safespace.nl" required class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold text-slate-700 block mb-1">Rol & Rechten</label>
+                        <select id="user-role" class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm font-bold text-slate-800">
+                            <option value="Beheerder">Beheerder (Volledige toegang)</option>
+                            <option value="Eigenaar">Eigenaar (Inzicht & Configuratie)</option>
+                            <option value="Ouder">Ouder / Familielid</option>
+                            <option value="Verzorger">Verzorger (Alleen taken afvinken)</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl shadow transition">
+                        Gebruiker Aanmaken & Uitnodigen
+                    </button>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- ================= SCHERM 4: CONFIGURATIE ================= -->
+        <div id="screen-config" class="hidden space-y-6">
+            <div class="glass-card rounded-3xl p-6">
+                <h2 class="text-2xl font-black text-emerald-900 mb-1"><i class="fa-solid fa-sliders text-emerald-600"></i> Systeem Configuratie</h2>
+                <p class="text-slate-700 text-sm font-semibold">Stel drempelwaardes, meldingen en achtergrond-triggers in voor het platform.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Sfeer Instellingen -->
+                <div class="glass-card rounded-3xl p-5 space-y-4">
+                    <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider">Automatische Weer Triggers</h3>
+                    
+                    <div class="flex items-center justify-between p-3 bg-white/80 rounded-xl border border-slate-200">
+                        <span class="text-xs font-bold text-slate-800">Weer aanpassen op basis van Taken</span>
+                        <input type="checkbox" checked class="w-4 h-4 accent-emerald-600">
+                    </div>
+
+                    <div class="flex items-center justify-between p-3 bg-white/80 rounded-xl border border-slate-200">
+                        <span class="text-xs font-bold text-slate-800">Onweer-waarschuwing bij Urgente Melding</span>
+                        <input type="checkbox" checked class="w-4 h-4 accent-emerald-600">
+                    </div>
+                </div>
+
+                <!-- Notificatie Instellingen -->
+                <div class="glass-card rounded-3xl p-5 space-y-4">
+                    <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider">Notificaties & Alerts</h3>
+                    
+                    <div class="flex items-center justify-between p-3 bg-white/80 rounded-xl border border-slate-200">
+                        <span class="text-xs font-bold text-slate-800">E-mail meldingen versturen</span>
+                        <input type="checkbox" checked class="w-4 h-4 accent-emerald-600">
+                    </div>
+
+                    <div class="flex items-center justify-between p-3 bg-white/80 rounded-xl border border-slate-200">
+                        <span class="text-xs font-bold text-slate-800">Push-notificaties mobiel</span>
+                        <input type="checkbox" class="w-4 h-4 accent-emerald-600">
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
+    <!-- Scripting voor Tabs, Thema's & Taken -->
     <script>
+        // Standaard takenlijst
+        let tasks = [
+            { id: 1, title: 'Koeien voeren & water checken', done: true, priority: 'Normaal' },
+            { id: 2, title: 'Hekwerk controle weide', done: true, priority: 'Normaal' },
+            { id: 3, title: 'Overleg en koffie met Tilly ☕', done: true, priority: 'Normaal' }
+        ];
+
+        // Navigatie tussen schermen
+        function switchTab(tabName) {
+            // Verberg alle schermen
+            document.getElementById('screen-dashboard').classList.add('hidden');
+            document.getElementById('screen-tasks').classList.add('hidden');
+            document.getElementById('screen-user-modal').classList.add('hidden');
+            document.getElementById('screen-config').classList.add('hidden');
+
+            // Deactiveer alle knoppen
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+
+            // Toon geselecteerd scherm
+            document.getElementById(`screen-${tabName}`).classList.remove('hidden');
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+        }
+
+        // Thema Instellen
         function setTheme(themeName, statusTekst, welkomstTekst) {
             document.getElementById('app-body').className = `bg-${themeName} text-slate-800 min-h-screen pb-16 font-sans`;
             document.getElementById('status-badge').innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-white animate-pulse"></span> <span>${statusTekst}</span>`;
@@ -219,63 +371,107 @@
             document.getElementById('welcome-text').innerText = welkomstTekst;
         }
 
-        // Automatische weersaanpassing op basis van opgeloste zaken (vinkjes)
-        function updateWeatherByTasks() {
-            const checkboxes = document.querySelectorAll('.task-checkbox');
-            const labels = document.querySelectorAll('.task-label');
-            
-            let total = checkboxes.length;
-            let checkedCount = 0;
+        // Render Taken op de Taken Tracker Pagina
+        function renderTasks() {
+            const list = document.getElementById('full-tasks-list');
+            list.innerHTML = '';
 
-            checkboxes.forEach((cb, index) => {
-                if (cb.checked) {
-                    checkedCount++;
-                    labels[index].classList.add('line-through', 'text-slate-400');
-                    labels[index].classList.remove('text-slate-800', 'font-bold');
-                } else {
-                    labels[index].classList.remove('line-through', 'text-slate-400');
-                    labels[index].classList.add('text-slate-800', 'font-bold');
-                }
+            let completed = 0;
+
+            tasks.forEach(task => {
+                if (task.done) completed++;
+
+                const item = document.createElement('div');
+                item.className = 'flex items-center justify-between p-3 bg-white/90 rounded-xl border border-slate-200 shadow-sm';
+                item.innerHTML = `
+                    <label class="flex items-center gap-3 cursor-pointer">
+                        <input type="checkbox" ${task.done ? 'checked' : ''} onchange="toggleTask(${task.id})" class="w-4 h-4 accent-emerald-600 rounded">
+                        <span class="text-xs font-bold ${task.done ? 'line-through text-slate-400' : 'text-slate-800'}">${task.title}</span>
+                    </label>
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-md ${task.priority === 'Hoog' ? 'bg-rose-100 text-rose-700' : 'bg-slate-100 text-slate-600'}">${task.priority}</span>
+                `;
+                list.appendChild(item);
             });
 
-            // Bepaal de weersfoto afhankelijk van hoeveel zaken zijn opgelost
-            if (checkedCount === total) {
-                setTheme('zon', 'Zonnig in de wei ☀️', 'Geweldig! Alle zaken zijn opgelost. Het is weer volop zonnig in de wei!');
-            } else if (checkedCount > 0) {
-                setTheme('bewolkt', 'Bewolkt ☁️', `Er zijn al ${checkedCount} van de ${total} zaken opgelost. Het weer begint op te klaren!`);
+            // Update voortgang
+            const pct = tasks.length > 0 ? Math.round((completed / tasks.length) * 100) : 100;
+            document.getElementById('dash-progress').innerText = pct + '%';
+
+            // Automatische weer aanpassing
+            if (completed === tasks.length) {
+                setTheme('zon', 'Zonnig in de wei ☀️', 'Alle taken zijn afgevinkt! De zon schijnt op het platform.');
+            } else if (completed > 0) {
+                setTheme('bewolkt', 'Bewolkt ☁️', 'Er staan nog een aantal taken open.');
             } else {
-                setTheme('regen', 'Regenbui 🌧️', 'Er staan nog openstaande zaken op de lijst. Vink ze af om de zon te laten schijnen!');
+                setTheme('regen', 'Regenbui 🌧️', 'Er moet nog werk verzet worden op de wei!');
             }
+        }
+
+        function toggleTask(id) {
+            const task = tasks.find(t => t.id === id);
+            if (task) {
+                task.done = !task.done;
+                renderTasks();
+            }
+        }
+
+        function createNewTask() {
+            const input = document.getElementById('new-task-title');
+            const priority = document.getElementById('new-task-priority').value;
+
+            if (input.value.trim() !== '') {
+                tasks.push({
+                    id: Date.now(),
+                    title: input.value,
+                    done: false,
+                    priority: priority
+                });
+                input.value = '';
+                renderTasks();
+            }
+        }
+
+        function addNewUser() {
+            const name = document.getElementById('user-fullname').value;
+            const role = document.getElementById('user-role').value;
+
+            // Voeg toe aan contacten op dashboard
+            const contactList = document.getElementById('contact-list');
+            const newContact = `
+                <div class="flex justify-between items-center p-2.5 bg-white/80 rounded-xl border border-slate-200">
+                    <span class="text-xs font-bold text-slate-800">${name}</span>
+                    <span class="text-[11px] bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold">${role}</span>
+                </div>
+            `;
+            contactList.insertAdjacentHTML('beforeend', newContact);
+
+            alert(`Gebruiker ${name} is succesvol aangemaakt als ${role}!`);
+            document.getElementById('user-fullname').value = '';
+            document.getElementById('user-email').value = '';
+            switchTab('dashboard');
         }
 
         function addMessage() {
             const input = document.getElementById('message-input');
             const list = document.getElementById('messages-list');
-            
             if (input.value.trim() !== '') {
-                const now = new Date();
-                const timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
-                
                 const msgHTML = `
                     <div class="bg-white/90 border border-slate-200 p-4 rounded-2xl shadow-sm">
                         <div class="flex justify-between items-center mb-1">
-                            <span class="text-xs font-bold text-emerald-800 flex items-center gap-1.5">
-                                <span>💬</span> Bericht
-                            </span>
-                            <span class="text-[10px] font-semibold text-slate-400">${timeStr}</span>
+                            <span class="text-xs font-bold text-emerald-800">💬 Beheerder</span>
+                            <span class="text-[10px] text-slate-400">Zojuist</span>
                         </div>
                         <p class="text-sm text-slate-800 font-medium">${input.value}</p>
                     </div>
                 `;
-                
                 list.insertAdjacentHTML('afterbegin', msgHTML);
                 input.value = '';
             }
         }
 
-        // Startstand bij het laden van de pagina
+        // Init
         document.addEventListener('DOMContentLoaded', () => {
-            updateWeatherByTasks();
+            renderTasks();
         });
     </script>
 </body>
