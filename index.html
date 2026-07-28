@@ -38,27 +38,23 @@
             z-index: 2;
         }
 
-        /* Foto 1: Ochtendgloren */
+        /* Weather backgrounds */
         .bg-ochtend {
             background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.25), rgba(250, 245, 255, 0.45)), 
                               url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=80');
         }
-        /* Foto 2: ZONNIG - Bloemen voorgrond & koeien op afstand */
         .bg-zon {
             background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.15), rgba(240, 253, 244, 0.35)), 
-                              url('https://image.pollinations.ai/prompt/A_bright_sunny_day_in_a_lush_green_meadow_with_beautiful_colorful_wildflowers_in_the_very_close_foreground_and_cows_grazing_far_away_in_the_distance_photorealistic_high_quality_landscape?width=1920&height=1080&nologo=true');
+                              url('https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1920&q=80');
         }
-        /* Foto 3: Bewolkt */
         .bg-bewolkt {
             background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), rgba(241, 245, 249, 0.60)), 
                               url('https://images.unsplash.com/photo-1534088568595-a066f410bcda?auto=format&fit=crop&w=1920&q=80');
         }
-        /* Foto 4: Regen */
         .bg-regen {
             background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.40), rgba(224, 242, 254, 0.65)), 
                               url('https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=1920&q=80');
         }
-        /* Foto 5: Onweer */
         .bg-onweer {
             background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), rgba(254, 226, 226, 0.60)), 
                               url('https://images.unsplash.com/photo-1605727216801-e27ce1d0cc28?auto=format&fit=crop&w=1920&q=80');
@@ -75,13 +71,13 @@
 <body id="app-body" class="bg-zon text-slate-800 min-h-screen pb-16 font-sans">
 
     <header class="bg-white/85 backdrop-blur-md border-b border-emerald-200/60 p-4 sticky top-0 z-50 shadow-sm">
-        <div class="max-w-4xl mx-auto flex justify-between items-center">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-3">
                 <div class="bg-emerald-500 text-white p-2.5 rounded-2xl text-2xl shadow-md">🐄</div>
                 <div>
                     <h1 class="font-extrabold text-xl text-slate-900">SafeSpace Weide</h1>
                     <span class="text-xs text-emerald-700 font-semibold flex items-center gap-1">
-                        <i class="fa-solid fa-border-all"></i> Dynamisch Weer op Basis van Status
+                        <i class="fa-solid fa-floppy-disk"></i> Automatisch Opgeslagen
                     </span>
                 </div>
             </div>
@@ -93,51 +89,30 @@
         </div>
     </header>
 
-    <main class="max-w-4xl mx-auto p-4 space-y-6 mt-2">
-        <!-- Welkomstkaart -->
+    <main class="max-w-5xl mx-auto p-4 space-y-6 mt-2">
+        
+        <!-- Welkom & Sfeer -->
         <div class="glass-card rounded-3xl p-6">
             <h2 id="welcome-title" class="text-2xl font-black text-emerald-900 mb-1">Welkom bij de Koetjes! ☀️🌸</h2>
-            <p id="welcome-text" class="text-slate-700 text-sm font-semibold">De zon schijnt prachtig op de bloemen en de koeien grazen rustig in de verte.</p>
-        </div>
-
-        <!-- Status / Sfeer handmatige knoppen -->
-        <div class="glass-card rounded-3xl p-5">
-            <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-4">
-                <i class="fa-solid fa-cloud-sun text-amber-500"></i> Handmatig de weide sfeer instellen:
-            </h3>
+            <p id="welcome-text" class="text-slate-700 text-sm font-semibold mb-4">De zon schijnt prachtig op de bloemen en de koeien grazen rustig in de verte.</p>
             
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
-                <button onclick="setTheme('ochtend', 'Ochtendgloren 🌄', 'Een frisse nieuwe ochtend breekt aan!')" class="p-3 bg-white/90 hover:bg-purple-100 border border-purple-200 rounded-2xl text-center shadow-sm">
-                    <span class="text-3xl block mb-1">🌄</span>
-                    <span class="text-xs font-black text-purple-900 block">Ochtend</span>
-                </button>
-
-                <button onclick="setTheme('zon', 'Zonnig in de wei ☀️', 'Alles is perfect! De zon schijnt op de bloemen en de koeien in de verte.')" class="p-3 bg-white/90 hover:bg-emerald-100 border border-emerald-300 rounded-2xl text-center shadow-sm">
-                    <span class="text-3xl block mb-1">☀️</span>
-                    <span class="text-xs font-black text-emerald-900 block">Zonnig</span>
-                </button>
-
-                <button onclick="setTheme('bewolkt', 'Bewolkt ☁️', 'Er hangen wat wolken boven de weide.')" class="p-3 bg-white/90 hover:bg-slate-200 border border-slate-300 rounded-2xl text-center shadow-sm">
-                    <span class="text-3xl block mb-1">☁️</span>
-                    <span class="text-xs font-black text-slate-800 block">Bewolkt</span>
-                </button>
-
-                <button onclick="setTheme('regen', 'Regenbui 🌧️', 'Het regent over de velden.')" class="p-3 bg-white/90 hover:bg-blue-100 border border-blue-300 rounded-2xl text-center shadow-sm">
-                    <span class="text-3xl block mb-1">🌧️</span>
-                    <span class="text-xs font-black text-blue-900 block">Regen</span>
-                </button>
-
-                <button onclick="setTheme('onweer', 'Onweer / Urgent! ⚡', 'Er is een acute situatie die opgelost moet worden!')" class="p-3 bg-white/90 hover:bg-rose-100 border border-rose-300 rounded-2xl text-center col-span-2 md:col-span-1 shadow-sm">
-                    <span class="text-3xl block mb-1 animate-bounce">⚡</span>
-                    <span class="text-xs font-black text-rose-800 block">Onweer</span>
-                </button>
+            <!-- Sfeerknoppen -->
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-2 pt-2 border-t border-slate-200/60">
+                <button onclick="setTheme('ochtend', 'Ochtendgloren 🌄', 'Een frisse nieuwe ochtend breekt aan!')" class="p-2 bg-white/90 hover:bg-purple-100 border border-purple-200 rounded-xl text-center text-xs font-bold text-purple-900">🌄 Ochtend</button>
+                <button onclick="setTheme('zon', 'Zonnig in de wei ☀️', 'Alles is perfect! De zon schijnt op de weide.')" class="p-2 bg-white/90 hover:bg-emerald-100 border border-emerald-300 rounded-xl text-center text-xs font-bold text-emerald-900">☀️ Zonnig</button>
+                <button onclick="setTheme('bewolkt', 'Bewolkt ☁️', 'Er hangen wat wolken boven de weide.')" class="p-2 bg-white/90 hover:bg-slate-200 border border-slate-300 rounded-xl text-center text-xs font-bold text-slate-800">☁️ Bewolkt</button>
+                <button onclick="setTheme('regen', 'Regenbui 🌧️', 'Het regent over de velden.')" class="p-2 bg-white/90 hover:bg-blue-100 border border-blue-300 rounded-xl text-center text-xs font-bold text-blue-900">🌧️ Regen</button>
+                <button onclick="setTheme('onweer', 'Onweer / Urgent! ⚡', 'Er is een acute situatie!')" class="p-2 bg-white/90 hover:bg-rose-100 border border-rose-300 rounded-xl text-center text-xs font-bold text-rose-800 col-span-2 md:col-span-1">⚡ Onweer</button>
             </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Berichten -->
-            <div class="md:col-span-2 glass-card rounded-3xl p-5 flex flex-col justify-between">
-                <div>
+            
+            <!-- Linkerkolom: Berichten & Logboek -->
+            <div class="md:col-span-2 space-y-6">
+                
+                <!-- Berichten module -->
+                <div class="glass-card rounded-3xl p-5">
                     <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-4 flex items-center gap-2">
                         <i class="fa-solid fa-comments text-emerald-600"></i> Berichten uit de Stal
                     </h3>
@@ -146,50 +121,110 @@
                         <input id="message-input" type="text" placeholder="Schrijf een berichtje..." class="flex-1 bg-white border border-slate-300 focus:border-emerald-500 rounded-2xl px-4 py-3 text-sm text-slate-900 focus:outline-none font-medium">
                         <button onclick="addMessage()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-3 rounded-2xl text-sm shadow-md">
                             <span>Verstuur</span>
-                            <i class="fa-solid fa-paper-plane"></i>
                         </button>
                     </div>
 
-                    <div id="messages-list" class="space-y-3 max-h-80 overflow-y-auto pr-1">
-                        <div class="bg-white/90 border border-slate-200 p-4 rounded-2xl shadow-sm">
-                            <div class="flex justify-between items-center mb-1">
-                                <span class="text-xs font-bold text-emerald-800 flex items-center gap-1.5">
-                                    <span>🐮</span> Marco
-                                </span>
-                                <span class="text-[10px] font-semibold text-slate-400">Zojuist</span>
-                            </div>
-                            <p class="text-sm text-slate-800 font-medium">Wat een prachtig uitzicht vandaag, de bloemen staan er mooi bij en de koeien genieten in de verte!</p>
+                    <div id="messages-list" class="space-y-3 max-h-64 overflow-y-auto pr-1">
+                        <!-- Berichten worden geladen via JS -->
+                    </div>
+                </div>
+
+                <!-- NIS: Logboek Module -->
+                <div class="glass-card rounded-3xl p-5">
+                    <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-book text-amber-600"></i> Erf & Vee Logboek
+                    </h3>
+                    <div class="flex gap-2 mb-3">
+                        <input id="log-input" type="text" placeholder="Notitie toevoegen (bijv. Dierenarts geweest...)" class="flex-1 bg-white border border-slate-300 focus:border-amber-500 rounded-2xl px-4 py-2 text-sm text-slate-900 focus:outline-none font-medium">
+                        <button onclick="addLog()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold px-4 py-2 rounded-2xl text-xs shadow-md">
+                            Loggen
+                        </button>
+                    </div>
+                    <ul id="log-list" class="space-y-2 max-h-48 overflow-y-auto pr-1 text-xs text-slate-700 font-medium">
+                        <!-- Lognotities worden geladen via JS -->
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Rechterkolom: Taken, Agenda & Weer -->
+            <div class="space-y-6">
+                
+                <!-- Openstaande Zaken / Taken (Met Opslag) -->
+                <div class="glass-card rounded-3xl p-5">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider">Takenlijst</h3>
+                        <button onclick="addTaskPrompt()" class="text-xs bg-emerald-100 hover:bg-emerald-200 text-emerald-800 font-bold px-2 py-1 rounded-lg">+ Nieuw</button>
+                    </div>
+                    
+                    <div id="tasks-container" class="space-y-2.5">
+                        <!-- Taken worden geladen via JS -->
+                    </div>
+                </div>
+
+                <!-- NIS: Agenda / Kalender Module -->
+                <div class="glass-card rounded-3xl p-5">
+                    <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-calendar-days text-blue-600"></i> Planning & Afspraken
+                    </h3>
+                    <div class="space-y-2 text-xs">
+                        <div class="p-2.5 bg-white/80 rounded-xl border border-slate-200">
+                            <span class="font-bold text-slate-800 block">Vrijdag 14:00</span>
+                            <span class="text-slate-600">Voerleverantie stal</span>
+                        </div>
+                        <div class="p-2.5 bg-white/80 rounded-xl border border-slate-200">
+                            <span class="font-bold text-slate-800 block">Zondag 10:30</span>
+                            <span class="text-slate-600">Koffie met Tilly ☕</span>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Planning & Oplossingen -->
-            <div class="space-y-6">
+                <!-- NIS: Weersverwachting -->
                 <div class="glass-card rounded-3xl p-5">
-                    <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-1">Openstaande Zaken</h3>
-                    <p class="text-[11px] text-slate-500 mb-4 font-semibold">Vink ze aan als ze klaar zijn:</p>
-                    
-                    <div class="space-y-2.5">
-                        <label class="flex items-center gap-3 p-2.5 bg-white/80 border border-slate-200 rounded-xl cursor-pointer hover:bg-emerald-50 transition">
-                            <input type="checkbox" class="task-checkbox w-4 h-4 accent-emerald-600 rounded" onchange="updateWeatherByTasks()">
-                            <span class="task-label text-xs text-slate-800 font-bold">Koeien voeren & water checken</span>
-                        </label>
-                        <label class="flex items-center gap-3 p-2.5 bg-white/80 border border-slate-200 rounded-xl cursor-pointer hover:bg-emerald-50 transition">
-                            <input type="checkbox" class="task-checkbox w-4 h-4 accent-emerald-600 rounded" onchange="updateWeatherByTasks()">
-                            <span class="task-label text-xs text-slate-800 font-bold">Hekwerk controle weide</span>
-                        </label>
-                        <label class="flex items-center gap-3 p-2.5 bg-white/80 border border-slate-200 rounded-xl cursor-pointer hover:bg-emerald-50 transition">
-                            <input type="checkbox" class="task-checkbox w-4 h-4 accent-emerald-600 rounded" onchange="updateWeatherByTasks()">
-                            <span class="task-label text-xs text-slate-800 font-bold">Overleg en koffie met Tilly ☕</span>
-                        </label>
+                    <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-cloud-sun-rain text-sky-600"></i> Verwachting
+                    </h3>
+                    <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                        <div class="bg-white/80 p-2 rounded-xl border border-slate-200">
+                            <span class="block font-bold">Morgen</span>
+                            <span class="text-lg block my-0.5">☀️</span>
+                            <span class="text-[10px] text-slate-500">22°C</span>
+                        </div>
+                        <div class="bg-white/80 p-2 rounded-xl border border-slate-200">
+                            <span class="block font-bold">Overm.</span>
+                            <span class="text-lg block my-0.5">⛅</span>
+                            <span class="text-[10px] text-slate-500">19°C</span>
+                        </div>
+                        <div class="bg-white/80 p-2 rounded-xl border border-slate-200">
+                            <span class="block font-bold">Zondag</span>
+                            <span class="text-lg block my-0.5">🌧️</span>
+                            <span class="text-[10px] text-slate-500">17°C</span>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </main>
 
     <script>
+        // Standaard taken als het geheugen nog leeg is
+        const defaultTasks = [
+            { id: 1, text: "Koeien voeren & water checken", done: false },
+            { id: 2, text: "Hekwerk controle weide", done: false },
+            { id: 3, text: "Overleg met Tilly ☕", done: true }
+        ];
+
+        // Standaard berichten als het geheugen leeg is
+        const defaultMessages = [
+            { id: 1, user: "Marco", text: "Welkom op de vernieuwde SafeSpace app! Berichten blijven nu bewaard.", time: "Zojuist" }
+        ];
+
+        // Standaard lognotities
+        const defaultLogs = [
+            { id: 1, date: "Vandaag", text: "Systeem geüpdatet met lokaal geheugen & logboek." }
+        ];
+
         function setTheme(themeName, statusTekst, welkomstTekst) {
             document.getElementById('app-body').className = `bg-${themeName} text-slate-800 min-h-screen pb-16 font-sans`;
             document.getElementById('status-badge').innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-white animate-pulse"></span> <span>${statusTekst}</span>`;
@@ -197,45 +232,142 @@
             document.getElementById('welcome-text').innerText = welkomstTekst;
         }
 
-        function updateWeatherByTasks() {
-            const checkboxes = document.querySelectorAll('.task-checkbox');
-            const labels = document.querySelectorAll('.task-label');
-            
-            checkboxes.forEach((cb, index) => {
-                if (cb.checked) {
-                    labels[index].classList.add('line-through', 'text-slate-400');
-                    labels[index].classList.remove('text-slate-800', 'font-bold');
-                } else {
-                    labels[index].classList.remove('line-through', 'text-slate-400');
-                    labels[index].classList.add('text-slate-800', 'font-bold');
-                }
+        /* --- TAKEN LOGICA (OPSLAG) --- */
+        function loadTasks() {
+            const saved = localStorage.getItem('safespace_tasks');
+            const tasks = saved ? JSON.parse(saved) : defaultTasks;
+            const container = document.getElementById('tasks-container');
+            container.innerHTML = '';
+
+            tasks.forEach((task, index) => {
+                const item = document.createElement('label');
+                item.className = 'flex items-center justify-between p-2.5 bg-white/80 border border-slate-200 rounded-xl cursor-pointer hover:bg-emerald-50 transition';
+                item.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" ${task.done ? 'checked' : ''} onchange="toggleTask(${index})" class="w-4 h-4 accent-emerald-600 rounded">
+                        <span class="text-xs ${task.done ? 'line-through text-slate-400' : 'text-slate-800 font-bold'}">${task.text}</span>
+                    </div>
+                    <button onclick="deleteTask(event, ${index})" class="text-slate-300 hover:text-rose-500 text-xs px-1">✕</button>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function toggleTask(index) {
+            const tasks = JSON.parse(localStorage.getItem('safespace_tasks')) || defaultTasks;
+            tasks[index].done = !tasks[index].done;
+            localStorage.setItem('safespace_tasks', JSON.stringify(tasks));
+            loadTasks();
+        }
+
+        function addTaskPrompt() {
+            const text = prompt("Nieuwe taak invoeren:");
+            if (text && text.trim() !== "") {
+                const tasks = JSON.parse(localStorage.getItem('safespace_tasks')) || defaultTasks;
+                tasks.push({ id: Date.now(), text: text.trim(), done: false });
+                localStorage.setItem('safespace_tasks', JSON.stringify(tasks));
+                loadTasks();
+            }
+        }
+
+        function deleteTask(event, index) {
+            event.preventDefault();
+            const tasks = JSON.parse(localStorage.getItem('safespace_tasks')) || defaultTasks;
+            tasks.splice(index, 1);
+            localStorage.setItem('safespace_tasks', JSON.stringify(tasks));
+            loadTasks();
+        }
+
+        /* --- BERICHTEN LOGICA (OPSLAG) --- */
+        function loadMessages() {
+            const saved = localStorage.getItem('safespace_messages');
+            const messages = saved ? JSON.parse(saved) : defaultMessages;
+            const list = document.getElementById('messages-list');
+            list.innerHTML = '';
+
+            messages.forEach(msg => {
+                const item = document.createElement('div');
+                item.className = 'bg-white/90 border border-slate-200 p-4 rounded-2xl shadow-sm';
+                item.innerHTML = `
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-xs font-bold text-emerald-800 flex items-center gap-1.5">
+                            <span>💬</span> ${msg.user || 'Bericht'}
+                        </span>
+                        <span class="text-[10px] font-semibold text-slate-400">${msg.time}</span>
+                    </div>
+                    <p class="text-sm text-slate-800 font-medium">${msg.text}</p>
+                `;
+                list.appendChild(item);
             });
         }
 
         function addMessage() {
             const input = document.getElementById('message-input');
-            const list = document.getElementById('messages-list');
-            
             if (input.value.trim() !== '') {
+                const saved = localStorage.getItem('safespace_messages');
+                const messages = saved ? JSON.parse(saved) : defaultMessages;
+                
                 const now = new Date();
                 const timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
-                
-                const msgHTML = `
-                    <div class="bg-white/90 border border-slate-200 p-4 rounded-2xl shadow-sm">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-xs font-bold text-emerald-800 flex items-center gap-1.5">
-                                <span>💬</span> Bericht
-                            </span>
-                            <span class="text-[10px] font-semibold text-slate-400">${timeStr}</span>
-                        </div>
-                        <p class="text-sm text-slate-800 font-medium">${input.value}</p>
-                    </div>
-                `;
-                
-                list.insertAdjacentHTML('afterbegin', msgHTML);
+
+                messages.unshift({
+                    id: Date.now(),
+                    user: "Gebruiker",
+                    text: input.value.trim(),
+                    time: timeStr
+                });
+
+                localStorage.setItem('safespace_messages', JSON.stringify(messages));
                 input.value = '';
+                loadMessages();
             }
         }
+
+        /* --- LOGBOEK LOGICA (OPSLAG) --- */
+        function loadLogs() {
+            const saved = localStorage.getItem('safespace_logs');
+            const logs = saved ? JSON.parse(saved) : defaultLogs;
+            const list = document.getElementById('log-list');
+            list.innerHTML = '';
+
+            logs.forEach(log => {
+                const item = document.createElement('li');
+                item.className = 'p-2 bg-white/80 rounded-xl border border-slate-200 flex justify-between gap-2';
+                item.innerHTML = `
+                    <span>• ${log.text}</span>
+                    <span class="text-[10px] text-slate-400 whitespace-nowrap">${log.date}</span>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        function addLog() {
+            const input = document.getElementById('log-input');
+            if (input.value.trim() !== '') {
+                const saved = localStorage.getItem('safespace_logs');
+                const logs = saved ? JSON.parse(saved) : defaultLogs;
+
+                const now = new Date();
+                const dateStr = now.getDate() + '-' + (now.getMonth() + 1);
+
+                logs.unshift({
+                    id: Date.now(),
+                    text: input.value.trim(),
+                    date: dateStr
+                });
+
+                localStorage.setItem('safespace_logs', JSON.stringify(logs));
+                input.value = '';
+                loadLogs();
+            }
+        }
+
+        // Starten bij laden van de pagina
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTasks();
+            loadMessages();
+            loadLogs();
+        });
     </script>
 </body>
 </html>
