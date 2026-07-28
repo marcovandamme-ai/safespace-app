@@ -43,10 +43,10 @@
             background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), rgba(250, 245, 255, 0.55)), 
                               url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=80');
         }
-        /* Foto 2: Zonnige Weide met Koeien Ver in de Verte */
+        /* Foto 2: Zonnige Bloemenweide met Koeien in de Verte op Afstand */
         .bg-zon {
-            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.25), rgba(240, 253, 244, 0.45)), 
-                              url('https://images.unsplash.com/photo-1595855759920-86582396756a?auto=format&fit=crop&w=1920&q=80');
+            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.20), rgba(240, 253, 244, 0.40)), 
+                              url('https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1920&q=80');
         }
         /* Foto 3: Echte Bewolkte Weide */
         .bg-bewolkt {
@@ -96,8 +96,8 @@
     <main class="max-w-4xl mx-auto p-4 space-y-6 mt-2">
         <!-- Welkomstkaart -->
         <div class="glass-card rounded-3xl p-6">
-            <h2 id="welcome-title" class="text-2xl font-black text-emerald-900 mb-1">Welkom bij de Koetjes! ☀️</h2>
-            <p id="welcome-text" class="text-slate-700 text-sm font-semibold">Vink taken en zaken af om het weer in de wei op te laten klaren naar zon!</p>
+            <h2 id="welcome-title" class="text-2xl font-black text-emerald-900 mb-1">Welkom bij de Koetjes! ☀️🌸</h2>
+            <p id="welcome-text" class="text-slate-700 text-sm font-semibold">Vink taken en zaken af om het weer in de wei op te laten klaren naar zon en bloemen!</p>
         </div>
 
         <!-- Status / Sfeer handmatige knoppen -->
@@ -112,7 +112,7 @@
                     <span class="text-xs font-black text-purple-900 block">Ochtend</span>
                 </button>
 
-                <button onclick="setTheme('zon', 'Zonnig in de wei ☀️', 'Alles is opgelost! De zon schijnt volop.')" class="p-3 bg-white/90 hover:bg-emerald-100 border border-emerald-300 rounded-2xl text-center shadow-sm">
+                <button onclick="setTheme('zon', 'Zonnig in de wei ☀️', 'Alles is opgelost! De zon schijnt op de bloemen en de koeien in de verte.')" class="p-3 bg-white/90 hover:bg-emerald-100 border border-emerald-300 rounded-2xl text-center shadow-sm">
                     <span class="text-3xl block mb-1">☀️</span>
                     <span class="text-xs font-black text-emerald-900 block">Zonnig</span>
                 </button>
@@ -158,13 +158,13 @@
                                 </span>
                                 <span class="text-[10px] font-semibold text-slate-400">Zojuist</span>
                             </div>
-                            <p class="text-sm text-slate-800 font-medium">Als alle taken hiernaast zijn afgevinkt, klaart het weer automatisch op naar Zonnig!</p>
+                            <p class="text-sm text-slate-800 font-medium">Koeien staan mooi op afstand in de verte met bloemen op de voorgrond!</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Planning & Oplossingen (Sturen het Weer aan!) -->
+            <!-- Planning & Oplossingen -->
             <div class="space-y-6">
                 <div class="glass-card rounded-3xl p-5">
                     <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-1">Openstaande Zaken</h3>
@@ -236,7 +236,7 @@
 
             // Bepaal de weersfoto afhankelijk van hoeveel zaken zijn opgelost
             if (checkedCount === total) {
-                setTheme('zon', 'Zonnig in de wei ☀️', 'Geweldig! Alle zaken zijn opgelost. Het is weer volop zonnig in de wei!');
+                setTheme('zon', 'Zonnig in de wei ☀️', 'Geweldig! Alle zaken zijn opgelost. Het is weer volop zonnig met bloemen in de wei!');
             } else if (checkedCount > 0) {
                 setTheme('bewolkt', 'Bewolkt ☁️', `Er zijn al ${checkedCount} van de ${total} zaken opgelost. Het weer begint op te klaren!`);
             } else {
