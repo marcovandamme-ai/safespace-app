@@ -3,283 +3,452 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deliverables Planner & Dashboard</title>
+    <title>SafeSpace Work & Dashboard</title>
     <style>
         :root {
-            --bg-color: #f4f6f9;
-            --card-bg: #ffffff;
-            --text-color: #333333;
-            --primary: #2563eb;
-            --border: #e2e8f0;
+            --bg-gradient: linear-gradient(135deg, #2c3e50, #4ca1af);
+            --card-bg: #f3f4f6;
+            --card-inner: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --primary-green: #10b981;
+            --accent-yellow: #f59e0b;
+            --accent-red: #ef4444;
+            --border-radius: 16px;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #334155 url('https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=1920&q=80') center/cover fixed;
+            color: var(--text-main);
             margin: 0;
             padding: 20px;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
         }
 
-        h1, h2 {
-            color: #1e293b;
-        }
-
-        .card {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        /* Top Header Navigation */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
             margin-bottom: 20px;
         }
 
-        /* Form Styles */
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        .brand-icon {
+            background: #10b981;
+            color: white;
+            padding: 8px;
+            border-radius: 12px;
+            font-size: 1.2rem;
+        }
+
+        .header-badges {
+            display: flex;
+            gap: 12px;
+        }
+
+        .badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .badge-koetjes { background: #fef3c7; color: #d97706; }
+        .badge-urgentie { background: #fee2e2; color: #dc2626; }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            border: none;
+            background: transparent;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .tab-btn.active {
+            background: #10b981;
+            color: white;
+        }
+
+        /* Content Views */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Cards Layout */
+        .card {
+            background: rgba(243, 244, 246, 0.95);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-top: 0;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #374151;
+        }
+
+        /* Form Grid */
         .form-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            background: var(--card-inner);
+            padding: 16px;
+            border-radius: 12px;
             margin-bottom: 15px;
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
+            gap: 4px;
         }
 
-        label {
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: #64748b;
+        .form-group label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
         }
 
-        input, select, button {
+        .form-group input, .form-group select {
             padding: 10px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 0.95rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            outline: none;
         }
 
-        button.btn-primary {
-            background-color: var(--primary);
+        .btn-submit {
+            background: #10b981;
             color: white;
             border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 700;
             cursor: pointer;
-            font-weight: bold;
+            width: 100%;
             transition: background 0.2s;
         }
 
-        button.btn-primary:hover {
-            background-color: #1d4ed8;
+        .btn-submit:hover {
+            background: #059669;
         }
 
-        /* Views Toggle */
+        /* Filter Controls */
         .view-picker {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             margin-bottom: 15px;
         }
 
-        .view-btn {
-            background: #e2e8f0;
+        .filter-btn {
             border: none;
+            background: var(--card-inner);
             padding: 8px 16px;
-            cursor: pointer;
-            border-radius: 6px;
+            border-radius: 8px;
             font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            color: var(--text-muted);
         }
 
-        .view-btn.active {
-            background: var(--primary);
+        .filter-btn.active {
+            background: #2563eb;
             color: white;
         }
 
-        /* Table Styles */
+        /* Styled Table */
+        .table-container {
+            background: var(--card-inner);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
             text-align: left;
+            font-size: 0.9rem;
         }
 
         th, td {
-            padding: 12px;
-            border-bottom: 1px solid var(--border);
+            padding: 14px 16px;
+            border-bottom: 1px solid #f3f4f6;
         }
 
         th {
-            background-color: #f8fafc;
-            color: #475569;
+            background: #f9fafb;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
         }
 
-        /* Traffic Lights */
-        .light {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            margin-right: 6px;
-        }
-
-        .light-green { background-color: #22c55e; box-shadow: 0 0 8px #22c55e88; }
-        .light-orange { background-color: #f97316; box-shadow: 0 0 8px #f9731688; }
-        .light-red { background-color: #ef4444; box-shadow: 0 0 8px #ef444488; }
-
-        .status-cell {
-            display: flex;
+        /* Traffic Lights Status */
+        .status-badge {
+            display: inline-flex;
             align-items: center;
-            font-weight: 600;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 700;
         }
+
+        .light-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .status-green { background: #ecfdf5; color: #065f46; }
+        .status-green .light-dot { background: #10b981; box-shadow: 0 0 6px #10b981; }
+
+        .status-orange { background: #fffbeeb; color: #92400e; }
+        .status-orange .light-dot { background: #f59e0b; box-shadow: 0 0 6px #f59e0b; }
+
+        .status-red { background: #fef2f2; color: #991b1b; }
+        .status-red .light-dot { background: #ef4444; box-shadow: 0 0 6px #ef4444; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>📌 Deliverables & Planning Dashboard</h1>
-
-    <!-- Formulier voor Alain -->
-    <div class="card">
-        <h2>Nieuwe Deliverable / Planning Invoeren</h2>
-        <form id="deliverableForm">
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="title">Deliverable Naam</label>
-                    <input type="text" id="title" placeholder="bv. Maandrapportage" required>
-                </div>
-                <div class="form-group">
-                    <label for="freq">Frequentie</label>
-                    <select id="freq">
-                        <option value="Dagelijks">Dagelijks</option>
-                        <option value="Wekelijks">Wekelijks</option>
-                        <option value="Maandelijks">Maandelijks</option>
-                        <option value="Kwartaal">Kwartaal</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="startDate">Geplande Startdatum</label>
-                    <input type="date" id="startDate" required>
-                </div>
-                <div class="form-group">
-                    <label for="duration">Verwachte Duur (Uren)</label>
-                    <input type="number" id="duration" min="0.5" step="0.5" placeholder="bv. 4" required>
-                </div>
-                <div class="form-group">
-                    <label for="deadline">Deadline</label>
-                    <input type="date" id="deadline" required>
-                </div>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="brand">
+            <span class="brand-icon">🦄</span>
+            <div>
+                <div>SafeSpace Work & Dashboard</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 400;">Operationele Besturingsomgeving</div>
             </div>
-            <button type="submit" class="btn-primary">Deliverable Toevoegen aan Planning</button>
-        </form>
+        </div>
+        <div class="header-badges">
+            <div class="badge badge-koetjes">🔒 10 Koetjes</div>
+            <div class="badge badge-urgentie">🔴 Onweer / Urgentie! ⚡</div>
+        </div>
     </div>
 
-    <!-- Planner Dashboard -->
-    <div class="card">
-        <h2>🗓️ Planner Alain</h2>
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs">
+        <button class="tab-btn" onclick="switchTab('dashboard')">📊 Dashboard</button>
+        <button class="tab-btn" onclick="switchTab('taken')">📋 Taken Tracker</button>
+        <button class="tab-btn" onclick="switchTab('spaarkas')">🔒 Mijn Privé Spaarkas</button>
+        <button class="tab-btn" onclick="switchTab('summary')">📄 Wekelijkse Management Summary</button>
+        <button class="tab-btn active" onclick="switchTab('deliverables')">⚙️ Project Deliverables & Planning</button>
+    </div>
+
+    <!-- TAB 1: DASHBOARD (HOOFDOVERZICHT) -->
+    <div id="tab-dashboard" class="tab-content">
+        <div class="card">
+            <h2 style="margin:0 0 5px 0;">Status: Zonnig in de wei ☀️</h2>
+            <p style="margin:0; color: var(--text-muted);">Alle werkzaamheden lopen op schema.</p>
+        </div>
+    </div>
+
+    <!-- TAB 5: PROJECT DELIVERABLES & PLANNER (NIEUWE MODULE) -->
+    <div id="tab-deliverables" class="tab-content active">
         
-        <!-- Filter Knoppen -->
-        <div class="view-picker">
-            <button class="view-btn active" onclick="setView('all', this)">Alles</button>
-            <button class="view-btn" onclick="setView('Dagelijks', this)">Dagbasis</button>
-            <button class="view-btn" onclick="setView('Wekelijks', this)">Weekbasis</button>
-            <button class="view-btn" onclick="setView('Maandelijks', this)">Maandbasis</button>
+        <!-- Alain's Invoer Formulier -->
+        <div class="card">
+            <div class="card-title">➕ Nieuwe Deliverable / Planning Invoeren (Alain)</div>
+            <form id="plannerForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Deliverable Naam</label>
+                        <input type="text" id="delName" placeholder="bv. Maandrapportage" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Frequentie</label>
+                        <select id="delFreq">
+                            <option value="Dagelijks">Dagelijks</option>
+                            <option value="Wekelijks">Wekelijks</option>
+                            <option value="Maandelijks">Maandelijks</option>
+                            <option value="Kwartaal">Kwartaal</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Geplande Startdatum</label>
+                        <input type="date" id="delStart" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Duur (Uren)</label>
+                        <input type="number" id="delDuration" min="0.5" step="0.5" placeholder="bv. 4" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Deadline</label>
+                        <input type="date" id="delDeadline" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn-submit">Opslaan & Inplannen</button>
+            </form>
         </div>
 
-        <!-- Tabel met Deliverables -->
-        <table>
-            <thead>
-                <tr>
-                    <th>Status</th>
-                    <th>Deliverable</th>
-                    <th>Frequentie</th>
-                    <th>Startdatum</th>
-                    <th>Geplande Duur</th>
-                    <th>Deadline</th>
-                </tr>
-            </thead>
-            <tbody id="deliverableTable">
-                <!-- Data wordt hier dynamisch geladen -->
-            </tbody>
-        </table>
+        <!-- Dashboard & Filter Planner -->
+        <div class="card">
+            <div class="card-title">📅 Interactive Capacity & Status Planner</div>
+            
+            <!-- Weergave Filters (Dag, Week, Maand) -->
+            <div class="view-picker">
+                <button class="filter-btn active" onclick="filterView('all', this)">Alles</button>
+                <button class="filter-btn" onclick="filterView('Dagelijks', this)">Dagbasis</button>
+                <button class="filter-btn" onclick="filterView('Wekelijks', this)">Weekbasis</button>
+                <button class="filter-btn" onclick="filterView('Maandelijks', this)">Maandbasis</button>
+            </div>
+
+            <!-- Tabel View -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Status (Stoplicht)</th>
+                            <th>Deliverable</th>
+                            <th>Frequentie</th>
+                            <th>Startdatum</th>
+                            <th>Geplande Duur</th>
+                            <th>Deadline</th>
+                        </tr>
+                    </thead>
+                    <tbody id="deliverablesTableBody">
+                        <!-- Dynamische inhoud -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
-    // Voorbeelddata
-    let deliverables = [
-        { title: "Dagelijkse Standup & Check", freq: "Dagelijks", startDate: "2026-03-30", duration: "0.5 uur", deadline: "2026-03-30" },
-        { title: "Wekelijkse Voortgangsupdate", freq: "Wekelijks", startDate: "2026-04-01", duration: "2 uur", deadline: "2026-04-03" },
-        { title: "Financiële Maandrapportage", freq: "Maandelijks", startDate: "2026-04-05", duration: "6 uur", deadline: "2026-04-08" }
+    // Configuratiedata & Pre-loads
+    let deliverablesData = [
+        { title: "Sensoren Integratie Plan", freq: "Wekelijks", start: "2026-07-25", duration: "4 uur", deadline: "2026-07-27" },
+        { title: "Q3 Management Summary", freq: "Maandelijks", start: "2026-07-20", duration: "6 uur", deadline: "2026-07-26" },
+        { title: "Dagelijkse Check Weide", freq: "Dagelijks", start: "2026-07-28", duration: "0.5 uur", deadline: "2026-07-28" }
     ];
 
-    let currentFilter = 'all';
+    let currentFreqFilter = 'all';
 
-    // Bepaal de status van het stoplicht
-    function getStatusLight(startDateStr, deadlineStr) {
-        const today = new Date().toISOString().split('T')[0];
+    // Tab navigatie logica
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
         
-        if (deadlineStr < today) {
-            return `<div class="status-cell"><span class="light light-red"></span> Te laat / Actie!</div>`;
-        } else if (startDateStr <= today && deadlineStr >= today) {
-            return `<div class="status-cell"><span class="light light-orange"></span> In behandeling</div>`;
+        event.currentTarget.classList.add('active');
+        document.getElementById('tab-' + tabId).classList.add('active');
+    }
+
+    // Stoplicht bepaling op basis van datum
+    function calculateStatus(startDate, deadline) {
+        const today = new Date().toISOString().split('T')[0];
+
+        if (deadline < today) {
+            return `<span class="status-badge status-red"><span class="light-dot"></span> Overdue / Actie</span>`;
+        } else if (startDate <= today && deadline >= today) {
+            return `<span class="status-badge status-orange"><span class="light-dot"></span> In Behandeling</span>`;
         } else {
-            return `<div class="status-cell"><span class="light light-green"></span> Ingepland</div>`;
+            return `<span class="status-badge status-green"><span class="light-dot"></span> Ingepland</span>`;
         }
     }
 
-    // Render de tabel
-    function renderTable() {
-        const tbody = document.getElementById('deliverableTable');
+    // Renderen van de tabel
+    function renderPlanner() {
+        const tbody = document.getElementById('deliverablesTableBody');
         tbody.innerHTML = '';
 
-        const filteredData = currentFilter === 'all' 
-            ? deliverables 
-            : deliverables.filter(item => item.freq === currentFilter);
+        const itemsToDisplay = currentFreqFilter === 'all' 
+            ? deliverablesData 
+            : deliverablesData.filter(d => d.freq === currentFreqFilter);
 
-        filteredData.forEach(item => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${getStatusLight(item.startDate, item.deadline)}</td>
+        itemsToDisplay.forEach(item => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${calculateStatus(item.start, item.deadline)}</td>
                 <td><strong>${item.title}</strong></td>
                 <td>${item.freq}</td>
-                <td>${item.startDate}</td>
+                <td>${item.start}</td>
                 <td>${item.duration}</td>
                 <td>${item.deadline}</td>
             `;
-            tbody.appendChild(row);
+            tbody.appendChild(tr);
         });
     }
 
-    // Filter wisselen (Dag, Week, Maand)
-    function setView(filter, btn) {
-        currentFilter = filter;
-        document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+    // Filteren op Dag / Week / Maand
+    function filterView(freq, btn) {
+        currentFreqFilter = freq;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        renderTable();
+        renderPlanner();
     }
 
-    // Formulier afhandeling
-    document.getElementById('deliverableForm').addEventListener('submit', function(e) {
+    // Formulier afhandeling Alain
+    document.getElementById('plannerForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        
-        const newDeliverable = {
-            title: document.getElementById('title').value,
-            freq: document.getElementById('freq').value,
-            startDate: document.getElementById('startDate').value,
-            duration: document.getElementById('duration').value + " uur",
-            deadline: document.getElementById('deadline').value
+
+        const newItem = {
+            title: document.getElementById('delName').value,
+            freq: document.getElementById('delFreq').value,
+            start: document.getElementById('delStart').value,
+            duration: document.getElementById('delDuration').value + " uur",
+            deadline: document.getElementById('delDeadline').value
         };
 
-        deliverables.push(newDeliverable);
-        renderTable();
+        deliverablesData.push(newItem);
+        renderPlanner();
         this.reset();
     });
 
-    // Eerste render bij het laden van de pagina
-    renderTable();
+    // Initiële start
+    renderPlanner();
 </script>
 
 </body>
