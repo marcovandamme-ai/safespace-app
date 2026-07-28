@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google" content="notranslate">
-  <title>Safespace - Alle HTML Code Onder Elkaar</title>
+  <title>Safespace - Operations Dashboard</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,356 +14,202 @@
     * { box-sizing: border-box; }
     body { 
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-      background-color: #0f172a; 
-      padding: 0; 
+      background-color: #f8fafc; 
+      padding: 20px; 
       margin: 0; 
       color: #0f172a;
     }
 
-    /* VISUELE SCHEIDINGSLIJNEN TUSSEN DE PAGINA'S */
-    .section-divider {
-      background: #f59e0b;
-      color: #0f172a;
-      padding: 12px 20px;
+    .dashboard-container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* HEADER & KOETJES WEIDE */
+    .fc-blue-header {
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+      color: white;
+      padding: 24px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2);
+    }
+    .fc-blue-header h1 {
+      font-size: 22px;
+      margin: 0 0 12px 0;
+      font-weight: 700;
+    }
+    .koetjes-weide {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.5;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* PRIO KANBAN BOARD */
+    .prio-kanban-board {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      margin-bottom: 20px;
+    }
+    .column.prio-1 h3 {
+      color: #dc2626;
+      font-size: 16px;
+      margin: 0 0 12px 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .column ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 16px 0;
+    }
+    .column li {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #991b1b;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .prio-kanban-board button {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      color: #475569;
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 13px;
+    }
+    .prio-kanban-board button:hover { background: #e2e8f0; }
+
+    /* MANAGER SHIELD SECTION */
+    .manager-shield-section {
+      margin-top: 10px;
+    }
+    .shield-btn {
+      background: #0f172a;
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 16px;
+      border-radius: 14px;
       font-weight: 700;
       font-size: 14px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      text-align: center;
-      border-top: 4px solid #b45309;
-      border-bottom: 4px solid #b45309;
-      margin-top: 40px;
-    }
-
-    .page-wrapper {
-      background-color: #f8fafc;
-      padding-bottom: 30px;
-    }
-
-    /* HERO BANNERS & FOTO'S */
-    .hero-header {
-      background: linear-gradient(rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.65)), 
-                  url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
-      padding: 40px 20px 30px 20px;
-      text-align: center;
-      color: #ffffff;
-      margin-bottom: 20px;
-      border-bottom: 4px solid #f59e0b;
-    }
-    .hero-header h1 { font-size: 26px; font-weight: 700; margin: 0 0 4px 0; }
-    .hero-header p { font-size: 14px; opacity: 0.95; margin: 0; }
-
-    .container { max-width: 550px; margin: 0 auto; padding: 0 20px; }
-
-    /* REFRESH BAR */
-    .refresh-bar {
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      font-size: 11px;
-      color: #64748b;
-      margin-bottom: 15px;
-      padding: 0 4px;
+      justify-content: center;
+      gap: 8px;
     }
-    .refresh-indicator {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      background-color: #22c55e;
-      border-radius: 50%;
-      margin-right: 6px;
+    .shield-btn:hover { background: #1e293b; transform: translateY(-1px); }
+
+    /* VERBORGEN PRIO 2 & 3 CONTAINER */
+    .prio-hidden-box {
+      display: none;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed #cbd5e1;
     }
-
-    /* CARDS */
-    .card { 
-      background: #ffffff; 
-      padding: 20px; 
-      border-radius: 16px; 
-      margin-bottom: 16px; 
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-      border: 1px solid #e2e8f0;
-    }
-    .card-header { 
-      font-size: 11px; 
-      font-weight: 700; 
-      color: #94a3b8; 
-      text-transform: uppercase; 
-      letter-spacing: 0.5px; 
-      margin-bottom: 12px; 
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    /* MOOD GRID (KOETJES) */
-    .mood-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 10px; }
-    .mood-btn {
-      background: #f1f5f9;
-      border: 2px solid transparent;
-      border-radius: 10px;
-      padding: 10px 2px;
-      text-align: center;
-      cursor: pointer;
-      font-family: inherit;
-    }
-    .mood-btn.active { border-color: #f59e0b; background: #fffbeb; }
-    .mood-emoji { font-size: 20px; display: block; margin-bottom: 2px; }
-    .mood-label { font-size: 10px; font-weight: 600; color: #334155; }
-
-    /* STATS GRID */
-    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
-    .stat-card {
-      background: #ffffff;
-      padding: 12px 8px;
-      border-radius: 12px;
-      border: 1px solid #e2e8f0;
-      text-align: center;
-    }
-    .stat-number { font-size: 18px; font-weight: 700; margin-bottom: 2px; }
-    .stat-label { font-size: 10px; color: #64748b; font-weight: 600; text-transform: uppercase; }
-
-    /* STOPLICHT BEHUIZING */
-    .traffic-light-casing {
-      background-color: #1e293b;
-      padding: 5px 7px;
-      border-radius: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      border: 1px solid #334155;
-    }
-    .light { width: 10px; height: 10px; border-radius: 50%; background-color: #000; opacity: 0.2; }
-    .light.red { background-color: #ef4444; }
-    .light.orange { background-color: #f59e0b; }
-    .light.green { background-color: #22c55e; }
-
-    .status-orange .light.orange { opacity: 1; box-shadow: 0 0 8px #f59e0b; }
-    .status-green .light.green { opacity: 1; box-shadow: 0 0 8px #22c55e; }
-    .status-red .light.red { opacity: 1; box-shadow: 0 0 8px #ef4444; }
-
-    /* KNOPPEN */
-    .task-title { font-size: 17px; font-weight: 700; color: #1e293b; margin: 0 0 8px 0; }
-    .badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-    .badge-in-progress { background-color: #fef3c7; color: #b45309; }
-    .badge-success { background-color: #dcfce7; color: #15803d; }
-    .badge-danger { background-color: #fee2e2; color: #b91c1c; }
-
-    .button-row { display: flex; gap: 8px; margin-top: 12px; }
-    button.action-btn, a.btn-nav { 
-      flex: 1; 
-      padding: 12px; 
-      border-radius: 10px; 
-      border: none; 
-      color: #fff; 
-      font-family: inherit;
-      font-weight: 600; 
-      cursor: pointer; 
-      font-size: 13px; 
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-    }
-    .btn-success { background-color: #16a34a; }
-    .btn-danger { background-color: #dc2626; }
-    .btn-nav { background-color: #2563eb; width: 100%; box-sizing: border-box; }
-
-    /* AGENDA */
-    .agenda-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
-    .agenda-item:last-child { border-bottom: none; }
-    .agenda-time { font-size: 11px; font-weight: 700; color: #2563eb; width: 65px; }
-    .agenda-title { font-size: 13px; font-weight: 600; color: #334155; }
-    .agenda-desc { font-size: 11px; color: #94a3b8; }
   </style>
 </head>
 <body class="notranslate">
 
-  <!-- ================================================================= -->
-  <!-- 1. ORIGINELE KOETJES & STEMMING INDEX (VAN HET BEGIN VAN DE CHAT) -->
-  <!-- ================================================================= -->
-  <div class="section-divider">📌 HTML BLOK 1: Originele Index (Koetjes + Configuratie Knop)</div>
-  
-  <div class="page-wrapper">
-    <div class="hero-header" id="header1">
-      <h1>Safespace</h1>
-      <p id="sub1">Hoe zit je vandaag in de wedstrijd?</p>
-    </div>
-
-    <div class="container">
-      <div class="refresh-bar">
-        <span><span class="refresh-indicator"></span> Live Verbinding</span>
-        <span>Laatste refresh: zojuist</span>
-      </div>
-
-      <div class="card">
-        <div class="card-header">🐮 Vrolijke Koetjes Methodiek</div>
-        <p style="font-size: 12px; color: #64748b; margin: 0 0 10px 0;">Kies je huidige gemoedstoestand:</p>
-        <div class="mood-grid">
-          <button class="mood-btn" onclick="setMood1('ochtend', '🌅 Fris & Ochtendzin')"><span class="mood-emoji">🌅</span><span class="mood-label">Ochtend</span></button>
-          <button class="mood-btn active" onclick="setMood1('zonnig', '☀️ Zonnig & Vol Energie')"><span class="mood-emoji">☀️</span><span class="mood-label">Zonnig</span></button>
-          <button class="mood-btn" onclick="setMood1('bewolkt', '⛅ Bewolkt & Neutraal')"><span class="mood-emoji">⛅</span><span class="mood-label">Bewolkt</span></button>
-          <button class="mood-btn" onclick="setMood1('regen', '🌧️ Druk & Regenbuien')"><span class="mood-emoji">🌧️</span><span class="mood-label">Regen</span></button>
-          <button class="mood-btn" onclick="setMood1('onweer', '🌩️ Heavy & Onweer')"><span class="mood-emoji">🌩️</span><span class="mood-label">Onweer</span></button>
-        </div>
-      </div>
-
-      <div class="card" style="padding: 16px;">
-        <div class="card-header" style="margin-bottom: 8px;">⚙️ Beheer & Instellingen</div>
-        <a href="configuratie.html" class="btn-nav">⚙️ Open Configuratie Scherm</a>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <span>Actueel Taakvenster (Deadline: 16:00)</span>
-          <div class="traffic-light-casing status-orange"><div class="light red"></div><div class="light orange"></div><div class="light green"></div></div>
-        </div>
-        <h2 class="task-title">Wekelijkse KPI-rapportage Alain</h2>
-        <div style="font-size: 13px; color: #475569; margin-bottom: 10px;">Status: <span class="badge badge-in-progress">In behandeling</span></div>
-        <div class="button-row">
-          <button class="action-btn btn-success">✓ Gerealiseerd</button>
-          <button class="action-btn btn-danger">🚨 Geen Info / Vertraging</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- ================================================================= -->
-  <!-- 2. DELIVERABLES TRACKER + STOPLICHT & AGENDA                      -->
-  <!-- ================================================================= -->
-  <div class="section-divider">📌 HTML BLOK 2: Deliverables Tracker + Stoplicht & Agenda</div>
-  
-  <div class="page-wrapper">
-    <div class="hero-header">
-      <h1>Deliverables Tracker</h1>
-      <p>Controlepoort met Fysiek Stoplicht</p>
-    </div>
-
-    <div class="container">
-      <div class="card">
-        <div class="card-header">
-          <span>Controlepoort Alain</span>
-          <div class="traffic-light-casing status-orange"><div class="light red"></div><div class="light orange"></div><div class="light green"></div></div>
-        </div>
-        <h2 class="task-title">Wekelijkse KPI-rapportage Alain</h2>
-        <p style="font-size: 12px; color: #64748b; margin-bottom: 15px;">Deadline: 16:00 uur • T-30 Checkpoort actief</p>
-        <div class="button-row">
-          <button class="action-btn btn-success">✓ Gerealiseerd</button>
-          <button class="action-btn btn-danger">🚨 Geen Info</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">📅 Agenda Planning Vandaag</div>
-        <div class="agenda-item"><div class="agenda-time">09:00</div><div><div class="agenda-title">Ochtend Kick-off</div></div><span class="badge badge-success">Gereed</span></div>
-        <div class="agenda-item"><div class="agenda-time">15:30</div><div><div class="agenda-title">T-30 Checkpoort KPI</div></div><span class="badge badge-in-progress">Actief</span></div>
-        <div class="agenda-item"><div class="agenda-time">16:00</div><div><div class="agenda-title">Deadline KPI Rapport</div></div><span class="badge" style="background:#e2e8f0; color:#64748b;">Gepland</span></div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- ================================================================= -->
-  <!-- 3. COMPACT PRESTATIE DASHBOARD (STATISTIEKEN & HISTORIE)          -->
-  <!-- ================================================================= -->
-  <div class="section-divider">📌 HTML BLOK 3: Compact Prestatie Dashboard (Stats & Logboek)</div>
-  
-  <div class="page-wrapper">
-    <div class="hero-header">
-      <h1>Prestatie Dashboard</h1>
-      <p>Kpi's, Tellers & Historie</p>
-    </div>
-
-    <div class="container">
-      <div class="stats-grid">
-        <div class="stat-card"><div class="stat-number" style="color:#16a34a;">85%</div><div class="stat-label">Op Tijd</div></div>
-        <div class="stat-card"><div class="stat-number" style="color:#2563eb;">12</div><div class="stat-label">Deliverables</div></div>
-        <div class="stat-card"><div class="stat-number" style="color:#dc2626;">1</div><div class="stat-label">Vertraagd</div></div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">📋 Logboek Historie</div>
-        <div class="agenda-item"><div><div class="agenda-title">Dagupdate Verkoop</div><div class="agenda-desc">Op tijd afgerond</div></div><span class="badge badge-success">Op Tijd</span></div>
-        <div class="agenda-item"><div><div class="agenda-title">Maandafsluiting</div><div class="agenda-desc">Derden niet op tijd</div></div><span class="badge badge-danger">Vertraagd</span></div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- ================================================================= -->
-  <!-- 4. OPGERUIMDE UITKLAPBARE ACCORDION LAY-OUT                        -->
-  <!-- ================================================================= -->
-  <div class="section-divider">📌 HTML BLOK 4: Opgeruimd (Uitklapbare Accordion)</div>
-  
-  <div class="page-wrapper">
-    <div class="hero-header">
-      <h1>Safespace Index</h1>
-      <p>Opgeruimingsmodus met Accordion</p>
-    </div>
-
-    <div class="container">
-      <button class="btn-nav" style="background:#1e293b; margin-bottom: 15px;" onclick="toggleAcc()">📊 Klik om Controle Dashboard te Openen / Sluiten</button>
-      
-      <div id="accBox" style="display:none;">
-        <div class="card">
-          <div class="card-header">Uitklapbaar venster</div>
-          <h2 class="task-title">Wekelijkse KPI-rapportage Alain</h2>
-          <div class="button-row">
-            <button class="action-btn btn-success">✓ Gerealiseerd</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- ================================================================= -->
-  <!-- 5. SFEER FOTO-SWITCHER MET DIVERSE ACHTERGRONDEN                 -->
-  <!-- ================================================================= -->
-  <div class="section-divider">📌 HTML BLOK 5: Foto-Switcher voor Header Achtergronden</div>
-  
-  <div class="page-wrapper">
-    <div class="hero-header" id="header5">
-      <h1>Sfeer Achtergronden Testen</h1>
-      <p>Klik op de knoppen om de achtergrondfoto live te veranderen</p>
-    </div>
-
-    <div class="container">
-      <div class="card">
-        <div class="card-header">🖼️ Test Header Achtergrondfoto's</div>
-        <div class="button-row" style="flex-wrap: wrap;">
-          <button class="action-btn" style="background:#2563eb;" onclick="setBg5('ochtend')">🌅 Ochtend</button>
-          <button class="action-btn" style="background:#f59e0b;" onclick="setBg5('zonnig')">☀️ Zonnig</button>
-          <button class="action-btn" style="background:#64748b;" onclick="setBg5('bewolkt')">⛅ Bewolkt</button>
-          <button class="action-btn" style="background:#0284c7;" onclick="setBg5('regen')">🌧️ Regen</button>
-          <button class="action-btn" style="background:#334155;" onclick="setBg5('onweer')">🌩️ Onweer</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
+  <!-- HIER WORDT HET DASHBOARD DYNAMISCH IN GELADEN -->
+  <div id="app" class="dashboard-container"></div>
 
   <script>
-    const photoList = {
-      ochtend: "https://images.unsplash.com/photo-1470240731273-7821a6eeb6bd?auto=format&fit=crop&w=1200&q=80",
-      zonnig: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
-      bewolkt: "https://images.unsplash.com/photo-1534088568595-a066f410bcda?auto=format&fit=crop&w=1200&q=80",
-      regen: "https://images.unsplash.com/photo-1519692933481-e162a57d6721?auto=format&fit=crop&w=1200&q=80",
-      onweer: "https://images.unsplash.com/photo-1605727216801-e27ce1d0cc28?auto=format&fit=crop&w=1200&q=80"
+    // 1. ENGINE & HELPER MOCKS (Nodig om de class te laten werken)
+    const GamificationEngine = {
+      getCows: () => 18 // Voorbeeld score
     };
 
-    function setMood1(key, text) {
-      document.getElementById('header1').style.background = `linear-gradient(rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.65)), url('${photoList[key]}') center/cover no-repeat`;
-      document.getElementById('sub1').innerText = text;
+    const UI = {
+      togglePrio: (level) => {
+        const box = document.getElementById('prio23Box');
+        if (box) {
+          box.style.display = box.style.display === 'block' ? 'none' : 'block';
+        }
+      }
+    };
+
+    const MeetingModule = {
+      startSync: () => alert("🛡️ Wekelijkse Manager Sync gestart! Debrief wordt gegenereerd...")
+    };
+
+    // 2. JOUW EXACTE OPERATIONS DASHBOARD CLASS
+    class OperationsDashboard {
+      getTasks(prio) {
+        if (prio === 1) {
+          return `
+            <li>📌 Trace Reports Check uitvoeren</li>
+            <li>📌 Wekelijkse KPI-rapportage aanleveren</li>
+          `;
+        }
+        return `
+          <li style="background:#f8fafc; border-color:#e2e8f0; color:#475569;">Prio 2: Documentatie bijwerken</li>
+          <li style="background:#f8fafc; border-color:#e2e8f0; color:#475569;">Prio 3: Archief opschonen</li>
+        `;
+      }
+
+      render() {
+        return `
+          <div class="fc-blue-header">
+            <h1>Welkom terug, Alain! 👋</h1>
+            <div class="koetjes-weide">
+               🐄 Huidige Score: ${GamificationEngine.getCows()} / 50 Koetjes
+               <br> 🎁 Doel: Etentje met Pa, Ma & Watchers
+            </div>
+          </div>
+
+          <div class="prio-kanban-board">
+            <!-- Prio 1: Mag NOOIT stagneren -->
+            <div class="column prio-1">
+              <h3>🔥 Prio 1 (Doen)</h3>
+              <ul>${this.getTasks(1)}</ul>
+            </div>
+            
+            <!-- Prio 2 & 3 verborgen voor rust in het hoofd, klik om uit te klappen -->
+            <button onclick="UI.togglePrio(2)">Bekijk Prio 2 & 3</button>
+
+            <div id="prio23Box" class="prio-hidden-box">
+              <h4 style="margin: 0 0 8px 0; color: #475569; font-size: 13px;">📋 Prio 2 & 3 Taken</h4>
+              <ul style="margin:0;">${this.getTasks(2)}</ul>
+            </div>
+          </div>
+
+          <div class="manager-shield-section">
+            <button class="shield-btn" onclick="MeetingModule.startSync()">
+              🛡️ Start Wekelijkse Manager Sync (Genereer Debrief)
+            </button>
+          </div>
+        `;
+      }
     }
 
-    function toggleAcc() {
-      const b = document.getElementById('accBox');
-      b.style.display = b.style.display === "block" ? "none" : "block";
-    }
-
-    function setBg5(key) {
-      document.getElementById('header5').style.background = `linear-gradient(rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.65)), url('${photoList[key]}') center/cover no-repeat`;
-    }
+    // 3. LAAD HET DASHBOARD DIRECT IN DE PAGINA
+    document.addEventListener("DOMContentLoaded", () => {
+      const dashboard = new OperationsDashboard();
+      document.getElementById('app').innerHTML = dashboard.render();
+    });
   </script>
 </body>
 </html>
