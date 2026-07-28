@@ -96,7 +96,7 @@
         </div>
     </header>
 
-    <!-- Navigatie Menu (Schakelen tussen Schermen) -->
+    <!-- Navigatie Menu -->
     <nav class="max-w-6xl mx-auto px-4 mt-4">
         <div class="glass-card rounded-2xl p-2 flex flex-wrap gap-2 shadow-sm">
             <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn active px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-700">
@@ -109,7 +109,7 @@
                 <i class="fa-solid fa-user-plus"></i> Gebruiker Toevoegen
             </button>
             <button onclick="switchTab('config')" id="tab-config" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-700">
-                <i class="fa-solid fa-sliders"></i> Configuratie
+                <i class="fa-solid fa-sliders"></i> Configuratie & Tracking
             </button>
         </div>
     </nav>
@@ -187,7 +187,7 @@
                 </div>
             </div>
 
-            <!-- Dashboard Overzicht: Berichten & Beknopte Taken -->
+            <!-- Dashboard Overzicht: Berichten & Contacten -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="lg:col-span-2 glass-card rounded-3xl p-5">
                     <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-4 flex items-center gap-2">
@@ -249,7 +249,7 @@
                 </div>
             </div>
 
-            <!-- Takenlijst met Vinkjes -->
+            <!-- Takenlijst -->
             <div class="glass-card rounded-3xl p-5">
                 <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-4">Actieve Takenlijst</h3>
                 <div id="full-tasks-list" class="space-y-3">
@@ -259,7 +259,7 @@
         </div>
 
 
-        <!-- ================= SCHERM 3: GEBRUIKER AANMAKEN (MET ROL) ================= -->
+        <!-- ================= SCHERM 3: GEBRUIKER AANMAKEN ================= -->
         <div id="screen-user-modal" class="hidden space-y-6">
             <div class="glass-card rounded-3xl p-6">
                 <h2 class="text-2xl font-black text-emerald-900 mb-1"><i class="fa-solid fa-user-plus text-emerald-600"></i> Gebruiker Toevoegen</h2>
@@ -296,13 +296,64 @@
         </div>
 
 
-        <!-- ================= SCHERM 4: CONFIGURATIE ================= -->
+        <!-- ================= SCHERM 4: CONFIGURATIE & DELIVERABLE TRACKING ================= -->
         <div id="screen-config" class="hidden space-y-6">
             <div class="glass-card rounded-3xl p-6">
-                <h2 class="text-2xl font-black text-emerald-900 mb-1"><i class="fa-solid fa-sliders text-emerald-600"></i> Systeem Configuratie</h2>
-                <p class="text-slate-700 text-sm font-semibold">Stel drempelwaardes, meldingen en achtergrond-triggers in voor het platform.</p>
+                <h2 class="text-2xl font-black text-emerald-900 mb-1"><i class="fa-solid fa-sliders text-emerald-600"></i> Configuratie & Deliverable Tracking</h2>
+                <p class="text-slate-700 text-sm font-semibold">Stel in wat er getracet moet worden, welke deliverables er verstuurd worden en pas de systeemtriggert aan.</p>
             </div>
 
+            <!-- FEAT: PROJECT DELIVERABLE TRACKER CONFIGURATIE -->
+            <div class="glass-card rounded-3xl p-6 border-2 border-emerald-300/80 shadow-md">
+                <h3 class="text-sm font-black text-emerald-900 uppercase tracking-wider mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-bullseye text-emerald-600"></i> Project Deliverables Instellen (Wat te Tracen)
+                </h3>
+                <p class="text-xs text-slate-600 mb-4">Specifeer per project de deliverable, de verzendfrequentie en de ontvanger(s).</p>
+                
+                <form onsubmit="event.preventDefault(); addDeliverable();" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-xs font-bold text-slate-700 block mb-1">Projectnaam</label>
+                        <input id="cfg-project" type="text" placeholder="bijv. SafeSpace Weide Beheer" required class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold text-slate-700 block mb-1">Deliverable (Wat te opleveren / tracen)</label>
+                        <input id="cfg-deliverable" type="text" placeholder="bijv. Wekelijkse Sensor & Sfeer Rapportage" required class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold text-slate-700 block mb-1">Hoe vaak versturen? (Frequentie)</label>
+                        <select id="cfg-frequency" class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm font-bold text-slate-800">
+                            <option value="Dagelijks">Dagelijks</option>
+                            <option value="Wekelijks">Wekelijks (elke maandag)</option>
+                            <option value="Twee-wekelijks">Twee-wekelijks</option>
+                            <option value="Maandelijks">Maandelijks</option>
+                            <option value="Continu / Realtime">Continu / Realtime bij event</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold text-slate-700 block mb-1">Aan wie versturen? (Ontvanger e-mail / rol)</label>
+                        <input id="cfg-recipient" type="text" placeholder="bijv. alain@safespace.nl, Beheerders" required class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none">
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl shadow transition flex justify-center items-center gap-2">
+                            <i class="fa-solid fa-plus-circle"></i> Deliverable Tracking Regel Opslaan
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Actieve Tracking Overzicht -->
+                <div class="mt-6">
+                    <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Actieve Getracete Deliverables:</h4>
+                    <div id="deliverables-list" class="space-y-3">
+                        <!-- Dynamische deliverables worden hier getoond -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Algemene Systeem Triggers -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Sfeer Instellingen -->
                 <div class="glass-card rounded-3xl p-5 space-y-4">
@@ -324,7 +375,7 @@
                     <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider">Notificaties & Alerts</h3>
                     
                     <div class="flex items-center justify-between p-3 bg-white/80 rounded-xl border border-slate-200">
-                        <span class="text-xs font-bold text-slate-800">E-mail meldingen versturen</span>
+                        <span class="text-xs font-bold text-slate-800">E-mail meldingen versturen bij oplevering</span>
                         <input type="checkbox" checked class="w-4 h-4 accent-emerald-600">
                     </div>
 
@@ -338,7 +389,7 @@
 
     </main>
 
-    <!-- Scripting voor Tabs, Thema's & Taken -->
+    <!-- Scripting voor Tabs, Thema's, Taken & Deliverables -->
     <script>
         // Standaard takenlijst
         let tasks = [
@@ -347,18 +398,33 @@
             { id: 3, title: 'Overleg en koffie met Tilly ☕', done: true, priority: 'Normaal' }
         ];
 
+        // Standaard getracete deliverables
+        let deliverables = [
+            {
+                id: 1,
+                project: 'SafeSpace Weide Automatisering',
+                deliverable: 'Wekelijks Sfeer- & Sensorenoverzicht PDF',
+                frequency: 'Wekelijks',
+                recipient: 'alain@safespace.nl, Beheerder'
+            },
+            {
+                id: 2,
+                project: 'Veiligheid & Sensor Monitoring',
+                deliverable: 'Spoed-waarschuwingen bij Onweer/Urgentie',
+                frequency: 'Continu / Realtime',
+                recipient: 'Alle Gebruikers'
+            }
+        ];
+
         // Navigatie tussen schermen
         function switchTab(tabName) {
-            // Verberg alle schermen
             document.getElementById('screen-dashboard').classList.add('hidden');
             document.getElementById('screen-tasks').classList.add('hidden');
             document.getElementById('screen-user-modal').classList.add('hidden');
             document.getElementById('screen-config').classList.add('hidden');
 
-            // Deactiveer alle knoppen
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
 
-            // Toon geselecteerd scherm
             document.getElementById(`screen-${tabName}`).classList.remove('hidden');
             document.getElementById(`tab-${tabName}`).classList.add('active');
         }
@@ -371,7 +437,58 @@
             document.getElementById('welcome-text').innerText = welkomstTekst;
         }
 
-        // Render Taken op de Taken Tracker Pagina
+        // Render Deliverables in Config
+        function renderDeliverables() {
+            const list = document.getElementById('deliverables-list');
+            list.innerHTML = '';
+
+            deliverables.forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'bg-white/90 p-4 rounded-2xl border border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-2 shadow-sm';
+                el.innerHTML = `
+                    <div>
+                        <span class="text-[10px] font-black uppercase text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-md inline-block mb-1">${item.project}</span>
+                        <h5 class="text-xs font-extrabold text-slate-800">${item.deliverable}</h5>
+                        <p class="text-[11px] text-slate-500 font-medium mt-0.5">
+                            <i class="fa-regular fa-clock text-slate-400"></i> ${item.frequency} &nbsp;|&nbsp; 
+                            <i class="fa-regular fa-paper-plane text-slate-400"></i> Versturen aan: <span class="text-slate-700 font-semibold">${item.recipient}</span>
+                        </p>
+                    </div>
+                    <button onclick="removeDeliverable(${item.id})" class="text-rose-500 hover:text-rose-700 text-xs font-bold self-end md:self-center">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                `;
+                list.appendChild(el);
+            });
+        }
+
+        function addDeliverable() {
+            const project = document.getElementById('cfg-project').value;
+            const deliverable = document.getElementById('cfg-deliverable').value;
+            const frequency = document.getElementById('cfg-frequency').value;
+            const recipient = document.getElementById('cfg-recipient').value;
+
+            deliverables.push({
+                id: Date.now(),
+                project,
+                deliverable,
+                frequency,
+                recipient
+            });
+
+            document.getElementById('cfg-project').value = '';
+            document.getElementById('cfg-deliverable').value = '';
+            document.getElementById('cfg-recipient').value = '';
+
+            renderDeliverables();
+        }
+
+        function removeDeliverable(id) {
+            deliverables = deliverables.filter(d => d.id !== id);
+            renderDeliverables();
+        }
+
+        // Render Taken
         function renderTasks() {
             const list = document.getElementById('full-tasks-list');
             list.innerHTML = '';
@@ -393,11 +510,9 @@
                 list.appendChild(item);
             });
 
-            // Update voortgang
             const pct = tasks.length > 0 ? Math.round((completed / tasks.length) * 100) : 100;
             document.getElementById('dash-progress').innerText = pct + '%';
 
-            // Automatische weer aanpassing
             if (completed === tasks.length) {
                 setTheme('zon', 'Zonnig in de wei ☀️', 'Alle taken zijn afgevinkt! De zon schijnt op het platform.');
             } else if (completed > 0) {
@@ -435,7 +550,6 @@
             const name = document.getElementById('user-fullname').value;
             const role = document.getElementById('user-role').value;
 
-            // Voeg toe aan contacten op dashboard
             const contactList = document.getElementById('contact-list');
             const newContact = `
                 <div class="flex justify-between items-center p-2.5 bg-white/80 rounded-xl border border-slate-200">
@@ -472,6 +586,7 @@
         // Init
         document.addEventListener('DOMContentLoaded', () => {
             renderTasks();
+            renderDeliverables();
         });
     </script>
 </body>
