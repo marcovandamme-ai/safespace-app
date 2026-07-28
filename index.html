@@ -4,9 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google" content="notranslate">
-  <title>Safespace - Complete Dashboard & Controle</title>
+  <title>Safespace - Deliverables Dashboard</title>
   
-  <!-- Modern app-lettertype (Inter) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -21,22 +20,48 @@
       color: #0f172a;
     }
     
-    /* ZONNIGE HEADER BANNER */
+    /* ZONNIGE / SFEER HEADER BANNER MET AFBEELDINGS-SWITCHER */
     .hero-header {
-      background: linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.6)), 
+      background: linear-gradient(rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.65)), 
                   url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
-      padding: 40px 20px;
+      padding: 35px 20px 20px 20px;
       text-align: center;
       color: #ffffff;
       margin-bottom: 24px;
       border-bottom: 4px solid #f59e0b;
+      transition: background 0.5s ease-in-out;
     }
-    .hero-header h1 { font-size: 26px; font-weight: 700; margin: 0 0 6px 0; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-    .hero-header p { font-size: 14px; opacity: 0.95; margin: 0; }
+    .hero-header h1 { font-size: 24px; font-weight: 700; margin: 0 0 4px 0; text-shadow: 0 2px 4px rgba(0,0,0,0.4); }
+    .hero-header p { font-size: 13px; opacity: 0.95; margin: 0 0 16px 0; }
+
+    /* THEMA KNOPPEN BALK */
+    .theme-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .theme-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      transition: all 0.2s ease;
+    }
+    .theme-btn:hover, .theme-btn.active {
+      background: #ffffff;
+      color: #0f172a;
+      border-color: #ffffff;
+    }
 
     .container { max-width: 640px; margin: 0 auto; padding: 0 20px 40px 20px; }
     
-    /* LIVE REFRESH BAR */
+    /* REFRESH BAR */
     .refresh-bar {
       display: flex;
       justify-content: space-between;
@@ -55,27 +80,25 @@
       margin-right: 6px;
     }
 
-    /* DASHBOARD STATS GRID */
+    /* DASHBOARD STATISTIEKEN */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 12px;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
     .stat-card {
       background: #ffffff;
-      padding: 16px 12px;
+      padding: 14px 10px;
       border-radius: 12px;
       border: 1px solid #e2e8f0;
       text-align: center;
       box-shadow: 0 2px 4px rgba(0,0,0,0.02);
     }
-    .stat-number { font-size: 22px; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
-    .stat-label { font-size: 11px; color: #64748b; font-weight: 600; text-transform: uppercase; }
+    .stat-number { font-size: 20px; font-weight: 700; color: #0f172a; margin-bottom: 2px; }
+    .stat-label { font-size: 10px; color: #64748b; font-weight: 600; text-transform: uppercase; }
 
-    /* VOORTGANGSBALK */
     .progress-container {
-      margin-top: 10px;
       background-color: #f1f5f9;
       border-radius: 10px;
       height: 8px;
@@ -89,7 +112,7 @@
       transition: width 0.3s ease;
     }
 
-    /* CARDS & PANELS */
+    /* CARDS */
     .card { 
       background: #ffffff; 
       padding: 20px; 
@@ -97,6 +120,7 @@
       margin-bottom: 20px; 
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
       border: 1px solid #e2e8f0;
+      position: relative;
     }
     .card-header { 
       font-size: 11px; 
@@ -110,18 +134,35 @@
       align-items: center;
     }
 
-    /* STOPLICHTJES */
-    .traffic-lights { display: flex; gap: 6px; }
-    .light { width: 12px; height: 12px; border-radius: 50%; opacity: 0.3; }
+    /* FYSIEK STOPLICHT RECHTSBOVEN */
+    .traffic-light-casing {
+      background-color: #1e293b;
+      padding: 6px 8px;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.1);
+      border: 1px solid #334155;
+    }
+    .light {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: #000;
+      opacity: 0.2;
+      transition: all 0.3s ease;
+    }
     .light.red { background-color: #ef4444; }
     .light.orange { background-color: #f59e0b; }
     .light.green { background-color: #22c55e; }
-    
-    .status-green .light.green { opacity: 1; box-shadow: 0 0 8px #22c55e; }
-    .status-orange .light.orange { opacity: 1; box-shadow: 0 0 8px #f59e0b; }
-    .status-red .light.red { opacity: 1; box-shadow: 0 0 8px #ef4444; }
 
-    /* TAAKVENSTER */
+    /* STOPLICHT STATUS ACTIVERING */
+    .status-orange .light.orange { opacity: 1; box-shadow: 0 0 10px #f59e0b; }
+    .status-green .light.green { opacity: 1; box-shadow: 0 0 10px #22c55e; }
+    .status-red .light.red { opacity: 1; box-shadow: 0 0 10px #ef4444; }
+
+    /* TAAK & ACTIES */
     .task-title { font-size: 18px; font-weight: 700; color: #1e293b; margin: 0 0 8px 0; }
     .status-row { display: flex; align-items: center; gap: 8px; margin-bottom: 15px; font-size: 13px; color: #475569; }
     
@@ -140,7 +181,6 @@
       font-size: 12px; 
     }
 
-    /* KNOPPEN */
     .button-row { display: flex; gap: 10px; }
     button.action-btn { 
       flex: 1; 
@@ -159,7 +199,7 @@
     .btn-danger { background-color: #dc2626; }
     .btn-cancel { background-color: #e2e8f0; color: #334155; }
 
-    /* AGENDA & LOGBOEK */
+    /* AGENDA & LOG */
     .agenda-item {
       display: flex;
       align-items: center;
@@ -181,21 +221,30 @@
 </head>
 <body class="notranslate">
 
-  <!-- ZONNIGE HEADER -->
-  <div class="hero-header">
-    <h1>Safespace Dashboard</h1>
-    <p>Overzicht, Agenda & Deliverable Controle voor Alain</p>
+  <!-- HEADER MET FOTO-SWITCHER -->
+  <div class="hero-header" id="heroHeader">
+    <h1>Safespace Deliverables</h1>
+    <p>Status, Dashboard & Agenda voor Alain</p>
+    
+    <!-- THEMA SWITCHAR -->
+    <div class="theme-buttons">
+      <button class="theme-btn" onclick="setTheme('ochtend', this)">🌅 Ochtend</button>
+      <button class="theme-btn active" onclick="setTheme('zonnig', this)">☀️ Zonnig</button>
+      <button class="theme-btn" onclick="setTheme('bewolkt', this)">⛅ Bewolkt</button>
+      <button class="theme-btn" onclick="setTheme('regen', this)">🌧️ Regen</button>
+      <button class="theme-btn" onclick="setTheme('onweer', this)">🌩️ Onweer</button>
+    </div>
   </div>
 
   <div class="container">
 
-    <!-- REFRESH STATUS BAR -->
+    <!-- REFRESH STATUS -->
     <div class="refresh-bar">
       <span><span class="refresh-indicator"></span> Live Verbinding</span>
       <span id="lastUpdated">Laatste refresh: zojuist</span>
     </div>
 
-    <!-- DASHBOARD STATISTIEKEN KAARTEN -->
+    <!-- STATS GRID -->
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-number" style="color: #16a34a;">85%</div>
@@ -211,7 +260,7 @@
       </div>
     </div>
 
-    <!-- VOORTGANGSDASHBOARD -->
+    <!-- VOORTGANG -->
     <div class="card" style="padding: 16px 20px;">
       <div class="card-header" style="margin-bottom: 6px;">
         <span>Wekelijkse Voortgang</span>
@@ -222,11 +271,13 @@
       </div>
     </div>
 
-    <!-- TAAKVENSTER MET STOPLICHTJES & KNOPPEN -->
+    <!-- TAAKVENSTER MET FYSIEK STOPLICHT RECHTSBOVEN -->
     <div class="card">
       <div class="card-header">
-        <span>Actueel Taakvenster (Deadline: 16:00 uur)</span>
-        <div class="traffic-lights status-orange" id="trafficLightBox">
+        <span>Actueel Taakvenster (Deadline: 16:00)</span>
+        
+        <!-- FYSIEK STOPLICHT RECHTSBOVEN -->
+        <div class="traffic-light-casing status-orange" id="trafficLightCasing">
           <div class="light red"></div>
           <div class="light orange"></div>
           <div class="light green"></div>
@@ -250,7 +301,7 @@
       </div>
     </div>
 
-    <!-- AGENDA OVERZICHT -->
+    <!-- AGENDA -->
     <div class="card">
       <div class="card-header">
         <span>📅 Agenda & Planning Vandaag</span>
@@ -284,7 +335,7 @@
       </div>
     </div>
 
-    <!-- PRESTATIE LOGBOEK -->
+    <!-- LOGBOEK -->
     <div class="card">
       <div class="card-header">
         <span>📋 Logboek Historie</span>
@@ -327,10 +378,27 @@
   <script>
     const taskTitle = "Wekelijkse KPI-rapportage Alain";
 
+    // SFEEER AFBEELDINGEN
+    const themes = {
+      ochtend: "https://images.unsplash.com/photo-1470240731273-7821a6eeb6bd?auto=format&fit=crop&w=1200&q=80",
+      zonnig: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
+      bewolkt: "https://images.unsplash.com/photo-1534088568595-a066f410bcda?auto=format&fit=crop&w=1200&q=80",
+      regen: "https://images.unsplash.com/photo-1519692933481-e162a57d6721?auto=format&fit=crop&w=1200&q=80",
+      onweer: "https://images.unsplash.com/photo-1605727216801-e27ce1d0cc28?auto=format&fit=crop&w=1200&q=80"
+    };
+
+    function setTheme(themeName, btn) {
+      document.getElementById('heroHeader').style.background = 
+        `linear-gradient(rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.65)), url('${themes[themeName]}') center/cover no-repeat`;
+      
+      document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
     function markCompleted() {
       document.getElementById('statusBadge').innerText = "Gerealiseerd";
       document.getElementById('statusBadge').className = "badge badge-success";
-      document.getElementById('trafficLightBox').className = "traffic-lights status-green";
+      document.getElementById('trafficLightCasing').className = "traffic-light-casing status-green";
       
       document.getElementById('alertBox').style.display = "none";
       document.getElementById('buttonGroup').style.display = "none";
@@ -357,7 +425,7 @@
 
       document.getElementById('statusBadge').innerText = "Vertraagd / Data Ontbreekt";
       document.getElementById('statusBadge').className = "badge badge-danger";
-      document.getElementById('trafficLightBox').className = "traffic-lights status-red";
+      document.getElementById('trafficLightCasing').className = "traffic-light-casing status-red";
 
       document.getElementById('alertBox').style.display = "none";
       document.getElementById('buttonGroup').style.display = "none";
