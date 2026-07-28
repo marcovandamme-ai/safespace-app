@@ -30,7 +30,7 @@
             margin: 0 auto;
         }
 
-        /* Top Header Navigation */
+        /* Header Navigation */
         .top-bar {
             display: flex;
             justify-content: space-between;
@@ -210,7 +210,7 @@
         .table-container {
             background: var(--card-inner);
             border-radius: 12px;
-            overflow: hidden;
+            overflow-x: auto;
         }
 
         table {
@@ -258,6 +258,16 @@
 
         .status-red { background: #fef2f2; color: #991b1b; }
         .status-red .light-dot { background: #ef4444; box-shadow: 0 0 6px #ef4444; }
+
+        /* Recipient Pill */
+        .recipient-pill {
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -278,27 +288,52 @@
         </div>
     </div>
 
-    <!-- Navigation Tabs -->
+    <!-- Navigation Tabs (ALLE KNOPPEN WERKEN) -->
     <div class="nav-tabs">
-        <button class="tab-btn" onclick="switchTab('dashboard')">📊 Dashboard</button>
-        <button class="tab-btn" onclick="switchTab('taken')">📋 Taken Tracker</button>
-        <button class="tab-btn" onclick="switchTab('spaarkas')">🔒 Mijn Privé Spaarkas</button>
-        <button class="tab-btn" onclick="switchTab('summary')">📄 Wekelijkse Management Summary</button>
-        <button class="tab-btn active" onclick="switchTab('deliverables')">⚙️ Project Deliverables & Planning</button>
+        <button class="tab-btn active" onclick="switchTab('dashboard', this)">📊 Dashboard</button>
+        <button class="tab-btn" onclick="switchTab('taken', this)">📋 Taken Tracker</button>
+        <button class="tab-btn" onclick="switchTab('spaarkas', this)">🔒 Mijn Privé Spaarkas</button>
+        <button class="tab-btn" onclick="switchTab('summary', this)">📄 Wekelijkse Management Summary</button>
+        <button class="tab-btn" onclick="switchTab('deliverables', this)">⚙️ Project Deliverables & Planning</button>
     </div>
 
-    <!-- TAB 1: DASHBOARD (HOOFDOVERZICHT) -->
-    <div id="tab-dashboard" class="tab-content">
+    <!-- TAB 1: DASHBOARD -->
+    <div id="tab-dashboard" class="tab-content active">
         <div class="card">
             <h2 style="margin:0 0 5px 0;">Status: Zonnig in de wei ☀️</h2>
             <p style="margin:0; color: var(--text-muted);">Alle werkzaamheden lopen op schema.</p>
         </div>
     </div>
 
-    <!-- TAB 5: PROJECT DELIVERABLES & PLANNER (NIEUWE MODULE) -->
-    <div id="tab-deliverables" class="tab-content active">
+    <!-- TAB 2: TAKEN TRACKER -->
+    <div id="tab-taken" class="tab-content">
+        <div class="card">
+            <div class="card-title">📋 Taken Tracker</div>
+            <p>Overzicht van algemene operationele taken en actiepunten.</p>
+        </div>
+    </div>
+
+    <!-- TAB 3: SPAARKAS -->
+    <div id="tab-spaarkas" class="tab-content">
+        <div class="card">
+            <div class="card-title">🔒 Mijn Privé Spaarkas</div>
+            <p><strong>Mijn Koetjes Saldo: 10</strong></p>
+            <p>Rond taken & prechecks af om viermomenten te ontgrendelen!</p>
+        </div>
+    </div>
+
+    <!-- TAB 4: MANAGEMENT SUMMARY -->
+    <div id="tab-summary" class="tab-content">
+        <div class="card">
+            <div class="card-title">📄 Wekelijkse Management Summary</div>
+            <p>Hier verschijnt de wekelijkse rapportage voor het management.</p>
+        </div>
+    </div>
+
+    <!-- TAB 5: PROJECT DELIVERABLES & PLANNER -->
+    <div id="tab-deliverables" class="tab-content">
         
-        <!-- Alain's Invoer Formulier -->
+        <!-- Invoer Formulier Alain -->
         <div class="card">
             <div class="card-title">➕ Nieuwe Deliverable / Planning Invoeren (Alain)</div>
             <form id="plannerForm">
@@ -315,6 +350,10 @@
                             <option value="Maandelijks">Maandelijks</option>
                             <option value="Kwartaal">Kwartaal</option>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Ontvanger(s) / Gestuurd naar</label>
+                        <input type="text" id="delRecipients" placeholder="bv. Management, Alain, Directie" required>
                     </div>
                     <div class="form-group">
                         <label>Geplande Startdatum</label>
@@ -337,7 +376,7 @@
         <div class="card">
             <div class="card-title">📅 Interactive Capacity & Status Planner</div>
             
-            <!-- Weergave Filters (Dag, Week, Maand) -->
+            <!-- Weergave Filters -->
             <div class="view-picker">
                 <button class="filter-btn active" onclick="filterView('all', this)">Alles</button>
                 <button class="filter-btn" onclick="filterView('Dagelijks', this)">Dagbasis</button>
@@ -353,6 +392,7 @@
                             <th>Status (Stoplicht)</th>
                             <th>Deliverable</th>
                             <th>Frequentie</th>
+                            <th>Gestuurd naar</th>
                             <th>Startdatum</th>
                             <th>Geplande Duur</th>
                             <th>Deadline</th>
@@ -368,25 +408,25 @@
 </div>
 
 <script>
-    // Configuratiedata & Pre-loads
+    // Configuratiedata met ontvangers
     let deliverablesData = [
-        { title: "Sensoren Integratie Plan", freq: "Wekelijks", start: "2026-07-25", duration: "4 uur", deadline: "2026-07-27" },
-        { title: "Q3 Management Summary", freq: "Maandelijks", start: "2026-07-20", duration: "6 uur", deadline: "2026-07-26" },
-        { title: "Dagelijkse Check Weide", freq: "Dagelijks", start: "2026-07-28", duration: "0.5 uur", deadline: "2026-07-28" }
+        { title: "Sensoren Integratie Plan", freq: "Wekelijks", recipients: "Tech Team, Alain", start: "2026-07-25", duration: "4 uur", deadline: "2026-07-27" },
+        { title: "Q3 Management Summary", freq: "Maandelijks", recipients: "Directie, Board", start: "2026-07-20", duration: "6 uur", deadline: "2026-07-26" },
+        { title: "Dagelijkse Check Weide", freq: "Dagelijks", recipients: "Operationeel Team", start: "2026-07-28", duration: "0.5 uur", deadline: "2026-07-28" }
     ];
 
     let currentFreqFilter = 'all';
 
-    // Tab navigatie logica
-    function switchTab(tabId) {
+    // Tab Navigatie
+    function switchTab(tabId, element) {
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
         
-        event.currentTarget.classList.add('active');
+        element.classList.add('active');
         document.getElementById('tab-' + tabId).classList.add('active');
     }
 
-    // Stoplicht bepaling op basis van datum
+    // Stoplicht bepaling
     function calculateStatus(startDate, deadline) {
         const today = new Date().toISOString().split('T')[0];
 
@@ -399,7 +439,7 @@
         }
     }
 
-    // Renderen van de tabel
+    // Tabel Renderen
     function renderPlanner() {
         const tbody = document.getElementById('deliverablesTableBody');
         tbody.innerHTML = '';
@@ -414,6 +454,7 @@
                 <td>${calculateStatus(item.start, item.deadline)}</td>
                 <td><strong>${item.title}</strong></td>
                 <td>${item.freq}</td>
+                <td><span class="recipient-pill">📬 ${item.recipients}</span></td>
                 <td>${item.start}</td>
                 <td>${item.duration}</td>
                 <td>${item.deadline}</td>
@@ -422,7 +463,7 @@
         });
     }
 
-    // Filteren op Dag / Week / Maand
+    // Filteren op basis van Frequentie (Dag, Week, Maand)
     function filterView(freq, btn) {
         currentFreqFilter = freq;
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -430,13 +471,14 @@
         renderPlanner();
     }
 
-    // Formulier afhandeling Alain
+    // Formulier afhandeling
     document.getElementById('plannerForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
         const newItem = {
             title: document.getElementById('delName').value,
             freq: document.getElementById('delFreq').value,
+            recipients: document.getElementById('delRecipients').value,
             start: document.getElementById('delStart').value,
             duration: document.getElementById('delDuration').value + " uur",
             deadline: document.getElementById('delDeadline').value
@@ -447,7 +489,7 @@
         this.reset();
     });
 
-    // Initiële start
+    // Start-up
     renderPlanner();
 </script>
 
