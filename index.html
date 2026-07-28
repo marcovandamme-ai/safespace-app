@@ -3,457 +3,265 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SafeSpace - Besturingsomgeving 🐄</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>Sfeer Task Manager</title>
     <style>
-        /* Basis styling met vaste achtergrond over de gehele applicatie */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.8s ease, color 0.5s ease;
+        }
+
         body {
-            background-size: cover;
-            background-position: center top;
-            background-attachment: fixed;
-            transition: background-image 0.8s ease-in-out, background-color 0.8s ease-in-out;
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
 
-        /* Subtiel raster over het hele scherm (20% dekking) */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
-            background-size: 24px 24px;
-            opacity: 0.20;
-            pointer-events: none;
-            z-index: 1;
+        /* Dynamische Achtergronden op basis van Takenstatus */
+        body.bg-zon {
+            background: linear-gradient(135deg, #ffde59, #ff914d);
+            color: #333;
         }
 
-        header, nav, main {
-            position: relative;
-            z-index: 2;
+        body.bg-bewolkt {
+            background: linear-gradient(135deg, #a8c0ff, #3f2b96);
+            color: #fff;
         }
 
-        /* Dynamische Sfeer & Weer Achtergronden op basis van KPI's */
-        .bg-zon {
-            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.30), rgba(240, 253, 244, 0.50)), 
-                              url('https://images.unsplash.com/photo-1595855759920-86582396756a?auto=format&fit=crop&w=1920&q=80');
-        }
-        .bg-bewolkt {
-            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), rgba(241, 245, 249, 0.65)), 
-                              url('https://images.unsplash.com/photo-1534088568595-a066f410bcda?auto=format&fit=crop&w=1920&q=80');
-        }
-        .bg-regen {
-            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.40), rgba(224, 242, 254, 0.70)), 
-                              url('https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=1920&q=80');
-        }
-        .bg-onweer {
-            background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.25), rgba(254, 226, 226, 0.65)), 
-                              url('https://images.unsplash.com/photo-1605727216801-e27ce1d0cc28?auto=format&fit=crop&w=1920&q=80');
+        body.bg-regen {
+            background: linear-gradient(135deg, #4b6cb7, #182848);
+            color: #fff;
         }
 
-        /* Glazen kaarten met blur effect */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.88);
+        body.bg-onweer {
+            background: linear-gradient(135deg, #232526, #414345);
+            color: #ff5252;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.95);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+            border-radius: 16px;
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: inherit;
         }
 
-        .tab-btn.active {
-            background-color: #059669;
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .kpi-board {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .kpi-item {
+            text-align: center;
+        }
+
+        .kpi-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], select {
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        input[type="text"] {
+            flex: 1;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            background-color: #28a745;
             color: white;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            background: rgba(255, 255, 255, 0.2);
+            margin-bottom: 10px;
+            padding: 12px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        li.done span {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .task-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge-urgent {
+            background: #ff4d4d;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            padding: 5px 10px;
+            font-size: 0.8rem;
         }
     </style>
 </head>
-<body id="app-body" class="bg-zon text-slate-800 font-sans pb-16">
+<body id="app-body">
 
-    <!-- Header / Kopbalk -->
-    <header class="bg-white/85 backdrop-blur-md border-b border-emerald-200/60 p-4 sticky top-0 z-50 shadow-sm">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <div class="bg-emerald-500 text-white p-2.5 rounded-2xl text-2xl shadow-md">🐄</div>
-                <div>
-                    <h1 class="font-extrabold text-xl text-slate-900">SafeSpace Control Center</h1>
-                    <span class="text-xs text-emerald-700 font-semibold flex items-center gap-1">
-                        <i class="fa-solid fa-layer-group"></i> Geïntegreerd Beheersysteem
-                    </span>
-                </div>
+    <div class="container">
+        <h1>Mijn Taken</h1>
+        
+        <!-- KPI Dashboard -->
+        <div class="kpi-board">
+            <div class="kpi-item">
+                <div id="kpi-progress" class="kpi-value">0%</div>
+                <div>Voortgang</div>
             </div>
-            
-            <!-- Dynamische Weer-Status Badge -->
-            <div id="status-badge" class="bg-emerald-600 text-white px-4 py-1.5 rounded-full text-xs font-bold flex items-center gap-2 shadow-md">
-                <span class="w-2.5 h-2.5 rounded-full bg-white animate-pulse"></span>
-                <span id="status-text">Zonnig in de wei ☀️</span>
-            </div>
-        </div>
-    </header>
-
-    <!-- Navigatie Menu -->
-    <nav class="max-w-6xl mx-auto px-4 mt-4">
-        <div class="glass-card rounded-2xl p-2 flex flex-wrap gap-2 shadow-sm">
-            <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn active px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-700">
-                <i class="fa-solid fa-chart-pie"></i> Dashboard
-            </button>
-            <button onclick="switchTab('tasks')" id="tab-tasks" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-700">
-                <i class="fa-solid fa-list-check"></i> Taken Tracker
-            </button>
-            <button onclick="switchTab('user-modal')" id="tab-user-modal" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-700">
-                <i class="fa-solid fa-user-plus"></i> Gebruiker Toevoegen
-            </button>
-            <button onclick="switchTab('config')" id="tab-config" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-700">
-                <i class="fa-solid fa-sliders"></i> Configuratie & Tracking
-            </button>
-        </div>
-    </nav>
-
-    <!-- Hoofd-Inhoud -->
-    <main class="max-w-6xl mx-auto p-4">
-
-        <!-- ================= SCHERM 1: DASHBOARD ================= -->
-        <div id="screen-dashboard" class="space-y-6">
-            
-            <!-- Welkom & Sfeer gebaseerd op KPI -->
-            <div class="glass-card rounded-3xl p-6">
-                <h2 id="welcome-title" class="text-2xl font-black text-emerald-900 mb-1">Status: Zonnig in de wei ☀️</h2>
-                <p id="welcome-text" class="text-slate-700 text-sm font-semibold">Alle taken zijn afgevinkt en er zijn geen dringende meldingen.</p>
-            </div>
-
-            <!-- KPI Dashboard Metrics -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="glass-card rounded-2xl p-4 flex items-center gap-4">
-                    <div class="bg-amber-100 text-amber-600 p-3 rounded-xl text-xl"><i class="fa-solid fa-temperature-half"></i></div>
-                    <div>
-                        <span class="text-[11px] font-bold text-slate-400 block uppercase">Temperatuur</span>
-                        <span class="text-lg font-black text-slate-800">21°C</span>
-                    </div>
-                </div>
-                <div class="glass-card rounded-2xl p-4 flex items-center gap-4">
-                    <div class="bg-blue-100 text-blue-600 p-3 rounded-xl text-xl"><i class="fa-solid fa-droplet"></i></div>
-                    <div>
-                        <span class="text-[11px] font-bold text-slate-400 block uppercase">Luchtvochtigheid</span>
-                        <span class="text-lg font-black text-slate-800">62%</span>
-                    </div>
-                </div>
-                <div class="glass-card rounded-2xl p-4 flex items-center gap-4">
-                    <div class="bg-emerald-100 text-emerald-600 p-3 rounded-xl text-xl"><i class="fa-solid fa-cow"></i></div>
-                    <div>
-                        <span class="text-[11px] font-bold text-slate-400 block uppercase">Koeien in Weide</span>
-                        <span class="text-lg font-black text-slate-800">12 / 12</span>
-                    </div>
-                </div>
-                <!-- KPI Voltooiing (Bepaalt het Weer) -->
-                <div class="glass-card rounded-2xl p-4 flex items-center gap-4 border-2 border-emerald-400/50">
-                    <div class="bg-purple-100 text-purple-600 p-3 rounded-xl text-xl"><i class="fa-solid fa-chart-line"></i></div>
-                    <div>
-                        <span class="text-[11px] font-bold text-slate-400 block uppercase">KPI Voortgang</span>
-                        <span id="dash-progress" class="text-lg font-black text-slate-800">100%</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Berichten & Contacten -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="lg:col-span-2 glass-card rounded-3xl p-5">
-                    <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-4 flex items-center gap-2">
-                        <i class="fa-solid fa-comments text-emerald-600"></i> Berichten uit de Stal
-                    </h3>
-                    <div class="flex gap-2 mb-4">
-                        <input id="message-input" type="text" placeholder="Schrijf een bericht..." class="flex-1 bg-white border border-slate-300 rounded-2xl px-4 py-3 text-sm focus:outline-none">
-                        <button onclick="addMessage()" class="bg-emerald-600 text-white font-bold px-5 py-3 rounded-2xl text-sm shadow-md">Verstuur</button>
-                    </div>
-                    <div id="messages-list" class="space-y-3 max-h-60 overflow-y-auto">
-                        <div class="bg-white/90 border border-slate-200 p-4 rounded-2xl shadow-sm">
-                            <div class="flex justify-between items-center mb-1">
-                                <span class="text-xs font-bold text-emerald-800">🐮 Marco (Beheerder)</span>
-                                <span class="text-[10px] text-slate-400">Zojuist</span>
-                            </div>
-                            <p class="text-sm text-slate-800 font-medium">Sfeer en weer worden nu automatisch berekend op basis van openstaande taken!</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-card rounded-3xl p-5">
-                    <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-3">Snelle Contacten</h3>
-                    <div id="contact-list" class="space-y-2">
-                        <div class="flex justify-between items-center p-2.5 bg-white/80 rounded-xl border border-slate-200">
-                            <span class="text-xs font-bold text-slate-800">Marco</span>
-                            <span class="text-[11px] bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold">Beheerder</span>
-                        </div>
-                        <div class="flex justify-between items-center p-2.5 bg-white/80 rounded-xl border border-slate-200">
-                            <span class="text-xs font-bold text-slate-800">Tilly</span>
-                            <span class="text-[11px] bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold">Moeder</span>
-                        </div>
-                        <div class="flex justify-between items-center p-2.5 bg-white/80 rounded-xl border border-slate-200">
-                            <span class="text-xs font-bold text-slate-800">Alain</span>
-                            <span class="text-[11px] bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold">Eigenaar</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="kpi-item">
+                <div id="kpi-status" class="kpi-value">Laden...</div>
+                <div>Sfeer</div>
             </div>
         </div>
 
-
-        <!-- ================= SCHERM 2: TAKEN TRACKER ================= -->
-        <div id="screen-tasks" class="hidden space-y-6">
-            <div class="glass-card rounded-3xl p-6">
-                <h2 class="text-2xl font-black text-emerald-900 mb-1"><i class="fa-solid fa-list-check text-emerald-600"></i> Taken Tracker & Sfeer KPI</h2>
-                <p class="text-slate-700 text-sm font-semibold">Vink taken af of voeg taken toe. Het weer past zich direct aan op basis van de voortgang en urgentie!</p>
-            </div>
-
-            <!-- Nieuwe Taak Toevoegen -->
-            <div class="glass-card rounded-3xl p-5">
-                <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-3">Nieuwe Taak Toevoegen</h3>
-                <div class="flex flex-col md:flex-row gap-3">
-                    <input id="new-task-title" type="text" placeholder="Omschrijving van de taak..." class="flex-1 bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
-                    <select id="new-task-priority" class="bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-700">
-                        <option value="Normaal">Prioriteit: Normaal</option>
-                        <option value="Urgent">Prioriteit: Urgent / Hoog ⚡</option>
-                    </select>
-                    <button onclick="createNewTask()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2.5 rounded-xl text-sm shadow">Toevoegen</button>
-                </div>
-            </div>
-
-            <!-- Takenlijst -->
-            <div class="glass-card rounded-3xl p-5">
-                <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-4">Actieve Takenlijst</h3>
-                <div id="full-tasks-list" class="space-y-3">
-                    <!-- Dynamisch geladen via JS -->
-                </div>
-            </div>
+        <!-- Invoer Veld -->
+        <div class="input-group">
+            <input type="text" id="task-input" placeholder="Nieuwe taak toevoegen...">
+            <select id="priority-select">
+                <option value="Normal">Normaal</option>
+                <option value="Urgent">Urgent</option>
+            </select>
+            <button onclick="addTask()">+</button>
         </div>
 
+        <!-- Takenlijst -->
+        <ul id="task-list"></ul>
+    </div>
 
-        <!-- ================= SCHERM 3: GEBRUIKER AANMAKEN ================= -->
-        <div id="screen-user-modal" class="hidden space-y-6">
-            <div class="glass-card rounded-3xl p-6">
-                <h2 class="text-2xl font-black text-emerald-900 mb-1"><i class="fa-solid fa-user-plus text-emerald-600"></i> Gebruiker Toevoegen</h2>
-                <p class="text-slate-700 text-sm font-semibold">Voeg een nieuw familielid, beheerder of verzorger toe.</p>
-            </div>
-
-            <div class="glass-card rounded-3xl p-6 max-w-2xl mx-auto">
-                <form onsubmit="event.preventDefault(); addNewUser();" class="space-y-4">
-                    <div>
-                        <label class="text-xs font-bold text-slate-700 block mb-1">Volledige Naam</label>
-                        <input id="user-fullname" type="text" placeholder="bijv. Sanne de Vries" required class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none">
-                    </div>
-
-                    <div>
-                        <label class="text-xs font-bold text-slate-700 block mb-1">E-mailadres</label>
-                        <input id="user-email" type="email" placeholder="sanne@safespace.nl" required class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none">
-                    </div>
-
-                    <div>
-                        <label class="text-xs font-bold text-slate-700 block mb-1">Rol & Rechten</label>
-                        <select id="user-role" class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm font-bold text-slate-800">
-                            <option value="Beheerder">Beheerder (Volledige toegang)</option>
-                            <option value="Eigenaar">Eigenaar (Inzicht & Configuratie)</option>
-                            <option value="Ouder">Ouder / Familielid</option>
-                            <option value="Verzorger">Verzorger (Alleen taken afvinken)</option>
-                        </select>
-                    </div>
-
-                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl shadow transition">
-                        Gebruiker Aanmaken
-                    </button>
-                </form>
-            </div>
-        </div>
-
-
-        <!-- ================= SCHERM 4: CONFIGURATIE & DELIVERABLE TRACKING ================= -->
-        <div id="screen-config" class="hidden space-y-6">
-            <div class="glass-card rounded-3xl p-6">
-                <h2 class="text-2xl font-black text-emerald-900 mb-1"><i class="fa-solid fa-sliders text-emerald-600"></i> Configuratie & Project Tracking</h2>
-                <p class="text-slate-700 text-sm font-semibold">Stel in wat er getracet moet worden, welke deliverables er verstuurd worden en aan wie.</p>
-            </div>
-
-            <!-- PROJECT DELIVERABLE TRACKER CONFIGURATIE -->
-            <div class="glass-card rounded-3xl p-6 border-2 border-emerald-300/80 shadow-md">
-                <h3 class="text-sm font-black text-emerald-900 uppercase tracking-wider mb-2 flex items-center gap-2">
-                    <i class="fa-solid fa-bullseye text-emerald-600"></i> Project Deliverables Instellen (Wat te Tracen)
-                </h3>
-                <p class="text-xs text-slate-600 mb-4">Specifeer per project wat de deliverable is, de frequentie en de ontvanger(s).</p>
-                
-                <form onsubmit="event.preventDefault(); addDeliverable();" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="text-xs font-bold text-slate-700 block mb-1">Projectnaam</label>
-                        <input id="cfg-project" type="text" placeholder="bijv. SafeSpace Weide Beheer" required class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none">
-                    </div>
-
-                    <div>
-                        <label class="text-xs font-bold text-slate-700 block mb-1">Deliverable (Wat te opleveren / tracen)</label>
-                        <input id="cfg-deliverable" type="text" placeholder="bijv. Wekelijkse Sensor & Sfeer Rapportage" required class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none">
-                    </div>
-
-                    <div>
-                        <label class="text-xs font-bold text-slate-700 block mb-1">Hoe vaak versturen? (Frequentie)</label>
-                        <select id="cfg-frequency" class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm font-bold text-slate-800">
-                            <option value="Dagelijks">Dagelijks</option>
-                            <option value="Wekelijks">Wekelijks (elke maandag)</option>
-                            <option value="Twee-wekelijks">Twee-wekelijks</option>
-                            <option value="Maandelijks">Maandelijks</option>
-                            <option value="Continu / Realtime">Continu / Realtime bij event</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="text-xs font-bold text-slate-700 block mb-1">Aan wie versturen? (Ontvanger e-mail / rol)</label>
-                        <input id="cfg-recipient" type="text" placeholder="bijv. alain@safespace.nl, Beheerders" required class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none">
-                    </div>
-
-                    <div class="md:col-span-2">
-                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl shadow transition flex justify-center items-center gap-2">
-                            <i class="fa-solid fa-plus-circle"></i> Deliverable Regel Opslaan
-                        </button>
-                    </div>
-                </form>
-
-                <!-- Actieve Tracking Overzicht -->
-                <div class="mt-6">
-                    <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Actieve Getracete Deliverables:</h4>
-                    <div id="deliverables-list" class="space-y-3">
-                        <!-- Dynamisch geladen via JS -->
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- JavaScript Logica -->
     <script>
         // Initiële takenlijst
         let tasks = [
-            { id: 1, title: 'Koeien voeren & water checken', done: true, priority: 'Normaal' },
-            { id: 2, title: 'Hekwerk controle weide', done: true, priority: 'Normaal' },
-            { id: 3, title: 'Sfeer- en KPI controle', done: true, priority: 'Normaal' }
+            { id: 1, text: "Systeem initialiseren", done: true, priority: "Normal" },
+            { id: 2, text: "Kijken naar takenstatus bij laden", done: false, priority: "Urgent" },
+            { id: 3, text: "Achtergrond automatisch aanpassen", done: false, priority: "Normal" }
         ];
 
-        // Initiële getracete deliverables
-        let deliverables = [
-            {
-                id: 1,
-                project: 'SafeSpace Weide Automatisering',
-                deliverable: 'Wekelijks Sfeer- & Sensorenoverzicht PDF',
-                frequency: 'Wekelijks',
-                recipient: 'alain@safespace.nl, Beheerder'
-            }
-        ];
-
-        // Tab wisselen
-        function switchTab(tabName) {
-            document.getElementById('screen-dashboard').classList.add('hidden');
-            document.getElementById('screen-tasks').classList.add('hidden');
-            document.getElementById('screen-user-modal').classList.add('hidden');
-            document.getElementById('screen-config').classList.add('hidden');
-
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-
-            document.getElementById(`screen-${tabName}`).classList.remove('hidden');
-            document.getElementById(`tab-${tabName}`).classList.add('active');
-        }
-
-        // Automatische Sfeer & Weer Berekening op basis van Taken / KPI
-        function updateWeatherAndTheme() {
-            const totalTasks = tasks.length;
-            const completedTasks = tasks.filter(t => t.done).length;
-            const openUrgentTasks = tasks.filter(t => !t.done && t.priority === 'Urgent').length;
-
-            const percentage = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 100;
-            document.getElementById('dash-progress').innerText = percentage + '%';
+        // 1. Functie die DE STATUS UITLEEST, KPI BEREKENT en ACHTERGROND DIRECT AANPAST
+        function updateSfeerEnAchtergrond() {
+            const total = tasks.length;
+            const completed = tasks.filter(t => t.done).length;
+            const heeftUrgentie = tasks.some(t => !t.done && t.priority === 'Urgent');
+            const percentage = total > 0 ? Math.round((completed / total) * 100) : 100;
 
             const body = document.getElementById('app-body');
-            const badge = document.getElementById('status-badge');
-            const statusText = document.getElementById('status-text');
-            const welcomeTitle = document.getElementById('welcome-title');
-            const welcomeText = document.getElementById('welcome-text');
+            const kpiProgress = document.getElementById('kpi-progress');
+            const kpiStatus = document.getElementById('kpi-status');
 
-            // 1. Onweer regel: Openstaande urgente taken!
-            if (openUrgentTasks > 0) {
-                body.className = "bg-onweer text-slate-800 font-sans pb-16";
-                badge.className = "bg-rose-600 text-white px-4 py-1.5 rounded-full text-xs font-bold flex items-center gap-2 shadow-md animate-bounce";
-                statusText.innerText = "Onweer / Urgentie! ⚡";
-                welcomeTitle.innerText = "Status: Acute Aandacht Vereist! ⚡";
-                welcomeText.innerText = `Er staan ${openUrgentTasks} urgente taak/taken open die direct opgelost moeten worden.`;
-            }
-            // 2. Zonnig regel: Alles 100% volbracht
-            else if (percentage === 100) {
-                body.className = "bg-zon text-slate-800 font-sans pb-16";
-                badge.className = "bg-emerald-600 text-white px-4 py-1.5 rounded-full text-xs font-bold flex items-center gap-2 shadow-md";
-                statusText.innerText = "Zonnig in de wei ☀️";
-                welcomeTitle.innerText = "Status: Zonnig in de wei ☀️";
-                welcomeText.innerText = "Alles is op orde! Alle taken zijn succesvol afgevinkt.";
-            }
-            // 3. Bewolkt regel: Voortgang tussen 40% en 99%
-            else if (percentage >= 40) {
-                body.className = "bg-bewolkt text-slate-800 font-sans pb-16";
-                badge.className = "bg-slate-600 text-white px-4 py-1.5 rounded-full text-xs font-bold flex items-center gap-2 shadow-md";
-                statusText.innerText = "Bewolkt ☁️";
-                welcomeTitle.innerText = "Status: Bewolkt ☁️";
-                welcomeText.innerText = `Voortgang is ${percentage}%. Werken aan de overige openstaande taken.`;
-            }
-            // 4. Regen regel: Voortgang onder 40%
-            else {
-                body.className = "bg-regen text-slate-800 font-sans pb-16";
-                badge.className = "bg-blue-600 text-white px-4 py-1.5 rounded-full text-xs font-bold flex items-center gap-2 shadow-md";
-                statusText.innerText = "Regenbui 🌧️";
-                welcomeTitle.innerText = "Status: Regenbui 🌧️";
-                welcomeText.innerText = `Lage score (${percentage}%). Er moet nog veel werk verzet worden!`;
+            // Reset achtergrondklassen
+            body.className = '';
+
+            // Update KPI voortgang
+            kpiProgress.innerText = `${percentage}%`;
+
+            // Bepaal sfeer op basis van actuele taken
+            if (heeftUrgentie) {
+                body.classList.add('bg-onweer');
+                kpiStatus.innerText = '⚡ Onweer';
+            } else if (percentage === 100) {
+                body.classList.add('bg-zon');
+                kpiStatus.innerText = '☀️ Zonnig';
+            } else if (percentage >= 40) {
+                body.classList.add('bg-bewolkt');
+                kpiStatus.innerText = '☁️ Bewolkt';
+            } else {
+                body.classList.add('bg-regen');
+                kpiStatus.innerText = '🌧️ Regen';
             }
         }
 
-        // Render Takenlijst
+        // 2. Render de taken in de lijst
         function renderTasks() {
-            const list = document.getElementById('full-tasks-list');
+            const list = document.getElementById('task-list');
             list.innerHTML = '';
 
             tasks.forEach(task => {
-                const item = document.createElement('div');
-                item.className = 'flex items-center justify-between p-3 bg-white/90 rounded-xl border border-slate-200 shadow-sm';
-                item.innerHTML = `
-                    <label class="flex items-center gap-3 cursor-pointer">
-                        <input type="checkbox" ${task.done ? 'checked' : ''} onchange="toggleTask(${task.id})" class="w-4 h-4 accent-emerald-600 rounded">
-                        <span class="text-xs font-bold ${task.done ? 'line-through text-slate-400' : 'text-slate-800'}">${task.title}</span>
-                    </label>
-                    <div class="flex items-center gap-2">
-                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-md ${task.priority === 'Urgent' ? 'bg-rose-100 text-rose-700 border border-rose-200' : 'bg-slate-100 text-slate-600'}">${task.priority}</span>
-                        <button onclick="deleteTask(${task.id})" class="text-slate-400 hover:text-rose-600 text-xs px-1"><i class="fa-solid fa-trash"></i></button>
+                const li = document.createElement('li');
+                if (task.done) li.classList.add('done');
+
+                li.innerHTML = `
+                    <div class="task-info">
+                        <input type="checkbox" ${task.done ? 'checked' : ''} onchange="toggleTask(${task.id})">
+                        <span>${task.text}</span>
+                        ${task.priority === 'Urgent' && !task.done ? '<span class="badge-urgent">URGENT</span>' : ''}
                     </div>
+                    <button class="btn-delete" onclick="deleteTask(${task.id})">X</button>
                 `;
-                list.appendChild(item);
+                list.appendChild(li);
             });
 
-            updateWeatherAndTheme();
+            // Pas direct de achtergrond en status aan na het renderen!
+            updateSfeerEnAchtergrond();
         }
 
-        function toggleTask(id) {
-            const task = tasks.find(t => t.id === id);
-            if (task) {
-                task.done = !task.done;
-                renderTasks();
-            }
-        }
+        // 3. Acties
+        function addTask() {
+            const input = document.getElementById('task-input');
+            const priority = document.getElementById('priority-select').value;
+            const text = input.value.trim();
 
-        function createNewTask() {
-            const input = document.getElementById('new-task-title');
-            const priority = document.getElementById('new-task-priority').value;
-
-            if (input.value.trim() !== '') {
-                tasks.push({
-                    id: Date.now(),
-                    title: input.value,
-                    done: false,
-                    priority: priority
-                });
+            if (text !== '') {
+                tasks.push({ id: Date.now(), text: text, done: false, priority: priority });
                 input.value = '';
                 renderTasks();
             }
+        }
+
+        function toggleTask(id) {
+            tasks = tasks.map(t => t.id === id ? { ...t, done: !t.done } : t);
+            renderTasks();
         }
 
         function deleteTask(id) {
@@ -461,98 +269,9 @@
             renderTasks();
         }
 
-        // Render Deliverables
-        function renderDeliverables() {
-            const list = document.getElementById('deliverables-list');
-            list.innerHTML = '';
-
-            deliverables.forEach(item => {
-                const el = document.createElement('div');
-                el.className = 'bg-white/90 p-4 rounded-2xl border border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-2 shadow-sm';
-                el.innerHTML = `
-                    <div>
-                        <span class="text-[10px] font-black uppercase text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-md inline-block mb-1">${item.project}</span>
-                        <h5 class="text-xs font-extrabold text-slate-800">${item.deliverable}</h5>
-                        <p class="text-[11px] text-slate-500 font-medium mt-0.5">
-                            <i class="fa-regular fa-clock text-slate-400"></i> ${item.frequency} &nbsp;|&nbsp; 
-                            <i class="fa-regular fa-paper-plane text-slate-400"></i> Versturen aan: <span class="text-slate-700 font-semibold">${item.recipient}</span>
-                        </p>
-                    </div>
-                    <button onclick="removeDeliverable(${item.id})" class="text-rose-500 hover:text-rose-700 text-xs font-bold self-end md:self-center">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                `;
-                list.appendChild(el);
-            });
-        }
-
-        function addDeliverable() {
-            const project = document.getElementById('cfg-project').value;
-            const deliverable = document.getElementById('cfg-deliverable').value;
-            const frequency = document.getElementById('cfg-frequency').value;
-            const recipient = document.getElementById('cfg-recipient').value;
-
-            deliverables.push({
-                id: Date.now(),
-                project,
-                deliverable,
-                frequency,
-                recipient
-            });
-
-            document.getElementById('cfg-project').value = '';
-            document.getElementById('cfg-deliverable').value = '';
-            document.getElementById('cfg-recipient').value = '';
-
-            renderDeliverables();
-        }
-
-        function removeDeliverable(id) {
-            deliverables = deliverables.filter(d => d.id !== id);
-            renderDeliverables();
-        }
-
-        function addNewUser() {
-            const name = document.getElementById('user-fullname').value;
-            const role = document.getElementById('user-role').value;
-
-            const contactList = document.getElementById('contact-list');
-            const newContact = `
-                <div class="flex justify-between items-center p-2.5 bg-white/80 rounded-xl border border-slate-200">
-                    <span class="text-xs font-bold text-slate-800">${name}</span>
-                    <span class="text-[11px] bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold">${role}</span>
-                </div>
-            `;
-            contactList.insertAdjacentHTML('beforeend', newContact);
-
-            alert(`Gebruiker ${name} is aangemaakt!`);
-            document.getElementById('user-fullname').value = '';
-            document.getElementById('user-email').value = '';
-            switchTab('dashboard');
-        }
-
-        function addMessage() {
-            const input = document.getElementById('message-input');
-            const list = document.getElementById('messages-list');
-            if (input.value.trim() !== '') {
-                const msgHTML = `
-                    <div class="bg-white/90 border border-slate-200 p-4 rounded-2xl shadow-sm">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-xs font-bold text-emerald-800">💬 Beheerder</span>
-                            <span class="text-[10px] text-slate-400">Zojuist</span>
-                        </div>
-                        <p class="text-sm text-slate-800 font-medium">${input.value}</p>
-                    </div>
-                `;
-                list.insertAdjacentHTML('afterbegin', msgHTML);
-                input.value = '';
-            }
-        }
-
-        // Initialisatie bij het laden
+        // 4. DIRECT BIJ METEEN LADEN VAN DE PAGINA UITVOEREN
         document.addEventListener('DOMContentLoaded', () => {
             renderTasks();
-            renderDeliverables();
         });
     </script>
 </body>
