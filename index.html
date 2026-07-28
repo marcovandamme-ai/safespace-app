@@ -198,7 +198,7 @@
         .kpi-warn { color: var(--accent-yellow); }
         .kpi-alert { color: var(--accent-red); }
 
-        /* Focus Banner */
+        /* Dynamische Focus Banner */
         .focus-banner {
             background: linear-gradient(90deg, #1e3a8a, #3b82f6);
             color: white;
@@ -317,10 +317,10 @@
             <button class="btn-config" onclick="openConfigModal()">⚙️ Config</button>
 
             <div class="user-profile-badge" onclick="openConfigModal()">
-                <div class="avatar" id="userAvatar">E</div>
+                <div class="avatar" id="userAvatar">A</div>
                 <div style="display:flex; flex-direction:column;">
-                    <span id="userName" style="font-weight:700; font-size:0.85rem;">Eigenaar</span>
-                    <span id="userRole" style="font-size:0.7rem; color:var(--text-muted);">Directeur</span>
+                    <span id="userName" style="font-weight:700; font-size:0.85rem;">Alain</span>
+                    <span id="userRole" style="font-size:0.7rem; color:var(--text-muted);">Operations Lead</span>
                 </div>
             </div>
         </div>
@@ -337,10 +337,11 @@
 
     <!-- TAB 1: DASHBOARD -->
     <div id="tab-dashboard" class="tab-content active">
+        <!-- Dynamische Focus Banner -->
         <div class="focus-banner" id="focusBanner">
             <div>
-                <strong style="font-size: 1.05rem;" id="focusTitle">👁️ Meekijk-modus (Eigenaar): Focus Alain</strong>
-                <div style="font-size: 0.85rem; opacity: 0.9;" id="focusSub">Alain werkt momenteel met 82% focus aan zijn deliverables. Geen directe overbelasting.</div>
+                <strong style="font-size: 1.05rem;" id="focusTitle">🎯 Realtime Focus & Capaciteit Monitor (Alain)</strong>
+                <div style="font-size: 0.85rem; opacity: 0.9;" id="focusSub">Huidige taak: "Sensoren Integratie Plan" — Gestart om 09:30 uur</div>
             </div>
             <div>
                 <div style="font-size: 0.8rem; font-weight: 700; text-align: right;">FOCUS SCORE: 82%</div>
@@ -393,7 +394,7 @@
         </div>
     </div>
 
-    <!-- TAB 2: TAKEN TRACKER (VERBETERD MET EDIT MODAL) -->
+    <!-- TAB 2: TAKEN TRACKER -->
     <div id="tab-taken" class="tab-content">
         <div class="card">
             <div class="card-title">
@@ -524,7 +525,7 @@
 <div id="taskModal" class="modal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeTaskModal()">&times;</span>
-        <h2 style="margin-top:0;" id="taskModalTitle">➕ Nieuwe Taak Invoeren</h2>
+        <h2 style="margin-top:0;" id="taskModalTitle">➕ Nieuwe Taak Aanmaken</h2>
         <form id="taskForm">
             <input type="hidden" id="taskId">
             <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
@@ -568,10 +569,11 @@
     <div class="modal-content">
         <span class="close-btn" onclick="closeConfigModal()">&times;</span>
         <h2 style="margin-top:0;">⚙️ Gebruiker Instellingen</h2>
+        <p style="color:var(--text-muted); font-size:0.9rem;">Wissel van account om het persoonsgebonden dashboard te bekijken:</p>
         <div style="display:flex; flex-direction:column; gap:10px; margin: 20px 0;">
-            <button class="filter-btn" style="padding:12px; text-align:left;" onclick="setUser('Alain', 'Operations Lead', 'A', '82%')">👤 Inloggen als Alain</button>
-            <button class="filter-btn" style="padding:12px; text-align:left;" onclick="setUser('Tilly', 'Management / Coach', 'T', 'Meekijk-modus')">👩‍💼 Inloggen als Tilly</button>
-            <button class="filter-btn" style="padding:12px; text-align:left;" onclick="setUser('Eigenaar', 'Directeur', 'E', 'Overzicht-modus')">👑 Inloggen als Eigenaar</button>
+            <button class="filter-btn" style="padding:12px; text-align:left;" onclick="setUser('Alain', 'Operations Lead', 'A')">👤 Inloggen als Alain</button>
+            <button class="filter-btn" style="padding:12px; text-align:left;" onclick="setUser('Tilly', 'Management / Coach', 'T')">👩‍💼 Inloggen als Tilly</button>
+            <button class="filter-btn" style="padding:12px; text-align:left;" onclick="setUser('Eigenaar', 'Directeur', 'E')">👑 Inloggen als Eigenaar</button>
         </div>
         <button class="btn-action" style="width:100%;" onclick="closeConfigModal()">Sluiten</button>
     </div>
@@ -589,7 +591,7 @@
 
 <script>
     const DATA = {
-        currentUser: { name: "Eigenaar", role: "Directeur", avatar: "E", focus: "Overzicht-modus" },
+        currentUser: { name: "Alain", role: "Operations Lead", avatar: "A" },
         koetjes: 10,
         taken: [
             { id: "TSK-101", desc: "Kalibratie temperatuursensoren weide B", priority: "Hoog", assignee: "Alain", status: "In Behandeling" },
@@ -619,7 +621,30 @@
     function openHelpModal() { document.getElementById('helpModal').style.display = 'block'; }
     function closeHelpModal() { document.getElementById('helpModal').style.display = 'none'; }
 
-    // Task Modal Logica
+    function setUser(name, role, avatar) {
+        DATA.currentUser = { name, role, avatar };
+        document.getElementById('userName').innerText = name;
+        document.getElementById('userRole').innerText = role;
+        document.getElementById('userAvatar').innerText = avatar;
+        
+        updateFocusBanner();
+        closeConfigModal();
+    }
+
+    function updateFocusBanner() {
+        const titleEl = document.getElementById('focusTitle');
+        const subEl = document.getElementById('focusSub');
+        const currUser = DATA.currentUser.name;
+
+        if (currUser === 'Alain') {
+            titleEl.innerText = `🎯 Realtime Focus & Capaciteit Monitor (Alain)`;
+            subEl.innerText = `Huidige taak: "Sensoren Integratie Plan" — Gestart om 09:30 uur`;
+        } else {
+            titleEl.innerText = `👁️ Meekijk-modus (${currUser}): Focus Alain`;
+            subEl.innerText = `Alain werkt momenteel met 82% focus aan zijn deliverables. Geen directe overbelasting.`;
+        }
+    }
+
     function openTaskModal(taskId = null) {
         if(taskId) {
             const task = DATA.taken.find(t => t.id === taskId);
@@ -652,14 +677,6 @@
         renderAll();
     }
 
-    function setUser(name, role, avatar, focus) {
-        DATA.currentUser = { name, role, avatar, focus };
-        document.getElementById('userName').innerText = name;
-        document.getElementById('userRole').innerText = role;
-        document.getElementById('userAvatar').innerText = avatar;
-        closeConfigModal();
-    }
-
     function calculateStatus(startDate, deadline) {
         const today = new Date().toISOString().split('T')[0];
         if (deadline < today) return `<span class="status-badge status-red"><span class="light-dot"></span> Overdue / Actie</span>`;
@@ -668,6 +685,8 @@
     }
 
     function renderAll() {
+        updateFocusBanner();
+
         // Render Taken
         const takenBody = document.getElementById('takenTableBody');
         takenBody.innerHTML = '';
@@ -737,7 +756,6 @@
         renderAll();
     }
 
-    // Submit Taak Formulier
     document.getElementById('taskForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const taskId = document.getElementById('taskId').value;
@@ -761,7 +779,6 @@
         closeTaskModal();
     });
 
-    // Submit Deliverables Formulier
     document.getElementById('plannerForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const newItem = {
