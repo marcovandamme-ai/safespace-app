@@ -9,7 +9,7 @@
     <style>
         body {
             background-size: cover;
-            background-position: center center; /* Aangepast voor betere focus op voorgrond/achtergrond */
+            background-position: center center;
             background-attachment: fixed;
             transition: background-image 0.6s ease-in-out;
             background-color: #f8fafc;
@@ -43,10 +43,10 @@
             background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.25), rgba(250, 245, 255, 0.45)), 
                               url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=80');
         }
-        /* Foto 2: DE ZONNIGE FOTO - Aangepast naar jouw wens: Bloemen voorgrond, koeien in de verte */
+        /* Foto 2: ZONNIG - Bloemen voorgrond & koeien op afstand */
         .bg-zon {
             background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.15), rgba(240, 253, 244, 0.35)), 
-                              url('https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=1920&q=80');
+                              url('https://image.pollinations.ai/prompt/A_bright_sunny_day_in_a_lush_green_meadow_with_beautiful_colorful_wildflowers_in_the_very_close_foreground_and_cows_grazing_far_away_in_the_distance_photorealistic_high_quality_landscape?width=1920&height=1080&nologo=true');
         }
         /* Foto 3: Bewolkt */
         .bg-bewolkt {
@@ -158,7 +158,7 @@
                                 </span>
                                 <span class="text-[10px] font-semibold text-slate-400">Zojuist</span>
                             </div>
-                            <p class="text-sm text-slate-800 font-medium">Wat een prachtig uitzicht vandaag, de koeien genieten in de verte van de zon!</p>
+                            <p class="text-sm text-slate-800 font-medium">Wat een prachtig uitzicht vandaag, de bloemen staan er mooi bij en de koeien genieten in de verte!</p>
                         </div>
                     </div>
                 </div>
@@ -197,18 +197,12 @@
             document.getElementById('welcome-text').innerText = welkomstTekst;
         }
 
-        // De boosdoener is aangepast! Hij checkt nog wel de vinkjes, maar forceert NIET meer
-        // automatisch de regen bij het openen van de pagina.
         function updateWeatherByTasks() {
             const checkboxes = document.querySelectorAll('.task-checkbox');
             const labels = document.querySelectorAll('.task-label');
             
-            let total = checkboxes.length;
-            let checkedCount = 0;
-
             checkboxes.forEach((cb, index) => {
                 if (cb.checked) {
-                    checkedCount++;
                     labels[index].classList.add('line-through', 'text-slate-400');
                     labels[index].classList.remove('text-slate-800', 'font-bold');
                 } else {
@@ -216,8 +210,6 @@
                     labels[index].classList.add('text-slate-800', 'font-bold');
                 }
             });
-
-            // Let op: Dit wordt nu alleen getriggerd als je handmatig een vinkje aan- of uitzet!
         }
 
         function addMessage() {
@@ -244,12 +236,6 @@
                 input.value = '';
             }
         }
-
-        // BELANGRIJK: Hier was de fout! Ik heb de functie die de foto direct veranderde bij het laden verwijderd.
-        // De pagina start nu gewoon op de zonnige foto zoals ingesteld op de `<body>`.
-        document.addEventListener('DOMContentLoaded', () => {
-            // Geen automatische overschrijving meer bij het opstarten!
-        });
     </script>
 </body>
 </html>
