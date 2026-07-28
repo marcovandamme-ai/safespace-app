@@ -31,17 +31,17 @@
             margin: 0 auto;
         }
 
-        /* Top Bar & User Profile */
+        /* Top Bar & Header */
         .top-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
             padding: 12px 24px;
             border-radius: var(--border-radius);
             margin-bottom: 20px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .brand {
@@ -63,34 +63,46 @@
         .header-right {
             display: flex;
             align-items: center;
-            gap: 15px;
-        }
-
-        .header-badges {
-            display: flex;
-            gap: 10px;
+            gap: 12px;
         }
 
         .badge {
-            padding: 6px 14px;
+            padding: 8px 14px;
             border-radius: 20px;
             font-weight: 700;
             font-size: 0.85rem;
             display: flex;
             align-items: center;
             gap: 6px;
+            cursor: pointer;
         }
 
         .badge-koetjes { background: #fef3c7; color: #d97706; }
         .badge-urgentie { background: #fee2e2; color: #dc2626; }
+        .badge-help { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
 
-        /* User Badge */
+        .btn-config {
+            background: #e2e8f0;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-config:hover { background: #cbd5e1; }
+
         .user-profile-badge {
             display: flex;
             align-items: center;
             gap: 10px;
-            background: #f1f5f9;
-            padding: 6px 12px;
+            background: #ffffff;
+            padding: 6px 14px;
             border-radius: 30px;
             border: 1px solid #cbd5e1;
             cursor: pointer;
@@ -99,7 +111,7 @@
         .avatar {
             width: 32px;
             height: 32px;
-            background: #2563eb;
+            background: var(--accent-blue);
             color: white;
             border-radius: 50%;
             display: flex;
@@ -108,15 +120,6 @@
             font-weight: 700;
             font-size: 0.85rem;
         }
-
-        .user-info {
-            display: flex;
-            flex-direction: column;
-            text-align: left;
-        }
-
-        .user-name { font-weight: 700; font-size: 0.85rem; }
-        .user-role { font-size: 0.7rem; color: var(--text-muted); }
 
         /* Navigation Tabs */
         .nav-tabs {
@@ -166,29 +169,61 @@
             margin-bottom: 15px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: space-between;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: #374151;
         }
 
-        /* Metric Grid (Dashboard) */
-        .metrics-grid {
+        /* Enhanced KPI Grid */
+        .kpi-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 15px;
             margin-bottom: 20px;
         }
 
-        .metric-card {
+        .kpi-card {
             background: var(--card-inner);
-            padding: 15px 20px;
+            padding: 18px;
             border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+            border-left: 4px solid var(--accent-blue);
         }
 
-        .metric-label { font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted); }
-        .metric-value { font-size: 1.6rem; font-weight: 800; margin-top: 5px; color: var(--text-main); }
+        .kpi-title { font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted); }
+        .kpi-val { font-size: 1.8rem; font-weight: 800; margin: 6px 0; color: var(--text-main); }
+        .kpi-sub { font-size: 0.8rem; font-weight: 600; }
+        .kpi-good { color: var(--primary-green); }
+        .kpi-warn { color: var(--accent-yellow); }
+        .kpi-alert { color: var(--accent-red); }
+
+        /* Focus Monitor Banner */
+        .focus-banner {
+            background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .focus-meter {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            height: 12px;
+            width: 180px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .focus-fill {
+            background: #4ade80;
+            height: 100%;
+            width: 82%;
+        }
 
         /* Form Grid */
         .form-grid {
@@ -205,7 +240,7 @@
         .form-group label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
         .form-group input, .form-group select { padding: 10px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 0.9rem; outline: none; }
 
-        .btn-submit {
+        .btn-action {
             background: var(--primary-green);
             color: white;
             border: none;
@@ -213,10 +248,9 @@
             border-radius: 10px;
             font-weight: 700;
             cursor: pointer;
-            width: 100%;
             transition: background 0.2s;
         }
-        .btn-submit:hover { background: #059669; }
+        .btn-action:hover { background: #059669; }
 
         /* Filter Controls */
         .view-picker { display: flex; gap: 8px; margin-bottom: 15px; }
@@ -232,13 +266,13 @@
         }
         .filter-btn.active { background: var(--accent-blue); color: white; }
 
-        /* Styled Table */
+        /* Tables */
         .table-container { background: var(--card-inner); border-radius: 12px; overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
         th, td { padding: 14px 16px; border-bottom: 1px solid #f3f4f6; }
         th { background: #f9fafb; color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; font-weight: 700; }
 
-        /* Traffic Lights Status */
+        /* Status Pills */
         .status-badge {
             display: inline-flex;
             align-items: center;
@@ -257,17 +291,17 @@
         .status-red .light-dot { background: var(--accent-red); box-shadow: 0 0 6px var(--accent-red); }
 
         .recipient-pill { background: #e0f2fe; color: #0369a1; padding: 3px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; }
-        
-        /* Modal User Profile */
-        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
-        .modal-content { background: white; margin: 10% auto; padding: 25px; border-radius: var(--border-radius); width: 90%; max-width: 450px; }
-        .close-btn { float: right; font-size: 1.5rem; font-weight: bold; cursor: pointer; }
+
+        /* Modals */
+        .modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); }
+        .modal-content { background: white; margin: 8% auto; padding: 25px; border-radius: var(--border-radius); width: 90%; max-width: 550px; }
+        .close-btn { float: right; font-size: 1.5rem; font-weight: bold; cursor: pointer; color: var(--text-muted); }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- Top Bar met User Profiling -->
+    <!-- Top Bar -->
     <div class="top-bar">
         <div class="brand">
             <span class="brand-icon">🦄</span>
@@ -277,16 +311,19 @@
             </div>
         </div>
         <div class="header-right">
-            <div class="header-badges">
-                <div class="badge badge-koetjes">🔒 <span id="headerKoetjes">10</span> Koetjes</div>
-                <div class="badge badge-urgentie">🔴 Onweer / Urgentie! ⚡</div>
-            </div>
-            <!-- User Scherm Button -->
-            <div class="user-profile-badge" onclick="openUserModal()">
-                <div class="avatar">A</div>
-                <div class="user-info">
-                    <span class="user-name">Alain</span>
-                    <span class="user-role">Operations Lead</span>
+            <div class="badge badge-help" onclick="openHelpModal()">🆘 Hulp nodig?</div>
+            <div class="badge badge-koetjes" onclick="switchTab('spaarkas', document.querySelectorAll('.tab-btn')[2])">🔒 <span id="koetjesCount">10</span> Koetjes</div>
+            <div class="badge badge-urgentie" onclick="alert('⚡ Systeemstatus: Er zijn 2 dringende knelpunten op de planning.')">🔴 2 Urgenties ⚡</div>
+            
+            <!-- User Config Knop -->
+            <button class="btn-config" onclick="openConfigModal()">⚙️ Config</button>
+
+            <!-- Active User Display -->
+            <div class="user-profile-badge" onclick="openConfigModal()">
+                <div class="avatar" id="userAvatar">A</div>
+                <div style="display:flex; flex-direction:column;">
+                    <span id="userName" style="font-weight:700; font-size:0.85rem;">Alain</span>
+                    <span id="userRole" style="font-size:0.7rem; color:var(--text-muted);">Operations Lead</span>
                 </div>
             </div>
         </div>
@@ -294,54 +331,70 @@
 
     <!-- Navigation Tabs -->
     <div class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('dashboard', this)">📊 Dashboard</button>
+        <button class="tab-btn active" onclick="switchTab('dashboard', this)">📊 Dashboard & KPI's</button>
         <button class="tab-btn" onclick="switchTab('taken', this)">📋 Taken Tracker</button>
         <button class="tab-btn" onclick="switchTab('spaarkas', this)">🔒 Mijn Privé Spaarkas</button>
-        <button class="tab-btn" onclick="switchTab('summary', this)">📄 Wekelijkse Management Summary</button>
+        <button class="tab-btn" onclick="switchTab('summary', this)">📄 Management Summary</button>
         <button class="tab-btn" onclick="switchTab('deliverables', this)">⚙️ Project Deliverables & Planning</button>
     </div>
 
-    <!-- TAB 1: DASHBOARD -->
+    <!-- TAB 1: DASHBOARD & GEAVANCEERDE KPI'S -->
     <div id="tab-dashboard" class="tab-content active">
-        <div class="card">
-            <h2 style="margin:0 0 5px 0;">Status: Zonnig in de wei ☀️</h2>
-            <p style="margin:0; color: var(--text-muted);">Alle werkzaamheden lopen op schema voor Alain.</p>
-        </div>
-
-        <div class="metrics-grid">
-            <div class="metric-card">
-                <div class="metric-label">Temperatuur</div>
-                <div class="metric-value">21°C 🌡️</div>
+        
+        <!-- Focus Monitor (Vooral waardevol als Tilly/Manager kijkt) -->
+        <div class="focus-banner" id="focusBanner">
+            <div>
+                <strong style="font-size: 1.05rem;" id="focusTitle">🎯 Realtime Focus & Capaciteit Monitor (Alain)</strong>
+                <div style="font-size: 0.85rem; opacity: 0.9;" id="focusSub">Huidige taak: "Sensoren Integratie Plan" — Gestart om 09:30 uur</div>
             </div>
-            <div class="metric-card">
-                <div class="metric-label">Luchtvochtigheid</div>
-                <div class="metric-value">62% 💧</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-label">Koeien in Weide</div>
-                <div class="metric-value">12 / 12 🐄</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-label">Taken Voortgang</div>
-                <div class="metric-value">65% 📈</div>
+            <div>
+                <div style="font-size: 0.8rem; font-weight: 700; text-align: right;">FOCUS SCORE: 82%</div>
+                <div class="focus-meter"><div class="focus-fill"></div></div>
             </div>
         </div>
 
+        <!-- KPI Grid -->
+        <div class="kpi-grid">
+            <div class="kpi-card" style="border-color: #10b981;">
+                <div class="kpi-title">On-Time Delivery Rate</div>
+                <div class="kpi-val">87.5%</div>
+                <div class="kpi-sub kpi-good">↑ +2.5% t.o.v. vorige week</div>
+            </div>
+            <div class="kpi-card" style="border-color: #2563eb;">
+                <div class="kpi-title">Geplande Workload (Capaciteit)</div>
+                <div class="kpi-val">18.5 Uur</div>
+                <div class="kpi-sub kpi-good">🟢 Binnen week-norm (20u)</div>
+            </div>
+            <div class="kpi-card" style="border-color: #f59e0b;">
+                <div class="kpi-title">Lopende Deliverables</div>
+                <div class="kpi-val">4 Taken</div>
+                <div class="kpi-sub kpi-warn">1 vereist aandacht deze week</div>
+            </div>
+            <div class="kpi-card" style="border-color: #ef4444;">
+                <div class="kpi-title">Openstaande Blokkades</div>
+                <div class="kpi-val">1 Urgentie</div>
+                <div class="kpi-sub kpi-alert">Wacht op API-toegang Tech Team</div>
+            </div>
+        </div>
+
+        <!-- Actieve Attentiepunten -->
         <div class="card">
-            <div class="card-title">⚠️ Aandacht Vereist (Deliverables Status)</div>
+            <div class="card-title">
+                <span>⚠️ Actieve Attentiepunten & Stoplichten</span>
+                <button class="filter-btn" onclick="switchTab('deliverables', document.querySelectorAll('.tab-btn')[4])">Naar Volledige Planner →</button>
+            </div>
             <div class="table-container">
                 <table>
                     <thead>
                         <tr>
                             <th>Status</th>
                             <th>Deliverable</th>
+                            <th>Ontvangers</th>
                             <th>Deadline</th>
-                            <th>Actie vereist</th>
+                            <th>Focus / Actie</th>
                         </tr>
                     </thead>
-                    <tbody id="dashboardAlertsTable">
-                        <!-- Dynamisch geladen vanuit testdata -->
-                    </tbody>
+                    <tbody id="dashboardAlertsTable"></tbody>
                 </table>
             </div>
         </div>
@@ -350,7 +403,10 @@
     <!-- TAB 2: TAKEN TRACKER -->
     <div id="tab-taken" class="tab-content">
         <div class="card">
-            <div class="card-title">📋 Operationele Taken Tracker</div>
+            <div class="card-title">
+                <span>📋 Operationele Taken Tracker</span>
+                <button class="btn-action" style="padding:6px 12px; font-size:0.8rem;" onclick="addTaakPrompt()">+ Nieuwe Taak</button>
+            </div>
             <div class="table-container">
                 <table>
                     <thead>
@@ -360,11 +416,10 @@
                             <th>Prioriteit</th>
                             <th>Toegewezen aan</th>
                             <th>Status</th>
+                            <th>Actie</th>
                         </tr>
                     </thead>
-                    <tbody id="takenTableBody">
-                        <!-- Testdata taken -->
-                    </tbody>
+                    <tbody id="takenTableBody"></tbody>
                 </table>
             </div>
         </div>
@@ -372,37 +427,58 @@
 
     <!-- TAB 3: SPAARKAS -->
     <div id="tab-spaarkas" class="tab-content">
-        <div class="card" style="text-align: center;">
-            <div class="card-title" style="justify-content: center;">🔒 Mijn Privé Spaarkas van Alain</div>
-            <h1 style="font-size: 3rem; color: var(--accent-yellow); margin: 10px 0;">🐮 10 Koetjes</h1>
-            <p>Rond taken & prechecks af om viermomenten te ontgrendelen!</p>
-            <button class="btn-submit" style="max-width: 250px; margin: 0 auto;">🎁 Beloning Claimen</button>
+        <div class="card" style="text-align: center; max-width: 600px; margin: 0 auto;">
+            <div class="card-title" style="justify-content: center;">🔒 Privé Spaarkas van Alain</div>
+            <h1 style="font-size: 3.5rem; color: var(--accent-yellow); margin: 15px 0;">🐮 <span id="spaarkasKoetjes">10</span> Koetjes</h1>
+            <p style="color: var(--text-muted); font-size: 1rem;">Rond deliverables op tijd af om extra koetjes te verdienen en viermomenten vrij te spelen!</p>
+            <div style="display:flex; gap:10px; justify-content:center; margin-top:20px;">
+                <button class="btn-action" onclick="claimBeloning()">🎁 Beloning Vrijspelen (5 Koetjes)</button>
+                <button class="filter-btn" onclick="alert('Koetjes historie:\n+2 voor tijdig inleveren weekrapport\n+3 bonus focus-sessie')">📜 Historie</button>
+            </div>
         </div>
     </div>
 
-    <!-- TAB 4: MANAGEMENT SUMMARY -->
+    <!-- TAB 4: UITGEBREIDE MANAGEMENT SUMMARY -->
     <div id="tab-summary" class="tab-content">
         <div class="card">
-            <div class="card-title">📄 Wekelijkse Management Summary (Week 30)</div>
-            <div style="background: var(--card-inner); padding: 15px; border-radius: 12px;">
-                <h3>Highlights deze week:</h3>
-                <ul>
-                    <li>Sensoren integratietest succesvol afgerond met Tech Team.</li>
-                    <li>Capaciteitsplanning voor Alain heringericht op dag-, week- en maandbasis.</li>
-                </ul>
-                <h3 style="color: var(--accent-red);">Aandachtspunten:</h3>
-                <ul>
-                    <li>Q3 Management Summary vereist extra input voor de definitieve deadline van aanstaande vrijdag.</li>
-                </ul>
+            <div class="card-title">
+                <span>📄 Wekelijkse Management Summary (Week 30)</span>
+                <button class="btn-action" style="padding:6px 14px; font-size:0.85rem;" onclick="window.print()">🖨️ Exporteer PDF / Afdruk</button>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+                <div style="background: var(--card-inner); padding: 20px; border-radius: 12px;">
+                    <h3 style="margin-top:0; color:var(--accent-blue);">Executive Summary</h3>
+                    <p>In Week 30 heeft de operationele besturing van Alain een stabiel verloop laten zien. De focus lag op de voorbereiding van de sensoren-integratie en de kwartaal-afsluiting.</p>
+                    
+                    <h4>✅ Belangrijkste Behaalde Resultaten:</h4>
+                    <ul>
+                        <li><strong>Sensoren Integratie Plan:</strong> Testfase afgerond met Tech Team (4 uur geinvesteerd).</li>
+                        <li><strong>Daily Operations:</strong> 100% tijdigheids score op dagelijkse weide-checks.</li>
+                    </ul>
+
+                    <h4 style="color: var(--accent-red);">⚠️ Aandachtspunten & Knelpunten voor Directie:</h4>
+                    <ul>
+                        <li><strong>Q3 Management Summary:</strong> Wacht op aanvullende input van de financiële administratie om definitief te worden opgeleverd.</li>
+                    </ul>
+                </div>
+
+                <div style="background: var(--card-inner); padding: 20px; border-radius: 12px;">
+                    <h3 style="margin-top:0;">Capaciteitsstatistieken</h3>
+                    <p><strong>Totaal Bestede Tijd:</strong> 18.5 Uur</p>
+                    <p><strong>Focus-Efficiëntie:</strong> 82%</p>
+                    <p><strong>Tijdige Opleveringen:</strong> 3 van de 4</p>
+                    <hr style="border:0; border-top:1px solid #eee;">
+                    <p style="font-size:0.85rem; color:var(--text-muted);">Status opgesteld op 28 juli 2026 door Alain.</p>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- TAB 5: PROJECT DELIVERABLES & PLANNER -->
     <div id="tab-deliverables" class="tab-content">
-        <!-- Invoer Formulier Alain -->
         <div class="card">
-            <div class="card-title">➕ Nieuwe Deliverable / Planning Invoeren (Alain)</div>
+            <div class="card-title">➕ Nieuwe Deliverable / Planning Invoeren</div>
             <form id="plannerForm">
                 <div class="form-grid">
                     <div class="form-group">
@@ -420,7 +496,7 @@
                     </div>
                     <div class="form-group">
                         <label>Ontvanger(s) / Gestuurd naar</label>
-                        <input type="text" id="delRecipients" placeholder="bv. Management, Directie" required>
+                        <input type="text" id="delRecipients" placeholder="bv. Directie, Tilly" required>
                     </div>
                     <div class="form-group">
                         <label>Geplande Startdatum</label>
@@ -435,13 +511,12 @@
                         <input type="date" id="delDeadline" required>
                     </div>
                 </div>
-                <button type="submit" class="btn-submit">Opslaan & Inplannen</button>
+                <button type="submit" class="btn-action" style="width:100%;">Opslaan & Inplannen</button>
             </form>
         </div>
 
-        <!-- Dashboard & Filter Planner -->
         <div class="card">
-            <div class="card-title">📅 Interactive Capacity & Status Planner (Alain)</div>
+            <div class="card-title">📅 Interactive Capacity & Status Planner</div>
             
             <div class="view-picker">
                 <button class="filter-btn active" onclick="filterView('all', this)">Alles</button>
@@ -461,61 +536,80 @@
                             <th>Startdatum</th>
                             <th>Geplande Duur</th>
                             <th>Deadline</th>
+                            <th>Actie</th>
                         </tr>
                     </thead>
-                    <tbody id="deliverablesTableBody">
-                        <!-- Dynamisch gevuld -->
-                    </tbody>
+                    <tbody id="deliverablesTableBody"></tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal voor User Scherm (Alain Profile) -->
-<div id="userModal" class="modal">
+<!-- MODAL 1: USER CONFIGURATIE & MEEKIJKEN (TILLY / ALAIN) -->
+<div id="configModal" class="modal">
     <div class="modal-content">
-        <span class="close-btn" onclick="closeUserModal()">&times;</span>
-        <h2 style="margin-top:0;">👤 Gebruikersprofiel</h2>
-        <hr style="border:0; border-top: 1px solid #e2e8f0; margin-bottom: 15px;">
-        <p><strong>Naam:</strong> Alain</p>
-        <p><strong>Rol:</strong> Operations Lead & Planner</p>
-        <p><strong>E-mail:</strong> alain@safespace.app</p>
-        <p><strong>Actieve Spaarkas Saldo:</strong> 10 Koetjes 🐮</p>
-        <p><strong>Toegewezen Projecten:</strong> 4 Actieve Deliverables</p>
-        <button class="btn-submit" style="margin-top: 15px;" onclick="closeUserModal()">Sluiten</button>
+        <span class="close-btn" onclick="closeConfigModal()">&times;</span>
+        <h2 style="margin-top:0;">⚙️ Gebruiker & Wijs-instellingen</h2>
+        <p style="color:var(--text-muted); font-size:0.9rem;">Selecteer als wie je wilt inloggen om het dashboard te bekijken en aan te passen:</p>
+        
+        <div style="display:flex; flex-direction:column; gap:10px; margin: 20px 0;">
+            <button class="filter-btn" style="padding:12px; text-align:left; font-size:0.95rem;" onclick="setUser('Alain', 'Operations Lead', 'A', '82%')">
+                👤 <strong>Inloggen als Alain</strong> (Eigenaar Planning)
+            </button>
+            <button class="filter-btn" style="padding:12px; text-align:left; font-size:0.95rem;" onclick="setUser('Tilly', 'Management / Coach', 'T', 'Meekijk-modus')">
+                👩‍💼 <strong>Inloggen als Tilly</strong> (Meekijken op Focus & Voortgang)
+            </button>
+            <button class="filter-btn" style="padding:12px; text-align:left; font-size:0.95rem;" onclick="setUser('Eigenaar', 'Directeur', 'E', 'Overzicht-modus')">
+                👑 <strong>Inloggen als Eigenaar</strong> (Directie & KPI Sturing)
+            </button>
+        </div>
+        <button class="btn-action" style="width:100%;" onclick="closeConfigModal()">Opslaan & Sluiten</button>
+    </div>
+</div>
+
+<!-- MODAL 2: HULP & TIPS ("ALS HET NIET GAAT") -->
+<div id="helpModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeHelpModal()">&times;</span>
+        <h2 style="margin-top:0; color:var(--accent-blue);">🆘 Hulp & Focus Assistentie</h2>
+        <p>Lopen taken vast of ervaar je een te hoge werkdruk? Gebruik onderstaande stappen:</p>
+        
+        <div style="background:#f0f9ff; border-left:4px solid var(--accent-blue); padding:12px; border-radius:8px; margin-bottom:15px;">
+            <strong>💡 Tip 1: Breek grote taken op</strong>
+            <p style="margin:5px 0 0 0; font-size:0.85rem;">Is een deliverable langer dan 4 uur? Verdeel de duur in blokken van 1 uur in de planner.</p>
+        </div>
+
+        <div style="background:#fef3c7; border-left:4px solid var(--accent-yellow); padding:12px; border-radius:8px; margin-bottom:15px;">
+            <strong>⚡ Tip 2: Geef een blokkade aan</strong>
+            <p style="margin:5px 0 0 0; font-size:0.85rem;">Wacht je op anderen? Zet de status op 'Oranje' en stel de ontvanger op de hoogte.</p>
+        </div>
+
+        <button class="btn-action" style="width:100%; background:var(--accent-blue);" onclick="alert('Signaal verzonden naar Tilly! Zij neemt zo snel mogelijk contact op om even mee te kijken.'); closeHelpModal();">
+            📞 Vraag direct ondersteuning aan Tilly
+        </button>
     </div>
 </div>
 
 <script>
-    // ==========================================
-    // TESTDATA FILE DATASET (Compleet ingericht)
-    // ==========================================
-    const TEST_DATA = {
-        user: {
-            name: "Alain",
-            role: "Operations Lead",
-            koetjes: 10
-        },
+    // System Data Engine
+    const DATA = {
+        currentUser: { name: "Alain", role: "Operations Lead", avatar: "A", focus: "82%" },
+        koetjes: 10,
         taken: [
             { id: "TSK-101", desc: "Kalibratie temperatuursensoren weide B", priority: "Hoog", assignee: "Alain", status: "In Behandeling" },
             { id: "TSK-102", desc: "Schoonmaken voederbakken zone 1", priority: "Middel", assignee: "Piet", status: "Open" },
             { id: "TSK-103", desc: "Netwerkcheck hekwerk-communicatie", priority: "Laag", assignee: "Alain", status: "Afgerond" }
         ],
         deliverables: [
-            { title: "Sensoren Integratie Plan", freq: "Wekelijks", recipients: "Tech Team, Alain", start: "2026-07-25", duration: "4 uur", deadline: "2026-07-27" },
-            { title: "Q3 Management Summary", freq: "Maandelijks", recipients: "Directie, Board", start: "2026-07-20", duration: "6 uur", deadline: "2026-07-26" },
-            { title: "Dagelijkse Check Weide", freq: "Dagelijks", recipients: "Operationeel Team", start: "2026-07-28", duration: "0.5 uur", deadline: "2026-07-28" },
-            { title: "Kwartaal Rapportage Veestapel", freq: "Kwartaal", recipients: "Directie", start: "2026-08-01", duration: "8 uur", deadline: "2026-08-15" }
+            { id: 1, title: "Sensoren Integratie Plan", freq: "Wekelijks", recipients: "Tech Team, Alain", start: "2026-07-25", duration: "4 uur", deadline: "2026-07-27" },
+            { id: 2, title: "Q3 Management Summary", freq: "Maandelijks", recipients: "Directie, Board", start: "2026-07-20", duration: "6 uur", deadline: "2026-07-26" },
+            { id: 3, title: "Dagelijkse Check Weide", freq: "Dagelijks", recipients: "Operationeel Team", start: "2026-07-28", duration: "0.5 uur", deadline: "2026-07-28" },
+            { id: 4, title: "Kwartaal Rapportage Veestapel", freq: "Kwartaal", recipients: "Directie", start: "2026-08-01", duration: "8 uur", deadline: "2026-08-15" }
         ]
     };
 
-    let deliverablesData = [...TEST_DATA.deliverables];
-    let currentFreqFilter = 'all';
-
-    // Modal Functies voor User Scherm
-    function openUserModal() { document.getElementById('userModal').style.display = 'block'; }
-    function closeUserModal() { document.getElementById('userModal').style.display = 'none'; }
+    let currentFilter = 'all';
 
     // Tab Navigatie
     function switchTab(tabId, element) {
@@ -526,10 +620,32 @@
         document.getElementById('tab-' + tabId).classList.add('active');
     }
 
-    // Stoplicht bepaling (Groen, Oranje, Rood)
+    // Modal Handlers
+    function openConfigModal() { document.getElementById('configModal').style.display = 'block'; }
+    function closeConfigModal() { document.getElementById('configModal').style.display = 'none'; }
+    function openHelpModal() { document.getElementById('helpModal').style.display = 'block'; }
+    function closeHelpModal() { document.getElementById('helpModal').style.display = 'none'; }
+
+    // Switchen van Gebruiker (Alain / Tilly / Eigenaar)
+    function setUser(name, role, avatar, focus) {
+        DATA.currentUser = { name, role, avatar, focus };
+        document.getElementById('userName').innerText = name;
+        document.getElementById('userRole').innerText = role;
+        document.getElementById('userAvatar').innerText = avatar;
+        
+        if(name === 'Tilly' || name === 'Eigenaar') {
+            document.getElementById('focusTitle').innerText = `👁️ Meekijk-modus (${name}): Focus Alain`;
+            document.getElementById('focusSub').innerText = `Alain werkt momenteel met 82% focus aan zijn deliverables. Geen directe overbelasting.`;
+        } else {
+            document.getElementById('focusTitle').innerText = `🎯 Realtime Focus & Capaciteit Monitor (Alain)`;
+            document.getElementById('focusSub').innerText = `Huidige taak: "Sensoren Integratie Plan" — Gestart om 09:30 uur`;
+        }
+        closeConfigModal();
+    }
+
+    // Stoplicht berekening
     function calculateStatus(startDate, deadline) {
         const today = new Date().toISOString().split('T')[0];
-
         if (deadline < today) {
             return `<span class="status-badge status-red"><span class="light-dot"></span> Overdue / Actie</span>`;
         } else if (startDate <= today && deadline >= today) {
@@ -539,77 +655,99 @@
         }
     }
 
-    // Renderen van alle data over de tabbladen
-    function initDashboardData() {
-        // Render Taken
+    // Renderen van alle tabbladen
+    function renderAll() {
+        // Taken
         const takenBody = document.getElementById('takenTableBody');
         takenBody.innerHTML = '';
-        TEST_DATA.taken.forEach(t => {
+        DATA.taken.forEach(t => {
             takenBody.innerHTML += `
                 <tr>
                     <td><strong>${t.id}</strong></td>
                     <td>${t.desc}</td>
-                    <td>${t.priority}</td>
+                    <td><span style="font-weight:bold; color:${t.priority==='Hoog'?'red':'black'}">${t.priority}</span></td>
                     <td>${t.assignee}</td>
                     <td>${t.status}</td>
+                    <td><button class="filter-btn" onclick="alert('Taak ${t.id} bijgewerkt!')">Status aanpassen</button></td>
                 </tr>
             `;
         });
 
-        // Render Dashboard Alerts
-        const alertsBody = document.getElementById('dashboardAlertsTable');
-        alertsBody.innerHTML = '';
-        deliverablesData.filter(d => d.deadline <= new Date().toISOString().split('T')[0]).forEach(d => {
-            alertsBody.innerHTML += `
+        // Dashboard Alert Tabel
+        const alertBody = document.getElementById('dashboardAlertsTable');
+        alertBody.innerHTML = '';
+        DATA.deliverables.forEach(d => {
+            alertBody.innerHTML += `
                 <tr>
                     <td>${calculateStatus(d.start, d.deadline)}</td>
                     <td><strong>${d.title}</strong></td>
+                    <td><span class="recipient-pill">📬 ${d.recipients}</span></td>
                     <td>${d.deadline}</td>
-                    <td>Wacht op afronding door Alain</td>
+                    <td><button class="filter-btn" onclick="openHelpModal()">Focus / Hulp</button></td>
                 </tr>
             `;
         });
 
-        renderPlanner();
-    }
+        // Deliverables Planner Tabel
+        const plannerBody = document.getElementById('deliverablesTableBody');
+        plannerBody.innerHTML = '';
+        
+        const filtered = currentFilter === 'all' 
+            ? DATA.deliverables 
+            : DATA.deliverables.filter(d => d.freq === currentFilter);
 
-    // Render Deliverables Tabel
-    function renderPlanner() {
-        const tbody = document.getElementById('deliverablesTableBody');
-        tbody.innerHTML = '';
-
-        const itemsToDisplay = currentFreqFilter === 'all' 
-            ? deliverablesData 
-            : deliverablesData.filter(d => d.freq === currentFreqFilter);
-
-        itemsToDisplay.forEach(item => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${calculateStatus(item.start, item.deadline)}</td>
-                <td><strong>${item.title}</strong></td>
-                <td>${item.freq}</td>
-                <td><span class="recipient-pill">📬 ${item.recipients}</span></td>
-                <td>${item.start}</td>
-                <td>${item.duration}</td>
-                <td>${item.deadline}</td>
+        filtered.forEach(d => {
+            plannerBody.innerHTML += `
+                <tr>
+                    <td>${calculateStatus(d.start, d.deadline)}</td>
+                    <td><strong>${d.title}</strong></td>
+                    <td>${d.freq}</td>
+                    <td><span class="recipient-pill">📬 ${d.recipients}</span></td>
+                    <td>${d.start}</td>
+                    <td>${d.duration}</td>
+                    <td>${d.deadline}</td>
+                    <td><button class="filter-btn" style="color:red;" onclick="deleteDeliverable(${d.id})">🗑️</button></td>
+                </tr>
             `;
-            tbody.appendChild(tr);
         });
     }
 
-    // Filteren op basis van Frequentie (Dag, Week, Maand)
     function filterView(freq, btn) {
-        currentFreqFilter = freq;
+        currentFilter = freq;
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        renderPlanner();
+        renderAll();
     }
 
-    // Formulier afhandeling Alain
+    function deleteDeliverable(id) {
+        DATA.deliverables = DATA.deliverables.filter(d => d.id !== id);
+        renderAll();
+    }
+
+    function addTaakPrompt() {
+        const desc = prompt("Voer omschrijving van de nieuwe taak in:");
+        if(desc) {
+            DATA.taken.push({ id: "TSK-" + (100 + DATA.taken.length + 1), desc: desc, priority: "Middel", assignee: DATA.currentUser.name, status: "Open" });
+            renderAll();
+        }
+    }
+
+    function claimBeloning() {
+        if(DATA.koetjes >= 5) {
+            DATA.koetjes -= 5;
+            document.getElementById('koetjesCount').innerText = DATA.koetjes;
+            document.getElementById('spaarkasKoetjes').innerText = DATA.koetjes;
+            alert('🎉 Gefeliciteerd! Beloning geclaimd. Er zijn 5 koetjes ingewisseld.');
+        } else {
+            alert('Niet genoeg koetjes om te claimen!');
+        }
+    }
+
+    // Formulier Submissie
     document.getElementById('plannerForm').addEventListener('submit', function(e) {
         e.preventDefault();
-
         const newItem = {
+            id: Date.now(),
             title: document.getElementById('delName').value,
             freq: document.getElementById('delFreq').value,
             recipients: document.getElementById('delRecipients').value,
@@ -617,14 +755,13 @@
             duration: document.getElementById('delDuration').value + " uur",
             deadline: document.getElementById('delDeadline').value
         };
-
-        deliverablesData.push(newItem);
-        renderPlanner();
+        DATA.deliverables.push(newItem);
+        renderAll();
         this.reset();
     });
 
-    // Start-up & Data Injection
-    initDashboardData();
+    // Initialisatie
+    renderAll();
 </script>
 
 </body>
