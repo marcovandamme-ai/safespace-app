@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google" content="notranslate">
-  <title>Safespace - Alle Index Varianten</title>
+  <title>Safespace - Alle HTML Code Onder Elkaar</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,61 +14,33 @@
     * { box-sizing: border-box; }
     body { 
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-      background-color: #f8fafc; 
+      background-color: #0f172a; 
       padding: 0; 
       margin: 0; 
       color: #0f172a;
     }
 
-    /* KIESBALK BOVENAAN */
-    .master-nav {
-      background: #0f172a;
-      color: #fff;
-      padding: 12px 16px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-    .master-title {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #f59e0b;
-      margin-bottom: 8px;
-    }
-    .nav-buttons {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 4px;
-    }
-    .nav-btn {
-      background: #1e293b;
-      border: 1px solid #334155;
-      color: #cbd5e1;
-      padding: 8px 14px;
-      border-radius: 8px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.2s ease;
-    }
-    .nav-btn:hover { background: #334155; color: #fff; }
-    .nav-btn.active {
+    /* VISUELE SCHEIDINGSLIJNEN TUSSEN DE PAGINA'S */
+    .section-divider {
       background: #f59e0b;
       color: #0f172a;
-      border-color: #f59e0b;
+      padding: 12px 20px;
       font-weight: 700;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-align: center;
+      border-top: 4px solid #b45309;
+      border-bottom: 4px solid #b45309;
+      margin-top: 40px;
     }
 
-    /* CONTAINER PER PAGINA */
-    .page-view { display: none; }
-    .page-view.active-view { display: block; }
+    .page-wrapper {
+      background-color: #f8fafc;
+      padding-bottom: 30px;
+    }
 
-    /* HERO BANNER MET FOTO ACHTERGROND */
+    /* HERO BANNERS & FOTO'S */
     .hero-header {
       background: linear-gradient(rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.65)), 
                   url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
@@ -77,14 +49,13 @@
       color: #ffffff;
       margin-bottom: 20px;
       border-bottom: 4px solid #f59e0b;
-      transition: background 0.4s ease;
     }
     .hero-header h1 { font-size: 26px; font-weight: 700; margin: 0 0 4px 0; }
     .hero-header p { font-size: 14px; opacity: 0.95; margin: 0; }
 
-    .container { max-width: 600px; margin: 0 auto; padding: 0 20px 40px 20px; }
-    
-    /* LIVE REFRESH BAR */
+    .container { max-width: 550px; margin: 0 auto; padding: 0 20px; }
+
+    /* REFRESH BAR */
     .refresh-bar {
       display: flex;
       justify-content: space-between;
@@ -111,7 +82,6 @@
       margin-bottom: 16px; 
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
       border: 1px solid #e2e8f0;
-      position: relative;
     }
     .card-header { 
       font-size: 11px; 
@@ -135,7 +105,6 @@
       text-align: center;
       cursor: pointer;
       font-family: inherit;
-      transition: all 0.2s ease;
     }
     .mood-btn.active { border-color: #f59e0b; background: #fffbeb; }
     .mood-emoji { font-size: 20px; display: block; margin-bottom: 2px; }
@@ -153,7 +122,7 @@
     .stat-number { font-size: 18px; font-weight: 700; margin-bottom: 2px; }
     .stat-label { font-size: 10px; color: #64748b; font-weight: 600; text-transform: uppercase; }
 
-    /* FYSIEK STOPLICHT BEHUIZING */
+    /* STOPLICHT BEHUIZING */
     .traffic-light-casing {
       background-color: #1e293b;
       padding: 5px 7px;
@@ -172,7 +141,7 @@
     .status-green .light.green { opacity: 1; box-shadow: 0 0 8px #22c55e; }
     .status-red .light.red { opacity: 1; box-shadow: 0 0 8px #ef4444; }
 
-    /* ACTIE KNOPPEN */
+    /* KNOPPEN */
     .task-title { font-size: 17px; font-weight: 700; color: #1e293b; margin: 0 0 8px 0; }
     .badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
     .badge-in-progress { background-color: #fef3c7; color: #b45309; }
@@ -208,43 +177,32 @@
 </head>
 <body class="notranslate">
 
-  <!-- MASTER NAVIGATIEBALK BOVENAAN -->
-  <div class="master-nav">
-    <div class="master-title">Selecteer Pagina-Variant om te Bekijken:</div>
-    <div class="nav-buttons">
-      <button class="nav-btn active" onclick="switchPage('p1', this)">1. Origineel (Koetjes + Config)</button>
-      <button class="nav-btn" onclick="switchPage('p2', this)">2. Sfeer Foto-Switcher</button>
-      <button class="nav-btn" onclick="switchPage('p3', this)">3. Deliverables + Stoplicht</button>
-      <button class="nav-btn" onclick="switchPage('p4', this)">4. Prestatie Dashboard</button>
-      <button class="nav-btn" onclick="switchPage('p5', this)">5. Alles Geïntegreerd</button>
-    </div>
-  </div>
-
-  <div class="container" style="padding-top: 15px; padding-bottom: 0;">
-    <div class="refresh-bar">
-      <span><span class="refresh-indicator"></span> Live Verbinding</span>
-      <span class="lastUpdated">Laatste refresh: zojuist</span>
-    </div>
-  </div>
-
-  <!-- ==========================================
-       PAGINA 1: ORIGINEEL (KOETJES + CONFIGURATIE)
-  =========================================== -->
-  <div id="p1" class="page-view active-view">
-    <div class="hero-header" id="p1Header">
+  <!-- ================================================================= -->
+  <!-- 1. ORIGINELE KOETJES & STEMMING INDEX (VAN HET BEGIN VAN DE CHAT) -->
+  <!-- ================================================================= -->
+  <div class="section-divider">📌 HTML BLOK 1: Originele Index (Koetjes + Configuratie Knop)</div>
+  
+  <div class="page-wrapper">
+    <div class="hero-header" id="header1">
       <h1>Safespace</h1>
-      <p id="p1Subtitle">Hoe zit je vandaag in de wedstrijd?</p>
+      <p id="sub1">Hoe zit je vandaag in de wedstrijd?</p>
     </div>
 
     <div class="container">
+      <div class="refresh-bar">
+        <span><span class="refresh-indicator"></span> Live Verbinding</span>
+        <span>Laatste refresh: zojuist</span>
+      </div>
+
       <div class="card">
         <div class="card-header">🐮 Vrolijke Koetjes Methodiek</div>
+        <p style="font-size: 12px; color: #64748b; margin: 0 0 10px 0;">Kies je huidige gemoedstoestand:</p>
         <div class="mood-grid">
-          <button class="mood-btn" onclick="setMoodP1('ochtend', '🌅 Fris & Ochtendzin', this)"><span class="mood-emoji">🌅</span><span class="mood-label">Ochtend</span></button>
-          <button class="mood-btn active" onclick="setMoodP1('zonnig', '☀️ Zonnig & Vol Energie', this)"><span class="mood-emoji">☀️</span><span class="mood-label">Zonnig</span></button>
-          <button class="mood-btn" onclick="setMoodP1('bewolkt', '⛅ Bewolkt & Neutraal', this)"><span class="mood-emoji">⛅</span><span class="mood-label">Bewolkt</span></button>
-          <button class="mood-btn" onclick="setMoodP1('regen', '🌧️ Druk & Regenbuien', this)"><span class="mood-emoji">🌧️</span><span class="mood-label">Regen</span></button>
-          <button class="mood-btn" onclick="setMoodP1('onweer', '🌩️ Heavy & Onweer', this)"><span class="mood-emoji">🌩️</span><span class="mood-label">Onweer</span></button>
+          <button class="mood-btn" onclick="setMood1('ochtend', '🌅 Fris & Ochtendzin')"><span class="mood-emoji">🌅</span><span class="mood-label">Ochtend</span></button>
+          <button class="mood-btn active" onclick="setMood1('zonnig', '☀️ Zonnig & Vol Energie')"><span class="mood-emoji">☀️</span><span class="mood-label">Zonnig</span></button>
+          <button class="mood-btn" onclick="setMood1('bewolkt', '⛅ Bewolkt & Neutraal')"><span class="mood-emoji">⛅</span><span class="mood-label">Bewolkt</span></button>
+          <button class="mood-btn" onclick="setMood1('regen', '🌧️ Druk & Regenbuien')"><span class="mood-emoji">🌧️</span><span class="mood-label">Regen</span></button>
+          <button class="mood-btn" onclick="setMood1('onweer', '🌩️ Heavy & Onweer')"><span class="mood-emoji">🌩️</span><span class="mood-label">Onweer</span></button>
         </div>
       </div>
 
@@ -259,41 +217,22 @@
           <div class="traffic-light-casing status-orange"><div class="light red"></div><div class="light orange"></div><div class="light green"></div></div>
         </div>
         <h2 class="task-title">Wekelijkse KPI-rapportage Alain</h2>
+        <div style="font-size: 13px; color: #475569; margin-bottom: 10px;">Status: <span class="badge badge-in-progress">In behandeling</span></div>
         <div class="button-row">
-          <button class="action-btn btn-success" onclick="alert('Gerealiseerd!')">✓ Gerealiseerd</button>
-          <button class="action-btn btn-danger" onclick="alert('Vertraging gemeld!')">🚨 Geen Info / Vertraging</button>
+          <button class="action-btn btn-success">✓ Gerealiseerd</button>
+          <button class="action-btn btn-danger">🚨 Geen Info / Vertraging</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ==========================================
-       PAGINA 2: SFEER FOTO-SWITCHER
-  =========================================== -->
-  <div id="p2" class="page-view">
-    <div class="hero-header" id="p2Header">
-      <h1>Safespace Sfeer-selector</h1>
-      <p>Wissel direct van achtergrondfoto met de knoppen</p>
-    </div>
 
-    <div class="container">
-      <div class="card">
-        <div class="card-header">🖼️ Kies Sfeer & Foto Achtergrond</div>
-        <div class="button-row" style="flex-wrap: wrap;">
-          <button class="action-btn" style="background:#2563eb;" onclick="changeBgP2('ochtend')">🌅 Ochtend</button>
-          <button class="action-btn" style="background:#f59e0b;" onclick="changeBgP2('zonnig')">☀️ Zonnig</button>
-          <button class="action-btn" style="background:#64748b;" onclick="changeBgP2('bewolkt')">⛅ Bewolkt</button>
-          <button class="action-btn" style="background:#0284c7;" onclick="changeBgP2('regen')">🌧️ Regen</button>
-          <button class="action-btn" style="background:#334155;" onclick="changeBgP2('onweer')">🌩️ Onweer</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==========================================
-       PAGINA 3: DELIVERABLES + STOPLICHT & AGENDA
-  =========================================== -->
-  <div id="p3" class="page-view">
+  <!-- ================================================================= -->
+  <!-- 2. DELIVERABLES TRACKER + STOPLICHT & AGENDA                      -->
+  <!-- ================================================================= -->
+  <div class="section-divider">📌 HTML BLOK 2: Deliverables Tracker + Stoplicht & Agenda</div>
+  
+  <div class="page-wrapper">
     <div class="hero-header">
       <h1>Deliverables Tracker</h1>
       <p>Controlepoort met Fysiek Stoplicht</p>
@@ -308,8 +247,8 @@
         <h2 class="task-title">Wekelijkse KPI-rapportage Alain</h2>
         <p style="font-size: 12px; color: #64748b; margin-bottom: 15px;">Deadline: 16:00 uur • T-30 Checkpoort actief</p>
         <div class="button-row">
-          <button class="action-btn btn-success" onclick="alert('Gerealiseerd!')">✓ Gerealiseerd</button>
-          <button class="action-btn btn-danger" onclick="alert('Vertraging gemeld!')">🚨 Geen Info</button>
+          <button class="action-btn btn-success">✓ Gerealiseerd</button>
+          <button class="action-btn btn-danger">🚨 Geen Info</button>
         </div>
       </div>
 
@@ -322,13 +261,16 @@
     </div>
   </div>
 
-  <!-- ==========================================
-       PAGINA 4: PRESTATIE DASHBOARD (STATS & LOGS)
-  =========================================== -->
-  <div id="p4" class="page-view">
+
+  <!-- ================================================================= -->
+  <!-- 3. COMPACT PRESTATIE DASHBOARD (STATISTIEKEN & HISTORIE)          -->
+  <!-- ================================================================= -->
+  <div class="section-divider">📌 HTML BLOK 3: Compact Prestatie Dashboard (Stats & Logboek)</div>
+  
+  <div class="page-wrapper">
     <div class="hero-header">
       <h1>Prestatie Dashboard</h1>
-      <p>Statistieken, Tellers & Historie</p>
+      <p>Kpi's, Tellers & Historie</p>
     </div>
 
     <div class="container">
@@ -346,60 +288,62 @@
     </div>
   </div>
 
-  <!-- ==========================================
-       PAGINA 5: ALLES GEÏNTEGREERD OP 1 PAGINA
-  =========================================== -->
-  <div id="p5" class="page-view">
-    <div class="hero-header" id="p5Header">
-      <h1>Safespace All-in-One</h1>
-      <p>Koetjes, Dashboard, Agenda & Stoplicht</p>
+
+  <!-- ================================================================= -->
+  <!-- 4. OPGERUIMDE UITKLAPBARE ACCORDION LAY-OUT                        -->
+  <!-- ================================================================= -->
+  <div class="section-divider">📌 HTML BLOK 4: Opgeruimd (Uitklapbare Accordion)</div>
+  
+  <div class="page-wrapper">
+    <div class="hero-header">
+      <h1>Safespace Index</h1>
+      <p>Opgeruimingsmodus met Accordion</p>
     </div>
 
     <div class="container">
-      <!-- KOETJES -->
-      <div class="card">
-        <div class="card-header">🐮 Vrolijke Koetjes Methodiek</div>
-        <div class="mood-grid">
-          <button class="mood-btn active"><span class="mood-emoji">☀️</span><span class="mood-label">Zonnig</span></button>
-          <button class="mood-btn"><span class="mood-emoji">⛅</span><span class="mood-label">Bewolkt</span></button>
-          <button class="mood-btn"><span class="mood-emoji">🌧️</span><span class="mood-label">Regen</span></button>
-        </div>
-      </div>
-
-      <!-- STATS -->
-      <div class="stats-grid">
-        <div class="stat-card"><div class="stat-number" style="color:#16a34a;">85%</div><div class="stat-label">Op Tijd</div></div>
-        <div class="stat-card"><div class="stat-number" style="color:#2563eb;">12</div><div class="stat-label">Deliverables</div></div>
-        <div class="stat-card"><div class="stat-number" style="color:#dc2626;">1</div><div class="stat-label">Vertraagd</div></div>
-      </div>
-
-      <!-- TAAK + STOPLICHT -->
-      <div class="card">
-        <div class="card-header">
-          <span>Actueel Taakvenster</span>
-          <div class="traffic-light-casing status-orange"><div class="light red"></div><div class="light orange"></div><div class="light green"></div></div>
-        </div>
-        <h2 class="task-title">Wekelijkse KPI-rapportage Alain</h2>
-        <div class="button-row">
-          <button class="action-btn btn-success" onclick="alert('Gerealiseerd!')">✓ Gerealiseerd</button>
-          <button class="action-btn btn-danger" onclick="alert('Vertraging!')">🚨 Vertraging</button>
+      <button class="btn-nav" style="background:#1e293b; margin-bottom: 15px;" onclick="toggleAcc()">📊 Klik om Controle Dashboard te Openen / Sluiten</button>
+      
+      <div id="accBox" style="display:none;">
+        <div class="card">
+          <div class="card-header">Uitklapbaar venster</div>
+          <h2 class="task-title">Wekelijkse KPI-rapportage Alain</h2>
+          <div class="button-row">
+            <button class="action-btn btn-success">✓ Gerealiseerd</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <script>
-    // SCHAKELEN TUSSEN PAGINA'S
-    function switchPage(pageId, btn) {
-      document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active-view'));
-      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-      
-      document.getElementById(pageId).classList.add('active-view');
-      btn.classList.add('active');
-    }
 
-    // FOTO ARCHIEF (UNSPLASH)
-    const photos = {
+  <!-- ================================================================= -->
+  <!-- 5. SFEER FOTO-SWITCHER MET DIVERSE ACHTERGRONDEN                 -->
+  <!-- ================================================================= -->
+  <div class="section-divider">📌 HTML BLOK 5: Foto-Switcher voor Header Achtergronden</div>
+  
+  <div class="page-wrapper">
+    <div class="hero-header" id="header5">
+      <h1>Sfeer Achtergronden Testen</h1>
+      <p>Klik op de knoppen om de achtergrondfoto live te veranderen</p>
+    </div>
+
+    <div class="container">
+      <div class="card">
+        <div class="card-header">🖼️ Test Header Achtergrondfoto's</div>
+        <div class="button-row" style="flex-wrap: wrap;">
+          <button class="action-btn" style="background:#2563eb;" onclick="setBg5('ochtend')">🌅 Ochtend</button>
+          <button class="action-btn" style="background:#f59e0b;" onclick="setBg5('zonnig')">☀️ Zonnig</button>
+          <button class="action-btn" style="background:#64748b;" onclick="setBg5('bewolkt')">⛅ Bewolkt</button>
+          <button class="action-btn" style="background:#0284c7;" onclick="setBg5('regen')">🌧️ Regen</button>
+          <button class="action-btn" style="background:#334155;" onclick="setBg5('onweer')">🌩️ Onweer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    const photoList = {
       ochtend: "https://images.unsplash.com/photo-1470240731273-7821a6eeb6bd?auto=format&fit=crop&w=1200&q=80",
       zonnig: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
       bewolkt: "https://images.unsplash.com/photo-1534088568595-a066f410bcda?auto=format&fit=crop&w=1200&q=80",
@@ -407,24 +351,19 @@
       onweer: "https://images.unsplash.com/photo-1605727216801-e27ce1d0cc28?auto=format&fit=crop&w=1200&q=80"
     };
 
-    function setMoodP1(key, text, btn) {
-      document.getElementById('p1Header').style.background = 
-        `linear-gradient(rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.65)), url('${photos[key]}') center/cover no-repeat`;
-      document.getElementById('p1Subtitle').innerText = text;
-      document.querySelectorAll('#p1 .mood-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+    function setMood1(key, text) {
+      document.getElementById('header1').style.background = `linear-gradient(rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.65)), url('${photoList[key]}') center/cover no-repeat`;
+      document.getElementById('sub1').innerText = text;
     }
 
-    function changeBgP2(key) {
-      document.getElementById('p2Header').style.background = 
-        `linear-gradient(rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.65)), url('${photos[key]}') center/cover no-repeat`;
+    function toggleAcc() {
+      const b = document.getElementById('accBox');
+      b.style.display = b.style.display === "block" ? "none" : "block";
     }
 
-    // AUTOMATISCHE REFRESH TIMER (30 sec)
-    setInterval(function() {
-      const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-      document.querySelectorAll('.lastUpdated').forEach(el => el.innerText = "Laatste refresh: " + time);
-    }, 30000);
+    function setBg5(key) {
+      document.getElementById('header5').style.background = `linear-gradient(rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.65)), url('${photoList[key]}') center/cover no-repeat`;
+    }
   </script>
 </body>
 </html>
