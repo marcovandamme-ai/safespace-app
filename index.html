@@ -7,43 +7,71 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Heldere achtergrondfoto's met uitstekend zichtbare koeien */
+        /* Basis styling voor de achtergrond */
         body {
             background-size: cover;
             background-position: center top;
             background-attachment: fixed;
             transition: background-image 0.6s ease-in-out;
-            background-color: #f0fdf4;
+            background-color: #f8fafc;
+            position: relative;
         }
 
-        /* Lichte, heldere achtergronden met minimale/lichte overloop voor optimale zichtbaarheid van koeien */
-        .bg-zon {
-            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.25), rgba(240, 253, 244, 0.55)), 
-                              url('https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?auto=format&fit=crop&w=1920&q=80');
+        /* Subtiel raster met 20% dekking over de hele achtergrond */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(to right, rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+            background-size: 24px 24px;
+            opacity: 0.20; /* Precies 20% dekking raster */
+            pointer-events: none;
+            z-index: 1;
         }
+
+        /* Zorg dat de content boven het raster zweeft */
+        header, main {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Foto 1: Ochtendgloren Overzicht */
         .bg-ochtend {
-            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.30), rgba(250, 245, 255, 0.60)), 
+            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), rgba(250, 245, 255, 0.55)), 
                               url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=80');
         }
+        /* Foto 2: Zonnig Weide Overzicht met Koeien */
+        .bg-zon {
+            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.30), rgba(240, 253, 244, 0.50)), 
+                              url('https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?auto=format&fit=crop&w=1920&q=80');
+        }
+        /* Foto 3: Echte Bewolkte Weide */
         .bg-bewolkt {
-            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), rgba(241, 245, 249, 0.65)), 
-                              url('https://images.unsplash.com/photo-1527153857715-3908f2bae5e8?auto=format&fit=crop&w=1920&q=80');
+            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), rgba(241, 245, 249, 0.60)), 
+                              url('https://images.unsplash.com/photo-1534088568595-a066f410bcda?auto=format&fit=crop&w=1920&q=80');
         }
+        /* Foto 4: Echte Regen / Plensbui */
         .bg-regen {
-            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.40), rgba(239, 246, 255, 0.70)), 
-                              url('https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=1920&q=80');
+            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.40), rgba(224, 242, 254, 0.65)), 
+                              url('https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=1920&q=80');
         }
+        /* Foto 5: Echte Onweer / Bliksem */
         .bg-onweer {
-            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.40), rgba(254, 242, 242, 0.70)), 
-                              url('https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=1920&q=80');
+            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), rgba(254, 226, 226, 0.60)), 
+                              url('https://images.unsplash.com/photo-1605727216801-e27ce1d0cc28?auto=format&fit=crop&w=1920&q=80');
         }
 
-        /* Subtiel randje om de kaarten extra te laten opvallen tegen de foto */
+        /* Glas-kaarten met zachte schaduw */
         .glass-card {
             background: rgba(255, 255, 255, 0.88);
             backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.95);
-            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1), 0 4px 10px -2px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
         }
     </style>
 </head>
@@ -59,7 +87,7 @@
                 <div>
                     <h1 class="font-extrabold text-xl leading-tight text-slate-900 tracking-tight">SafeSpace Weide</h1>
                     <span class="text-xs text-emerald-700 flex items-center gap-1 font-semibold">
-                        <i class="fa-solid fa-sun text-amber-500 text-[11px]"></i> Lichte & Zonnige SafeSpace
+                        <i class="fa-solid fa-border-all text-emerald-600 text-[11px]"></i> Met Raster 20% & Foto-overzicht
                     </span>
                 </div>
             </div>
@@ -161,7 +189,7 @@
                                 </span>
                                 <span class="text-[10px] font-semibold text-slate-400">Zojuist</span>
                             </div>
-                            <p class="text-sm text-slate-800 font-medium">Kijk eens rondom de vakken, de koeien in de weide staan er nu lekker helder en zonnig op!</p>
+                            <p class="text-sm text-slate-800 font-medium">Achtergrondfoto's bijgewerkt met het 20% raster en échte regen/onweer beelden!</p>
                         </div>
                     </div>
                 </div>
