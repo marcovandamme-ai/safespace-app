@@ -320,10 +320,10 @@
 
             <!-- Active User Display -->
             <div class="user-profile-badge" onclick="openConfigModal()">
-                <div class="avatar" id="userAvatar">A</div>
+                <div class="avatar" id="userAvatar">E</div>
                 <div style="display:flex; flex-direction:column;">
-                    <span id="userName" style="font-weight:700; font-size:0.85rem;">Alain</span>
-                    <span id="userRole" style="font-size:0.7rem; color:var(--text-muted);">Operations Lead</span>
+                    <span id="userName" style="font-weight:700; font-size:0.85rem;">Eigenaar</span>
+                    <span id="userRole" style="font-size:0.7rem; color:var(--text-muted);">Directeur</span>
                 </div>
             </div>
         </div>
@@ -341,11 +341,11 @@
     <!-- TAB 1: DASHBOARD & GEAVANCEERDE KPI'S -->
     <div id="tab-dashboard" class="tab-content active">
         
-        <!-- Focus Monitor (Vooral waardevol als Tilly/Manager kijkt) -->
+        <!-- Focus Monitor -->
         <div class="focus-banner" id="focusBanner">
             <div>
-                <strong style="font-size: 1.05rem;" id="focusTitle">🎯 Realtime Focus & Capaciteit Monitor (Alain)</strong>
-                <div style="font-size: 0.85rem; opacity: 0.9;" id="focusSub">Huidige taak: "Sensoren Integratie Plan" — Gestart om 09:30 uur</div>
+                <strong style="font-size: 1.05rem;" id="focusTitle">👁️ Meekijk-modus (Eigenaar): Focus Alain</strong>
+                <div style="font-size: 0.85rem; opacity: 0.9;" id="focusSub">Alain werkt momenteel met 82% focus aan zijn deliverables. Geen directe overbelasting.</div>
             </div>
             <div>
                 <div style="font-size: 0.8rem; font-weight: 700; text-align: right;">FOCUS SCORE: 82%</div>
@@ -389,7 +389,7 @@
                         <tr>
                             <th>Status</th>
                             <th>Deliverable</th>
-                            <th>Ontvangers</th>
+                            <th>Versturen aan</th>
                             <th>Deadline</th>
                             <th>Focus / Actie</th>
                         </tr>
@@ -438,7 +438,7 @@
         </div>
     </div>
 
-    <!-- TAB 4: UITGEBREIDE MANAGEMENT SUMMARY -->
+    <!-- TAB 4: MANAGEMENT SUMMARY -->
     <div id="tab-summary" class="tab-content">
         <div class="card">
             <div class="card-title">
@@ -478,15 +478,15 @@
     <!-- TAB 5: PROJECT DELIVERABLES & PLANNER -->
     <div id="tab-deliverables" class="tab-content">
         <div class="card">
-            <div class="card-title">➕ Nieuwe Deliverable / Planning Invoeren</div>
+            <div class="card-title">➕ NIEUWE DELIVERABLE / PLANNING INVOEREN</div>
             <form id="plannerForm">
                 <div class="form-grid">
                     <div class="form-group">
-                        <label>Deliverable Naam</label>
+                        <label>DELIVERABLE NAAM</label>
                         <input type="text" id="delName" placeholder="bv. Maandrapportage" required>
                     </div>
                     <div class="form-group">
-                        <label>Frequentie</label>
+                        <label>FREQUENTIE</label>
                         <select id="delFreq">
                             <option value="Dagelijks">Dagelijks</option>
                             <option value="Wekelijks">Wekelijks</option>
@@ -495,19 +495,20 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Ontvanger(s) / Gestuurd naar</label>
+                        <!-- GEWIJZIGDE LABEL: STREK EN STRAK -->
+                        <label>VERSTUREN AAN</label>
                         <input type="text" id="delRecipients" placeholder="bv. Directie, Tilly" required>
                     </div>
                     <div class="form-group">
-                        <label>Geplande Startdatum</label>
+                        <label>GEPLANDE STARTDATUM</label>
                         <input type="date" id="delStart" required>
                     </div>
                     <div class="form-group">
-                        <label>Duur (Uren)</label>
+                        <label>DUUR (UREN)</label>
                         <input type="number" id="delDuration" min="0.5" step="0.5" placeholder="bv. 4" required>
                     </div>
                     <div class="form-group">
-                        <label>Deadline</label>
+                        <label>DEADLINE</label>
                         <input type="date" id="delDeadline" required>
                     </div>
                 </div>
@@ -516,7 +517,7 @@
         </div>
 
         <div class="card">
-            <div class="card-title">📅 Interactive Capacity & Status Planner</div>
+            <div class="card-title">📅 INTERACTIVE CAPACITY & STATUS PLANNER</div>
             
             <div class="view-picker">
                 <button class="filter-btn active" onclick="filterView('all', this)">Alles</button>
@@ -529,14 +530,15 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Status (Stoplicht)</th>
-                            <th>Deliverable</th>
-                            <th>Frequentie</th>
-                            <th>Gestuurd naar</th>
-                            <th>Startdatum</th>
-                            <th>Geplande Duur</th>
-                            <th>Deadline</th>
-                            <th>Actie</th>
+                            <th>STATUS (STOPLICHT)</th>
+                            <th>DELIVERABLE</th>
+                            <th>FREQUENTIE</th>
+                            <!-- GEWIJZIGDE TABELKOP -->
+                            <th>VERSTUREN AAN</th>
+                            <th>STARTDATUM</th>
+                            <th>GEPLANDE DUUR</th>
+                            <th>DEADLINE</th>
+                            <th>ACTIE</th>
                         </tr>
                     </thead>
                     <tbody id="deliverablesTableBody"></tbody>
@@ -546,7 +548,7 @@
     </div>
 </div>
 
-<!-- MODAL 1: USER CONFIGURATIE & MEEKIJKEN (TILLY / ALAIN) -->
+<!-- MODAL 1: USER CONFIGURATIE -->
 <div id="configModal" class="modal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeConfigModal()">&times;</span>
@@ -568,7 +570,7 @@
     </div>
 </div>
 
-<!-- MODAL 2: HULP & TIPS ("ALS HET NIET GAAT") -->
+<!-- MODAL 2: HULP & TIPS -->
 <div id="helpModal" class="modal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeHelpModal()">&times;</span>
@@ -592,9 +594,8 @@
 </div>
 
 <script>
-    // System Data Engine
     const DATA = {
-        currentUser: { name: "Alain", role: "Operations Lead", avatar: "A", focus: "82%" },
+        currentUser: { name: "Eigenaar", role: "Directeur", avatar: "E", focus: "Overzicht-modus" },
         koetjes: 10,
         taken: [
             { id: "TSK-101", desc: "Kalibratie temperatuursensoren weide B", priority: "Hoog", assignee: "Alain", status: "In Behandeling" },
@@ -611,7 +612,6 @@
 
     let currentFilter = 'all';
 
-    // Tab Navigatie
     function switchTab(tabId, element) {
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
@@ -620,13 +620,11 @@
         document.getElementById('tab-' + tabId).classList.add('active');
     }
 
-    // Modal Handlers
     function openConfigModal() { document.getElementById('configModal').style.display = 'block'; }
     function closeConfigModal() { document.getElementById('configModal').style.display = 'none'; }
     function openHelpModal() { document.getElementById('helpModal').style.display = 'block'; }
     function closeHelpModal() { document.getElementById('helpModal').style.display = 'none'; }
 
-    // Switchen van Gebruiker (Alain / Tilly / Eigenaar)
     function setUser(name, role, avatar, focus) {
         DATA.currentUser = { name, role, avatar, focus };
         document.getElementById('userName').innerText = name;
@@ -643,7 +641,6 @@
         closeConfigModal();
     }
 
-    // Stoplicht berekening
     function calculateStatus(startDate, deadline) {
         const today = new Date().toISOString().split('T')[0];
         if (deadline < today) {
@@ -655,7 +652,6 @@
         }
     }
 
-    // Renderen van alle tabbladen
     function renderAll() {
         // Taken
         const takenBody = document.getElementById('takenTableBody');
@@ -743,7 +739,6 @@
         }
     }
 
-    // Formulier Submissie
     document.getElementById('plannerForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const newItem = {
@@ -760,7 +755,6 @@
         this.reset();
     });
 
-    // Initialisatie
     renderAll();
 </script>
 
