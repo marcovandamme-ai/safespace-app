@@ -175,7 +175,7 @@
             color: #374151;
         }
 
-        /* Enhanced KPI Grid */
+        /* KPI Grid */
         .kpi-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -198,7 +198,7 @@
         .kpi-warn { color: var(--accent-yellow); }
         .kpi-alert { color: var(--accent-red); }
 
-        /* Focus Monitor Banner */
+        /* Focus Banner */
         .focus-banner {
             background: linear-gradient(90deg, #1e3a8a, #3b82f6);
             color: white;
@@ -225,7 +225,7 @@
             width: 82%;
         }
 
-        /* Form Grid */
+        /* Forms */
         .form-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -244,7 +244,7 @@
             background: var(--primary-green);
             color: white;
             border: none;
-            padding: 12px 20px;
+            padding: 10px 18px;
             border-radius: 10px;
             font-weight: 700;
             cursor: pointer;
@@ -252,12 +252,11 @@
         }
         .btn-action:hover { background: #059669; }
 
-        /* Filter Controls */
         .view-picker { display: flex; gap: 8px; margin-bottom: 15px; }
         .filter-btn {
             border: none;
             background: var(--card-inner);
-            padding: 8px 16px;
+            padding: 8px 14px;
             border-radius: 8px;
             font-weight: 600;
             font-size: 0.85rem;
@@ -294,7 +293,7 @@
 
         /* Modals */
         .modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); }
-        .modal-content { background: white; margin: 8% auto; padding: 25px; border-radius: var(--border-radius); width: 90%; max-width: 550px; }
+        .modal-content { background: white; margin: 6% auto; padding: 25px; border-radius: var(--border-radius); width: 90%; max-width: 550px; }
         .close-btn { float: right; font-size: 1.5rem; font-weight: bold; cursor: pointer; color: var(--text-muted); }
     </style>
 </head>
@@ -315,10 +314,8 @@
             <div class="badge badge-koetjes" onclick="switchTab('spaarkas', document.querySelectorAll('.tab-btn')[2])">🔒 <span id="koetjesCount">10</span> Koetjes</div>
             <div class="badge badge-urgentie" onclick="alert('⚡ Systeemstatus: Er zijn 2 dringende knelpunten op de planning.')">🔴 2 Urgenties ⚡</div>
             
-            <!-- User Config Knop -->
             <button class="btn-config" onclick="openConfigModal()">⚙️ Config</button>
 
-            <!-- Active User Display -->
             <div class="user-profile-badge" onclick="openConfigModal()">
                 <div class="avatar" id="userAvatar">E</div>
                 <div style="display:flex; flex-direction:column;">
@@ -338,10 +335,8 @@
         <button class="tab-btn" onclick="switchTab('deliverables', this)">⚙️ Project Deliverables & Planning</button>
     </div>
 
-    <!-- TAB 1: DASHBOARD & GEAVANCEERDE KPI'S -->
+    <!-- TAB 1: DASHBOARD -->
     <div id="tab-dashboard" class="tab-content active">
-        
-        <!-- Focus Monitor -->
         <div class="focus-banner" id="focusBanner">
             <div>
                 <strong style="font-size: 1.05rem;" id="focusTitle">👁️ Meekijk-modus (Eigenaar): Focus Alain</strong>
@@ -353,7 +348,6 @@
             </div>
         </div>
 
-        <!-- KPI Grid -->
         <div class="kpi-grid">
             <div class="kpi-card" style="border-color: #10b981;">
                 <div class="kpi-title">On-Time Delivery Rate</div>
@@ -361,7 +355,7 @@
                 <div class="kpi-sub kpi-good">↑ +2.5% t.o.v. vorige week</div>
             </div>
             <div class="kpi-card" style="border-color: #2563eb;">
-                <div class="kpi-title">Geplande Workload (Capaciteit)</div>
+                <div class="kpi-title">Geplande Workload</div>
                 <div class="kpi-val">18.5 Uur</div>
                 <div class="kpi-sub kpi-good">🟢 Binnen week-norm (20u)</div>
             </div>
@@ -377,7 +371,6 @@
             </div>
         </div>
 
-        <!-- Actieve Attentiepunten -->
         <div class="card">
             <div class="card-title">
                 <span>⚠️ Actieve Attentiepunten & Stoplichten</span>
@@ -400,12 +393,12 @@
         </div>
     </div>
 
-    <!-- TAB 2: TAKEN TRACKER -->
+    <!-- TAB 2: TAKEN TRACKER (VERBETERD MET EDIT MODAL) -->
     <div id="tab-taken" class="tab-content">
         <div class="card">
             <div class="card-title">
                 <span>📋 Operationele Taken Tracker</span>
-                <button class="btn-action" style="padding:6px 12px; font-size:0.8rem;" onclick="addTaakPrompt()">+ Nieuwe Taak</button>
+                <button class="btn-action" onclick="openTaskModal()">+ Nieuwe Taak Aanmaken</button>
             </div>
             <div class="table-container">
                 <table>
@@ -430,10 +423,9 @@
         <div class="card" style="text-align: center; max-width: 600px; margin: 0 auto;">
             <div class="card-title" style="justify-content: center;">🔒 Privé Spaarkas van Alain</div>
             <h1 style="font-size: 3.5rem; color: var(--accent-yellow); margin: 15px 0;">🐮 <span id="spaarkasKoetjes">10</span> Koetjes</h1>
-            <p style="color: var(--text-muted); font-size: 1rem;">Rond deliverables op tijd af om extra koetjes te verdienen en viermomenten vrij te spelen!</p>
+            <p style="color: var(--text-muted); font-size: 1rem;">Rond deliverables op tijd af om extra koetjes te verdienen!</p>
             <div style="display:flex; gap:10px; justify-content:center; margin-top:20px;">
                 <button class="btn-action" onclick="claimBeloning()">🎁 Beloning Vrijspelen (5 Koetjes)</button>
-                <button class="filter-btn" onclick="alert('Koetjes historie:\n+2 voor tijdig inleveren weekrapport\n+3 bonus focus-sessie')">📜 Historie</button>
             </div>
         </div>
     </div>
@@ -443,39 +435,23 @@
         <div class="card">
             <div class="card-title">
                 <span>📄 Wekelijkse Management Summary (Week 30)</span>
-                <button class="btn-action" style="padding:6px 14px; font-size:0.85rem;" onclick="window.print()">🖨️ Exporteer PDF / Afdruk</button>
+                <button class="btn-action" style="padding:6px 14px; font-size:0.85rem;" onclick="window.print()">🖨️ Exporteer PDF</button>
             </div>
-            
             <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
                 <div style="background: var(--card-inner); padding: 20px; border-radius: 12px;">
                     <h3 style="margin-top:0; color:var(--accent-blue);">Executive Summary</h3>
-                    <p>In Week 30 heeft de operationele besturing van Alain een stabiel verloop laten zien. De focus lag op de voorbereiding van de sensoren-integratie en de kwartaal-afsluiting.</p>
-                    
-                    <h4>✅ Belangrijkste Behaalde Resultaten:</h4>
-                    <ul>
-                        <li><strong>Sensoren Integratie Plan:</strong> Testfase afgerond met Tech Team (4 uur geinvesteerd).</li>
-                        <li><strong>Daily Operations:</strong> 100% tijdigheids score op dagelijkse weide-checks.</li>
-                    </ul>
-
-                    <h4 style="color: var(--accent-red);">⚠️ Aandachtspunten & Knelpunten voor Directie:</h4>
-                    <ul>
-                        <li><strong>Q3 Management Summary:</strong> Wacht op aanvullende input van de financiële administratie om definitief te worden opgeleverd.</li>
-                    </ul>
+                    <p>In Week 30 heeft de operationele besturing van Alain een stabiel verloop laten zien.</p>
                 </div>
-
                 <div style="background: var(--card-inner); padding: 20px; border-radius: 12px;">
                     <h3 style="margin-top:0;">Capaciteitsstatistieken</h3>
                     <p><strong>Totaal Bestede Tijd:</strong> 18.5 Uur</p>
                     <p><strong>Focus-Efficiëntie:</strong> 82%</p>
-                    <p><strong>Tijdige Opleveringen:</strong> 3 van de 4</p>
-                    <hr style="border:0; border-top:1px solid #eee;">
-                    <p style="font-size:0.85rem; color:var(--text-muted);">Status opgesteld op 28 juli 2026 door Alain.</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- TAB 5: PROJECT DELIVERABLES & PLANNER -->
+    <!-- TAB 5: PROJECT DELIVERABLES -->
     <div id="tab-deliverables" class="tab-content">
         <div class="card">
             <div class="card-title">➕ NIEUWE DELIVERABLE / PLANNING INVOEREN</div>
@@ -495,7 +471,6 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <!-- GEWIJZIGDE LABEL: STREK EN STRAK -->
                         <label>VERSTUREN AAN</label>
                         <input type="text" id="delRecipients" placeholder="bv. Directie, Tilly" required>
                     </div>
@@ -518,14 +493,12 @@
 
         <div class="card">
             <div class="card-title">📅 INTERACTIVE CAPACITY & STATUS PLANNER</div>
-            
             <div class="view-picker">
                 <button class="filter-btn active" onclick="filterView('all', this)">Alles</button>
                 <button class="filter-btn" onclick="filterView('Dagelijks', this)">Dagbasis</button>
                 <button class="filter-btn" onclick="filterView('Wekelijks', this)">Weekbasis</button>
                 <button class="filter-btn" onclick="filterView('Maandelijks', this)">Maandbasis</button>
             </div>
-
             <div class="table-container">
                 <table>
                     <thead>
@@ -533,7 +506,6 @@
                             <th>STATUS (STOPLICHT)</th>
                             <th>DELIVERABLE</th>
                             <th>FREQUENTIE</th>
-                            <!-- GEWIJZIGDE TABELKOP -->
                             <th>VERSTUREN AAN</th>
                             <th>STARTDATUM</th>
                             <th>GEPLANDE DUUR</th>
@@ -548,48 +520,70 @@
     </div>
 </div>
 
-<!-- MODAL 1: USER CONFIGURATIE -->
-<div id="configModal" class="modal">
+<!-- MODAL: TAAK TOEVOEGEN / BEWERKEN -->
+<div id="taskModal" class="modal">
     <div class="modal-content">
-        <span class="close-btn" onclick="closeConfigModal()">&times;</span>
-        <h2 style="margin-top:0;">⚙️ Gebruiker & Wijs-instellingen</h2>
-        <p style="color:var(--text-muted); font-size:0.9rem;">Selecteer als wie je wilt inloggen om het dashboard te bekijken en aan te passen:</p>
-        
-        <div style="display:flex; flex-direction:column; gap:10px; margin: 20px 0;">
-            <button class="filter-btn" style="padding:12px; text-align:left; font-size:0.95rem;" onclick="setUser('Alain', 'Operations Lead', 'A', '82%')">
-                👤 <strong>Inloggen als Alain</strong> (Eigenaar Planning)
-            </button>
-            <button class="filter-btn" style="padding:12px; text-align:left; font-size:0.95rem;" onclick="setUser('Tilly', 'Management / Coach', 'T', 'Meekijk-modus')">
-                👩‍💼 <strong>Inloggen als Tilly</strong> (Meekijken op Focus & Voortgang)
-            </button>
-            <button class="filter-btn" style="padding:12px; text-align:left; font-size:0.95rem;" onclick="setUser('Eigenaar', 'Directeur', 'E', 'Overzicht-modus')">
-                👑 <strong>Inloggen als Eigenaar</strong> (Directie & KPI Sturing)
-            </button>
-        </div>
-        <button class="btn-action" style="width:100%;" onclick="closeConfigModal()">Opslaan & Sluiten</button>
+        <span class="close-btn" onclick="closeTaskModal()">&times;</span>
+        <h2 style="margin-top:0;" id="taskModalTitle">➕ Nieuwe Taak Invoeren</h2>
+        <form id="taskForm">
+            <input type="hidden" id="taskId">
+            <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
+                <div class="form-group">
+                    <label>Omschrijving</label>
+                    <input type="text" id="taskDesc" placeholder="bv. Koetjes melken" required>
+                </div>
+                <div class="form-group">
+                    <label>Prioriteit</label>
+                    <select id="taskPriority">
+                        <option value="Laag">Laag</option>
+                        <option value="Middel" selected>Middel</option>
+                        <option value="Hoog">Hoog</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Toegewezen aan</label>
+                    <select id="taskAssignee">
+                        <option value="Alain">Alain</option>
+                        <option value="Tilly">Tilly</option>
+                        <option value="Eigenaar">Eigenaar</option>
+                        <option value="Piet">Piet</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="taskStatus">
+                        <option value="Open">Open</option>
+                        <option value="In Behandeling">In Behandeling</option>
+                        <option value="Afgerond">Afgerond</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn-action" style="width:100%;">Opslaan</button>
+        </form>
     </div>
 </div>
 
-<!-- MODAL 2: HULP & TIPS -->
+<!-- MODAL CONFIG -->
+<div id="configModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeConfigModal()">&times;</span>
+        <h2 style="margin-top:0;">⚙️ Gebruiker Instellingen</h2>
+        <div style="display:flex; flex-direction:column; gap:10px; margin: 20px 0;">
+            <button class="filter-btn" style="padding:12px; text-align:left;" onclick="setUser('Alain', 'Operations Lead', 'A', '82%')">👤 Inloggen als Alain</button>
+            <button class="filter-btn" style="padding:12px; text-align:left;" onclick="setUser('Tilly', 'Management / Coach', 'T', 'Meekijk-modus')">👩‍💼 Inloggen als Tilly</button>
+            <button class="filter-btn" style="padding:12px; text-align:left;" onclick="setUser('Eigenaar', 'Directeur', 'E', 'Overzicht-modus')">👑 Inloggen als Eigenaar</button>
+        </div>
+        <button class="btn-action" style="width:100%;" onclick="closeConfigModal()">Sluiten</button>
+    </div>
+</div>
+
+<!-- MODAL HELP -->
 <div id="helpModal" class="modal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeHelpModal()">&times;</span>
         <h2 style="margin-top:0; color:var(--accent-blue);">🆘 Hulp & Focus Assistentie</h2>
-        <p>Lopen taken vast of ervaar je een te hoge werkdruk? Gebruik onderstaande stappen:</p>
-        
-        <div style="background:#f0f9ff; border-left:4px solid var(--accent-blue); padding:12px; border-radius:8px; margin-bottom:15px;">
-            <strong>💡 Tip 1: Breek grote taken op</strong>
-            <p style="margin:5px 0 0 0; font-size:0.85rem;">Is een deliverable langer dan 4 uur? Verdeel de duur in blokken van 1 uur in de planner.</p>
-        </div>
-
-        <div style="background:#fef3c7; border-left:4px solid var(--accent-yellow); padding:12px; border-radius:8px; margin-bottom:15px;">
-            <strong>⚡ Tip 2: Geef een blokkade aan</strong>
-            <p style="margin:5px 0 0 0; font-size:0.85rem;">Wacht je op anderen? Zet de status op 'Oranje' en stel de ontvanger op de hoogte.</p>
-        </div>
-
-        <button class="btn-action" style="width:100%; background:var(--accent-blue);" onclick="alert('Signaal verzonden naar Tilly! Zij neemt zo snel mogelijk contact op om even mee te kijken.'); closeHelpModal();">
-            📞 Vraag direct ondersteuning aan Tilly
-        </button>
+        <p>Lopen taken vast? Breek ze op in kleinere stappen of geef een blokkade aan.</p>
+        <button class="btn-action" style="width:100%; background:var(--accent-blue);" onclick="alert('Signaal verzonden!'); closeHelpModal();">📞 Vraag ondersteuning</button>
     </div>
 </div>
 
@@ -600,7 +594,8 @@
         taken: [
             { id: "TSK-101", desc: "Kalibratie temperatuursensoren weide B", priority: "Hoog", assignee: "Alain", status: "In Behandeling" },
             { id: "TSK-102", desc: "Schoonmaken voederbakken zone 1", priority: "Middel", assignee: "Piet", status: "Open" },
-            { id: "TSK-103", desc: "Netwerkcheck hekwerk-communicatie", priority: "Laag", assignee: "Alain", status: "Afgerond" }
+            { id: "TSK-103", desc: "Netwerkcheck hekwerk-communicatie", priority: "Laag", assignee: "Alain", status: "Afgerond" },
+            { id: "TSK-104", desc: "koetjes melken", priority: "Middel", assignee: "Eigenaar", status: "Open" }
         ],
         deliverables: [
             { id: 1, title: "Sensoren Integratie Plan", freq: "Wekelijks", recipients: "Tech Team, Alain", start: "2026-07-25", duration: "4 uur", deadline: "2026-07-27" },
@@ -615,7 +610,6 @@
     function switchTab(tabId, element) {
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-        
         element.classList.add('active');
         document.getElementById('tab-' + tabId).classList.add('active');
     }
@@ -625,51 +619,77 @@
     function openHelpModal() { document.getElementById('helpModal').style.display = 'block'; }
     function closeHelpModal() { document.getElementById('helpModal').style.display = 'none'; }
 
+    // Task Modal Logica
+    function openTaskModal(taskId = null) {
+        if(taskId) {
+            const task = DATA.taken.find(t => t.id === taskId);
+            document.getElementById('taskModalTitle').innerText = "✏️ Taak Bewerken (" + task.id + ")";
+            document.getElementById('taskId').value = task.id;
+            document.getElementById('taskDesc').value = task.desc;
+            document.getElementById('taskPriority').value = task.priority;
+            document.getElementById('taskAssignee').value = task.assignee;
+            document.getElementById('taskStatus').value = task.status;
+        } else {
+            document.getElementById('taskModalTitle').innerText = "➕ Nieuwe Taak Aanmaken";
+            document.getElementById('taskId').value = "";
+            document.getElementById('taskForm').reset();
+        }
+        document.getElementById('taskModal').style.display = 'block';
+    }
+
+    function closeTaskModal() { document.getElementById('taskModal').style.display = 'none'; }
+
+    function toggleTaskStatus(taskId) {
+        const task = DATA.taken.find(t => t.id === taskId);
+        if(task.status === "Open") task.status = "In Behandeling";
+        else if(task.status === "In Behandeling") task.status = "Afgerond";
+        else task.status = "Open";
+        renderAll();
+    }
+
+    function deleteTask(taskId) {
+        DATA.taken = DATA.taken.filter(t => t.id !== taskId);
+        renderAll();
+    }
+
     function setUser(name, role, avatar, focus) {
         DATA.currentUser = { name, role, avatar, focus };
         document.getElementById('userName').innerText = name;
         document.getElementById('userRole').innerText = role;
         document.getElementById('userAvatar').innerText = avatar;
-        
-        if(name === 'Tilly' || name === 'Eigenaar') {
-            document.getElementById('focusTitle').innerText = `👁️ Meekijk-modus (${name}): Focus Alain`;
-            document.getElementById('focusSub').innerText = `Alain werkt momenteel met 82% focus aan zijn deliverables. Geen directe overbelasting.`;
-        } else {
-            document.getElementById('focusTitle').innerText = `🎯 Realtime Focus & Capaciteit Monitor (Alain)`;
-            document.getElementById('focusSub').innerText = `Huidige taak: "Sensoren Integratie Plan" — Gestart om 09:30 uur`;
-        }
         closeConfigModal();
     }
 
     function calculateStatus(startDate, deadline) {
         const today = new Date().toISOString().split('T')[0];
-        if (deadline < today) {
-            return `<span class="status-badge status-red"><span class="light-dot"></span> Overdue / Actie</span>`;
-        } else if (startDate <= today && deadline >= today) {
-            return `<span class="status-badge status-orange"><span class="light-dot"></span> In Behandeling</span>`;
-        } else {
-            return `<span class="status-badge status-green"><span class="light-dot"></span> Ingepland</span>`;
-        }
+        if (deadline < today) return `<span class="status-badge status-red"><span class="light-dot"></span> Overdue / Actie</span>`;
+        else if (startDate <= today && deadline >= today) return `<span class="status-badge status-orange"><span class="light-dot"></span> In Behandeling</span>`;
+        else return `<span class="status-badge status-green"><span class="light-dot"></span> Ingepland</span>`;
     }
 
     function renderAll() {
-        // Taken
+        // Render Taken
         const takenBody = document.getElementById('takenTableBody');
         takenBody.innerHTML = '';
         DATA.taken.forEach(t => {
+            const prioColor = t.priority === 'Hoog' ? 'red' : (t.priority === 'Middel' ? '#d97706' : 'black');
             takenBody.innerHTML += `
                 <tr>
                     <td><strong>${t.id}</strong></td>
                     <td>${t.desc}</td>
-                    <td><span style="font-weight:bold; color:${t.priority==='Hoog'?'red':'black'}">${t.priority}</span></td>
+                    <td><span style="font-weight:bold; color:${prioColor}">${t.priority}</span></td>
                     <td>${t.assignee}</td>
-                    <td>${t.status}</td>
-                    <td><button class="filter-btn" onclick="alert('Taak ${t.id} bijgewerkt!')">Status aanpassen</button></td>
+                    <td><strong>${t.status}</strong></td>
+                    <td>
+                        <button class="filter-btn" onclick="toggleTaskStatus('${t.id}')">Status aanpassen</button>
+                        <button class="filter-btn" onclick="openTaskModal('${t.id}')">✏️ Edit</button>
+                        <button class="filter-btn" style="color:red;" onclick="deleteTask('${t.id}')">🗑️</button>
+                    </td>
                 </tr>
             `;
         });
 
-        // Dashboard Alert Tabel
+        // Render Alerts
         const alertBody = document.getElementById('dashboardAlertsTable');
         alertBody.innerHTML = '';
         DATA.deliverables.forEach(d => {
@@ -684,13 +704,10 @@
             `;
         });
 
-        // Deliverables Planner Tabel
+        // Render Deliverables
         const plannerBody = document.getElementById('deliverablesTableBody');
         plannerBody.innerHTML = '';
-        
-        const filtered = currentFilter === 'all' 
-            ? DATA.deliverables 
-            : DATA.deliverables.filter(d => d.freq === currentFilter);
+        const filtered = currentFilter === 'all' ? DATA.deliverables : DATA.deliverables.filter(d => d.freq === currentFilter);
 
         filtered.forEach(d => {
             plannerBody.innerHTML += `
@@ -720,25 +737,31 @@
         renderAll();
     }
 
-    function addTaakPrompt() {
-        const desc = prompt("Voer omschrijving van de nieuwe taak in:");
-        if(desc) {
-            DATA.taken.push({ id: "TSK-" + (100 + DATA.taken.length + 1), desc: desc, priority: "Middel", assignee: DATA.currentUser.name, status: "Open" });
-            renderAll();
-        }
-    }
+    // Submit Taak Formulier
+    document.getElementById('taskForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const taskId = document.getElementById('taskId').value;
+        const desc = document.getElementById('taskDesc').value;
+        const priority = document.getElementById('taskPriority').value;
+        const assignee = document.getElementById('taskAssignee').value;
+        const status = document.getElementById('taskStatus').value;
 
-    function claimBeloning() {
-        if(DATA.koetjes >= 5) {
-            DATA.koetjes -= 5;
-            document.getElementById('koetjesCount').innerText = DATA.koetjes;
-            document.getElementById('spaarkasKoetjes').innerText = DATA.koetjes;
-            alert('🎉 Gefeliciteerd! Beloning geclaimd. Er zijn 5 koetjes ingewisseld.');
+        if(taskId) {
+            const task = DATA.taken.find(t => t.id === taskId);
+            task.desc = desc;
+            task.priority = priority;
+            task.assignee = assignee;
+            task.status = status;
         } else {
-            alert('Niet genoeg koetjes om te claimen!');
+            const newId = "TSK-" + (100 + DATA.taken.length + 1);
+            DATA.taken.push({ id: newId, desc, priority, assignee, status });
         }
-    }
 
+        renderAll();
+        closeTaskModal();
+    });
+
+    // Submit Deliverables Formulier
     document.getElementById('plannerForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const newItem = {
