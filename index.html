@@ -1,163 +1,150 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Modal, TextInput, ScrollView, Alert } from 'react-native';
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deliverable Controle MVP</title>
+  <style>
+    body { fontFamily: Arial, sans-serif; background-color: #f4f6f8; padding: 20px; margin: 0; }
+    .container { max-width: 500px; margin: 0 auto; }
+    h1 { font-size: 22px; color: #1a202c; margin-bottom: 5px; }
+    p.subtitle { font-size: 14px; color: #718096; margin-bottom: 20px; }
+    .card { background: #fff; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .card-header { font-size: 11px; font-weight: bold; color: #a0aec0; text-transform: uppercase; margin-bottom: 10px; }
+    .task-title { font-size: 18px; font-weight: bold; color: #2d3748; margin: 0 0 10px 0; }
+    .status-row { display: flex; align-items: center; gap: 8px; margin-bottom: 15px; font-size: 14px; }
+    .badge { padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; }
+    .badge-in-progress { background-color: #e2e8f0; color: #4a5568; }
+    .badge-success { background-color: #c6f6d5; color: #22543d; }
+    .badge-danger { background-color: #fed7d7; color: #9b2c2c; }
+    .alert-box { background-color: #fffaf0; border: 1px solid #feebc8; color: #c05621; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; }
+    .button-row { display: flex; gap: 10px; margin-top: 10px; }
+    button { flex: 1; padding: 12px; border-radius: 8px; border: none; color: #fff; font-weight: bold; cursor: pointer; font-size: 13px; }
+    .btn-success { background-color: #38a169; }
+    .btn-danger { background-color: #e53e3e; }
+    .btn-cancel { background-color: #cbd5e0; color: #2d3748; }
+    .log-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #edf2f7; }
+    .log-title { font-weight: 600; color: #2d3748; font-size: 14px; }
+    .log-date { font-size: 12px; color: #a0aec0; }
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; padding: 20px; }
+    .modal-content { background: #fff; border-radius: 12px; padding: 20px; width: 100%; max-width: 400px; }
+    input { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #cbd5e0; margin-bottom: 15px; box-sizing: border-box; }
+  </style>
+</head>
+<body>
 
-export default function DeliverableTrackerMVP() {
-  // Huidige Deliverable Status
-  const [deliverable, setDeliverable] = useState({
-    id: 'DEL-001',
-    title: 'Wekelijkse KPI-Rapportage Alain',
-    deadline: '16:00 uur',
-    status: 'IN_PROGRESS' // IN_PROGRESS, COMPLETED, DELAYED
-  });
+  <div class="container">
+    <h1>Deliverable Controle MVP</h1>
+    <p class="subtitle">Status & Opleveringscheck voor Alain</p>
 
-  // Prestatie-Logboek
-  const [logs, setLogs] = useState([
-    { id: 1, title: 'Dagupdate Sales', status: 'COMPLETED', date: 'Gisteren', reason: '' },
-    { id: 2, title: 'Maandafsluiting', status: 'DELAYED', date: '2 dagen geleden', reason: 'Derden niet op tijd' }
-  ]);
+    <!-- ACTIEVE DELIVERABLE CHECK -->
+    <div class="card">
+      <div class="card-header">Huidige Deliverable (Deadline: 16:00 uur)</div>
+      <h2 class="task-title" id="deliverableTitle">Wekelijkse KPI-Rapportage Alain</h2>
+      
+      <div class="status-row">
+        <span>Status:</span>
+        <span id="statusBadge" class="badge badge-in-progress">In Behandeling</span>
+      </div>
 
-  // Modal voor Vertragingsmelding
-  const [modalVisible, setModalVisible] = useState(false);
-  const [reason, setReason] = useState('');
+      <div id="alertBox" class="alert-box">
+        ⚠️ <strong>T-30 min Checkpoort:</strong> Heb je alle input gerealiseerd?
+      </div>
 
-  // 1. Deliverable Gerealiseerd
-  const handleMarkCompleted = () => {
-    setDeliverable({ ...deliverable, status: 'COMPLETED' });
-    setLogs([{ id: Date.now(), title: deliverable.title, status: 'COMPLETED', date: 'Vandaag', reason: 'Op tijd afgerond' }, ...logs]);
-    Alert.alert("Gerealiseerd!", "Deliverable is succesvol op tijd afgevinkt.");
-  };
+      <div id="buttonGroup" class="button-row">
+        <button class="btn-success" onclick="markCompleted()">✓ Gerealiseerd</button>
+        <button class="btn-danger" onclick="openModal()">🚨 Geen Info / Vertraging</button>
+      </div>
+    </div>
 
-  // 2. Vertraging Registreren (Zonder Mail)
-  const handleSaveDelay = () => {
-    if (!reason) {
-      Alert.alert("Let op", "Vul a.u.b. de reden in van de ontbrekende data.");
-      return;
+    <!-- PRESTATIE LOGBOEK -->
+    <div class="card">
+      <div class="card-header">Prestatie-Logboek Controle</div>
+      <div id="logList">
+        <div class="log-item">
+          <div>
+            <div class="log-title">Dagupdate Sales</div>
+            <div class="log-date">Gisteren • Reden: Op tijd afgerond</div>
+          </div>
+          <span class="badge badge-success">Op Tijd</span>
+        </div>
+        <div class="log-item">
+          <div>
+            <div class="log-title">Maandafsluiting</div>
+            <div class="log-date">2 dagen geleden • Reden: Derden niet op tijd</div>
+          </div>
+          <span class="badge badge-danger">Vertraagd</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL VOOR VERTRAGING -->
+  <div id="modal" class="modal-overlay">
+    <div class="modal-content">
+      <h3 style="margin-top:0;">Reden Vertraging / Geen Info</h3>
+      <p style="font-size: 13px; color: #4a5568;">Waarom is de deliverable niet gerealiseerd?</p>
+      
+      <input type="text" id="reasonInput" placeholder="bijv. Ontbrekende brongegevens van derden">
+
+      <div class="button-row">
+        <button class="btn-cancel" onclick="closeModal()">Annuleren</button>
+        <button class="btn-danger" onclick="saveDelay()">Opslaan in Logboek</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const taskTitle = "Wekelijkse KPI-Rapportage Alain";
+
+    function markCompleted() {
+      document.getElementById('statusBadge').innerText = "Gerealiseerd";
+      document.getElementById('statusBadge').className = "badge badge-success";
+      document.getElementById('alertBox').style.display = "none";
+      document.getElementById('buttonGroup').style.display = "none";
+
+      addLog(taskTitle, "Op tijd afgerond", "Op Tijd", "badge-success");
+      alert("Gerealiseerd! Deliverable is succesvol op tijd afgevinkt.");
     }
-    setDeliverable({ ...deliverable, status: 'DELAYED' });
-    setLogs([{ id: Date.now(), title: deliverable.title, status: 'DELAYED', date: 'Vandaag', reason: reason }, ...logs]);
-    setModalVisible(false);
-    setReason('');
-    Alert.alert("Geregistreerd", "Vertraging en reden zijn vastgelegd in het logboek.");
-  };
 
-  return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.headerTitle}>Deliverable Controle MVP</Text>
-      <Text style={styles.subTitle}>Status & Opleveringscheck voor Alain</Text>
+    function openModal() {
+      document.getElementById('modal').style.display = "flex";
+    }
 
-      {/* ACTIEVE DELIVERABLE CHECK */}
-      <View style={styles.card}>
-        <Text style={styles.cardHeader}>Huidige Deliverable (Deadline: {deliverable.deadline})</Text>
-        <Text style={styles.taskTitle}>{deliverable.title}</Text>
-        
-        {/* HUIDIGE STATUS BADGE */}
-        <View style={styles.statusRow}>
-          <Text style={styles.label}>Status: </Text>
-          <Text style={[styles.badge, 
-            deliverable.status === 'COMPLETED' ? styles.badgeSuccess : 
-            deliverable.status === 'DELAYED' ? styles.badgeDanger : styles.badgeInfo
-          ]}>
-            {deliverable.status === 'COMPLETED' ? 'Gerealiseerd' : 
-             deliverable.status === 'DELAYED' ? 'Vertraagd / Data Ontbreekt' : 'In Behandeling'}
-          </Text>
-        </View>
+    function closeModal() {
+      document.getElementById('modal').style.display = "none";
+    }
 
-        {/* T-30 CHECKPOORT WAARSCHUWING */}
-        {deliverable.status === 'IN_PROGRESS' && (
-          <View style={styles.alertBox}>
-            <Text style={styles.alertText}>
-              ⚠️ **T-30 min Checkpoort:** Heb je alle input gerealiseerd?
-            </Text>
-          </View>
-        )}
+    function saveDelay() {
+      const reason = document.getElementById('reasonInput').value;
+      if (!reason) {
+        alert("Let op: Vul a.u.b. de reden in van de ontbrekende data.");
+        return;
+      }
 
-        {/* CONTROLE KNOPPEN */}
-        {deliverable.status === 'IN_PROGRESS' && (
-          <View style={styles.buttonRow}>
-            <TouchableOpacity style={[styles.button, styles.successBtn]} onPress={handleMarkCompleted}>
-              <Text style={styles.btnText}>✓ Gerealiseerd</Text>
-            </TouchableOpacity>
+      document.getElementById('statusBadge').innerText = "Vertraagd / Data Ontbreekt";
+      document.getElementById('statusBadge').className = "badge badge-danger";
+      document.getElementById('alertBox').style.display = "none";
+      document.getElementById('buttonGroup').style.display = "none";
 
-            <TouchableOpacity style={[styles.button, styles.dangerBtn]} onPress={() => setModalVisible(true)}>
-              <Text style={styles.btnText}>🚨 Geen Info / Vertraging</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      </View>
+      addLog(taskTitle, reason, "Vertraagd", "badge-danger");
+      closeModal();
+      alert("Geregistreerd: Vertraging en reden zijn vastgelegd in het logboek.");
+    }
 
-      {/* PRESTATIE LOGBOEK */}
-      <View style={styles.card}>
-        <Text style={styles.cardHeader}>Prestatie-Logboek Controle</Text>
-        {logs.map((log) => (
-          <View key={log.id} style={styles.logItem}>
-            <View style={{ flex: 1 }}>
-              <Text style={styles.logTitle}>{log.title}</Text>
-              <Text style={styles.logDate}>{log.date} {log.reason ? `• Reden: ${log.reason}` : ''}</Text>
-            </View>
-            <Text style={[styles.badge, log.status === 'COMPLETED' ? styles.badgeSuccess : styles.badgeDanger]}>
-              {log.status === 'COMPLETED' ? 'Op Tijd' : 'Vertraagd'}
-            </Text>
-          </View>
-        ))}
-      </View>
-
-      {/* MODAL: VERTRAGING LOGGEN */}
-      <Modal visible={modalVisible} animationType="fade" transparent={true}>
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Reden Vertraging / Geen Info</Text>
-            <Text style={styles.inputLabel}>Waarom is de deliverable niet gerealiseerd?</Text>
-            
-            <TextInput 
-              style={styles.input} 
-              placeholder="bijv. Ontbrekende brongegevens van derden"
-              value={reason}
-              onChangeText={setReason}
-            />
-
-            <View style={styles.buttonRow}>
-              <TouchableOpacity style={[styles.button, styles.cancelBtn]} onPress={() => setModalVisible(false)}>
-                <Text style={styles.btnText}>Annuleren</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity style={[styles.button, styles.dangerBtn]} onPress={handleSaveDelay}>
-                <Text style={styles.btnText}>Opslaan in Logboek</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
-    </ScrollView>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f4f6f8', padding: 20 },
-  headerTitle: { fontSize: 22, fontWeight: 'bold', color: '#1a202c', marginTop: 20 },
-  subTitle: { fontSize: 14, color: '#718096', marginBottom: 20 },
-  card: { backgroundColor: '#fff', padding: 20, borderRadius: 12, marginBottom: 20, elevation: 2 },
-  cardHeader: { fontSize: 11, fontWeight: 'bold', color: '#a0aec0', textTransform: 'uppercase', marginBottom: 10 },
-  taskTitle: { fontSize: 18, fontWeight: 'bold', color: '#2d3748', marginBottom: 10 },
-  statusRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 15 },
-  label: { fontSize: 14, color: '#4a5568' },
-  alertBox: { backgroundColor: '#fffaf0', borderColor: '#feebc8', borderWidth: 1, padding: 10, borderRadius: 8, marginBottom: 15 },
-  alertText: { color: '#c05621', fontSize: 12 },
-  buttonRow: { flexDirection: 'row', gap: 10, marginTop: 10 },
-  button: { flex: 1, paddingVertical: 12, borderRadius: 8, alignItems: 'center' },
-  successBtn: { backgroundColor: '#38a169' },
-  dangerBtn: { backgroundColor: '#e53e3e' },
-  cancelBtn: { backgroundColor: '#cbd5e0' },
-  btnText: { color: '#fff', fontWeight: 'bold', fontSize: 13 },
-  logItem: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#edf2f7' },
-  logTitle: { fontWeight: '600', color: '#2d3748', fontSize: 13 },
-  logDate: { fontSize: 11, color: '#a0aec0' },
-  badge: { paddingHorizontal: 8, paddingVertical: 4, borderRadius: 12, fontSize: 11, fontWeight: 'bold' },
-  badgeSuccess: { backgroundColor: '#c6f6d5', color: '#22543d' },
-  badgeDanger: { backgroundColor: '#fed7d7', color: '#9b2c2c' },
-  badgeInfo: { backgroundColor: '#e2e8f0', color: '#4a5568' },
-  modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', padding: 20 },
-  modalContent: { backgroundColor: '#fff', borderRadius: 12, padding: 20 },
-  modalTitle: { fontSize: 16, fontWeight: 'bold', marginBottom: 10 },
-  inputLabel: { fontSize: 12, color: '#4a5568', marginBottom: 8 },
-  input: { borderWidth: 1, borderColor: '#cbd5e0', borderRadius: 6, padding: 10, fontSize: 13, marginBottom: 15 }
-});
+    function addLog(title, reason, statusText, badgeClass) {
+      const logList = document.getElementById('logList');
+      const newLog = document.createElement('div');
+      newLog.className = 'log-item';
+      newLog.innerHTML = `
+        <div>
+          <div class="log-title">${title}</div>
+          <div class="log-date">Vandaag • Reden: ${reason}</div>
+        </div>
+        <span class="badge ${badgeClass}">${statusText}</span>
+      `;
+      logList.insertBefore(newLog, logList.firstChild);
+    }
+  </script>
+</body>
+</html>
