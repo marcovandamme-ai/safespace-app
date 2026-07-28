@@ -1,605 +1,163 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SafeSpace - Performance & Deliverables Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-size: cover;
-            background-position: center center;
-            background-attachment: fixed;
-            transition: background-image 0.6s ease-in-out;
-            background-color: #f8fafc;
-            position: relative;
-        }
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Modal, TextInput, ScrollView, Alert } from 'react-native';
 
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                linear-gradient(to right, rgba(0, 0, 0, 0.08) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
-            background-size: 24px 24px;
-            opacity: 0.25;
-            pointer-events: none;
-            z-index: 1;
-        }
+export default function DeliverableTrackerMVP() {
+  // Huidige Deliverable Status
+  const [deliverable, setDeliverable] = useState({
+    id: 'DEL-001',
+    title: 'Wekelijkse KPI-Rapportage Alain',
+    deadline: '16:00 uur',
+    status: 'IN_PROGRESS' // IN_PROGRESS, COMPLETED, DELAYED
+  });
 
-        header, main, modal { position: relative; z-index: 2; }
+  // Prestatie-Logboek
+  const [logs, setLogs] = useState([
+    { id: 1, title: 'Dagupdate Sales', status: 'COMPLETED', date: 'Gisteren', reason: '' },
+    { id: 2, title: 'Maandafsluiting', status: 'DELAYED', date: '2 dagen geleden', reason: 'Derden niet op tijd' }
+  ]);
 
-        .bg-zon {
-            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.20), rgba(240, 253, 244, 0.40)), 
-                              url('https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1920&q=80');
-        }
-        .bg-bewolkt {
-            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), rgba(241, 245, 249, 0.65)), 
-                              url('https://images.unsplash.com/photo-1534088568595-a066f410bcda?auto=format&fit=crop&w=1920&q=80');
-        }
-        .bg-onweer {
-            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), rgba(254, 226, 226, 0.65)), 
-                              url('https://images.unsplash.com/photo-1605727216801-e27ce1d0cc28?auto=format&fit=crop&w=1920&q=80');
-        }
+  // Modal voor Vertragingsmelding
+  const [modalVisible, setModalVisible] = useState(false);
+  const [reason, setReason] = useState('');
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.90);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.95);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
-        }
+  // 1. Deliverable Gerealiseerd
+  const handleMarkCompleted = () => {
+    setDeliverable({ ...deliverable, status: 'COMPLETED' });
+    setLogs([{ id: Date.now(), title: deliverable.title, status: 'COMPLETED', date: 'Vandaag', reason: 'Op tijd afgerond' }, ...logs]);
+    Alert.alert("Gerealiseerd!", "Deliverable is succesvol op tijd afgevinkt.");
+  };
 
-        @keyframes stoplicht-knipper {
-            0%, 100% { opacity: 1; transform: scale(1.08); }
-            50% { opacity: 0.25; transform: scale(0.92); }
-        }
+  // 2. Vertraging Registreren (Zonder Mail)
+  const handleSaveDelay = () => {
+    if (!reason) {
+      Alert.alert("Let op", "Vul a.u.b. de reden in van de ontbrekende data.");
+      return;
+    }
+    setDeliverable({ ...deliverable, status: 'DELAYED' });
+    setLogs([{ id: Date.now(), title: deliverable.title, status: 'DELAYED', date: 'Vandaag', reason: reason }, ...logs]);
+    setModalVisible(false);
+    setReason('');
+    Alert.alert("Geregistreerd", "Vertraging en reden zijn vastgelegd in het logboek.");
+  };
 
-        .knipperen { animation: stoplicht-knipper 0.8s infinite ease-in-out; }
-    </style>
-</head>
-<body id="app-body" class="bg-zon text-slate-800 min-h-screen pb-16 font-sans">
+  return (
+    <ScrollView style={styles.container}>
+      <Text style={styles.headerTitle}>Deliverable Controle MVP</Text>
+      <Text style={styles.subTitle}>Status & Opleveringscheck voor Alain</Text>
 
-    <!-- HEADER -->
-    <header class="bg-white/90 backdrop-blur-md border-b border-emerald-200/60 p-4 sticky top-0 z-50 shadow-sm">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <div class="bg-emerald-600 text-white p-2.5 rounded-2xl text-2xl shadow-md">🐄</div>
-                <div>
-                    <h1 class="font-extrabold text-xl text-slate-900">SafeSpace Erf Monitor</h1>
-                    <span class="text-xs text-emerald-700 font-semibold flex items-center gap-1">
-                        <i class="fa-solid fa-sliders"></i> Project & Deliverable KPI Sturing
-                    </span>
-                </div>
-            </div>
-            
-            <div class="flex items-center gap-3">
-                <!-- Status Badge -->
-                <div id="status-badge" class="bg-emerald-600 text-white px-3.5 py-1.5 rounded-full text-xs font-bold flex items-center gap-2 shadow-md">
-                    <span id="traffic-light-dot" class="w-3 h-3 rounded-full bg-green-400 border border-white animate-pulse"></span>
-                    <span id="status-text">Status: Groen 🟢</span>
-                </div>
-
-                <!-- Configuratie / Profiel Knop -->
-                <button onclick="openConfigModal()" class="flex items-center gap-2 bg-emerald-800 hover:bg-emerald-900 text-white p-2 px-3.5 rounded-full shadow-md text-xs font-bold transition">
-                    <i class="fa-solid fa-gear text-sm"></i>
-                    <span>Configuratie (<span id="user-name-display">Alain</span>)</span>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- MAIN DASHBOARD -->
-    <main class="max-w-6xl mx-auto p-4 space-y-6 mt-2">
+      {/* ACTIEVE DELIVERABLE CHECK */}
+      <View style={styles.card}>
+        <Text style={styles.cardHeader}>Huidige Deliverable (Deadline: {deliverable.deadline})</Text>
+        <Text style={styles.taskTitle}>{deliverable.title}</Text>
         
-        <!-- TOP KPI SCOREBOARD & STOPLICHT -->
-        <div class="glass-card rounded-3xl p-6">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-                <div class="space-y-2 flex-1">
-                    <div class="flex items-center gap-3">
-                        <span id="user-avatar-display" class="text-3xl">🧑‍🌾</span>
-                        <div>
-                            <h2 id="welcome-title" class="text-2xl font-black text-slate-900">Dashboard van Alain</h2>
-                            <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Project- & Deliverable Prestaties</p>
-                        </div>
-                    </div>
-                    <p id="welcome-text" class="text-slate-700 text-sm font-semibold pt-1">
-                        Prestatie Score: <span id="kpi-score-display" class="font-black text-emerald-600 text-base">100%</span> — Alle deliverables (dagelijks, wekelijks, maandelijks en eenmalig) zijn op schema!
-                    </p>
-                </div>
-                
-                <!-- KPI Indicators Grid -->
-                <div class="flex items-center gap-4 w-full md:w-auto">
-                    <!-- Score Card -->
-                    <div class="bg-white p-3.5 px-5 rounded-2xl border border-slate-200 text-center flex-1 md:flex-none shadow-sm">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase block tracking-wider">KPI Prestatie</span>
-                        <span id="kpi-score-badge" class="text-2xl font-black text-emerald-600">100%</span>
-                    </div>
+        {/* HUIDIGE STATUS BADGE */}
+        <View style={styles.statusRow}>
+          <Text style={styles.label}>Status: </Text>
+          <Text style={[styles.badge, 
+            deliverable.status === 'COMPLETED' ? styles.badgeSuccess : 
+            deliverable.status === 'DELAYED' ? styles.badgeDanger : styles.badgeInfo
+          ]}>
+            {deliverable.status === 'COMPLETED' ? 'Gerealiseerd' : 
+             deliverable.status === 'DELAYED' ? 'Vertraagd / Data Ontbreekt' : 'In Behandeling'}
+          </Text>
+        </View>
 
-                    <!-- Knipperend Stoplicht Element -->
-                    <div class="bg-slate-900 text-white p-3.5 rounded-2xl flex md:flex-col gap-3 items-center shadow-xl border border-slate-700">
-                        <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest hidden md:block">Stoplicht</span>
-                        <div class="flex md:flex-col gap-2.5">
-                            <div id="light-red" class="w-6 h-6 rounded-full bg-red-950 border border-red-900 transition-all"></div>
-                            <div id="light-orange" class="w-6 h-6 rounded-full bg-amber-950 border border-amber-900 transition-all"></div>
-                            <div id="light-green" class="w-6 h-6 rounded-full bg-green-500 border border-green-300 shadow-[0_0_15px_#22c55e]"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        {/* T-30 CHECKPOORT WAARSCHUWING */}
+        {deliverable.status === 'IN_PROGRESS' && (
+          <View style={styles.alertBox}>
+            <Text style={styles.alertText}>
+              ⚠️ **T-30 min Checkpoort:** Heb je alle input gerealiseerd?
+            </Text>
+          </View>
+        )}
 
-            <!-- Project Filter Tabs -->
-            <div class="pt-4 mt-4 border-t border-slate-200/60 flex flex-wrap gap-2 items-center">
-                <span class="text-xs font-bold text-slate-500 mr-2"><i class="fa-solid fa-diagram-project"></i> Filter Project:</span>
-                <div id="project-filter-buttons" class="flex flex-wrap gap-2">
-                    <!-- Project knoppen worden via JS geladen -->
-                </div>
-            </div>
-        </div>
+        {/* CONTROLE KNOPPEN */}
+        {deliverable.status === 'IN_PROGRESS' && (
+          <View style={styles.buttonRow}>
+            <TouchableOpacity style={[styles.button, styles.successBtn]} onPress={handleMarkCompleted}>
+              <Text style={styles.btnText}>✓ Gerealiseerd</Text>
+            </TouchableOpacity>
 
-        <!-- MAIN DELIVERABLES MONITORING GRID -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <TouchableOpacity style={[styles.button, styles.dangerBtn]} onPress={() => setModalVisible(true)}>
+              <Text style={styles.btnText}>🚨 Geen Info / Vertraging</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
+
+      {/* PRESTATIE LOGBOEK */}
+      <View style={styles.card}>
+        <Text style={styles.cardHeader}>Prestatie-Logboek Controle</Text>
+        {logs.map((log) => (
+          <View key={log.id} style={styles.logItem}>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.logTitle}>{log.title}</Text>
+              <Text style={styles.logDate}>{log.date} {log.reason ? `• Reden: ${log.reason}` : ''}</Text>
+            </View>
+            <Text style={[styles.badge, log.status === 'COMPLETED' ? styles.badgeSuccess : styles.badgeDanger]}>
+              {log.status === 'COMPLETED' ? 'Op Tijd' : 'Vertraagd'}
+            </Text>
+          </View>
+        ))}
+      </View>
+
+      {/* MODAL: VERTRAGING LOGGEN */}
+      <Modal visible={modalVisible} animationType="fade" transparent={true}>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Reden Vertraging / Geen Info</Text>
+            <Text style={styles.inputLabel}>Waarom is de deliverable niet gerealiseerd?</Text>
             
-            <!-- 1. DAGELIJKS -->
-            <div class="glass-card rounded-3xl p-4 flex flex-col justify-between">
-                <div>
-                    <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-200">
-                        <h3 class="text-xs font-black text-emerald-800 uppercase tracking-wider flex items-center gap-1.5">
-                            <i class="fa-solid fa-calendar-day text-emerald-600"></i> Dagelijks
-                        </h3>
-                        <span id="count-dagelijks" class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">0/0</span>
-                    </div>
-                    <div id="list-dagelijks" class="space-y-2.5"></div>
-                </div>
-                <div class="mt-4 pt-2 border-t border-slate-100 text-[10px] text-slate-400 font-semibold text-center">
-                    Eindigt elke dag om 23:59
-                </div>
-            </div>
+            <TextInput 
+              style={styles.input} 
+              placeholder="bijv. Ontbrekende brongegevens van derden"
+              value={reason}
+              onChangeText={setReason}
+            />
 
-            <!-- 2. WEKELIJKS -->
-            <div class="glass-card rounded-3xl p-4 flex flex-col justify-between">
-                <div>
-                    <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-200">
-                        <h3 class="text-xs font-black text-blue-800 uppercase tracking-wider flex items-center gap-1.5">
-                            <i class="fa-solid fa-calendar-week text-blue-600"></i> Wekelijks
-                        </h3>
-                        <span id="count-wekelijks" class="text-[10px] bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded-full">0/0</span>
-                    </div>
-                    <div id="list-wekelijks" class="space-y-2.5"></div>
-                </div>
-                <div class="mt-4 pt-2 border-t border-slate-100 text-[10px] text-slate-400 font-semibold text-center">
-                    Afronden vóór zondagavond
-                </div>
-            </div>
+            <View style={styles.buttonRow}>
+              <TouchableOpacity style={[styles.button, styles.cancelBtn]} onPress={() => setModalVisible(false)}>
+                <Text style={styles.btnText}>Annuleren</Text>
+              </TouchableOpacity>
 
-            <!-- 3. MAANDELIJKS -->
-            <div class="glass-card rounded-3xl p-4 flex flex-col justify-between">
-                <div>
-                    <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-200">
-                        <h3 class="text-xs font-black text-purple-800 uppercase tracking-wider flex items-center gap-1.5">
-                            <i class="fa-solid fa-calendar-days text-purple-600"></i> Maandelijks
-                        </h3>
-                        <span id="count-maandelijks" class="text-[10px] bg-purple-100 text-purple-800 font-bold px-2 py-0.5 rounded-full">0/0</span>
-                    </div>
-                    <div id="list-maandelijks" class="space-y-2.5"></div>
-                </div>
-                <div class="mt-4 pt-2 border-t border-slate-100 text-[10px] text-slate-400 font-semibold text-center">
-                    Maandelijkse rapportage & sturing
-                </div>
-            </div>
+              <TouchableOpacity style={[styles.button, styles.dangerBtn]} onPress={handleSaveDelay}>
+                <Text style={styles.btnText}>Opslaan in Logboek</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    </ScrollView>
+  );
+}
 
-            <!-- 4. EENMALIG / VRAGEN -->
-            <div class="glass-card rounded-3xl p-4 flex flex-col justify-between">
-                <div>
-                    <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-200">
-                        <h3 class="text-xs font-black text-amber-800 uppercase tracking-wider flex items-center gap-1.5">
-                            <i class="fa-solid fa-circle-question text-amber-600"></i> Eenmalig / Vragen
-                        </h3>
-                        <span id="count-eenmalig" class="text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full">0/0</span>
-                    </div>
-                    <div id="list-eenmalig" class="space-y-2.5"></div>
-                </div>
-                <div class="mt-4 pt-2 border-t border-slate-100 text-[10px] text-slate-400 font-semibold text-center">
-                    Specifieke ad-hoc verzoeken
-                </div>
-            </div>
-
-        </div>
-
-        <!-- BOTTOM SECTION -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="glass-card rounded-3xl p-5">
-                <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-4 flex items-center gap-2">
-                    <i class="fa-solid fa-comments text-emerald-600"></i> Communicatie & Toelichting
-                </h3>
-                <div class="flex gap-2 mb-4">
-                    <input id="message-input" type="text" placeholder="Plaats een opmerking bij deliverables..." class="flex-1 bg-white border border-slate-300 focus:border-emerald-500 rounded-2xl px-4 py-2.5 text-xs text-slate-900 focus:outline-none font-medium">
-                    <button onclick="addMessage()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2.5 rounded-2xl text-xs shadow-md">Verstuur</button>
-                </div>
-                <div id="messages-list" class="space-y-2.5 max-h-48 overflow-y-auto pr-1 text-xs"></div>
-            </div>
-
-            <div class="glass-card rounded-3xl p-5">
-                <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-4 flex items-center gap-2">
-                    <i class="fa-solid fa-book text-amber-600"></i> Audit & Prestatie Logboek
-                </h3>
-                <div class="flex gap-2 mb-4">
-                    <input id="log-input" type="text" placeholder="Notitie toevoegen aan logboek..." class="flex-1 bg-white border border-slate-300 focus:border-amber-500 rounded-2xl px-4 py-2.5 text-xs text-slate-900 focus:outline-none font-medium">
-                    <button onclick="addLog()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold px-4 py-2.5 rounded-2xl text-xs shadow-md">Loggen</button>
-                </div>
-                <ul id="log-list" class="space-y-2 max-h-48 overflow-y-auto pr-1 text-xs text-slate-700 font-medium"></ul>
-            </div>
-        </div>
-    </main>
-
-    <!-- CONFIGURATIE MODAL (BEHEER PROJECTEN & DELIVERABLES VOOR ALAIN) -->
-    <div id="config-modal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 flex items-center justify-center hidden p-4 overflow-y-auto">
-        <div class="glass-card bg-white rounded-3xl max-w-3xl w-full p-6 shadow-2xl relative border border-white my-8">
-            <button onclick="closeConfigModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 font-bold text-lg">✕</button>
-            
-            <div class="flex items-center gap-3 mb-6 pb-4 border-b border-slate-200">
-                <div class="bg-emerald-600 text-white p-3 rounded-2xl text-xl">⚙️</div>
-                <div>
-                    <h3 class="text-xl font-black text-slate-900">Projecten & Deliverables Configuratie</h3>
-                    <p class="text-xs text-slate-500 font-semibold">Beheer hier wat Alain exact moet opleveren en monitoren</p>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- PROJECTEN BEHEREN -->
-                <div class="space-y-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
-                    <h4 class="text-xs font-black text-slate-800 uppercase tracking-wider flex items-center gap-2">
-                        <i class="fa-solid fa-folder-plus text-emerald-600"></i> Actieve Projecten
-                    </h4>
-                    <div class="flex gap-2">
-                        <input type="text" id="new-project-name" placeholder="Nieuwe projectnaam..." class="flex-1 bg-white border border-slate-300 rounded-xl p-2 text-xs font-semibold focus:outline-none focus:border-emerald-500">
-                        <button onclick="addProject()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-xl text-xs font-bold">+ Voeg Toe</button>
-                    </div>
-                    <ul id="config-project-list" class="space-y-1.5 max-h-40 overflow-y-auto text-xs"></ul>
-                </div>
-
-                <!-- PROFIEL INSTELLINGEN -->
-                <div class="space-y-3 bg-slate-50 p-4 rounded-2xl border border-slate-200">
-                    <h4 class="text-xs font-black text-slate-800 uppercase tracking-wider flex items-center gap-2">
-                        <i class="fa-solid fa-user-gear text-emerald-600"></i> Gebruikersprofiel
-                    </h4>
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-700 mb-1">Naam Gebruiker:</label>
-                        <input type="text" id="prof-name" class="w-full bg-white border border-slate-300 rounded-xl p-2 text-xs font-semibold">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-700 mb-1">Rol / Functie:</label>
-                        <input type="text" id="prof-role" class="w-full bg-white border border-slate-300 rounded-xl p-2 text-xs font-semibold">
-                    </div>
-                    <button onclick="saveProfileConfig()" class="w-full bg-slate-800 hover:bg-slate-900 text-white py-2 rounded-xl text-xs font-bold transition">Profiel Opslaan</button>
-                </div>
-            </div>
-
-            <!-- NIEUWE DELIVERABLE TOEVOEGEN -->
-            <div class="mt-6 pt-4 border-t border-slate-200">
-                <h4 class="text-xs font-black text-slate-800 uppercase tracking-wider mb-3 flex items-center gap-2">
-                    <i class="fa-solid fa-plus-circle text-emerald-600"></i> Nieuwe Deliverable / Taak Configureren
-                </h4>
-
-                <form onsubmit="addDeliverablesConfig(event)" class="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs">
-                    <div class="md:col-span-2">
-                        <label class="block font-bold text-slate-700 mb-1">Deliverable Naam / Vraag:</label>
-                        <input type="text" id="deliv-title" required placeholder="bijv. Dagrapportage voer & melk..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 font-medium">
-                    </div>
-
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1">Gekoppeld Project:</label>
-                        <select id="deliv-project" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 font-medium"></select>
-                    </div>
-
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1">Frequentie / Type:</label>
-                        <select id="deliv-freq" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 font-medium">
-                            <option value="dagelijks">Dagelijks</option>
-                            <option value="wekelijks">Wekelijks</option>
-                            <option value="maandelijks">Maandelijks</option>
-                            <option value="eenmalig">Eenmalig / Vraag</option>
-                        </select>
-                    </div>
-
-                    <div class="md:col-span-3">
-                        <label class="block font-bold text-slate-700 mb-1">Korte Toelichting / Criterium:</label>
-                        <input type="text" id="deliv-desc" placeholder="Wat moet er exact opgeleverd of beantwoord worden?" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 font-medium">
-                    </div>
-
-                    <div class="flex items-end">
-                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white p-2 rounded-xl font-bold shadow-md">
-                            Toevoegen & Bewaren
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- OVERZICHT GECONFIGUREERDE DELIVERABLES -->
-            <div class="mt-6 pt-4 border-t border-slate-200">
-                <h4 class="text-xs font-black text-slate-800 uppercase tracking-wider mb-3">Geconfigureerde Deliverables Overzicht</h4>
-                <div id="config-deliverables-list" class="space-y-2 max-h-48 overflow-y-auto text-xs"></div>
-            </div>
-
-            <div class="mt-6 pt-4 border-t border-slate-200 flex justify-end">
-                <button onclick="closeConfigModal()" class="bg-emerald-600 text-white px-6 py-2.5 rounded-xl font-bold text-xs shadow-md">Klaar & Terug naar Dashboard</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        let projects = ["SafeSpace Weide", "Onderhoud Stal", "Melkveebeheer Q3"];
-        
-        let deliverables = [
-            { id: 1, title: "Ochtend- & avondcontrole vee", project: "SafeSpace Weide", freq: "dagelijks", desc: "Controleer waterbakken en gezondheid koeien", done: false },
-            { id: 2, title: "Dagrapportage voer & melk", project: "Melkveebeheer Q3", freq: "dagelijks", desc: "Vul de dagelijkse liters en voergift in", done: false },
-            { id: 3, title: "Inspectie weideomheining & hekwerk", project: "SafeSpace Weide", freq: "wekelijks", desc: "Check de stroom op het schrikdraad", done: false },
-            { id: 4, title: "Onderhoudsbeurt voermengwagen", project: "Onderhoud Stal", freq: "maandelijks", desc: "Olie verversen en messen inspecteren", done: false },
-            { id: 5, title: "Offerte aanvraag nieuwe zonnepanelen stal", project: "Onderhoud Stal", freq: "eenmalig", desc: "Eenmalige vraag: vergelijk 3 leveranciers", done: false }
-        ];
-
-        let profile = { name: "Alain", role: "Eigenaar / Hoofdbeheerder", avatar: "🧑‍🌾" };
-        let activeFilterProject = "ALL";
-        let messages = [{ id: 1, user: "Marco", text: "Welkom Alain! Alle geconfigureerde deliverables sturen nu direct het stoplicht en je KPI score aan.", time: "Zojuist" }];
-        let logs = [{ id: 1, date: "Vandaag", text: "Dashboard configuratie geladen met dagelijkse, wekelijkse en maandelijkse sturing." }];
-
-        function initApp() {
-            loadLocalStorage();
-            renderProfileUI();
-            renderProjectFilterButtons();
-            renderDeliverables();
-            renderMessages();
-            renderLogs();
-        }
-
-        function loadLocalStorage() {
-            if (localStorage.getItem('safespace_projects')) projects = JSON.parse(localStorage.getItem('safespace_projects'));
-            if (localStorage.getItem('safespace_deliverables')) deliverables = JSON.parse(localStorage.getItem('safespace_deliverables'));
-            if (localStorage.getItem('safespace_profile')) profile = JSON.parse(localStorage.getItem('safespace_profile'));
-            if (localStorage.getItem('safespace_messages')) messages = JSON.parse(localStorage.getItem('safespace_messages'));
-            if (localStorage.getItem('safespace_logs')) logs = JSON.parse(localStorage.getItem('safespace_logs'));
-        }
-
-        function saveData() {
-            localStorage.setItem('safespace_projects', JSON.stringify(projects));
-            localStorage.setItem('safespace_deliverables', JSON.stringify(deliverables));
-            localStorage.setItem('safespace_profile', JSON.stringify(profile));
-            localStorage.setItem('safespace_messages', JSON.stringify(messages));
-            localStorage.setItem('safespace_logs', JSON.stringify(logs));
-        }
-
-        function renderProfileUI() {
-            document.getElementById('user-name-display').innerText = profile.name;
-            document.getElementById('user-avatar-display').innerText = profile.avatar || "🧑‍🌾";
-            document.getElementById('welcome-title').innerText = `Dashboard van ${profile.name}`;
-            document.getElementById('prof-name').value = profile.name;
-            document.getElementById('prof-role').value = profile.role;
-        }
-
-        function renderProjectFilterButtons() {
-            const container = document.getElementById('project-filter-buttons');
-            container.innerHTML = `
-                <button onclick="setProjectFilter('ALL')" class="px-3 py-1 rounded-xl text-xs font-bold border transition ${activeFilterProject === 'ALL' ? 'bg-slate-900 text-white border-slate-900 shadow-sm' : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-100'}">
-                    Alle Projecten (${deliverables.length})
-                </button>
-            `;
-
-            projects.forEach(p => {
-                const count = deliverables.filter(d => d.project === p).length;
-                const isActive = activeFilterProject === p;
-                container.innerHTML += `
-                    <button onclick="setProjectFilter('${p}')" class="px-3 py-1 rounded-xl text-xs font-bold border transition ${isActive ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm' : 'bg-white text-slate-700 border-slate-300 hover:bg-emerald-50'}">
-                        ${p} (${count})
-                    </button>
-                `;
-            });
-        }
-
-        function setProjectFilter(proj) {
-            activeFilterProject = proj;
-            renderProjectFilterButtons();
-            renderDeliverables();
-        }
-
-        function renderDeliverables() {
-            const freqs = ['dagelijks', 'wekelijks', 'maandelijks', 'eenmalig'];
-            let filteredDeliverables = activeFilterProject !== 'ALL' ? deliverables.filter(d => d.project === activeFilterProject) : deliverables;
-
-            freqs.forEach(freq => {
-                const listEl = document.getElementById(`list-${freq}`);
-                const countEl = document.getElementById(`count-${freq}`);
-                listEl.innerHTML = '';
-
-                const items = filteredDeliverables.filter(d => d.freq === freq);
-                const doneCount = items.filter(d => d.done).length;
-
-                countEl.innerText = `${doneCount}/${items.length}`;
-                countEl.className = doneCount === items.length && items.length > 0 
-                    ? "text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full"
-                    : "text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full animate-pulse";
-
-                if (items.length === 0) {
-                    listEl.innerHTML = `<p class="text-[11px] text-slate-400 italic">Geen deliverables in deze categorie.</p>`;
-                } else {
-                    items.forEach(d => {
-                        const originalIndex = deliverables.findIndex(orig => orig.id === d.id);
-                        const card = document.createElement('div');
-                        card.className = `p-3 rounded-2xl border transition ${d.done ? 'bg-emerald-50/70 border-emerald-200' : 'bg-white border-slate-200 shadow-sm hover:border-emerald-300'}`;
-                        card.innerHTML = `
-                            <div class="flex items-start justify-between gap-2">
-                                <label class="flex items-start gap-2.5 cursor-pointer flex-1">
-                                    <input type="checkbox" ${d.done ? 'checked' : ''} onchange="toggleDeliverable(${originalIndex})" class="mt-0.5 w-4 h-4 accent-emerald-600 rounded">
-                                    <div>
-                                        <span class="text-xs ${d.done ? 'line-through text-slate-400' : 'text-slate-900 font-bold block'}">${d.title}</span>
-                                        <span class="text-[10px] font-semibold text-emerald-700 bg-emerald-100/80 px-1.5 py-0.5 rounded inline-block mt-1">${d.project}</span>
-                                        ${d.desc ? `<p class="text-[11px] text-slate-500 font-normal mt-1">${d.desc}</p>` : ''}
-                                    </div>
-                                </label>
-                            </div>
-                        `;
-                        listEl.appendChild(card);
-                    });
-                }
-            });
-
-            calculateKPIAndTrafficLight();
-        }
-
-        function toggleDeliverable(index) {
-            deliverables[index].done = !deliverables[index].done;
-            saveData();
-            renderDeliverables();
-        }
-
-        function calculateKPIAndTrafficLight() {
-            const total = deliverables.length;
-            if (total === 0) return;
-
-            const completed = deliverables.filter(d => d.done).length;
-            const scorePercent = Math.round((completed / total) * 100);
-
-            document.getElementById('kpi-score-display').innerText = `${scorePercent}%`;
-            document.getElementById('kpi-score-badge').innerText = `${scorePercent}%`;
-
-            const redLight = document.getElementById('light-red');
-            const orangeLight = document.getElementById('light-orange');
-            const greenLight = document.getElementById('light-green');
-            const statusText = document.getElementById('status-text');
-            const statusDot = document.getElementById('traffic-light-dot');
-            const statusBadge = document.getElementById('status-badge');
-            const welcomeText = document.getElementById('welcome-text');
-
-            redLight.className = "w-6 h-6 rounded-full bg-red-950 border border-red-900 transition-all";
-            orangeLight.className = "w-6 h-6 rounded-full bg-amber-950 border border-amber-900 transition-all";
-            greenLight.className = "w-6 h-6 rounded-full bg-green-950 border border-green-900 transition-all";
-
-            const openDaily = deliverables.filter(d => d.freq === 'dagelijks' && !d.done).length;
-
-            if (scorePercent < 50 || openDaily > 1) {
-                redLight.className = "w-6 h-6 rounded-full bg-red-500 border border-red-300 shadow-[0_0_15px_#ef4444] knipperen";
-                statusText.innerText = "Status: Rood 🔴 (Achterstand!)";
-                statusDot.className = "w-3 h-3 rounded-full bg-red-400 border border-white animate-ping";
-                statusBadge.className = "bg-rose-600 text-white px-3.5 py-1.5 rounded-full text-xs font-bold flex items-center gap-2 shadow-md";
-                welcomeText.innerHTML = `Prestatie Score: <span class="font-black text-rose-600 text-base">${scorePercent}%</span> — ⚠️ <b>Let op ${profile.name}!</b> Er staan kritieke dagelijkse of eenmalige deliverables open.`;
-                document.getElementById('app-body').className = "bg-onweer text-slate-800 min-h-screen pb-16 font-sans";
-            } else if (scorePercent < 100) {
-                orangeLight.className = "w-6 h-6 rounded-full bg-amber-500 border border-amber-300 shadow-[0_0_15px_#f59e0b] knipperen";
-                statusText.innerText = "Status: Oranje 🟡 (Aandacht)";
-                statusDot.className = "w-3 h-3 rounded-full bg-amber-300 border border-white animate-pulse";
-                statusBadge.className = "bg-amber-600 text-white px-3.5 py-1.5 rounded-full text-xs font-bold flex items-center gap-2 shadow-md";
-                welcomeText.innerHTML = `Prestatie Score: <span class="font-black text-amber-600 text-base">${scorePercent}%</span> — Er zijn geconfigureerde deliverables die nog moeten worden ingevuld of opgeleverd.`;
-                document.getElementById('app-body').className = "bg-bewolkt text-slate-800 min-h-screen pb-16 font-sans";
-            } else {
-                greenLight.className = "w-6 h-6 rounded-full bg-green-500 border border-green-300 shadow-[0_0_15px_#22c55e]";
-                statusText.innerText = "Status: Groen 🟢 (Alles OK)";
-                statusDot.className = "w-3 h-3 rounded-full bg-green-400 border border-white animate-pulse";
-                statusBadge.className = "bg-emerald-600 text-white px-3.5 py-1.5 rounded-full text-xs font-bold flex items-center gap-2 shadow-md";
-                welcomeText.innerHTML = `Prestatie Score: <span class="font-black text-emerald-600 text-base">100%</span> — Uitstekend werk! Alle geconfigureerde deliverables zijn succesvol afgerond.`;
-                document.getElementById('app-body').className = "bg-zon text-slate-800 min-h-screen pb-16 font-sans";
-            }
-        }
-
-        function openConfigModal() { renderConfigModalUI(); document.getElementById('config-modal').classList.remove('hidden'); }
-        function closeConfigModal() { document.getElementById('config-modal').classList.add('hidden'); renderProjectFilterButtons(); renderDeliverables(); }
-
-        function renderConfigModalUI() {
-            const projList = document.getElementById('config-project-list');
-            projList.innerHTML = '';
-            projects.forEach((p, idx) => {
-                projList.innerHTML += `<li class="flex justify-between items-center p-2 bg-white rounded-xl border border-slate-200"><span class="font-bold text-slate-800">${p}</span><button onclick="deleteProject(${idx})" class="text-slate-300 hover:text-rose-500 font-bold px-1 text-xs">✕</button></li>`;
-            });
-
-            const projSelect = document.getElementById('deliv-project');
-            projSelect.innerHTML = '';
-            projects.forEach(p => projSelect.innerHTML += `<option value="${p}">${p}</option>`);
-
-            const delivList = document.getElementById('config-deliverables-list');
-            delivList.innerHTML = '';
-            deliverables.forEach((d, idx) => {
-                delivList.innerHTML += `<div class="flex justify-between items-center p-2.5 bg-slate-50 border border-slate-200 rounded-xl"><div><span class="font-bold text-slate-900 block">${d.title}</span><span class="text-[10px] text-slate-500 font-semibold">${d.project} • <span class="uppercase text-emerald-700">${d.freq}</span></span></div><button onclick="deleteDeliverable(${idx})" class="text-slate-400 hover:text-rose-600 font-bold text-xs px-2 py-1">Verwijder</button></div>`;
-            });
-        }
-
-        function addProject() {
-            const input = document.getElementById('new-project-name');
-            if (input.value.trim() !== '') {
-                projects.push(input.value.trim());
-                input.value = '';
-                saveData();
-                renderConfigModalUI();
-            }
-        }
-
-        function deleteProject(idx) { projects.splice(idx, 1); saveData(); renderConfigModalUI(); }
-
-        function addDeliverablesConfig(e) {
-            e.preventDefault();
-            const title = document.getElementById('deliv-title').value.trim();
-            const project = document.getElementById('deliv-project').value;
-            const freq = document.getElementById('deliv-freq').value;
-            const desc = document.getElementById('deliv-desc').value.trim();
-
-            if (title) {
-                deliverables.push({ id: Date.now(), title, project, freq, desc, done: false });
-                document.getElementById('deliv-title').value = '';
-                document.getElementById('deliv-desc').value = '';
-                saveData();
-                renderConfigModalUI();
-            }
-        }
-
-        function deleteDeliverable(idx) { deliverables.splice(idx, 1); saveData(); renderConfigModalUI(); }
-
-        function saveProfileConfig() {
-            profile.name = document.getElementById('prof-name').value.trim() || "Alain";
-            profile.role = document.getElementById('prof-role').value.trim() || "Eigenaar";
-            saveData();
-            renderProfileUI();
-            alert("Profiel opgeslagen!");
-        }
-
-        function renderMessages() {
-            const list = document.getElementById('messages-list');
-            list.innerHTML = '';
-            messages.forEach(m => {
-                list.innerHTML += `<div class="bg-white/90 p-2.5 rounded-xl border border-slate-200"><div class="flex justify-between items-center mb-0.5"><span class="font-bold text-emerald-800">${m.user}</span><span class="text-[10px] text-slate-400 font-semibold">${m.time}</span></div><p class="text-slate-800 font-medium">${m.text}</p></div>`;
-            });
-        }
-
-        function addMessage() {
-            const input = document.getElementById('message-input');
-            if (input.value.trim() !== '') {
-                const now = new Date();
-                const timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
-                messages.unshift({ id: Date.now(), user: profile.name, text: input.value.trim(), time: timeStr });
-                input.value = '';
-                saveData();
-                renderMessages();
-            }
-        }
-
-        function renderLogs() {
-            const list = document.getElementById('log-list');
-            list.innerHTML = '';
-            logs.forEach(l => {
-                list.innerHTML += `<li class="p-2 bg-white/80 rounded-xl border border-slate-200 flex justify-between gap-2"><span>• ${l.text}</span><span class="text-[10px] text-slate-400 whitespace-nowrap">${l.date}</span></li>`;
-            });
-        }
-
-        function addLog() {
-            const input = document.getElementById('log-input');
-            if (input.value.trim() !== '') {
-                const now = new Date();
-                const dateStr = now.getDate() + '-' + (now.getMonth() + 1);
-                logs.unshift({ id: Date.now(), text: input.value.trim(), date: dateStr });
-                input.value = '';
-                saveData();
-                renderLogs();
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', initApp);
-    </script>
-</body>
-</html>
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#f4f6f8', padding: 20 },
+  headerTitle: { fontSize: 22, fontWeight: 'bold', color: '#1a202c', marginTop: 20 },
+  subTitle: { fontSize: 14, color: '#718096', marginBottom: 20 },
+  card: { backgroundColor: '#fff', padding: 20, borderRadius: 12, marginBottom: 20, elevation: 2 },
+  cardHeader: { fontSize: 11, fontWeight: 'bold', color: '#a0aec0', textTransform: 'uppercase', marginBottom: 10 },
+  taskTitle: { fontSize: 18, fontWeight: 'bold', color: '#2d3748', marginBottom: 10 },
+  statusRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 15 },
+  label: { fontSize: 14, color: '#4a5568' },
+  alertBox: { backgroundColor: '#fffaf0', borderColor: '#feebc8', borderWidth: 1, padding: 10, borderRadius: 8, marginBottom: 15 },
+  alertText: { color: '#c05621', fontSize: 12 },
+  buttonRow: { flexDirection: 'row', gap: 10, marginTop: 10 },
+  button: { flex: 1, paddingVertical: 12, borderRadius: 8, alignItems: 'center' },
+  successBtn: { backgroundColor: '#38a169' },
+  dangerBtn: { backgroundColor: '#e53e3e' },
+  cancelBtn: { backgroundColor: '#cbd5e0' },
+  btnText: { color: '#fff', fontWeight: 'bold', fontSize: 13 },
+  logItem: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#edf2f7' },
+  logTitle: { fontWeight: '600', color: '#2d3748', fontSize: 13 },
+  logDate: { fontSize: 11, color: '#a0aec0' },
+  badge: { paddingHorizontal: 8, paddingVertical: 4, borderRadius: 12, fontSize: 11, fontWeight: 'bold' },
+  badgeSuccess: { backgroundColor: '#c6f6d5', color: '#22543d' },
+  badgeDanger: { backgroundColor: '#fed7d7', color: '#9b2c2c' },
+  badgeInfo: { backgroundColor: '#e2e8f0', color: '#4a5568' },
+  modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', padding: 20 },
+  modalContent: { backgroundColor: '#fff', borderRadius: 12, padding: 20 },
+  modalTitle: { fontSize: 16, fontWeight: 'bold', marginBottom: 10 },
+  inputLabel: { fontSize: 12, color: '#4a5568', marginBottom: 8 },
+  input: { borderWidth: 1, borderColor: '#cbd5e0', borderRadius: 6, padding: 10, fontSize: 13, marginBottom: 15 }
+});
