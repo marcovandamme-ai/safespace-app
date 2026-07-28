@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Deliverable Controle MVP</title>
   <style>
-    body { fontFamily: Arial, sans-serif; background-color: #f4f6f8; padding: 20px; margin: 0; }
+    body { font-family: Arial, sans-serif; background-color: #f4f6f8; padding: 20px; margin: 0; }
     .container { max-width: 500px; margin: 0 auto; }
     h1 { font-size: 22px; color: #1a202c; margin-bottom: 5px; }
     p.subtitle { font-size: 14px; color: #718096; margin-bottom: 20px; }
@@ -40,11 +40,11 @@
     <!-- ACTIEVE DELIVERABLE CHECK -->
     <div class="card">
       <div class="card-header">Huidige Deliverable (Deadline: 16:00 uur)</div>
-      <h2 class="task-title" id="deliverableTitle">Wekelijkse KPI-Rapportage Alain</h2>
+      <h2 class="task-title" id="deliverableTitle">Wekelijkse KPI-rapportage Alain</h2>
       
       <div class="status-row">
         <span>Status:</span>
-        <span id="statusBadge" class="badge badge-in-progress">In Behandeling</span>
+        <span id="statusBadge" class="badge badge-in-progress">In behandeling</span>
       </div>
 
       <div id="alertBox" class="alert-box">
@@ -59,11 +59,11 @@
 
     <!-- PRESTATIE LOGBOEK -->
     <div class="card">
-      <div class="card-header">Prestatie-Logboek Controle</div>
+      <div class="card-header">Logboek Controle</div>
       <div id="logList">
         <div class="log-item">
           <div>
-            <div class="log-title">Dagupdate Sales</div>
+            <div class="log-title">Dagupdate Verkoop</div>
             <div class="log-date">Gisteren • Reden: Op tijd afgerond</div>
           </div>
           <span class="badge badge-success">Op Tijd</span>
@@ -95,7 +95,7 @@
   </div>
 
   <script>
-    const taskTitle = "Wekelijkse KPI-Rapportage Alain";
+    const taskTitle = "Wekelijkse KPI-rapportage Alain";
 
     function markCompleted() {
       document.getElementById('statusBadge').innerText = "Gerealiseerd";
