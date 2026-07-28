@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google" content="notranslate">
-  <title>Safespace - Hoe zit je in de wedstrijd?</title>
+  <title>Safespace - Layout Selector</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,29 +19,78 @@
       margin: 0; 
       color: #0f172a;
     }
-    
-    /* HERO BANNER MET AFBEELDING */
+
+    /* BAR BOVENAAN OM TUSSEN INDEX PAGINA'S TE SCHAKELEN */
+    .layout-selector-bar {
+      background: #0f172a;
+      color: #fff;
+      padding: 12px 16px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .selector-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #94a3b8;
+    }
+    .selector-buttons {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .page-btn {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .page-btn:hover { background: #334155; color: #fff; }
+    .page-btn.active {
+      background: #2563eb;
+      color: #fff;
+      border-color: #3b82f6;
+    }
+
+    /* PAGINA CONTAINERS (SLAAT STATUS OP) */
+    .page-view { display: none; }
+    .page-view.active-view { display: block; }
+
+    /* HERO BANNER */
     .hero-header {
       background: linear-gradient(rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.65)), 
                   url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
-      padding: 40px 20px 30px 20px;
+      padding: 35px 20px 25px 20px;
       text-align: center;
       color: #ffffff;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       border-bottom: 4px solid #f59e0b;
-      transition: background 0.5s ease-in-out;
+      transition: background 0.4s ease;
     }
-    .hero-header h1 { font-size: 26px; font-weight: 700; margin: 0 0 6px 0; text-shadow: 0 2px 4px rgba(0,0,0,0.4); }
-    .hero-header p { font-size: 14px; opacity: 0.95; margin: 0; }
+    .hero-header h1 { font-size: 24px; font-weight: 700; margin: 0 0 4px 0; }
+    .hero-header p { font-size: 13px; opacity: 0.95; margin: 0; }
 
-    .container { max-width: 640px; margin: 0 auto; padding: 0 20px 40px 20px; }
+    .container { max-width: 600px; margin: 0 auto; padding: 0 20px 40px 20px; }
     
     /* REFRESH BAR */
     .refresh-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 12px;
+      font-size: 11px;
       color: #64748b;
       margin-bottom: 15px;
       padding: 0 4px;
@@ -60,9 +109,10 @@
       background: #ffffff; 
       padding: 20px; 
       border-radius: 16px; 
-      margin-bottom: 20px; 
+      margin-bottom: 16px; 
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
       border: 1px solid #e2e8f0;
+      position: relative;
     }
     .card-header { 
       font-size: 11px; 
@@ -76,98 +126,62 @@
       align-items: center;
     }
 
-    /* VROLIJKE KOETJES METHODIEK - MOOD GRID */
-    .mood-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
-      margin-top: 10px;
-    }
+    /* MOOD GRID (KOETJES) */
+    .mood-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 10px; }
     .mood-btn {
       background: #f1f5f9;
       border: 2px solid transparent;
-      border-radius: 12px;
-      padding: 12px 4px;
+      border-radius: 10px;
+      padding: 10px 2px;
       text-align: center;
       cursor: pointer;
-      transition: all 0.2s ease;
       font-family: inherit;
+      transition: all 0.2s ease;
     }
-    .mood-btn:hover { background: #e2e8f0; transform: translateY(-2px); }
-    .mood-btn.active {
-      border-color: #f59e0b;
-      background: #fffbeb;
-      box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.2);
-    }
-    .mood-emoji { font-size: 24px; display: block; margin-bottom: 4px; }
-    .mood-label { font-size: 11px; font-weight: 600; color: #334155; }
+    .mood-btn.active { border-color: #f59e0b; background: #fffbeb; }
+    .mood-emoji { font-size: 20px; display: block; margin-bottom: 2px; }
+    .mood-label { font-size: 10px; font-weight: 600; color: #334155; }
 
-    /* DASHBOARD STATISTIEKEN */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-bottom: 16px;
-    }
+    /* STATS GRID */
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
     .stat-card {
       background: #ffffff;
-      padding: 14px 10px;
+      padding: 12px 8px;
       border-radius: 12px;
       border: 1px solid #e2e8f0;
       text-align: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
     }
-    .stat-number { font-size: 20px; font-weight: 700; color: #0f172a; margin-bottom: 2px; }
+    .stat-number { font-size: 18px; font-weight: 700; margin-bottom: 2px; }
     .stat-label { font-size: 10px; color: #64748b; font-weight: 600; text-transform: uppercase; }
 
-    /* STOPLICHT BEHUIZING RECHTSBOVEN */
+    /* STOPLICHT BEHUIZING */
     .traffic-light-casing {
       background-color: #1e293b;
-      padding: 6px 8px;
-      border-radius: 16px;
+      padding: 5px 7px;
+      border-radius: 14px;
       display: flex;
       flex-direction: column;
-      gap: 5px;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+      gap: 4px;
       border: 1px solid #334155;
     }
-    .light {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background-color: #000;
-      opacity: 0.2;
-      transition: all 0.3s ease;
-    }
+    .light { width: 10px; height: 10px; border-radius: 50%; background-color: #000; opacity: 0.2; }
     .light.red { background-color: #ef4444; }
     .light.orange { background-color: #f59e0b; }
     .light.green { background-color: #22c55e; }
 
-    .status-orange .light.orange { opacity: 1; box-shadow: 0 0 10px #f59e0b; }
-    .status-green .light.green { opacity: 1; box-shadow: 0 0 10px #22c55e; }
-    .status-red .light.red { opacity: 1; box-shadow: 0 0 10px #ef4444; }
+    .status-orange .light.orange { opacity: 1; box-shadow: 0 0 8px #f59e0b; }
+    .status-green .light.green { opacity: 1; box-shadow: 0 0 8px #22c55e; }
+    .status-red .light.red { opacity: 1; box-shadow: 0 0 8px #ef4444; }
 
     /* TAAK & KNOPPEN */
-    .task-title { font-size: 18px; font-weight: 700; color: #1e293b; margin: 0 0 8px 0; }
-    .status-row { display: flex; align-items: center; gap: 8px; margin-bottom: 15px; font-size: 13px; color: #475569; }
-    
+    .task-title { font-size: 17px; font-weight: 700; color: #1e293b; margin: 0 0 8px 0; }
     .badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
     .badge-in-progress { background-color: #fef3c7; color: #b45309; }
     .badge-success { background-color: #dcfce7; color: #15803d; }
     .badge-danger { background-color: #fee2e2; color: #b91c1c; }
 
-    .alert-box { 
-      background-color: #fffbeb; 
-      border: 1px solid #fef3c7; 
-      color: #b45309; 
-      padding: 10px 12px; 
-      border-radius: 10px; 
-      margin-bottom: 15px; 
-      font-size: 12px; 
-    }
-
-    .button-row { display: flex; gap: 10px; }
-    button.action-btn { 
+    .button-row { display: flex; gap: 8px; }
+    button.action-btn, a.btn-nav { 
       flex: 1; 
       padding: 12px; 
       border-radius: 10px; 
@@ -177,189 +191,177 @@
       font-weight: 600; 
       cursor: pointer; 
       font-size: 13px; 
-      transition: all 0.2s ease;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
     }
-    button.action-btn:hover { opacity: 0.9; transform: translateY(-1px); }
     .btn-success { background-color: #16a34a; }
     .btn-danger { background-color: #dc2626; }
-    .btn-cancel { background-color: #e2e8f0; color: #334155; }
-    .btn-nav { background-color: #3b82f6; color: white; margin-top: 10px; width: 100%; text-align: center; text-decoration: none; display: block; padding: 12px; border-radius: 10px; font-weight: 600; font-size: 13px; }
+    .btn-nav { background-color: #3b82f6; width: 100%; box-sizing: border-box; }
 
     /* AGENDA */
-    .agenda-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 0;
-      border-bottom: 1px solid #f1f5f9;
-    }
+    .agenda-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
     .agenda-item:last-child { border-bottom: none; }
-    .agenda-time { font-size: 12px; font-weight: 700; color: #2563eb; width: 70px; }
-    .agenda-details { flex: 1; }
-    .agenda-title { font-size: 14px; font-weight: 600; color: #334155; }
-    .agenda-desc { font-size: 12px; color: #94a3b8; }
-
-    /* MODAL */
-    .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); justify-content: center; align-items: center; padding: 20px; z-index: 100; }
-    .modal-content { background: #fff; border-radius: 16px; padding: 24px; width: 100%; max-width: 420px; }
-    input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1; margin-bottom: 18px; font-family: inherit; font-size: 14px; box-sizing: border-box; }
+    .agenda-time { font-size: 11px; font-weight: 700; color: #2563eb; width: 65px; }
+    .agenda-title { font-size: 13px; font-weight: 600; color: #334155; }
+    .agenda-desc { font-size: 11px; color: #94a3b8; }
   </style>
 </head>
 <body class="notranslate">
 
-  <!-- HEADER MET FOTO -->
-  <div class="hero-header" id="heroHeader">
-    <h1>Safespace</h1>
-    <p id="heroSubtitle">Hoe zit je vandaag in de wedstrijd?</p>
+  <!-- KIES BALK BOVENAAN -->
+  <div class="layout-selector-bar">
+    <div class="selector-title">Kies de Index Lay-out Versie:</div>
+    <div class="selector-buttons">
+      <button class="page-btn active" onclick="showPage('p1', this)">1. Koetjes & Stemming</button>
+      <button class="page-btn" onclick="showPage('p2', this)">2. Deliverables + Stoplicht</button>
+      <button class="page-btn" onclick="showPage('p3', this)">3. Compact Dashboard</button>
+      <button class="page-btn" onclick="showPage('p4', this)">4. Uitklapbaar (Accordion)</button>
+    </div>
   </div>
 
-  <div class="container">
-
-    <!-- REFRESH STATUS BAR -->
+  <!-- Global Live Refresh Indicator -->
+  <div class="container" style="padding-top: 15px; padding-bottom: 0;">
     <div class="refresh-bar">
       <span><span class="refresh-indicator"></span> Live Verbinding</span>
-      <span id="lastUpdated">Laatste refresh: zojuist</span>
+      <span class="lastUpdated">Laatste refresh: zojuist</span>
     </div>
-
-    <!-- 1. VROLIJKE KOETJES METHODIEK (STEMMINGSSCHERM) -->
-    <div class="card">
-      <div class="card-header">
-        <span>🐮 Vrolijke Koetjes Methodiek</span>
-      </div>
-      <p style="font-size: 13px; color: #64748b; margin-top: 0; margin-bottom: 12px;">Selecteer je gemoedstoestand van vandaag:</p>
-      
-      <div class="mood-grid">
-        <button class="mood-btn" onclick="setMood('ochtend', '🌅 Fris & Ochtendzin', this)">
-          <span class="mood-emoji">🌅</span>
-          <span class="mood-label">Ochtend</span>
-        </button>
-        <button class="mood-btn active" onclick="setMood('zonnig', '☀️ Zonnig & Vol Energie', this)">
-          <span class="mood-emoji">☀️</span>
-          <span class="mood-label">Zonnig</span>
-        </button>
-        <button class="mood-btn" onclick="setMood('bewolkt', '⛅ Bewolkt & Neutraal', this)">
-          <span class="mood-emoji">⛅</span>
-          <span class="mood-label">Bewolkt</span>
-        </button>
-        <button class="mood-btn" onclick="setMood('regen', '🌧️ Druk & Regenbuien', this)">
-          <span class="mood-emoji">🌧️</span>
-          <span class="mood-label">Regen</span>
-        </button>
-        <button class="mood-btn" onclick="setMood('onweer', '🌩️ Heavy & Onweer', this)">
-          <span class="mood-emoji">🌩️</span>
-          <span class="mood-label">Onweer</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- 2. NAVIGATIE / CONFIGURATIE KNOP -->
-    <div class="card" style="padding: 16px;">
-      <div class="card-header" style="margin-bottom: 4px;">⚙️ Beheer & Instellingen</div>
-      <a href="configuratie.html" class="btn-nav">⚙️ Open Configuratie Scherm</a>
-    </div>
-
-    <!-- 3. DELIVERABLE DASHBOARD STATS -->
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-number" style="color: #16a34a;">85%</div>
-        <div class="stat-label">Op Tijd</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number" style="color: #2563eb;">12</div>
-        <div class="stat-label">Deliverables</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number" style="color: #dc2626;">1</div>
-        <div class="stat-label">Vertraagd</div>
-      </div>
-    </div>
-
-    <!-- 4. TAAKVENSTER MET FYSIEK STOPLICHT -->
-    <div class="card">
-      <div class="card-header">
-        <span>Actueel Taakvenster (Deadline: 16:00 uur)</span>
-        
-        <!-- FYSIEK STOPLICHT RECHTSBOVEN -->
-        <div class="traffic-light-casing status-orange" id="trafficLightCasing">
-          <div class="light red"></div>
-          <div class="light orange"></div>
-          <div class="light green"></div>
-        </div>
-      </div>
-
-      <h2 class="task-title" id="deliverableTitle">Wekelijkse KPI-rapportage Alain</h2>
-      
-      <div class="status-row">
-        <span>Status:</span>
-        <span id="statusBadge" class="badge badge-in-progress">In behandeling</span>
-      </div>
-
-      <div id="alertBox" class="alert-box">
-        ⚠️ <strong>T-30 min Checkpoort:</strong> Heb je alle input gerealiseerd?
-      </div>
-
-      <div id="buttonGroup" class="button-row">
-        <button class="action-btn btn-success" onclick="markCompleted()">✓ Gerealiseerd</button>
-        <button class="action-btn btn-danger" onclick="openModal()">🚨 Geen Info / Vertraging</button>
-      </div>
-    </div>
-
-    <!-- 5. AGENDA -->
-    <div class="card">
-      <div class="card-header">
-        <span>📅 Agenda & Planning Vandaag</span>
-      </div>
-      
-      <div class="agenda-item">
-        <div class="agenda-time">09:00 uur</div>
-        <div class="agenda-details">
-          <div class="agenda-title">Ochtend Kick-off</div>
-          <div class="agenda-desc">Dagelijkse afstemming team</div>
-        </div>
-        <span class="badge badge-success">Afgerond</span>
-      </div>
-
-      <div class="agenda-item">
-        <div class="agenda-time">15:30 uur</div>
-        <div class="agenda-details">
-          <div class="agenda-title">T-30 Checkpoort KPI-rapportage</div>
-          <div class="agenda-desc">Verzamelen laatste gegevens Alain</div>
-        </div>
-        <span class="badge badge-in-progress">Nu Actief</span>
-      </div>
-
-      <div class="agenda-item">
-        <div class="agenda-time">16:00 uur</div>
-        <div class="agenda-details">
-          <div class="agenda-title">Deadline KPI-Rapportage</div>
-          <div class="agenda-desc">Oplevering deliverable</div>
-        </div>
-        <span class="badge" style="background:#e2e8f0; color:#64748b;">Gepland</span>
-      </div>
-    </div>
-
   </div>
 
-  <!-- MODAL VOOR VERTRAGING -->
-  <div id="modal" class="modal-overlay">
-    <div class="modal-content">
-      <h3 style="margin-top:0; font-size: 18px;">Reden Vertraging / Geen Info</h3>
-      <p style="font-size: 13px; color: #64748b; margin-bottom: 12px;">Waarom is de deliverable niet gerealiseerd?</p>
-      
-      <input type="text" id="reasonInput" placeholder="bijv. Ontbrekende brongegevens van derden">
+  <!-- ==========================================
+       PAGINA 1: KOETJES & STEMMING (ORIGINEEL)
+  =========================================== -->
+  <div id="p1" class="page-view active-view">
+    <div class="hero-header" id="p1Header">
+      <h1>Safespace</h1>
+      <p id="p1Subtitle">Hoe zit je vandaag in de wedstrijd?</p>
+    </div>
 
-      <div class="button-row">
-        <button class="action-btn btn-cancel" onclick="closeModal()">Annuleren</button>
-        <button class="action-btn btn-danger" onclick="saveDelay()">Opslaan in Logboek</button>
+    <div class="container">
+      <!-- KOETJES METHODIEK -->
+      <div class="card">
+        <div class="card-header">🐮 Vrolijke Koetjes Methodiek</div>
+        <div class="mood-grid">
+          <button class="mood-btn" onclick="setMoodP1('ochtend', '🌅 Fris & Ochtendzin', this)"><span class="mood-emoji">🌅</span><span class="mood-label">Ochtend</span></button>
+          <button class="mood-btn active" onclick="setMoodP1('zonnig', '☀️ Zonnig & Vol Energie', this)"><span class="mood-emoji">☀️</span><span class="mood-label">Zonnig</span></button>
+          <button class="mood-btn" onclick="setMoodP1('bewolkt', '⛅ Bewolkt & Neutraal', this)"><span class="mood-emoji">⛅</span><span class="mood-label">Bewolkt</span></button>
+          <button class="mood-btn" onclick="setMoodP1('regen', '🌧️ Druk & Regenbuien', this)"><span class="mood-emoji">🌧️</span><span class="mood-label">Regen</span></button>
+          <button class="mood-btn" onclick="setMoodP1('onweer', '🌩️ Heavy & Onweer', this)"><span class="mood-emoji">🌩️</span><span class="mood-label">Onweer</span></button>
+        </div>
+      </div>
+
+      <!-- CONFIGURATIE LINK -->
+      <div class="card">
+        <div class="card-header">⚙️ Beheer & Instellingen</div>
+        <a href="configuratie.html" class="btn-nav">⚙️ Open Configuratie Scherm</a>
+      </div>
+
+      <!-- TAAKVENSTER -->
+      <div class="card">
+        <div class="card-header">
+          <span>Actueel Taakvenster (16:00)</span>
+          <div class="traffic-light-casing status-orange"><div class="light red"></div><div class="light orange"></div><div class="light green"></div></div>
+        </div>
+        <h2 class="task-title">Wekelijkse KPI-rapportage Alain</h2>
+        <div class="button-row">
+          <button class="action-btn btn-success" onclick="alert('Gerealiseerd!')">✓ Gerealiseerd</button>
+          <button class="action-btn btn-danger" onclick="alert('Vertraging doorgegeven.')">🚨 Vertraging</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       PAGINA 2: DELIVERABLES + STOPLICHT
+  =========================================== -->
+  <div id="p2" class="page-view">
+    <div class="hero-header">
+      <h1>Deliverables Tracker</h1>
+      <p>Statuscontrole met Stoplicht</p>
+    </div>
+
+    <div class="container">
+      <div class="card">
+        <div class="card-header">
+          <span>Controlepoort Alain</span>
+          <div class="traffic-light-casing status-orange"><div class="light red"></div><div class="light orange"></div><div class="light green"></div></div>
+        </div>
+        <h2 class="task-title">Wekelijkse KPI-rapportage Alain</h2>
+        <p style="font-size: 12px; color: #64748b; margin-bottom: 15px;">Deadline: 16:00 uur • T-30 Checkpoort actief</p>
+        <div class="button-row">
+          <button class="action-btn btn-success" onclick="alert('Gerealiseerd!')">✓ Gerealiseerd</button>
+          <button class="action-btn btn-danger" onclick="alert('Vertraging gemeld!')">🚨 Geen Info</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">📅 Agenda Planning Vandaag</div>
+        <div class="agenda-item"><div class="agenda-time">09:00</div><div><div class="agenda-title">Ochtend Kick-off</div></div><span class="badge badge-success">Gereed</span></div>
+        <div class="agenda-item"><div class="agenda-time">16:00</div><div><div class="agenda-title">Deadline KPI Rapport</div></div><span class="badge badge-in-progress">Actief</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       PAGINA 3: COMPACT DASHBOARD
+  =========================================== -->
+  <div id="p3" class="page-view">
+    <div class="hero-header">
+      <h1>Prestatie Dashboard</h1>
+      <p>Kpi's, Tellers & Overzicht</p>
+    </div>
+
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-number" style="color:#16a34a;">85%</div><div class="stat-label">Op Tijd</div></div>
+        <div class="stat-card"><div class="stat-number" style="color:#2563eb;">12</div><div class="stat-label">Totaal</div></div>
+        <div class="stat-card"><div class="stat-number" style="color:#dc2626;">1</div><div class="stat-label">Vertraagd</div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">📋 Logboek Historie</div>
+        <div class="agenda-item"><div><div class="agenda-title">Dagupdate Verkoop</div><div class="agenda-desc">Op tijd afgerond</div></div><span class="badge badge-success">Op Tijd</span></div>
+        <div class="agenda-item"><div><div class="agenda-title">Maandafsluiting</div><div class="agenda-desc">Derden niet op tijd</div></div><span class="badge badge-danger">Vertraagd</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       PAGINA 4: UITKLAPBAAR (ACCORDION)
+  =========================================== -->
+  <div id="p4" class="page-view">
+    <div class="hero-header">
+      <h1>Safespace Index</h1>
+      <p>Opgeruimingsmodus</p>
+    </div>
+
+    <div class="container">
+      <button class="btn-nav" style="background:#1e293b; margin-bottom: 15px;" onclick="togglePanel()">📊 Klik hier om Controle Dashboard te Openen</button>
+      
+      <div id="accPanel" style="display:none;">
+        <div class="card">
+          <div class="card-header">Uitklapbaar venster</div>
+          <h2 class="task-title">Wekelijkse KPI-rapportage Alain</h2>
+          <div class="button-row">
+            <button class="action-btn btn-success" onclick="alert('Gerealiseerd!')">✓ Gerealiseerd</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   <script>
-    const taskTitle = "Wekelijkse KPI-rapportage Alain";
+    // WISSELEN TUSSEN DE PAGINA LAY-OUTS
+    function showPage(pageId, btn) {
+      document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active-view'));
+      document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+      
+      document.getElementById(pageId).classList.add('active-view');
+      btn.classList.add('active');
+    }
 
-    // FOTO'S PER STEMMING
-    const moodPhotos = {
+    // P1 KOETJES FOTO SWITCH
+    const photos = {
       ochtend: "https://images.unsplash.com/photo-1470240731273-7821a6eeb6bd?auto=format&fit=crop&w=1200&q=80",
       zonnig: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
       bewolkt: "https://images.unsplash.com/photo-1534088568595-a066f410bcda?auto=format&fit=crop&w=1200&q=80",
@@ -367,57 +369,24 @@
       onweer: "https://images.unsplash.com/photo-1605727216801-e27ce1d0cc28?auto=format&fit=crop&w=1200&q=80"
     };
 
-    function setMood(moodKey, subtitleText, btn) {
-      document.getElementById('heroHeader').style.background = 
-        `linear-gradient(rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.65)), url('${moodPhotos[moodKey]}') center/cover no-repeat`;
+    function setMoodP1(key, text, btn) {
+      document.getElementById('p1Header').style.background = 
+        `linear-gradient(rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.65)), url('${photos[key]}') center/cover no-repeat`;
+      document.getElementById('p1Subtitle').innerText = text;
       
-      document.getElementById('heroSubtitle').innerText = subtitleText;
-
-      document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('#p1 .mood-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
     }
 
-    function markCompleted() {
-      document.getElementById('statusBadge').innerText = "Gerealiseerd";
-      document.getElementById('statusBadge').className = "badge badge-success";
-      document.getElementById('trafficLightCasing').className = "traffic-light-casing status-green";
-      
-      document.getElementById('alertBox').style.display = "none";
-      document.getElementById('buttonGroup').style.display = "none";
-      alert("Gerealiseerd! Deliverable is succesvol op tijd afgevinkt.");
+    function togglePanel() {
+      const p = document.getElementById('accPanel');
+      p.style.display = p.style.display === "block" ? "none" : "block";
     }
 
-    function openModal() {
-      document.getElementById('modal').style.display = "flex";
-    }
-
-    function closeModal() {
-      document.getElementById('modal').style.display = "none";
-    }
-
-    function saveDelay() {
-      const reason = document.getElementById('reasonInput').value;
-      if (!reason) {
-        alert("Let op: Vul a.u.b. de reden in van de ontbrekende data.");
-        return;
-      }
-
-      document.getElementById('statusBadge').innerText = "Vertraagd / Data Ontbreekt";
-      document.getElementById('statusBadge').className = "badge badge-danger";
-      document.getElementById('trafficLightCasing').className = "traffic-light-casing status-red";
-
-      document.getElementById('alertBox').style.display = "none";
-      document.getElementById('buttonGroup').style.display = "none";
-
-      closeModal();
-      alert("Geregistreerd: Vertraging is vastgelegd.");
-    }
-
-    // AUTOMATISCHE REFRESH ELKE 30 SECONDEN
+    // AUTOMATISCHE REFRESH TIMER (30 sec)
     setInterval(function() {
-      const now = new Date();
-      const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-      document.getElementById('lastUpdated').innerText = "Laatste refresh: " + timeString;
+      const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      document.querySelectorAll('.lastUpdated').forEach(el => el.innerText = "Laatste refresh: " + time);
     }, 30000);
   </script>
 </body>
