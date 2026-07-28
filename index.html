@@ -1,215 +1,278 @@
 <!DOCTYPE html>
-<html lang="nl" translate="no">
+<html lang="nl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="google" content="notranslate">
-  <title>Safespace - Operations Dashboard</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-  <style>
-    * { box-sizing: border-box; }
-    body { 
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-      background-color: #f8fafc; 
-      padding: 20px; 
-      margin: 0; 
-      color: #0f172a;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeSpace - De Koetjes Weide 🐄</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-size: cover;
+            background-position: center top;
+            background-attachment: fixed;
+            transition: background-image 0.6s ease-in-out;
+            background-color: #f8fafc;
+            position: relative;
+        }
 
-    .dashboard-container {
-      max-width: 600px;
-      margin: 0 auto;
-    }
+        /* Subtiel raster met precies 20% dekking over het scherm */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+            background-size: 24px 24px;
+            opacity: 0.20;
+            pointer-events: none;
+            z-index: 1;
+        }
 
-    /* HEADER & KOETJES WEIDE */
-    .fc-blue-header {
-      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
-      color: white;
-      padding: 24px;
-      border-radius: 16px;
-      margin-bottom: 20px;
-      box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2);
-    }
-    .fc-blue-header h1 {
-      font-size: 22px;
-      margin: 0 0 12px 0;
-      font-weight: 700;
-    }
-    .koetjes-weide {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(8px);
-      padding: 12px 16px;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 600;
-      line-height: 1.5;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
+        header, main {
+            position: relative;
+            z-index: 2;
+        }
 
-    /* PRIO KANBAN BOARD */
-    .prio-kanban-board {
-      background: white;
-      padding: 20px;
-      border-radius: 16px;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-      margin-bottom: 20px;
-    }
-    .column.prio-1 h3 {
-      color: #dc2626;
-      font-size: 16px;
-      margin: 0 0 12px 0;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .column ul {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 16px 0;
-    }
-    .column li {
-      background: #fef2f2;
-      border: 1px solid #fecaca;
-      color: #991b1b;
-      padding: 12px;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
+        /* Foto 1: Ochtendgloren Overzicht */
+        .bg-ochtend {
+            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), rgba(250, 245, 255, 0.55)), 
+                              url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=80');
+        }
+        /* Foto 2: Zonnige Weide met Koeien Ver in de Verte */
+        .bg-zon {
+            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.25), rgba(240, 253, 244, 0.45)), 
+                              url('https://images.unsplash.com/photo-1595855759920-86582396756a?auto=format&fit=crop&w=1920&q=80');
+        }
+        /* Foto 3: Echte Bewolkte Weide */
+        .bg-bewolkt {
+            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), rgba(241, 245, 249, 0.60)), 
+                              url('https://images.unsplash.com/photo-1534088568595-a066f410bcda?auto=format&fit=crop&w=1920&q=80');
+        }
+        /* Foto 4: Echte Regen / Plensbui */
+        .bg-regen {
+            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.40), rgba(224, 242, 254, 0.65)), 
+                              url('https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=1920&q=80');
+        }
+        /* Foto 5: Echte Onweer / Bliksem */
+        .bg-onweer {
+            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), rgba(254, 226, 226, 0.60)), 
+                              url('https://images.unsplash.com/photo-1605727216801-e27ce1d0cc28?auto=format&fit=crop&w=1920&q=80');
+        }
 
-    button {
-      font-family: inherit;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .prio-kanban-board button {
-      background: #f1f5f9;
-      border: 1px solid #cbd5e1;
-      color: #475569;
-      width: 100%;
-      padding: 10px;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 13px;
-    }
-    .prio-kanban-board button:hover { background: #e2e8f0; }
-
-    /* MANAGER SHIELD SECTION */
-    .manager-shield-section {
-      margin-top: 10px;
-    }
-    .shield-btn {
-      background: #0f172a;
-      color: white;
-      border: none;
-      width: 100%;
-      padding: 16px;
-      border-radius: 14px;
-      font-weight: 700;
-      font-size: 14px;
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    .shield-btn:hover { background: #1e293b; transform: translateY(-1px); }
-
-    /* VERBORGEN PRIO 2 & 3 CONTAINER */
-    .prio-hidden-box {
-      display: none;
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px dashed #cbd5e1;
-    }
-  </style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+        }
+    </style>
 </head>
-<body class="notranslate">
+<body id="app-body" class="bg-zon text-slate-800 min-h-screen pb-16 font-sans">
 
-  <!-- HIER WORDT HET DASHBOARD DYNAMISCH IN GELADEN -->
-  <div id="app" class="dashboard-container"></div>
-
-  <script>
-    // 1. ENGINE & HELPER MOCKS (Nodig om de class te laten werken)
-    const GamificationEngine = {
-      getCows: () => 18 // Voorbeeld score
-    };
-
-    const UI = {
-      togglePrio: (level) => {
-        const box = document.getElementById('prio23Box');
-        if (box) {
-          box.style.display = box.style.display === 'block' ? 'none' : 'block';
-        }
-      }
-    };
-
-    const MeetingModule = {
-      startSync: () => alert("🛡️ Wekelijkse Manager Sync gestart! Debrief wordt gegenereerd...")
-    };
-
-    // 2. JOUW EXACTE OPERATIONS DASHBOARD CLASS
-    class OperationsDashboard {
-      getTasks(prio) {
-        if (prio === 1) {
-          return `
-            <li>📌 Trace Reports Check uitvoeren</li>
-            <li>📌 Wekelijkse KPI-rapportage aanleveren</li>
-          `;
-        }
-        return `
-          <li style="background:#f8fafc; border-color:#e2e8f0; color:#475569;">Prio 2: Documentatie bijwerken</li>
-          <li style="background:#f8fafc; border-color:#e2e8f0; color:#475569;">Prio 3: Archief opschonen</li>
-        `;
-      }
-
-      render() {
-        return `
-          <div class="fc-blue-header">
-            <h1>Welkom terug, Alain! 👋</h1>
-            <div class="koetjes-weide">
-               🐄 Huidige Score: ${GamificationEngine.getCows()} / 50 Koetjes
-               <br> 🎁 Doel: Etentje met Pa, Ma & Watchers
-            </div>
-          </div>
-
-          <div class="prio-kanban-board">
-            <!-- Prio 1: Mag NOOIT stagneren -->
-            <div class="column prio-1">
-              <h3>🔥 Prio 1 (Doen)</h3>
-              <ul>${this.getTasks(1)}</ul>
+    <header class="bg-white/85 backdrop-blur-md border-b border-emerald-200/60 p-4 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-emerald-500 text-white p-2.5 rounded-2xl text-2xl shadow-md">🐄</div>
+                <div>
+                    <h1 class="font-extrabold text-xl text-slate-900">SafeSpace Weide</h1>
+                    <span class="text-xs text-emerald-700 font-semibold flex items-center gap-1">
+                        <i class="fa-solid fa-border-all"></i> Dynamisch Weer op Basis van Status
+                    </span>
+                </div>
             </div>
             
-            <!-- Prio 2 & 3 verborgen voor rust in het hoofd, klik om uit te klappen -->
-            <button onclick="UI.togglePrio(2)">Bekijk Prio 2 & 3</button>
-
-            <div id="prio23Box" class="prio-hidden-box">
-              <h4 style="margin: 0 0 8px 0; color: #475569; font-size: 13px;">📋 Prio 2 & 3 Taken</h4>
-              <ul style="margin:0;">${this.getTasks(2)}</ul>
+            <div id="status-badge" class="bg-emerald-600 text-white px-4 py-1.5 rounded-full text-xs font-bold flex items-center gap-2 shadow-md">
+                <span class="w-2.5 h-2.5 rounded-full bg-white animate-pulse"></span>
+                <span>Zonnig in de wei ☀️</span>
             </div>
-          </div>
+        </div>
+    </header>
 
-          <div class="manager-shield-section">
-            <button class="shield-btn" onclick="MeetingModule.startSync()">
-              🛡️ Start Wekelijkse Manager Sync (Genereer Debrief)
-            </button>
-          </div>
-        `;
-      }
-    }
+    <main class="max-w-4xl mx-auto p-4 space-y-6 mt-2">
+        <!-- Welkomstkaart -->
+        <div class="glass-card rounded-3xl p-6">
+            <h2 id="welcome-title" class="text-2xl font-black text-emerald-900 mb-1">Welkom bij de Koetjes! ☀️</h2>
+            <p id="welcome-text" class="text-slate-700 text-sm font-semibold">Vink taken en zaken af om het weer in de wei op te laten klaren naar zon!</p>
+        </div>
 
-    // 3. LAAD HET DASHBOARD DIRECT IN DE PAGINA
-    document.addEventListener("DOMContentLoaded", () => {
-      const dashboard = new OperationsDashboard();
-      document.getElementById('app').innerHTML = dashboard.render();
-    });
-  </script>
+        <!-- Status / Sfeer handmatige knoppen -->
+        <div class="glass-card rounded-3xl p-5">
+            <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-4">
+                <i class="fa-solid fa-cloud-sun text-amber-500"></i> Handmatig de weide sfeer instellen:
+            </h3>
+            
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+                <button onclick="setTheme('ochtend', 'Ochtendgloren 🌄', 'Een frisse nieuwe ochtend breekt aan!')" class="p-3 bg-white/90 hover:bg-purple-100 border border-purple-200 rounded-2xl text-center shadow-sm">
+                    <span class="text-3xl block mb-1">🌄</span>
+                    <span class="text-xs font-black text-purple-900 block">Ochtend</span>
+                </button>
+
+                <button onclick="setTheme('zon', 'Zonnig in de wei ☀️', 'Alles is opgelost! De zon schijnt volop.')" class="p-3 bg-white/90 hover:bg-emerald-100 border border-emerald-300 rounded-2xl text-center shadow-sm">
+                    <span class="text-3xl block mb-1">☀️</span>
+                    <span class="text-xs font-black text-emerald-900 block">Zonnig</span>
+                </button>
+
+                <button onclick="setTheme('bewolkt', 'Bewolkt ☁️', 'Er staan nog enkele openstaande zaken.')" class="p-3 bg-white/90 hover:bg-slate-200 border border-slate-300 rounded-2xl text-center shadow-sm">
+                    <span class="text-3xl block mb-1">☁️</span>
+                    <span class="text-xs font-black text-slate-800 block">Bewolkt</span>
+                </button>
+
+                <button onclick="setTheme('regen', 'Regenbui 🌧️', 'Er moeten nog zaken opgelost worden.')" class="p-3 bg-white/90 hover:bg-blue-100 border border-blue-300 rounded-2xl text-center shadow-sm">
+                    <span class="text-3xl block mb-1">🌧️</span>
+                    <span class="text-xs font-black text-blue-900 block">Regen</span>
+                </button>
+
+                <button onclick="setTheme('onweer', 'Onweer / Urgent! ⚡', 'Er is een acute situatie die opgelost moet worden!')" class="p-3 bg-white/90 hover:bg-rose-100 border border-rose-300 rounded-2xl text-center col-span-2 md:col-span-1 shadow-sm">
+                    <span class="text-3xl block mb-1 animate-bounce">⚡</span>
+                    <span class="text-xs font-black text-rose-800 block">Onweer</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Berichten -->
+            <div class="md:col-span-2 glass-card rounded-3xl p-5 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-comments text-emerald-600"></i> Berichten uit de Stal
+                    </h3>
+                    
+                    <div class="flex gap-2 mb-4">
+                        <input id="message-input" type="text" placeholder="Schrijf een berichtje..." class="flex-1 bg-white border border-slate-300 focus:border-emerald-500 rounded-2xl px-4 py-3 text-sm text-slate-900 focus:outline-none font-medium">
+                        <button onclick="addMessage()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-3 rounded-2xl text-sm shadow-md">
+                            <span>Verstuur</span>
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+
+                    <div id="messages-list" class="space-y-3 max-h-80 overflow-y-auto pr-1">
+                        <div class="bg-white/90 border border-slate-200 p-4 rounded-2xl shadow-sm">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-xs font-bold text-emerald-800 flex items-center gap-1.5">
+                                    <span>🐮</span> Marco
+                                </span>
+                                <span class="text-[10px] font-semibold text-slate-400">Zojuist</span>
+                            </div>
+                            <p class="text-sm text-slate-800 font-medium">Als alle taken hiernaast zijn afgevinkt, klaart het weer automatisch op naar Zonnig!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Planning & Oplossingen (Sturen het Weer aan!) -->
+            <div class="space-y-6">
+                <div class="glass-card rounded-3xl p-5">
+                    <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-1">Openstaande Zaken</h3>
+                    <p class="text-[11px] text-slate-500 mb-4 font-semibold">Vink af om de weersfoto op te laten klaren:</p>
+                    
+                    <div class="space-y-2.5">
+                        <label class="flex items-center gap-3 p-2.5 bg-white/80 border border-slate-200 rounded-xl cursor-pointer hover:bg-emerald-50 transition">
+                            <input type="checkbox" class="task-checkbox w-4 h-4 accent-emerald-600 rounded" onchange="updateWeatherByTasks()">
+                            <span class="task-label text-xs text-slate-800 font-bold">Koeien voeren & water checken</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-2.5 bg-white/80 border border-slate-200 rounded-xl cursor-pointer hover:bg-emerald-50 transition">
+                            <input type="checkbox" class="task-checkbox w-4 h-4 accent-emerald-600 rounded" onchange="updateWeatherByTasks()">
+                            <span class="task-label text-xs text-slate-800 font-bold">Hekwerk controle weide</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-2.5 bg-white/80 border border-slate-200 rounded-xl cursor-pointer hover:bg-emerald-50 transition">
+                            <input type="checkbox" class="task-checkbox w-4 h-4 accent-emerald-600 rounded" onchange="updateWeatherByTasks()">
+                            <span class="task-label text-xs text-slate-800 font-bold">Overleg en koffie met Tilly ☕</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-3xl p-5">
+                    <h3 class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider mb-3">Snelle Contacten</h3>
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center p-2.5 bg-white/80 rounded-xl border border-slate-200">
+                            <span class="text-xs font-bold text-slate-800">Marco</span>
+                            <span class="text-[11px] bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold">Beheerder</span>
+                        </div>
+                        <div class="flex justify-between items-center p-2.5 bg-white/80 rounded-xl border border-slate-200">
+                            <span class="text-xs font-bold text-slate-800">Tilly</span>
+                            <span class="text-[11px] bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold">Moeder</span>
+                        </div>
+                        <div class="flex justify-between items-center p-2.5 bg-white/80 rounded-xl border border-slate-200">
+                            <span class="text-xs font-bold text-slate-800">Alain</span>
+                            <span class="text-[11px] bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold">Eigenaar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function setTheme(themeName, statusTekst, welkomstTekst) {
+            document.getElementById('app-body').className = `bg-${themeName} text-slate-800 min-h-screen pb-16 font-sans`;
+            document.getElementById('status-badge').innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-white animate-pulse"></span> <span>${statusTekst}</span>`;
+            document.getElementById('welcome-title').innerText = `SafeSpace Status: ${statusTekst}`;
+            document.getElementById('welcome-text').innerText = welkomstTekst;
+        }
+
+        // Automatische weersaanpassing op basis van opgeloste zaken (vinkjes)
+        function updateWeatherByTasks() {
+            const checkboxes = document.querySelectorAll('.task-checkbox');
+            const labels = document.querySelectorAll('.task-label');
+            
+            let total = checkboxes.length;
+            let checkedCount = 0;
+
+            checkboxes.forEach((cb, index) => {
+                if (cb.checked) {
+                    checkedCount++;
+                    labels[index].classList.add('line-through', 'text-slate-400');
+                    labels[index].classList.remove('text-slate-800', 'font-bold');
+                } else {
+                    labels[index].classList.remove('line-through', 'text-slate-400');
+                    labels[index].classList.add('text-slate-800', 'font-bold');
+                }
+            });
+
+            // Bepaal de weersfoto afhankelijk van hoeveel zaken zijn opgelost
+            if (checkedCount === total) {
+                setTheme('zon', 'Zonnig in de wei ☀️', 'Geweldig! Alle zaken zijn opgelost. Het is weer volop zonnig in de wei!');
+            } else if (checkedCount > 0) {
+                setTheme('bewolkt', 'Bewolkt ☁️', `Er zijn al ${checkedCount} van de ${total} zaken opgelost. Het weer begint op te klaren!`);
+            } else {
+                setTheme('regen', 'Regenbui 🌧️', 'Er staan nog openstaande zaken op de lijst. Vink ze af om de zon te laten schijnen!');
+            }
+        }
+
+        function addMessage() {
+            const input = document.getElementById('message-input');
+            const list = document.getElementById('messages-list');
+            
+            if (input.value.trim() !== '') {
+                const now = new Date();
+                const timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+                
+                const msgHTML = `
+                    <div class="bg-white/90 border border-slate-200 p-4 rounded-2xl shadow-sm">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-xs font-bold text-emerald-800 flex items-center gap-1.5">
+                                <span>💬</span> Bericht
+                            </span>
+                            <span class="text-[10px] font-semibold text-slate-400">${timeStr}</span>
+                        </div>
+                        <p class="text-sm text-slate-800 font-medium">${input.value}</p>
+                    </div>
+                `;
+                
+                list.insertAdjacentHTML('afterbegin', msgHTML);
+                input.value = '';
+            }
+        }
+
+        // Startstand bij het laden van de pagina
+        document.addEventListener('DOMContentLoaded', () => {
+            updateWeatherByTasks();
+        });
+    </script>
 </body>
 </html>
