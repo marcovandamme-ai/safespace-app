@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SafeSpace Work & Dashboard</title>
-    <!-- Tailwind CSS & Icons -->
+    <!-- Tailwind CSS & Styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -39,16 +39,16 @@
             </div>
 
             <div class="flex items-center gap-3 flex-wrap">
-                <button class="bg-blue-100 text-blue-700 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5">
+                <button onclick="alert('Hulp/Support: Neem contact op met de beheerders voor ondersteuning bij het inplannen.')" class="bg-blue-100 text-blue-700 hover:bg-blue-200 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all">
                     💡 Hulp nodig?
                 </button>
                 <div class="bg-amber-100 text-amber-800 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5">
                     🔒 10 Koetjes
                 </div>
-                <div class="bg-red-100 text-red-700 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 pulse-red">
-                    🔴 2 Urgenties
+                <div id="urgency-badge" class="bg-red-100 text-red-700 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 pulse-red">
+                    🔴 0 Urgenties
                 </div>
-                <button class="bg-slate-100 text-slate-700 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 hover:bg-slate-200">
+                <button onclick="alert('Configuratie-instellingen worden geladen...')" class="bg-slate-100 text-slate-700 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 hover:bg-slate-200 transition-all">
                     ⚙️ Config
                 </button>
 
@@ -62,7 +62,7 @@
             </div>
         </header>
 
-        <!-- MAIN NAVIGATION TABS -->
+        <!-- NAVIGATION TABS -->
         <nav class="flex gap-2 overflow-x-auto pb-1">
             <button onclick="switchTab('planning')" id="tab-btn-planning" class="px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-bold shadow-md transition-all">
                 🎯 Project Deliverables & Planning
@@ -83,44 +83,62 @@
 
         <!-- TAB 1: PLANNING & DELIVERABLES -->
         <div id="tab-content-planning" class="space-y-6">
-            <!-- INVOERFORMULIER -->
+            <!-- INVOERFORMULIER MET AUTOMATISCHE AGENDA GENERATIE -->
             <section class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl space-y-4">
                 <h2 class="text-sm font-black tracking-wider uppercase text-slate-800 flex items-center gap-2">
-                    <span class="text-emerald-600 text-lg">+</span> Nieuwe Deliverable / Planning Invoeren
+                    <span class="text-emerald-600 text-lg">+</span> Nieuwe Deliverable & Terugkerende Agenda Inplannen
                 </h2>
-                <form id="add-deliverable-form" class="grid grid-cols-1 md:grid-cols-6 gap-3">
-                    <div class="md:col-span-1">
+                
+                <form id="add-deliverable-form" class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-7 gap-3">
+                    <!-- 1. Naam -->
+                    <div class="lg:col-span-2">
                         <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Deliverable Naam</label>
-                        <input type="text" id="input-title" placeholder="bv. Maandrapportage" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+                        <input type="text" id="input-title" placeholder="bv. Voortgangsrapportage" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
                     </div>
-                    <div>
-                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Frequentie</label>
-                        <select id="input-freq" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
-                            <option>Dagelijks</option>
-                            <option>Wekelijks</option>
-                            <option>Maandelijks</option>
-                            <option>Kwartaal</option>
-                        </select>
-                    </div>
-                    <div>
+                    
+                    <!-- 2. Ontvanger -->
+                    <div class="lg:col-span-2">
                         <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Versturen Aan</label>
                         <input type="text" id="input-to" placeholder="bv. Directie, Tilly" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
                     </div>
+
+                    <!-- 3. Aantal Keer (Getal) -->
                     <div>
-                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Geplande Startdatum</label>
-                        <input type="date" id="input-start" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Aantal Keer (x)</label>
+                        <input type="number" id="input-count" min="1" max="30" value="1" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
                     </div>
+
+                    <!-- 4. Periode Eenheid -->
                     <div>
-                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Duur (Uren)</label>
-                        <input type="number" id="input-duration" placeholder="bv. 4" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Per Periode</label>
+                        <select id="input-unit" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+                            <option value="week">Per Week</option>
+                            <option value="month">Per Maand</option>
+                            <option value="day">Per Dag</option>
+                        </select>
                     </div>
+
+                    <!-- 5. Duur per keer -->
                     <div>
-                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Deadline</label>
-                        <input type="date" id="input-deadline" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Duur (Uur)</label>
+                        <input type="number" id="input-duration" step="0.5" placeholder="bv. 2" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
                     </div>
-                    <div class="md:col-span-6 mt-2">
-                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs transition-all shadow-md">
-                            Opslaan & Inplannen
+
+                    <!-- 6. Eerste Opleverdatum -->
+                    <div class="lg:col-span-2">
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Eerste Opleverdatum (Start)</label>
+                        <input type="date" id="input-start-date" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+                    </div>
+
+                    <!-- 7. Einddatum (Tot wanneer geldt de deliverable) -->
+                    <div class="lg:col-span-2">
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Einddatum Traject</label>
+                        <input type="date" id="input-end-date" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+                    </div>
+
+                    <div class="lg:col-span-3 flex items-end">
+                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-xl text-xs transition-all shadow-md">
+                            🗓️ Alle Momenten Inplannen in Agenda
                         </button>
                     </div>
                 </form>
@@ -130,33 +148,35 @@
             <section class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl space-y-4">
                 <div class="flex flex-wrap justify-between items-center gap-4">
                     <h2 class="text-sm font-black tracking-wider uppercase text-slate-800 flex items-center gap-2">
-                        🏛️ Interactive Capacity & Status Planner
+                        🏛️ Geplande Agenda Momenten & Status
                     </h2>
+                    <span id="total-deliverables-count" class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full">
+                        0 momenten gepland
+                    </span>
                 </div>
 
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs border-collapse">
                         <thead>
                             <tr class="border-b border-slate-200 text-slate-400 font-bold uppercase text-[10px]">
-                                <th class="py-3 px-2">Status (Stoplicht)</th>
+                                <th class="py-3 px-2">Status</th>
                                 <th class="py-3 px-2">Deliverable</th>
                                 <th class="py-3 px-2">Frequentie</th>
                                 <th class="py-3 px-2">Versturen Aan</th>
-                                <th class="py-3 px-2">Startdatum</th>
-                                <th class="py-3 px-2">Geplande Duur</th>
-                                <th class="py-3 px-2">Deadline</th>
+                                <th class="py-3 px-2">Geplande Opleverdatum</th>
+                                <th class="py-3 px-2">Duur</th>
                                 <th class="py-3 px-2 text-right">Actie</th>
                             </tr>
                         </thead>
                         <tbody id="planner-table-body" class="divide-y divide-slate-100 font-medium">
-                            <!-- Dynamische inhoud -->
+                            <!-- Inhoud wordt automatisch gegenereerd -->
                         </tbody>
                     </table>
                 </div>
             </section>
         </div>
 
-        <!-- TAB 2: PIJLER 5 - STAVAZA & WATCHERS COACHING (NIEUW) -->
+        <!-- TAB 2: WATCHERS COACHING ('STAVAZA') -->
         <div id="tab-content-stavaza" class="hidden space-y-6">
             <section class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl space-y-6">
                 <div class="flex justify-between items-center border-b border-slate-100 pb-4">
@@ -165,7 +185,7 @@
                             Watchers of Quality & Deployment
                         </span>
                         <h2 class="text-lg font-bold text-slate-900 mt-1">Sectie 'Stavaza' (Stand van Zaken)</h2>
-                        <p class="text-xs text-slate-500">Coachingdashboard voor Ouders (Vader & Moeder Tilly) ter ondersteuning van Alain op structuur en focus bij FrieslandCampina.</p>
+                        <p class="text-xs text-slate-500">Coachingdashboard voor Ouders (Vader & Moeder Tilly) ter ondersteuning van Alain op structuur en focus.</p>
                     </div>
                     <div class="text-right bg-slate-50 p-3 rounded-xl border border-slate-200">
                         <div class="text-[10px] font-bold text-slate-400 uppercase">Coaching Target</div>
@@ -173,7 +193,6 @@
                     </div>
                 </div>
 
-                <!-- CARDS MET DAGINZICHTEN -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-1">
                         <div class="text-[10px] font-bold text-slate-500 uppercase">Dagelijkse Deployment</div>
@@ -187,40 +206,19 @@
                     </div>
                     <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-1">
                         <div class="text-[10px] font-bold text-slate-500 uppercase">Knelpunten ('Hiccups')</div>
-                        <div class="text-2xl font-black text-amber-600">1 Openstaand</div>
-                        <div class="text-[11px] text-amber-600 font-semibold">Proactief gecommuniceerd</div>
+                        <div class="text-2xl font-black text-amber-600">0 Openstaand</div>
+                        <div class="text-[11px] text-amber-600 font-semibold">Proactief afgehandeld</div>
                     </div>
                     <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-1">
                         <div class="text-[10px] font-bold text-slate-500 uppercase">Dossieropbouw Manager</div>
-                        <div class="text-2xl font-black text-purple-600">24 Bewijsstukken</div>
+                        <div id="dossier-count" class="text-2xl font-black text-purple-600">0 Bewijsstukken</div>
                         <div class="text-[11px] text-purple-600 font-semibold">100% Onderbouwd gesprek</div>
-                    </div>
-                </div>
-
-                <!-- HISTORISCHE DOSSIEROPBOUW -->
-                <div class="space-y-3">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700">📜 Historisch Dossier & Voortgang op Dagniveau</h3>
-                    <div class="space-y-2">
-                        <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl flex justify-between items-center text-xs">
-                            <div>
-                                <span class="font-bold text-emerald-900">Vandaag • FrieslandCampina</span>
-                                <p class="text-slate-600 text-[11px]">4 van de 4 dagelijkse checks succesvol afgerond met de dynamische kwaliteitscontrole.</p>
-                            </div>
-                            <span class="bg-emerald-600 text-white font-bold text-[10px] px-2 py-1 rounded">100% FtR Score</span>
-                        </div>
-                        <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl flex justify-between items-center text-xs">
-                            <div>
-                                <span class="font-bold text-amber-900">Gisteren • Knelpunt opgelost</span>
-                                <p class="text-slate-600 text-[11px]">Vertraging bij leverancier tijdig geëscaleerd naar ontvangers vóór deadline.</p>
-                            </div>
-                            <span class="bg-amber-600 text-white font-bold text-[10px] px-2 py-1 rounded">Proactief Gehandeld</span>
-                        </div>
                     </div>
                 </div>
             </section>
         </div>
 
-        <!-- TAB 3: KPIS & OVERIGE (TIJDELIJKE PLACEHOLDER) -->
+        <!-- TIJDELIJKE TABS -->
         <div id="tab-content-kpis" class="hidden bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl text-center py-12">
             <h3 class="text-lg font-bold text-slate-800">📊 Business KPI's Dashboard</h3>
             <p class="text-xs text-slate-500 mt-1">SLA scores (99.5%), Cost of Poor Quality (CoPQ) & First Time Right overzichten.</p>
@@ -238,7 +236,7 @@
 
     </div>
 
-    <!-- PIJLER 3: DYNAMISCHE CHECKLIST MODAL MET 25 ROULEER-VRAGEN -->
+    <!-- DYNAMISCHE CHECKLIST MODAL (PIJLER 3) -->
     <div id="checklist-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
         <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-slate-100">
             <div class="flex justify-between items-start border-b border-slate-100 pb-3">
@@ -257,9 +255,7 @@
                 Om de automatische piloot te voorkomen, kiest het systeem willekeurig 5 van de 25 kwaliteitsvragen in een wisselende volgorde.
             </p>
 
-            <div id="checklist-items-container" class="space-y-2 max-h-[350px] overflow-y-auto pr-1">
-                <!-- Vragen worden hier roulerend ingeladen -->
-            </div>
+            <div id="checklist-items-container" class="space-y-2 max-h-[350px] overflow-y-auto pr-1"></div>
 
             <div id="checklist-error-msg" class="hidden bg-red-50 text-red-700 p-3 rounded-xl text-xs font-semibold flex items-center gap-2 border border-red-200">
                 ⚠️ Vink eerst alle kwaliteitschecks af om de target van 99.5% te borgen.
@@ -277,12 +273,7 @@
     </div>
 
     <script>
-        let deliverables = [
-            { id: 1, name: "Sensoren Integratie Plan", freq: "Wekelijks", to: "Tech Team, Alain", start: "2026-07-25", duration: "4 uur", deadline: "2026-07-27", status: "Overdue / Actie" },
-            { id: 2, name: "Q3 Management Summary", freq: "Maandelijks", to: "Directie, Board", start: "2026-07-20", duration: "6 uur", deadline: "2026-07-26", status: "Overdue / Actie" },
-            { id: 3, name: "Dagelijkse Check Weide", freq: "Dagelijks", to: "Operationeel Team", start: "2026-07-28", duration: "0.5 uur", deadline: "2026-07-28", status: "Overdue / Actie" },
-            { id: 4, name: "Kwartaal Rapportage Veestapel", freq: "Kwartaal", to: "Directie", start: "2026-08-01", duration: "8 uur", deadline: "2026-08-15", status: "Ingepland" }
-        ];
+        let deliverables = [];
 
         const masterQuestionPool = [
             "Zijn alle cijfers en data dubbel gecontroleerd op typefouten?",
@@ -314,7 +305,7 @@
 
         let selectedDeliverableId = null;
 
-        // SWITCH TABBLADEN
+        // TAB SWITCHING FUNCTIONALITEIT
         function switchTab(tabName) {
             const tabs = ['planning', 'stavaza', 'kpis', 'taken', 'spaarkas'];
             tabs.forEach(t => {
@@ -336,17 +327,74 @@
             }
         }
 
+        // SLIMME AGENDA-INPLANNING OP BASIS VAN EINDDATUM & FREQUENTIE
+        document.getElementById('add-deliverable-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const title = document.getElementById('input-title').value;
+            const to = document.getElementById('input-to').value;
+            const count = parseInt(document.getElementById('input-count').value);
+            const unit = document.getElementById('input-unit').value;
+            const duration = document.getElementById('input-duration').value + ' uur';
+            const startDate = new Date(document.getElementById('input-start-date').value);
+            const endDate = new Date(document.getElementById('input-end-date').value);
+
+            if (endDate < startDate) {
+                alert("De einddatum kan niet vóór de startdatum liggen!");
+                return;
+            }
+
+            // Bereken het aantal dagen interval op basis van de gekozen frequentie
+            let intervalDays = 7;
+            if (unit === 'day') intervalDays = 1 / count;
+            else if (unit === 'week') intervalDays = 7 / count;
+            else if (unit === 'month') intervalDays = 30 / count;
+
+            let currentDate = new Date(startDate);
+            let addedCount = 0;
+
+            // Genereer alle oplevermomenten in de agenda tot de einddatum is bereikt
+            while (currentDate <= endDate) {
+                const formattedDate = currentDate.toISOString().split('T')[0];
+                let freqLabel = `${count}x per ${unit === 'week' ? 'week' : unit === 'month' ? 'maand' : 'dag'}`;
+
+                deliverables.push({
+                    id: Date.now() + Math.random(),
+                    name: title,
+                    freq: freqLabel,
+                    to: to,
+                    date: formattedDate,
+                    duration: duration,
+                    status: 'Ingepland'
+                });
+
+                // Verhoog de datum met de berekende stap
+                currentDate.setDate(currentDate.getDate() + Math.round(intervalDays));
+                addedCount++;
+            }
+
+            alert(`Succes! Er zijn automatisch ${addedCount} oplevermomenten ingepland in de agenda tot ${endDate.toISOString().split('T')[0]}.`);
+            renderTable();
+            this.reset();
+        });
+
         function renderTable() {
             const tbody = document.getElementById('planner-table-body');
             tbody.innerHTML = '';
 
+            let urgenties = 0;
+            let geleverdCount = 0;
+
+            // Sorteren op datum
+            deliverables.sort((a, b) => new Date(a.date) - new Date(b.date));
+
             deliverables.forEach(item => {
-                const isOverdue = item.status.includes('Overdue');
                 const isGeleverd = item.status === 'Geleverd';
-                
-                let badgeClass = isOverdue 
-                    ? 'bg-red-100 text-red-700 pulse-red' 
-                    : (isGeleverd ? 'bg-emerald-100 text-emerald-700' : 'bg-blue-100 text-blue-700');
+                if (isGeleverd) geleverdCount++;
+
+                let badgeClass = isGeleverd 
+                    ? 'bg-emerald-100 text-emerald-700' 
+                    : 'bg-blue-100 text-blue-700';
 
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-50/80 transition-colors">
@@ -360,9 +408,8 @@
                         <td class="py-3 px-2">
                             <span class="bg-blue-50 text-blue-600 px-2 py-0.5 rounded text-[10px] font-semibold">📬 ${item.to}</span>
                         </td>
-                        <td class="py-3 px-2 text-slate-500">${item.start}</td>
+                        <td class="py-3 px-2 text-slate-700 font-semibold">${item.date}</td>
                         <td class="py-3 px-2 text-slate-500">${item.duration}</td>
-                        <td class="py-3 px-2 text-slate-500">${item.deadline}</td>
                         <td class="py-3 px-2 text-right">
                             ${isGeleverd 
                                 ? '<span class="text-emerald-600 font-bold text-[11px]">✓ Voltooid</span>' 
@@ -374,6 +421,9 @@
                     </tr>
                 `;
             });
+
+            document.getElementById('total-deliverables-count').innerText = `${deliverables.length} momenten gepland`;
+            document.getElementById('dossier-count').innerText = `${geleverdCount} Bewijsstukken`;
         }
 
         function openChecklistModal(id) {
@@ -420,23 +470,7 @@
             closeChecklistModal();
         }
 
-        document.getElementById('add-deliverable-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const newObj = {
-                id: Date.now(),
-                name: document.getElementById('input-title').value,
-                freq: document.getElementById('input-freq').value,
-                to: document.getElementById('input-to').value,
-                start: document.getElementById('input-start').value,
-                duration: document.getElementById('input-duration').value + ' uur',
-                deadline: document.getElementById('input-deadline').value,
-                status: 'Ingepland'
-            };
-            deliverables.unshift(newObj);
-            renderTable();
-            this.reset();
-        });
-
+        // Eerste rendering bij laden
         renderTable();
     </script>
 </body>
