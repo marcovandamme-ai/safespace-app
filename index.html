@@ -26,7 +26,53 @@
 </head>
 <body class="min-h-screen text-slate-800 font-sans p-4 md:p-8">
 
-    <div class="max-w-7xl mx-auto space-y-6">
+    <!-- 1. LOGIN & PROFIEL INTAKE MODAL (EERSTE SCHERM) -->
+    <div id="login-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-100">
+            <div class="text-center space-y-1">
+                <div class="text-3xl">🦄</div>
+                <h2 class="text-xl font-bold text-slate-900">Welkom bij SafeSpace Work</h2>
+                <p class="text-xs text-slate-500">Meld je aan om je persoonlijke dashboard te openen.</p>
+            </div>
+
+            <form id="login-form" onsubmit="handleLogin(event)" class="space-y-3">
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Volledige Naam</label>
+                    <input type="text" id="login-name" placeholder="bv. Alain" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Functie / Rol</label>
+                    <input type="text" id="login-role-title" placeholder="bv. Operations Lead" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Selecteer Toegangsrol</label>
+                    <select id="login-role-type" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+                        <option value="alain">👨‍💼 Alain (Gebruiker)</option>
+                        <option value="watcher">👀 Ouders / Coach (Watcher)</option>
+                    </select>
+                </div>
+
+                <div class="border-t border-slate-100 pt-3 space-y-2">
+                    <p class="text-[11px] font-bold text-slate-700">Persoonlijke Profiel Vragen (Intake):</p>
+                    <div>
+                        <label class="block text-[10px] text-slate-500 mb-1">Wat is jouw belangrijkste focusdoel deze maand?</label>
+                        <input type="text" id="login-goal" placeholder="bv. 100% First-Time-Right opleveringen" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] text-slate-500 mb-1">Hoeveel uur werk je idealiter per dag?</label>
+                        <input type="number" id="login-hours" placeholder="bv. 8" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs transition-all shadow-md mt-2">
+                    🚀 Inloggen & Dashboard Openen
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN DASHBOARD CONTENT -->
+    <div id="main-app" class="max-w-7xl mx-auto space-y-6 hidden">
 
         <!-- TOP BAR / HEADER -->
         <header class="bg-white/90 backdrop-blur-md rounded-2xl p-4 shadow-lg flex flex-wrap justify-between items-center gap-4">
@@ -43,16 +89,20 @@
                     💡 Hulp nodig?
                 </button>
                 <div class="bg-amber-100 text-amber-800 px-3 py-1.5 rounded-full text-xs font-semibold">
-                    🔒 10 Koetjes
+                    🔒 <span id="user-koetjes">10</span> Koetjes
                 </div>
+                <button onclick="openConfigModal()" class="bg-slate-100 text-slate-700 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 hover:bg-slate-200 transition-all">
+                    ⚙️ Config
+                </button>
 
-                <!-- ROL WISSELAAR VOOR DEMO / PRIVACY -->
+                <!-- GEBRUIKERSPROFIEL & LOGOUT -->
                 <div class="flex items-center gap-2 border-l border-slate-200 pl-3 ml-1">
-                    <label class="text-[10px] font-bold text-slate-400 uppercase">Actieve Rol:</label>
-                    <select id="role-selector" onchange="switchRole(this.value)" class="bg-slate-100 font-bold text-xs p-1.5 rounded-lg border border-slate-300 outline-none">
-                        <option value="alain">👨‍💼 Alain (Gebruiker)</option>
-                        <option value="watcher">👀 Ouders / Coach (Watcher)</option>
-                    </select>
+                    <div id="user-avatar" class="w-8 h-8 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-sm">A</div>
+                    <div class="text-left">
+                        <div id="user-display-name" class="text-xs font-bold leading-none">Alain</div>
+                        <div id="user-display-role" class="text-[10px] text-slate-500">Operations Lead</div>
+                    </div>
+                    <button onclick="logout()" class="ml-2 text-xs text-red-500 hover:underline font-semibold">Uitloggen</button>
                 </div>
             </div>
         </header>
@@ -62,7 +112,7 @@
             <!-- Dynamisch opgebouwd op basis van Rol -->
         </nav>
 
-        <!-- TAB: ALAIN OVERALL DASHBOARD (ALLEEN ZICHTBAAR VOOR ALAIN) -->
+        <!-- TAB 1: ALAIN OVERALL DASHBOARD -->
         <div id="tab-content-alain-overall" class="space-y-6">
             <section class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl space-y-6">
                 <div class="flex justify-between items-center border-b border-slate-100 pb-4">
@@ -92,9 +142,9 @@
                         <div class="text-[11px] text-emerald-600 font-semibold">100% goedgekeurd door checklist</div>
                     </div>
                     <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-1">
-                        <div class="text-[10px] font-bold text-slate-500 uppercase">Eerstvolgende Deadline</div>
-                        <div id="alain-next-deadline" class="text-lg font-bold text-blue-600">Geen Binnenkort</div>
-                        <div class="text-[11px] text-blue-600 font-medium">Ligt op schema</div>
+                        <div class="text-[10px] font-bold text-slate-500 uppercase">Mijn Maanddoel</div>
+                        <div id="profile-display-goal" class="text-xs font-bold text-blue-600 truncate">Geen ingesteld</div>
+                        <div class="text-[11px] text-blue-600 font-medium">Ingevuld via Profiel</div>
                     </div>
                     <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-1">
                         <div class="text-[10px] font-bold text-slate-500 uppercase">Mijn Beloning Status</div>
@@ -105,9 +155,8 @@
             </section>
         </div>
 
-        <!-- TAB: PLANNING & DELIVERABLES -->
+        <!-- TAB 2: PLANNING & DELIVERABLES -->
         <div id="tab-content-planning" class="hidden space-y-6">
-            <!-- INVOERFORMULIER MET AUTOMATISCHE AGENDA GENERATIE -->
             <section class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl space-y-4">
                 <h2 class="text-sm font-black tracking-wider uppercase text-slate-800 flex items-center gap-2">
                     <span class="text-emerald-600 text-lg">+</span> Nieuwe Deliverable & Terugkerende Agenda Inplannen
@@ -134,8 +183,9 @@
                             <option value="day">Per Dag</option>
                         </select>
                     </div>
+                    <!-- GEWIJZIGDE KNOP / VELDNAAM -->
                     <div>
-                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Duur (Uur)</label>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Voorbereidingstijd (Uur)</label>
                         <input type="number" id="input-duration" step="0.5" placeholder="bv. 2" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
                     </div>
                     <div class="lg:col-span-2">
@@ -174,7 +224,7 @@
                                 <th class="py-3 px-2">Frequentie</th>
                                 <th class="py-3 px-2">Versturen Aan</th>
                                 <th class="py-3 px-2">Geplande Opleverdatum</th>
-                                <th class="py-3 px-2">Duur</th>
+                                <th class="py-3 px-2">Voorbereidingstijd</th>
                                 <th class="py-3 px-2 text-right">Actie</th>
                             </tr>
                         </thead>
@@ -184,7 +234,7 @@
             </section>
         </div>
 
-        <!-- TAB: WATCHERS COACHING (ALLEEN ZICHTBAAR VOOR WATCHERS/OUDERS) -->
+        <!-- TAB 3: WATCHERS COACHING -->
         <div id="tab-content-stavaza" class="hidden space-y-6">
             <section class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl space-y-6">
                 <div class="flex justify-between items-center border-b border-slate-100 pb-4">
@@ -219,7 +269,41 @@
 
     </div>
 
-    <!-- DYNAMISCHE CHECKLIST MODAL (PIJLER 3) -->
+    <!-- CONFIGURATIE MODAL (CONFIG SCHERM) -->
+    <div id="config-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-slate-100">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <h3 class="text-lg font-bold text-slate-800">⚙️ Systeem Configuratie & Instellingen</h3>
+                <button onclick="closeConfigModal()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
+            </div>
+
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-bold text-slate-600 mb-1">E-mail Notificaties Ontvangers</label>
+                    <input type="text" id="config-emails" value="tilly@frieslandcampina.com, coach@safespace.nl" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-600 mb-1">Target First-Time-Right Kwaliteit Score (%)</label>
+                    <input type="number" id="config-target-score" value="99.5" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-600 mb-1">Aantal Koetjes te verdienen per voltooid traject</label>
+                    <input type="number" id="config-koetjes-reward" value="5" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none">
+                </div>
+            </div>
+
+            <div class="flex gap-2 pt-3">
+                <button onclick="closeConfigModal()" class="w-1/2 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs">
+                    Annuleren
+                </button>
+                <button onclick="saveConfig()" class="w-1/2 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs shadow-md">
+                    Opslaan & Toepassen
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DYNAMISCHE CHECKLIST MODAL -->
     <div id="checklist-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
         <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-slate-100">
             <div class="flex justify-between items-start border-b border-slate-100 pb-3">
@@ -229,15 +313,9 @@
                     </span>
                     <h3 id="modal-deliverable-name" class="text-lg font-bold text-slate-800 mt-1">Deliverable Naam</h3>
                 </div>
-                <div class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-md flex items-center gap-1 font-semibold">
-                    🔀 5 van 25 vragen geselecteerd
-                </div>
             </div>
 
-            <p class="text-xs text-slate-500">
-                Vink de 5 controlepunten af om kwaliteit te garanderen.
-            </p>
-
+            <p class="text-xs text-slate-500">Vink de 5 controlepunten af om kwaliteit te garanderen.</p>
             <div id="checklist-items-container" class="space-y-2 max-h-[350px] overflow-y-auto pr-1"></div>
 
             <div id="checklist-error-msg" class="hidden bg-red-50 text-red-700 p-3 rounded-xl text-xs font-semibold border border-red-200">
@@ -245,18 +323,14 @@
             </div>
 
             <div class="flex gap-2 pt-2">
-                <button onclick="closeChecklistModal()" class="w-1/3 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs">
-                    Annuleren
-                </button>
-                <button onclick="confirmOplevering()" class="w-2/3 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs shadow-md shadow-emerald-200 transition-all">
-                    ✓ Goedgekeurd & Opleveren
-                </button>
+                <button onclick="closeChecklistModal()" class="w-1/3 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs">Annuleren</button>
+                <button onclick="confirmOplevering()" class="w-2/3 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs shadow-md">✓ Goedgekeurd & Opleveren</button>
             </div>
         </div>
     </div>
 
     <script>
-        let currentRole = 'alain'; // Standaard Alain
+        let currentUser = null;
         let deliverables = [];
 
         const masterQuestionPool = [
@@ -269,43 +343,59 @@
             "Is het document voorzien van de juiste versie en datum?",
             "Zijn alle knelpunten ('hiccups') eerst intern afgestemd?",
             "Is er gecontroleerd of alle verplichte velden zijn ingevuld?",
-            "Voldoet het bestand aan de AVG / privacy-richtlijnen?",
-            "Is de e-mailtekst kort, bondig en resultaatgericht opgesteld?",
-            "Zijn eventuele afhankelijkheden van collega's tijdig gecontroleerd?",
-            "Is er een duidelijke deadline gecommuniceerd naar de ontvangers?",
-            "Zijn de brondocumenten en berekeningen na te rekenen?",
-            "Is de deliverable gecontroleerd op First-Time-Right kwaliteit?",
-            "Zijn de vakterminologie en definities correct gebruikt?",
-            "Is er rekening gehouden met de SLA en afgesproken reactietijd?",
-            "Zijn bijlagen gecontroleerd op leesbaarheid en juiste extensie?",
-            "Is gecheckt of er geen vertrouwelijke AI-data gelekt wordt?",
-            "Is de opmaak in lijn met de vereiste huisstijl/standaarden?",
-            "Zijn de wijzigingen ten opzichte van de vorige versie genoteerd?",
-            "Is het kritieke pad van het project niet in gevaar gebracht?",
-            "Is er bij twijfel even kort afgestemd met een collega of watcher?",
-            "Zijn de geformuleerde afspraken meetbaar en realistisch?",
-            "Is de deliverable op een veilige en toegankelijke plek opgeslagen?"
+            "Voldoet het bestand aan de AVG / privacy-richtlijnen?"
         ];
 
         let selectedDeliverableId = null;
 
-        // ROL WISSELEN & NAVIGATIE BIJWERKEN
-        function switchRole(role) {
-            currentRole = role;
-            renderNavigation();
+        // INLOGGEN & PROFIELOPSLAG
+        function handleLogin(e) {
+            e.preventDefault();
+            currentUser = {
+                name: document.getElementById('login-name').value,
+                roleTitle: document.getElementById('login-role-title').value,
+                roleType: document.getElementById('login-role-type').value,
+                goal: document.getElementById('login-goal').value,
+                hours: document.getElementById('login-hours').value
+            };
 
-            if (role === 'alain') {
-                switchTab('alain-overall');
-            } else {
-                switchTab('stavaza');
-            }
+            document.getElementById('user-display-name').innerText = currentUser.name;
+            document.getElementById('user-display-role').innerText = currentUser.roleTitle;
+            document.getElementById('user-avatar').innerText = currentUser.name.charAt(0).toUpperCase();
+            document.getElementById('profile-display-goal').innerText = currentUser.goal;
+
+            document.getElementById('login-modal').classList.add('hidden');
+            document.getElementById('main-app').classList.remove('hidden');
+
+            renderNavigation();
+            switchTab(currentUser.roleType === 'alain' ? 'alain-overall' : 'stavaza');
+        }
+
+        function logout() {
+            document.getElementById('main-app').classList.add('hidden');
+            document.getElementById('login-modal').classList.remove('hidden');
+        }
+
+        // CONFIGURATIE MODAL
+        function openConfigModal() {
+            document.getElementById('config-modal').classList.remove('hidden');
+            document.getElementById('config-modal').classList.add('flex');
+        }
+
+        function closeConfigModal() {
+            document.getElementById('config-modal').classList.add('hidden');
+            document.getElementById('config-modal').classList.remove('flex');
+        }
+
+        function saveConfig() {
+            alert("Instellingen succesvol opgeslagen!");
+            closeConfigModal();
         }
 
         function renderNavigation() {
             const nav = document.getElementById('nav-tabs');
             
-            if (currentRole === 'alain') {
-                // Alain ziet ALLEEN zijn eigen Dashboard en de Project Planning
+            if (currentUser && currentUser.roleType === 'alain') {
                 nav.innerHTML = `
                     <button onclick="switchTab('alain-overall')" id="tab-btn-alain-overall" class="px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-bold shadow-md transition-all">
                         📊 Mijn Overall Status
@@ -315,7 +405,6 @@
                     </button>
                 `;
             } else {
-                // Watcher/Coach ziet de Watchers Coaching tab én de Project Planning
                 nav.innerHTML = `
                     <button onclick="switchTab('stavaza')" id="tab-btn-stavaza" class="px-4 py-2 bg-purple-600 text-white rounded-xl text-xs font-bold shadow-md transition-all">
                         👀 Watchers Coaching ('Stavaza')
@@ -349,7 +438,7 @@
             }
         }
 
-        // INPLANNING IN AGENDA
+        // INPLANNING FORMULIER
         document.getElementById('add-deliverable-form').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -438,18 +527,10 @@
                 `;
             });
 
-            // Update stats voor Alain & Coach
             document.getElementById('total-deliverables-count').innerText = `${deliverables.length} momenten gepland`;
             document.getElementById('alain-total-tasks').innerText = `${deliverables.length} Momenten`;
             document.getElementById('alain-completed-tasks').innerText = `${geleverdCount} Voltooid`;
             document.getElementById('dossier-count').innerText = `${geleverdCount} Bewijsstukken`;
-
-            const pending = deliverables.filter(d => d.status !== 'Geleverd');
-            if (pending.length > 0) {
-                document.getElementById('alain-next-deadline').innerText = pending[0].date;
-            } else {
-                document.getElementById('alain-next-deadline').innerText = 'Geen Binnenkort';
-            }
         }
 
         function openChecklistModal(id) {
@@ -495,10 +576,6 @@
             renderTable();
             closeChecklistModal();
         }
-
-        // Initialiseren
-        renderNavigation();
-        renderTable();
     </script>
 </body>
 </html>
