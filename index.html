@@ -17,7 +17,7 @@
 </head>
 <body class="font-sans min-h-screen text-slate-800 flex flex-col pb-10">
 
-    <!-- LOGIN SCHERM (STDC ZICHTBAAR WANNEER UITGELOGD) -->
+    <!-- LOGIN OVERLAY -->
     <div id="login-overlay" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[100] flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl space-y-6 border border-white/20">
             <div class="text-center space-y-2">
@@ -25,21 +25,17 @@
                     🎯
                 </div>
                 <h1 class="font-black text-2xl text-slate-900">SafeSpace Work</h1>
-                <p class="text-xs text-slate-500 font-medium">Focus, NLP/DISC Profilering & Result Tracker</p>
+                <p class="text-xs text-slate-500 font-medium">Klantcontact & Service Performance Hub</p>
             </div>
 
             <form onsubmit="handleLogin(event)" class="space-y-4 text-xs">
                 <div>
                     <label class="block font-bold text-slate-700 mb-1">Uw Volledige Naam</label>
-                    <input type="text" id="login-name" required placeholder="bijv. Jan de Vries" class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    <input type="text" id="login-name" required placeholder="bijv. Sophie Jansen" class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none">
                 </div>
                 <div>
                     <label class="block font-bold text-slate-700 mb-1">E-mailadres</label>
-                    <input type="email" id="login-email" required placeholder="naam@bedrijf.nl" class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none">
-                </div>
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">Wachtwoord</label>
-                    <input type="password" required value="••••••••" class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    <input type="email" id="login-email" required placeholder="naam@klantcontact.nl" class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none">
                 </div>
                 <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3.5 rounded-xl transition-all shadow-lg text-sm">
                     Inloggen op Workspace
@@ -52,42 +48,41 @@
     <header class="max-w-7xl w-full mx-auto px-4 mt-4">
         <div class="bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-lg border border-white/40 flex flex-wrap items-center justify-between gap-3">
             
-            <!-- LOGO -->
             <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('dashboard')">
                 <div class="w-10 h-10 rounded-xl bg-emerald-100 border border-emerald-300 flex items-center justify-center text-xl shadow-sm">
                     🎯
                 </div>
                 <div>
                     <span class="font-black text-slate-900 text-lg tracking-tight block leading-none">SafeSpace Work</span>
-                    <span class="text-xs text-sky-700 font-bold">Focus en result tracker</span>
+                    <span class="text-xs text-sky-700 font-bold">Klantcontact & Operations</span>
                 </div>
             </div>
 
             <!-- HOOFDNAVIGATIE -->
             <div class="flex items-center space-x-2 flex-wrap gap-y-2">
-                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm flex items-center space-x-1.5">
+                <button onclick="switchTab('dashboard')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm flex items-center space-x-1.5">
                     <i class="fa-solid fa-chart-pie"></i>
-                    <span>Mijn Dashboard</span>
+                    <span>Dashboard</span>
                 </button>
 
-                <button onclick="switchTab('coaching')" id="nav-coaching" class="bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm flex items-center space-x-1.5 border border-amber-400">
+                <button onclick="switchTab('deliverables')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm flex items-center space-x-1.5">
+                    <i class="fa-solid fa-box-archive"></i>
+                    <span>Mijn Deliverables</span>
+                </button>
+
+                <button onclick="switchTab('coaching')" class="bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm flex items-center space-x-1.5 border border-amber-400">
                     <i class="fa-solid fa-bullseye"></i>
                     <span>Focus & Coaching</span>
                 </button>
 
-                <button onclick="openModal('coachModal')" class="bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm flex items-center space-x-1.5">
-                    <i class="fa-solid fa-headset"></i>
-                    <span>Coachvraag</span>
-                </button>
-
-                <button onclick="switchTab('profile')" id="nav-profile" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm flex items-center space-x-1.5">
+                <button onclick="switchTab('profile')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm flex items-center space-x-1.5">
                     <i class="fa-solid fa-user-gear"></i>
-                    <span>Profiel & Loyaliteit</span>
+                    <span>Profiel</span>
                 </button>
 
                 <button onclick="openModal('configModal')" class="border-2 border-slate-700 hover:bg-slate-100 text-slate-800 font-bold text-xs px-3 py-2 rounded-xl transition-all flex items-center space-x-1">
                     <i class="fa-solid fa-gear"></i>
-                    <span>Config / Admin</span>
+                    <span>Config & KPI Selectie</span>
                 </button>
 
                 <div class="flex items-center space-x-2 pl-2 border-l border-slate-300">
@@ -99,7 +94,6 @@
 
                 <button onclick="logout()" class="bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xs px-3 py-2 rounded-xl transition-all flex items-center space-x-1 border border-rose-300">
                     <i class="fa-solid fa-right-from-bracket"></i>
-                    <span>Uitloggen</span>
                 </button>
             </div>
 
@@ -109,346 +103,487 @@
     <!-- MAIN CONTAINER -->
     <main class="max-w-7xl w-full mx-auto px-4 mt-4 flex-1">
 
-        <!-- TAB 1: MIJN DASHBOARD (SEMI-LIVE DATA) -->
+        <!-- TAB 1: DASHBOARD MET GEKOZEN KLANTCONTACT KPIS & HISTORIE -->
         <div id="tab-dashboard" class="space-y-5">
             <div class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/50 space-y-6">
+                
                 <div class="flex justify-between items-center flex-wrap gap-2">
                     <div>
-                        <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full flex items-center w-max gap-1">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Semi-Live Data Dashboard
+                        <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full inline-flex items-center gap-1">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Klantcontact & Service Dashboard
                         </span>
-                        <h1 class="text-xl font-black text-slate-900 mt-2">Mijn Operations & KPI Overzicht</h1>
+                        <h1 class="text-xl font-black text-slate-900 mt-2">Performance & Historisch Verloop</h1>
                     </div>
-                    <button onclick="openModal('configModal')" class="bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md transition-all flex items-center space-x-2">
-                        <i class="fa-solid fa-sliders"></i>
-                        <span>Beheer KPI Definitie in Config</span>
+                    
+                    <div class="flex items-center space-x-2">
+                        <button onclick="openModal('configModal')" class="bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md transition-all flex items-center space-x-2">
+                            <i class="fa-solid fa-plus-circle"></i>
+                            <span>KPI's Selecteren / Beheren</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SELECTEERD / ACTIEVE KPIS RENDER GEBIED -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="active-kpis-container">
+                    <!-- Dynamic rendering van geselecteerde KPI's met verloop -->
+                </div>
+
+            </div>
+        </div>
+
+        <!-- TAB 2: GEAVANCEERD DELIVERABLES BLAD -->
+        <div id="tab-deliverables" class="hidden space-y-5">
+            <div class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/50 space-y-6">
+                
+                <div class="flex justify-between items-center flex-wrap gap-4 border-b pb-4">
+                    <div>
+                        <h1 class="text-xl font-black text-slate-900">Mijn Deliverables & Stakeholder Matrix</h1>
+                        <p class="text-xs text-slate-500 mt-1">Beheer de te leveren producten, pre-deliverables, frequenties, functierollen en communicatiestijlen.</p>
+                    </div>
+                    <button onclick="openModal('addDeliverableModal')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md transition-all flex items-center space-x-2">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Nieuwe Deliverable Toevoegen</span>
                     </button>
                 </div>
 
-                <!-- SEMI-LIVE KPI CARDS VIEW (AUTOMATISCH BEREKEND UIT DELIVERABLES) -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4" id="live-kpi-cards">
-                    <!-- Berekend door JS -->
-                </div>
-
-                <!-- DELIVERABLES INVOER EN MANAGEMENT -->
-                <div class="border-t pt-5">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-sm font-black text-slate-900 flex items-center">
-                            <i class="fa-solid fa-box-archive text-sky-600 mr-2"></i> Deliverables & Invoer door Gebruiker
-                        </h3>
-                        <button onclick="openModal('addDeliverableModal')" class="text-xs bg-sky-600 hover:bg-sky-700 text-white font-bold px-3 py-1.5 rounded-lg shadow-sm">
-                            + Nieuwe Deliverable Invoeren
-                        </button>
-                    </div>
-
-                    <!-- DELIVERABLES LIST (VOEDT DE LIVE KPIS) -->
-                    <div class="space-y-4" id="deliverables-list">
-                        <!-- Dynamic generated deliverables -->
-                    </div>
+                <!-- OVERZICHTS TABEL DELIVERABLES -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 border-b border-slate-200 uppercase text-[10px] tracking-wider">
+                                <th class="p-3 font-bold">Deliverable & Omschrijving</th>
+                                <th class="p-3 font-bold">Frequentie</th>
+                                <th class="p-3 font-bold">Stakeholder / Functie Rol</th>
+                                <th class="p-3 font-bold">NLP / DISC Profiel</th>
+                                <th class="p-3 font-bold">Samenwerk Niveau</th>
+                                <th class="p-3 font-bold">Pre-Check Datum</th>
+                                <th class="p-3 font-bold">Deadline</th>
+                                <th class="p-3 font-bold text-center">Actie</th>
+                            </tr>
+                        </thead>
+                        <tbody id="full-deliverables-table-body" class="divide-y divide-slate-200">
+                            <!-- Dynamic rows via JavaScript -->
+                        </tbody>
+                    </table>
                 </div>
 
             </div>
         </div>
 
-        <!-- TAB 2: FOCUS & COACHING -->
+        <!-- TAB 3: FOCUS & COACHING BLAD (VOLLEDIG GEVULD) -->
         <div id="tab-coaching" class="hidden space-y-5">
-            <div id="sec-focus-banner" class="bg-sky-700 text-white rounded-2xl p-6 shadow-xl space-y-2">
-                <span class="bg-white/20 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Coaching & Focus Hub</span>
-                <h1 class="text-2xl font-black">Focus, Focus, Focus & Tijdige Oplevering</h1>
-                <p class="text-sky-100 text-xs">Bewaak je prioriteiten en verhoog je stamina en consistentie in uitvoering.</p>
+            <div class="bg-gradient-to-r from-amber-600 to-amber-700 text-white rounded-2xl p-6 shadow-xl space-y-2">
+                <span class="bg-white/20 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Focus & Coaching Hub</span>
+                <h1 class="text-2xl font-black">Maximale Uitvoering & Tijdbeheer</h1>
+                <p class="text-amber-100 text-xs">Analyseer je dagelijkse focus, elimineer afleidingen en stuur op tijdelijke oplevering van deliverables.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+                
+                <!-- FOCUS PRIORITEITEN & TIJDSINDELING -->
+                <div class="lg:col-span-2 space-y-5">
+                    
+                    <div class="bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200 p-5 shadow-lg space-y-4">
+                        <h2 class="text-sm font-black text-slate-900 flex items-center justify-between">
+                            <span class="flex items-center"><i class="fa-solid fa-list-check text-amber-600 mr-2"></i> Actieve Prioriteitenmatrix (Eisenhower)</span>
+                            <span class="text-[10px] bg-amber-100 text-amber-900 px-2 py-0.5 rounded font-bold">Week Focus</span>
+                        </h2>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                            <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl space-y-1">
+                                <span class="font-bold text-rose-900 block">🔥 1. Dringend & Belangrijk</span>
+                                <p class="text-slate-700">Pre-check voor Q3 Service Audit met Alain afronden.</p>
+                            </div>
+                            <div class="p-3 bg-sky-50 border border-sky-200 rounded-xl space-y-1">
+                                <span class="font-bold text-sky-900 block">🎯 2. Niet Dringend, Wel Belangrijk</span>
+                                <p class="text-slate-700">Analyseren First Contact Resolution (FCR) rapportage.</p>
+                            </div>
+                            <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl space-y-1">
+                                <span class="font-bold text-amber-900 block">⚡ 3. Dringend, Niet Belangrijk</span>
+                                <p class="text-slate-700">Ad-hoc vragen verwerken uit de chatstroom.</p>
+                            </div>
+                            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-1">
+                                <span class="font-bold text-slate-700 block">🌱 4. Eliminatie Zone</span>
+                                <p class="text-slate-700">Onnodig bijwonen van passieve statusmeetings.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- COACHINGLOGBOEK & INTERACTIEVE NOTITIES -->
+                    <div class="bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200 p-5 shadow-lg space-y-3">
+                        <h3 class="font-black text-slate-900 text-sm flex items-center">
+                            <i class="fa-solid fa-pen-to-square text-amber-600 mr-2"></i> Dagelijks Focus & Reflectie Logboek
+                        </h3>
+                        <textarea id="coaching-notes" class="w-full text-xs p-3 border rounded-xl focus:ring-1 focus:ring-amber-500" rows="3" placeholder="Welke obstakels kwam je vandaag tegen bij de deliverables?"></textarea>
+                        <button onclick="saveCoachingNote()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs px-4 py-2 rounded-xl">Logboek Opslaan</button>
+                    </div>
+
+                </div>
+
+                <!-- COACHING DOELEN & VOORGANG -->
+                <div class="space-y-5">
+                    <div class="bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200 p-5 shadow-lg space-y-4">
+                        <h3 class="font-black text-slate-900 text-sm flex items-center">
+                            <i class="fa-solid fa-bullseye text-amber-600 mr-2"></i> Coaching Doelen
+                        </h3>
+
+                        <div class="space-y-3 text-xs">
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1.5">
+                                <div class="flex justify-between font-bold">
+                                    <span>Tijdige Oplevering</span>
+                                    <span class="text-emerald-600">85%</span>
+                                </div>
+                                <div class="w-full bg-slate-200 h-2 rounded-full"><div class="bg-emerald-500 h-full rounded-full" style="width: 85%"></div></div>
+                            </div>
+
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1.5">
+                                <div class="flex justify-between font-bold">
+                                    <span>Stakeholder Afstemming</span>
+                                    <span class="text-amber-600">60%</span>
+                                </div>
+                                <div class="w-full bg-slate-200 h-2 rounded-full"><div class="bg-amber-500 h-full rounded-full" style="width: 60%"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
-        <!-- TAB 3: PROFIEL & LOYALITEIT -->
+        <!-- TAB 4: PROFIEL -->
         <div id="tab-profile" class="hidden space-y-5">
-            <div class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/50 space-y-6">
-                <div class="flex justify-between items-center flex-wrap gap-4 border-b pb-5">
-                    <div>
-                        <h1 class="text-xl font-black text-slate-900">Persoonlijk Profiel van <span id="profile-page-name">Gebruiker</span></h1>
-                        <p class="text-xs text-slate-500 mt-1">Configureer het aantal vragen uit de databank (200 NLP/DISC vragen).</p>
-                    </div>
-
-                    <div class="flex items-center space-x-3 bg-emerald-50 border border-emerald-200 p-3 rounded-2xl">
-                        <div>
-                            <label class="block text-[10px] font-black uppercase text-emerald-800">Aantal Vragen Instellen:</label>
-                            <input type="number" id="user-question-count" value="20" min="5" max="100" class="w-20 text-xs font-bold border rounded p-1 text-center bg-white">
-                        </div>
-                        <button onclick="startSelfTestFromPool()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md transition-all flex items-center space-x-2">
-                            <i class="fa-solid fa-play"></i>
-                            <span>Start Test uit Vragenpool</span>
-                        </button>
-                    </div>
-                </div>
+            <div class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/50 space-y-4">
+                <h1 class="text-xl font-black text-slate-900">Mijn Persoonlijk Profiel</h1>
+                <p class="text-xs text-slate-500">Ingelogde gebruiker: <strong id="profile-user-name">--</strong></p>
             </div>
         </div>
 
     </main>
 
-    <!-- MODAL: ADD DELIVERABLE -->
+    <!-- MODAL: ADD DELIVERABLE (UITGEBREID) -->
     <div id="addDeliverableModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+        <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
             <button onclick="closeModal('addDeliverableModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
             <h3 class="text-base font-black text-slate-900 mb-1">Nieuwe Deliverable Invoeren</h3>
-            <p class="text-xs text-slate-500 mb-4">Ingevoerde data werkt de live KPI's op het dashboard direct bij.</p>
+            <p class="text-xs text-slate-500 mb-4">Leg deliverables, stakeholders, frequentie en checks nauwkeurig vast.</p>
 
             <form onsubmit="addDeliverable(event)" class="space-y-3 text-xs">
                 <div>
-                    <label class="block font-bold">Titel Deliverable</label>
-                    <input type="text" id="del-title" required placeholder="bijv. Maandelijkse Financiële Rapportage" class="w-full border rounded-lg p-2 mt-1">
+                    <label class="block font-bold mb-1">Wat moet er geleverd worden? (Titel)</label>
+                    <input type="text" id="del-title" required placeholder="bijv. Maandelijks FCR & CSAT Kwaliteitsrapport" class="w-full border rounded-lg p-2.5">
                 </div>
-                <div>
-                    <label class="block font-bold">Ontvanger / Stakeholder</label>
-                    <input type="text" id="del-holder" required placeholder="bijv. Alain (Teamlead)" class="w-full border rounded-lg p-2 mt-1">
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold mb-1">Frequentie / Hoe Vaak?</label>
+                        <select id="del-freq" class="w-full border rounded-lg p-2.5 bg-white">
+                            <option value="Wekelijks">Wekelijks</option>
+                            <option value="Twee-wekelijks">Twee-wekelijks</option>
+                            <option value="Maandelijks">Maandelijks</option>
+                            <option value="Per Kwartaal">Per Kwartaal</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-1">Hoe te Leveren? (Format)</label>
+                        <input type="text" id="del-how" placeholder="bijv. PDF via Teams + Presentatie" class="w-full border rounded-lg p-2.5">
+                    </div>
                 </div>
-                <div>
-                    <label class="block font-bold">Status</label>
-                    <select id="del-status" class="w-full border rounded-lg p-2 mt-1 bg-white">
-                        <option value="optijd">Op Tijd</option>
-                        <option value="onderweg">Onderweg / Wacht op reactie</option>
-                        <option value="telaat">Te Laat</option>
-                        <option value="escalatie">Escalatie / Actie Gewenst</option>
-                    </select>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold mb-1">Aan Wie? (Stakeholder Naam)</label>
+                        <input type="text" id="del-holder" required placeholder="bijv. Alain de Jong" class="w-full border rounded-lg p-2.5">
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-1">Functierol Stakeholder</label>
+                        <input type="text" id="del-role" placeholder="bijv. Operations Manager Customer Care" class="w-full border rounded-lg p-2.5">
+                    </div>
                 </div>
-                <button type="submit" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-2.5 rounded-xl transition-all mt-4">
-                    Deliverable Opslaan & Dashboard Bijwerken
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold mb-1">NLP / DISC Profiel Stijl</label>
+                        <select id="del-profile" class="w-full border rounded-lg p-2.5 bg-white">
+                            <option value="DISC Rood (Taakgericht/Direct)">DISC Rood (Taakgericht / Direct)</option>
+                            <option value="DISC Geel (Enthousiast/Relatie)">DISC Geel (Enthousiast / Relatie)</option>
+                            <option value="DISC Groen (Ondersteunend)">DISC Groen (Ondersteunend)</option>
+                            <option value="DISC Blauw (Analytisch/Details)">DISC Blauw (Analytisch / Details)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-1">Inschatting Samenwerk Niveau</label>
+                        <select id="del-level" class="w-full border rounded-lg p-2.5 bg-white">
+                            <option value="Uitstekend (Hoge Vertrouwensband)">🟢 Uitstekend</option>
+                            <option value="Neutraal (Functioneel)">🟡 Neutraal</option>
+                            <option value="Moeizaam (Actieve Afstemming Nodig)">🔴 Moeizaam</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold mb-1">Pre-Deliverable Check Datum</label>
+                        <input type="date" id="del-precheck" required class="w-full border rounded-lg p-2.5">
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-1">Definitieve Deadline</label>
+                        <input type="date" id="del-deadline" required class="w-full border rounded-lg p-2.5">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl transition-all mt-4">
+                    Deliverable Opslaan
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- MODAL: CONFIGURATIE & UITGEBREIDE KPI DEFINITIES -->
+    <!-- MODAL: CONFIG & KLANTCONTACT KPI SELECTIE -->
     <div id="configModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
             <button onclick="closeModal('configModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
-            <h3 class="text-base font-black text-slate-900 mb-1">Configuratie & KPI Definities</h3>
-            <p class="text-xs text-slate-500 mb-4">Definieer de gedetailleerde formules en omschrijvingen voor de KPI's.</p>
+            <h3 class="text-base font-black text-slate-900 mb-1">Klantcontact & Service KPI Bibliotheek</h3>
+            <p class="text-xs text-slate-500 mb-4">Vink de onderwerpen aan die je op je live dashboard wilt volgen met week- en maandhistorie.</p>
 
-            <div class="space-y-4">
-                <button onclick="openModal('kpiDefinitionModal')" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs py-3 rounded-xl flex items-center justify-center space-x-2 shadow-md">
-                    <i class="fa-solid fa-book-open"></i>
-                    <span>⚙️ Uitgebreide KPI Omschrijvingen & Formules Bewerken</span>
-                </button>
-
-                <div class="border-t pt-4">
-                    <span class="text-xs font-bold text-slate-700 block mb-2">Huidige Berekende Live Dashboard Waarden:</span>
-                    <div id="config-live-preview" class="space-y-1.5 text-xs">
-                        <!-- Preview van berekende live data -->
-                    </div>
-                </div>
+            <div class="space-y-3 text-xs" id="kpi-selector-list">
+                <!-- Dynamic generated KPI checkboxes -->
             </div>
-        </div>
-    </div>
 
-    <!-- MODAL: UITGEBREIDE KPI DEFINITIES EDITOR -->
-    <div id="kpiDefinitionModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-md hidden items-center justify-center z-[60] p-4">
-        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-            <button onclick="closeModal('kpiDefinitionModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
-                <i class="fa-solid fa-xmark text-lg"></i>
+            <button onclick="saveKpiSelection()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition-all mt-5">
+                Geselecteerde KPI's Toepassen op Dashboard
             </button>
-            <h3 class="text-base font-black text-slate-900 mb-1">Definieer KPI Omschrijvingen</h3>
-            <p class="text-xs text-slate-500 mb-4">Pas de uitgebreide omschrijving en formules aan voor elke KPI op het live dashboard.</p>
-
-            <form onsubmit="saveKpiDefinitions(event)" class="space-y-4 text-xs">
-                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
-                    <span class="font-bold text-slate-900 block">1. KPI: Op Tijd Verzonden</span>
-                    <label class="block text-slate-500">Uitgebreide Omschrijving & Formule:</label>
-                    <textarea id="def-optijd" class="w-full p-2 border rounded-lg bg-white" rows="2">Percentage deliverables dat voor of exact op de afgesproken streefdatum is opgeleverd aan de ontvanger.</textarea>
-                </div>
-
-                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
-                    <span class="font-bold text-slate-900 block">2. KPI: Te Laat & Escalaties</span>
-                    <label class="block text-slate-500">Uitgebreide Omschrijving & Formule:</label>
-                    <textarea id="def-telaat" class="w-full p-2 border rounded-lg bg-white" rows="2">Deliverables waarvan de deadline is verstreken of waar herhaalde vragen/escalaties op zijn binnengekomen.</textarea>
-                </div>
-
-                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl transition-all">
-                    KPI Definities Opslaan
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- MODAL: COACHVRAAG -->
-    <div id="coachModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative">
-            <button onclick="closeModal('coachModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-            <h3 class="text-base font-black text-slate-900 mb-2">Stel een Coachvraag</h3>
-            <textarea id="coachQuestionInput" class="w-full text-xs p-3 border rounded-xl mb-3" rows="4" placeholder="Waar loop je tegenaan in je deliverables?"></textarea>
-            <button onclick="alert('Coachvraag verzonden!'); closeModal('coachModal')" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs py-2.5 rounded-xl">Verstuur Coachvraag</button>
         </div>
     </div>
 
     <!-- JAVASCRIPT LOGICA -->
     <script>
-        // GEBRUIKER DATA & STATE
         let currentUser = null;
 
-        // INITIALE DELIVERABLES (VOEDING VOOR DE LIVE SEMI-LIVE KPIS)
-        let deliverablesData = [
-            { id: 1, title: 'Q3 Operationele Rapportage', holder: 'Alain (Teamlead)', status: 'escalatie', disc: 'Rood', nlp: 'Auditief-Digitaal' },
-            { id: 2, title: 'Maandelijkse KPI Audit', holder: 'Sanne (Manager)', status: 'optijd', disc: 'Blauw', nlp: 'Visueel' },
-            { id: 3, title: 'Systeem Update Voorstel', holder: 'Karel (IT)', status: 'onderweg', disc: 'Groen', nlp: 'Kinesthetisch' }
+        // BESCHIKBARE KLANTCONTACT & SERVICE KPIS MET HISTORISCHE DATA
+        const kpiLibrary = [
+            { id: 'fcr', name: 'First Contact Resolution (FCR)', cat: 'Kwaliteit', val: '78%', weekData: ['72%', '74%', '75%', '78%'], monthData: ['68%', '71%', '75%', '78%'], selected: true },
+            { id: 'csat', name: 'Customer Satisfaction (CSAT)', cat: 'Tevredenheid', val: '84%', weekData: ['80%', '82%', '81%', '84%'], monthData: ['78%', '81%', '83%', '84%'], selected: true },
+            { id: 'nps', name: 'Net Promoter Score (NPS)', cat: 'Tevredenheid', val: '+32', weekData: ['+25', '+28', '+30', '+32'], monthData: ['+18', '+24', '+29', '+32'], selected: true },
+            { id: 'aht', name: 'Average Handling Time (AHT)', cat: 'Efficiëntie', val: '4m 15s', weekData: ['4m 45s', '4m 30s', '4m 20s', '4m 15s'], monthData: ['5m 10s', '4m 50s', '4m 30s', '4m 15s'], selected: true },
+            { id: 'sl', name: 'Service Level (80/20 Regel)', cat: 'Bereikbaarheid', val: '82%', weekData: ['75%', '78%', '80%', '82%'], monthData: ['70%', '76%', '79%', '82%'], selected: false },
+            { id: 'abn', name: 'Abandonment Rate (Abandons)', cat: 'Bereikbaarheid', val: '3.2%', weekData: ['5.1%', '4.2%', '3.8%', '3.2%'], monthData: ['6.5%', '4.8%', '4.1%', '3.2%'], selected: false }
         ];
 
-        let kpiDefinitions = {
-            optijd: "Percentage deliverables dat voor of exact op de afgesproken streefdatum is opgeleverd.",
-            telaat: "Deliverables waarvan de deadline is verstreken of herhaalde vragen op zijn binnengekomen."
-        };
+        // INITIALE DELIVERABLES MET STAKEHOLDERS EN DEADLINES
+        let deliverables = [
+            {
+                id: 1,
+                title: 'Q3 Klantcontact Kwaliteitsanalyse',
+                freq: 'Maandelijks',
+                how: 'PowerPoint + Dashboard',
+                holder: 'Alain de Jong',
+                role: 'Operations Manager',
+                profile: 'DISC Rood (Taakgericht/Direct)',
+                level: 'Neutraal (Functioneel)',
+                precheck: '2026-08-05',
+                deadline: '2026-08-12'
+            },
+            {
+                id: 2,
+                title: 'Wekelijkse FCR & AHT Bezetting Report',
+                freq: 'Wekelijks',
+                how: 'Excel via Email',
+                holder: 'Sanne Bakker',
+                role: 'Teamlead Service',
+                profile: 'DISC Blauw (Analytisch/Details)',
+                level: 'Uitstekend (Hoge Vertrouwensband)',
+                precheck: '2026-08-01',
+                deadline: '2026-08-03'
+            }
+        ];
 
-        // BEREKEN SEMI-LIVE KPIS UIT DELIVERABLES
-        function calculateLiveKpis() {
-            const totaal = deliverablesData.length;
-            const optijd = deliverablesData.filter(d => d.status === 'optijd').length;
-            const onderweg = deliverablesData.filter(d => d.status === 'onderweg').length;
-            const telaat = deliverablesData.filter(d => d.status === 'telaat' || d.status === 'escalatie').length;
-            const escalaties = deliverablesData.filter(d => d.status === 'escalatie').length;
+        document.addEventListener("DOMContentLoaded", () => {
+            renderKpiSelector();
+            renderActiveKpis();
+            renderDeliverablesTable();
+        });
 
-            return { totaal, optijd, onderweg, telaat, escalaties };
-        }
-
-        // RENDER LIVE KPIS OP DASHBOARD
-        function renderLiveDashboard() {
-            const kpis = calculateLiveKpis();
-            const container = document.getElementById('live-kpi-cards');
+        // KPI SELECTOR RENDEREN IN CONFIG
+        function renderKpiSelector() {
+            const container = document.getElementById('kpi-selector-list');
             if(!container) return;
+            container.innerHTML = '';
 
-            container.innerHTML = `
-                <div class="p-4 rounded-xl border shadow-sm bg-slate-50 border-slate-200">
-                    <span class="text-[10px] font-bold uppercase block text-slate-500">Totaal Taken</span>
-                    <p class="text-2xl font-black text-slate-900 mt-1">${kpis.totaal}</p>
-                </div>
-                <div class="p-4 rounded-xl border shadow-sm bg-emerald-50 border-emerald-200">
-                    <span class="text-[10px] font-bold uppercase block text-emerald-700">Op Tijd</span>
-                    <p class="text-2xl font-black text-emerald-900 mt-1">${kpis.optijd}</p>
-                </div>
-                <div class="p-4 rounded-xl border shadow-sm bg-amber-50 border-amber-200">
-                    <span class="text-[10px] font-bold uppercase block text-amber-700">Onderweg</span>
-                    <p class="text-2xl font-black text-amber-900 mt-1">${kpis.onderweg}</p>
-                </div>
-                <div class="p-4 rounded-xl border shadow-sm bg-rose-50 border-rose-200">
-                    <span class="text-[10px] font-bold uppercase block text-rose-700">Te Laat</span>
-                    <p class="text-2xl font-black text-rose-900 mt-1">${kpis.telaat}</p>
-                </div>
-                <div class="p-4 rounded-xl border shadow-sm bg-purple-50 border-purple-200">
-                    <span class="text-[10px] font-bold uppercase block text-purple-700">Escalaties</span>
-                    <p class="text-2xl font-black text-purple-900 mt-1">${kpis.escalaties}</p>
-                </div>
-            `;
-
-            renderDeliverablesList();
-            renderConfigPreview(kpis);
+            kpiLibrary.forEach(kpi => {
+                container.innerHTML += `
+                    <label class="flex items-center justify-between p-3 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 cursor-pointer">
+                        <div>
+                            <span class="font-bold text-slate-900 block">${kpi.name}</span>
+                            <span class="text-[10px] text-slate-500">Categorie: ${kpi.cat}</span>
+                        </div>
+                        <input type="checkbox" id="chk-${kpi.id}" ${kpi.selected ? 'checked' : ''} class="w-4 h-4 text-emerald-600 rounded">
+                    </label>
+                `;
+            });
         }
 
-        // RENDER DELIVERABLES LIST
-        function renderDeliverablesList() {
-            const list = document.getElementById('deliverables-list');
-            if(!list) return;
-            list.innerHTML = '';
+        function saveKpiSelection() {
+            kpiLibrary.forEach(kpi => {
+                const chk = document.getElementById(`chk-${kpi.id}`);
+                if(chk) kpi.selected = chk.checked;
+            });
+            renderActiveKpis();
+            closeModal('configModal');
+        }
 
-            deliverablesData.forEach(d => {
-                let badge = '<span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded">Op tijd</span>';
-                if(d.status === 'onderweg') badge = '<span class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded">Wacht op reactie</span>';
-                if(d.status === 'telaat') badge = '<span class="bg-rose-100 text-rose-800 text-[10px] font-bold px-2 py-0.5 rounded">Te Laat</span>';
-                if(d.status === 'escalatie') badge = '<span class="bg-rose-600 text-white text-[10px] font-bold px-2 py-0.5 rounded animate-pulse">⚠️ ACTIE GEWENST</span>';
+        // DYNAMISCHE KPIS RENDEREN OP DASHBOARD MET HISTORIE SCHAKELAAR
+        function renderActiveKpis() {
+            const container = document.getElementById('active-kpis-container');
+            if(!container) return;
+            container.innerHTML = '';
 
-                list.innerHTML += `
-                    <div class="p-4 bg-white rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
-                        <div>
-                            <span class="font-bold text-xs text-slate-900">${d.title}</span>
-                            <div class="text-[11px] text-slate-500 mt-0.5">Ontvanger: <strong>${d.holder}</strong> | DISC: ${d.disc} | NLP: ${d.nlp}</div>
+            const selectedKpis = kpiLibrary.filter(k => k.selected);
+
+            selectedKpis.forEach(kpi => {
+                container.innerHTML += `
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-[10px] font-bold text-emerald-700 uppercase tracking-wider block">${kpi.cat}</span>
+                                <h3 class="font-black text-slate-900 text-sm mt-0.5">${kpi.name}</h3>
+                            </div>
+                            <span class="text-xl font-black text-slate-900 bg-slate-100 px-3 py-1 rounded-xl">${kpi.val}</span>
                         </div>
-                        <div class="flex items-center space-x-3">
-                            ${badge}
-                            <button onclick="removeDeliverable(${d.id})" class="text-rose-500 hover:text-rose-700 text-xs font-bold pl-2">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
+
+                        <!-- HISTORISCH VERLOOP CONTROLS -->
+                        <div class="border-t pt-3 space-y-2">
+                            <div class="flex justify-between items-center text-[10px] text-slate-500">
+                                <span class="font-bold uppercase">Historisch Verloop</span>
+                                <div class="space-x-1">
+                                    <button onclick="toggleTrend('${kpi.id}', 'week')" id="btn-w-${kpi.id}" class="px-2 py-0.5 rounded font-bold bg-emerald-600 text-white">Week</button>
+                                    <button onclick="toggleTrend('${kpi.id}', 'month')" id="btn-m-${kpi.id}" class="px-2 py-0.5 rounded font-bold bg-slate-200 text-slate-700">Maand</button>
+                                </div>
+                            </div>
+
+                            <!-- TREND METRIC DISPLAY -->
+                            <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-100 flex justify-between text-xs font-bold text-slate-700" id="trend-display-${kpi.id}">
+                                <span>W1: ${kpi.weekData[0]}</span>
+                                <span>W2: ${kpi.weekData[1]}</span>
+                                <span>W3: ${kpi.weekData[2]}</span>
+                                <span class="text-emerald-600">Nu: ${kpi.weekData[3]}</span>
+                            </div>
                         </div>
                     </div>
                 `;
             });
         }
 
+        function toggleTrend(id, mode) {
+            const kpi = kpiLibrary.find(k => k.id === id);
+            if(!kpi) return;
+
+            const display = document.getElementById(`trend-display-${id}`);
+            const btnW = document.getElementById(`btn-w-${id}`);
+            const btnM = document.getElementById(`btn-m-${id}`);
+
+            if(mode === 'week') {
+                btnW.className = "px-2 py-0.5 rounded font-bold bg-emerald-600 text-white";
+                btnM.className = "px-2 py-0.5 rounded font-bold bg-slate-200 text-slate-700";
+                display.innerHTML = `<span>W1: ${kpi.weekData[0]}</span><span>W2: ${kpi.weekData[1]}</span><span>W3: ${kpi.weekData[2]}</span><span class="text-emerald-600">Nu: ${kpi.weekData[3]}</span>`;
+            } else {
+                btnM.className = "px-2 py-0.5 rounded font-bold bg-emerald-600 text-white";
+                btnW.className = "px-2 py-0.5 rounded font-bold bg-slate-200 text-slate-700";
+                display.innerHTML = `<span>M1: ${kpi.monthData[0]}</span><span>M2: ${kpi.monthData[1]}</span><span>M3: ${kpi.monthData[2]}</span><span class="text-emerald-600">Nu: ${kpi.monthData[3]}</span>`;
+            }
+        }
+
+        // RENDER DELIVERABLES IN HET GEAVANCEERDE OVERZICHTSBLAD
+        function renderDeliverablesTable() {
+            const tbody = document.getElementById('full-deliverables-table-body');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+
+            deliverables.forEach(d => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50/80">
+                        <td class="p-3">
+                            <span class="font-bold text-slate-900 block">${d.title}</span>
+                            <span class="text-[10px] text-slate-500">Format: ${d.how}</span>
+                        </td>
+                        <td class="p-3 font-semibold text-slate-700">${d.freq}</td>
+                        <td class="p-3">
+                            <span class="font-bold text-slate-800 block">${d.holder}</span>
+                            <span class="text-[10px] text-slate-500">${d.role}</span>
+                        </td>
+                        <td class="p-3">
+                            <span class="bg-purple-100 text-purple-900 text-[10px] font-bold px-2 py-0.5 rounded">${d.profile}</span>
+                        </td>
+                        <td class="p-3 text-[11px] font-medium">${d.level}</td>
+                        <td class="p-3 font-bold text-amber-700">${d.precheck}</td>
+                        <td class="p-3 font-bold text-rose-700">${d.deadline}</td>
+                        <td class="p-3 text-center">
+                            <button onclick="removeDeliverable(${d.id})" class="text-rose-500 hover:text-rose-700 text-xs">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
         function addDeliverable(e) {
             e.preventDefault();
-            const title = document.getElementById('del-title').value;
-            const holder = document.getElementById('del-holder').value;
-            const status = document.getElementById('del-status').value;
-
-            deliverablesData.push({
+            deliverables.push({
                 id: Date.now(),
-                title: title,
-                holder: holder,
-                status: status,
-                disc: 'Geel',
-                nlp: 'Visueel'
+                title: document.getElementById('del-title').value,
+                freq: document.getElementById('del-freq').value,
+                how: document.getElementById('del-how').value,
+                holder: document.getElementById('del-holder').value,
+                role: document.getElementById('del-role').value,
+                profile: document.getElementById('del-profile').value,
+                level: document.getElementById('del-level').value,
+                precheck: document.getElementById('del-precheck').value,
+                deadline: document.getElementById('del-deadline').value
             });
 
             closeModal('addDeliverableModal');
-            document.getElementById('del-title').value = '';
-            document.getElementById('del-holder').value = '';
-            renderLiveDashboard();
-            alert('Deliverable toegevoegd! Dashboard semi-live bijgewerkt.');
+            renderDeliverablesTable();
+            alert('Deliverable succesvol toegevoegd aan je matrix!');
         }
 
         function removeDeliverable(id) {
-            deliverablesData = deliverablesData.filter(d => d.id !== id);
-            renderLiveDashboard();
+            deliverables = deliverables.filter(d => d.id !== id);
+            renderDeliverablesTable();
         }
 
-        function renderConfigPreview(kpis) {
-            const preview = document.getElementById('config-live-preview');
-            if(!preview) return;
-            preview.innerHTML = `
-                <div class="p-2 bg-slate-50 rounded border">Totaal Taken: <strong>${kpis.totaal}</strong></div>
-                <div class="p-2 bg-emerald-50 rounded border text-emerald-900">Op Tijd: <strong>${kpis.optijd}</strong></div>
-                <div class="p-2 bg-rose-50 rounded border text-rose-900">Te laat / Escalaties: <strong>${kpis.telaat}</strong></div>
-            `;
+        function saveCoachingNote() {
+            const note = document.getElementById('coaching-notes').value;
+            if(!note) return alert('Voer een reflectie in.');
+            alert('Reflectie opgeslagen in logboek!');
+            document.getElementById('coaching-notes').value = '';
         }
 
-        function saveKpiDefinitions(e) {
-            e.preventDefault();
-            kpiDefinitions.optijd = document.getElementById('def-optijd').value;
-            kpiDefinitions.telaat = document.getElementById('def-telaat').value;
-            closeModal('kpiDefinitionModal');
-            alert('KPI definities opgeslagen!');
-        }
-
-        // LOGIN & LOGOUT LOGICA (JAN DE VRIES ERUIT NA UITLOGGEN)
+        // LOGIN / LOGOUT LOGICA
         function handleLogin(e) {
             e.preventDefault();
             const name = document.getElementById('login-name').value;
-            currentUser = { name: name };
+            currentUser = name;
 
-            // UI UPDATES VOOR INGELOGDE GEBRUIKER
             document.getElementById('user-display-name').innerText = name;
-            document.getElementById('profile-page-name').innerText = name;
-            
-            // Get Initials
-            const initials = name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
-            document.getElementById('user-avatar').innerText = initials || 'JD';
+            document.getElementById('profile-user-name').innerText = name;
+            document.getElementById('user-avatar').innerText = name.substring(0, 2).toUpperCase();
 
             document.getElementById('login-overlay').classList.add('hidden');
-            renderLiveDashboard();
         }
 
         function logout() {
-            if(confirm("Wilt u echt uitloggen?")) {
-                currentUser = null;
-                document.getElementById('user-display-name').innerText = "Niet ingelogd";
-                document.getElementById('user-avatar').innerText = "--";
-                document.getElementById('login-name').value = '';
-                document.getElementById('login-overlay').classList.remove('hidden');
+            if(confirm("Uitloggen?")) {
+                location.reload();
             }
         }
 
         function switchTab(tab) {
             document.getElementById('tab-dashboard').classList.add('hidden');
+            document.getElementById('tab-deliverables').classList.add('hidden');
             document.getElementById('tab-coaching').classList.add('hidden');
             document.getElementById('tab-profile').classList.add('hidden');
             
