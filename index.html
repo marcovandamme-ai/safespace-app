@@ -4,799 +4,317 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SafeSpace Work & Dashboard</title>
+    <!-- Tailwind CSS voor styling & Lucide Icons -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        :root {
-            --bg-gradient: linear-gradient(135deg, #2c3e50, #4ca1af);
-            --card-bg: rgba(243, 244, 246, 0.95);
-            --card-inner: #ffffff;
-            --text-main: #1f2937;
-            --text-muted: #6b7280;
-            --primary-green: #10b981;
-            --accent-yellow: #f59e0b;
-            --accent-red: #ef4444;
-            --accent-blue: #2563eb;
-            --border-radius: 16px;
-        }
-
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: #334155 url('https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=1920&q=80') center/cover fixed;
-            color: var(--text-main);
-            margin: 0;
-            padding: 20px;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                        url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
         }
-
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
+        .pulse-red {
+            animation: pulse-red-anim 1.5s infinite;
         }
-
-        /* Top Bar & Header */
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(10px);
-            padding: 12px 24px;
-            border-radius: var(--border-radius);
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        @keyframes pulse-red-anim {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
         }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 800;
-            font-size: 1.2rem;
-        }
-
-        .brand-icon {
-            background: var(--primary-green);
-            color: white;
-            padding: 8px;
-            border-radius: 12px;
-            font-size: 1.2rem;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .badge {
-            padding: 8px 14px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-        }
-
-        .badge-koetjes { background: #fef3c7; color: #d97706; }
-        .badge-urgentie { background: #fee2e2; color: #dc2626; }
-        .badge-help { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
-
-        .btn-config {
-            background: #e2e8f0;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s;
-        }
-
-        .btn-config:hover { background: #cbd5e1; }
-
-        .user-profile-badge {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: #ffffff;
-            padding: 6px 14px;
-            border-radius: 30px;
-            border: 1px solid #cbd5e1;
-            cursor: pointer;
-        }
-
-        .avatar {
-            width: 32px;
-            height: 32px;
-            background: var(--accent-blue);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 0.85rem;
-        }
-
-        /* Navigation Tabs */
-        .nav-tabs {
-            display: flex;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 8px;
-            border-radius: var(--border-radius);
-            margin-bottom: 20px;
-            overflow-x: auto;
-        }
-
-        .tab-btn {
-            border: none;
-            background: transparent;
-            padding: 10px 18px;
-            border-radius: 10px;
-            font-weight: 600;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
-
-        .tab-btn.active {
-            background: var(--primary-green);
-            color: white;
-        }
-
-        /* Content Views */
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-
-        /* Cards Layout */
-        .card {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
-        }
-
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 800;
-            margin-top: 0;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #374151;
-        }
-
-        /* KPI Grid */
-        .kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .kpi-card {
-            background: var(--card-inner);
-            padding: 18px;
-            border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-            border-left: 4px solid var(--accent-blue);
-        }
-
-        .kpi-title { font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted); }
-        .kpi-val { font-size: 1.8rem; font-weight: 800; margin: 6px 0; color: var(--text-main); }
-        .kpi-sub { font-size: 0.8rem; font-weight: 600; }
-        .kpi-good { color: var(--primary-green); }
-        .kpi-warn { color: var(--accent-yellow); }
-        .kpi-alert { color: var(--accent-red); }
-
-        /* Dynamische Focus Banner */
-        .focus-banner {
-            background: linear-gradient(90deg, #1e3a8a, #3b82f6);
-            color: white;
-            padding: 16px 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .focus-meter {
-            background: rgba(255,255,255,0.2);
-            border-radius: 10px;
-            height: 12px;
-            width: 180px;
-            overflow: hidden;
-            margin-top: 5px;
-        }
-
-        .focus-fill {
-            background: #4ade80;
-            height: 100%;
-            width: 82%;
-        }
-
-        /* Forms */
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 12px;
-            background: var(--card-inner);
-            padding: 16px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-        }
-
-        .form-group { display: flex; flex-direction: column; gap: 4px; }
-        .form-group label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
-        .form-group input, .form-group select { padding: 10px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 0.9rem; outline: none; }
-
-        .btn-action {
-            background: var(--primary-green);
-            color: white;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 10px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .btn-action:hover { background: #059669; }
-
-        .view-picker { display: flex; gap: 8px; margin-bottom: 15px; }
-        .filter-btn {
-            border: none;
-            background: var(--card-inner);
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            color: var(--text-muted);
-        }
-        .filter-btn.active { background: var(--accent-blue); color: white; }
-
-        /* Tables */
-        .table-container { background: var(--card-inner); border-radius: 12px; overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
-        th, td { padding: 14px 16px; border-bottom: 1px solid #f3f4f6; }
-        th { background: #f9fafb; color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; font-weight: 700; }
-
-        /* Status Pills */
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: 700;
-        }
-        .light-dot { width: 10px; height: 10px; border-radius: 50%; }
-        .status-green { background: #ecfdf5; color: #065f46; }
-        .status-green .light-dot { background: var(--primary-green); box-shadow: 0 0 6px var(--primary-green); }
-        .status-orange { background: #fffbeeb; color: #92400e; }
-        .status-orange .light-dot { background: var(--accent-yellow); box-shadow: 0 0 6px var(--accent-yellow); }
-        .status-red { background: #fef2f2; color: #991b1b; }
-        .status-red .light-dot { background: var(--accent-red); box-shadow: 0 0 6px var(--accent-red); }
-
-        .recipient-pill { background: #e0f2fe; color: #0369a1; padding: 3px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; }
-
-        /* Modals */
-        .modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); }
-        .modal-content { background: white; margin: 6% auto; padding: 25px; border-radius: var(--border-radius); width: 90%; max-width: 550px; }
-        .close-btn { float: right; font-size: 1.5rem; font-weight: bold; cursor: pointer; color: var(--text-muted); }
     </style>
 </head>
-<body>
+<body class="min-h-screen text-slate-800 font-sans p-4 md:p-8">
 
-<div class="container">
-    <!-- Top Bar -->
-    <div class="top-bar">
-        <div class="brand">
-            <span class="brand-icon">🦄</span>
-            <div>
-                <div>SafeSpace Work & Dashboard</div>
-                <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 400;">Operationele Besturingsomgeving</div>
-            </div>
-        </div>
-        <div class="header-right">
-            <div class="badge badge-help" onclick="openHelpModal()">🆘 Hulp nodig?</div>
-            <div class="badge badge-koetjes" onclick="switchTab('spaarkas', document.querySelectorAll('.tab-btn')[2])">🔒 <span id="koetjesCount">10</span> Koetjes</div>
-            <div class="badge badge-urgentie" onclick="alert('⚡ Systeemstatus: Er zijn 2 dringende knelpunten op de planning.')">🔴 2 Urgenties ⚡</div>
-            
-            <button class="btn-config" onclick="openConfigModal()">⚙️ Config</button>
+    <div class="max-w-7xl mx-auto space-y-6">
 
-            <div class="user-profile-badge" onclick="openConfigModal()">
-                <div class="avatar" id="userAvatar">A</div>
-                <div style="display:flex; flex-direction:column;">
-                    <span id="userName" style="font-weight:700; font-size:0.85rem;">Alain</span>
-                    <span id="userRole" style="font-size:0.7rem; color:var(--text-muted);">Operations Lead</span>
+        <!-- TOP BAR / HEADER -->
+        <header class="bg-white/90 backdrop-blur-md rounded-2xl p-4 shadow-lg flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-emerald-100 p-2 rounded-xl text-2xl">🦄</div>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-900">SafeSpace Work & Dashboard</h1>
+                    <p class="text-xs text-slate-500 font-medium">Operationele Besturingsomgeving</p>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Navigation Tabs -->
-    <div class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('dashboard', this)">📊 Dashboard & KPI's</button>
-        <button class="tab-btn" onclick="switchTab('taken', this)">📋 Taken Tracker</button>
-        <button class="tab-btn" onclick="switchTab('spaarkas', this)">🔒 Mijn Privé Spaarkas</button>
-        <button class="tab-btn" onclick="switchTab('summary', this)">📄 Management Summary</button>
-        <button class="tab-btn" onclick="switchTab('deliverables', this)">⚙️ Project Deliverables & Planning</button>
-    </div>
-
-    <!-- TAB 1: DASHBOARD -->
-    <div id="tab-dashboard" class="tab-content active">
-        <!-- Dynamische Focus Banner -->
-        <div class="focus-banner" id="focusBanner">
-            <div>
-                <strong style="font-size: 1.05rem;" id="focusTitle">🎯 Realtime Focus & Capaciteit Monitor (Alain)</strong>
-                <div style="font-size: 0.85rem; opacity: 0.9;" id="focusSub">Huidige taak: "Sensoren Integratie Plan" — Gestart om 09:30 uur</div>
-            </div>
-            <div>
-                <div style="font-size: 0.8rem; font-weight: 700; text-align: right;">FOCUS SCORE: 82%</div>
-                <div class="focus-meter"><div class="focus-fill"></div></div>
-            </div>
-        </div>
-
-        <div class="kpi-grid">
-            <div class="kpi-card" style="border-color: #10b981;">
-                <div class="kpi-title">On-Time Delivery Rate</div>
-                <div class="kpi-val">87.5%</div>
-                <div class="kpi-sub kpi-good">↑ +2.5% t.o.v. vorige week</div>
-            </div>
-            <div class="kpi-card" style="border-color: #2563eb;">
-                <div class="kpi-title">Geplande Workload</div>
-                <div class="kpi-val">18.5 Uur</div>
-                <div class="kpi-sub kpi-good">🟢 Binnen week-norm (20u)</div>
-            </div>
-            <div class="kpi-card" style="border-color: #f59e0b;">
-                <div class="kpi-title">Lopende Deliverables</div>
-                <div class="kpi-val">4 Taken</div>
-                <div class="kpi-sub kpi-warn">1 vereist aandacht deze week</div>
-            </div>
-            <div class="kpi-card" style="border-color: #ef4444;">
-                <div class="kpi-title">Openstaande Blokkades</div>
-                <div class="kpi-val">1 Urgentie</div>
-                <div class="kpi-sub kpi-alert">Wacht op API-toegang Tech Team</div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-title">
-                <span>⚠️ Actieve Attentiepunten & Stoplichten</span>
-                <button class="filter-btn" onclick="switchTab('deliverables', document.querySelectorAll('.tab-btn')[4])">Naar Volledige Planner →</button>
-            </div>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Status</th>
-                            <th>Deliverable</th>
-                            <th>Versturen aan</th>
-                            <th>Deadline</th>
-                            <th>Focus / Actie</th>
-                        </tr>
-                    </thead>
-                    <tbody id="dashboardAlertsTable"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- TAB 2: TAKEN TRACKER -->
-    <div id="tab-taken" class="tab-content">
-        <div class="card">
-            <div class="card-title">
-                <span>📋 Operationele Taken Tracker</span>
-                <button class="btn-action" onclick="openTaskModal()">+ Nieuwe Taak Aanmaken</button>
-            </div>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Taak ID</th>
-                            <th>Omschrijving</th>
-                            <th>Prioriteit</th>
-                            <th>Toegewezen aan</th>
-                            <th>Status</th>
-                            <th>Actie</th>
-                        </tr>
-                    </thead>
-                    <tbody id="takenTableBody"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- TAB 3: SPAARKAS -->
-    <div id="tab-spaarkas" class="tab-content">
-        <div class="card" style="text-align: center; max-width: 600px; margin: 0 auto;">
-            <div class="card-title" style="justify-content: center;">🔒 Privé Spaarkas van Alain</div>
-            <h1 style="font-size: 3.5rem; color: var(--accent-yellow); margin: 15px 0;">🐮 <span id="spaarkasKoetjes">10</span> Koetjes</h1>
-            <p style="color: var(--text-muted); font-size: 1rem;">Rond deliverables op tijd af om extra koetjes te verdienen!</p>
-            <div style="display:flex; gap:10px; justify-content:center; margin-top:20px;">
-                <button class="btn-action" onclick="claimBeloning()">🎁 Beloning Vrijspelen (5 Koetjes)</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- TAB 4: MANAGEMENT SUMMARY -->
-    <div id="tab-summary" class="tab-content">
-        <div class="card">
-            <div class="card-title">
-                <span>📄 Wekelijkse Management Summary (Week 30)</span>
-                <button class="btn-action" style="padding:6px 14px; font-size:0.85rem;" onclick="window.print()">🖨️ Exporteer PDF</button>
-            </div>
-            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
-                <div style="background: var(--card-inner); padding: 20px; border-radius: 12px;">
-                    <h3 style="margin-top:0; color:var(--accent-blue);">Executive Summary</h3>
-                    <p>In Week 30 heeft de operationele besturing van Alain een stabiel verloop laten zien.</p>
+            <div class="flex items-center gap-3 flex-wrap">
+                <button class="bg-blue-100 text-blue-700 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5">
+                    💡 Hulp nodig?
+                </button>
+                <div class="bg-amber-100 text-amber-800 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5">
+                    🔒 10 Koetjes
                 </div>
-                <div style="background: var(--card-inner); padding: 20px; border-radius: 12px;">
-                    <h3 style="margin-top:0;">Capaciteitsstatistieken</h3>
-                    <p><strong>Totaal Bestede Tijd:</strong> 18.5 Uur</p>
-                    <p><strong>Focus-Efficiëntie:</strong> 82%</p>
+                <div class="bg-red-100 text-red-700 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 pulse-red">
+                    🔴 2 Urgenties
+                </div>
+                <button class="bg-slate-100 text-slate-700 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 hover:bg-slate-200">
+                    ⚙️ Config
+                </button>
+
+                <div class="flex items-center gap-2 border-l border-slate-200 pl-3 ml-1">
+                    <div class="w-8 h-8 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-sm">A</div>
+                    <div class="text-left">
+                        <div class="text-xs font-bold leading-none">Alain</div>
+                        <div class="text-[10px] text-slate-500">Operations Lead</div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </header>
 
-    <!-- TAB 5: PROJECT DELIVERABLES -->
-    <div id="tab-deliverables" class="tab-content">
-        <div class="card">
-            <div class="card-title">➕ NIEUWE DELIVERABLE / PLANNING INVOEREN</div>
-            <form id="plannerForm">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>DELIVERABLE NAAM</label>
-                        <input type="text" id="delName" placeholder="bv. Maandrapportage" required>
-                    </div>
-                    <div class="form-group">
-                        <label>FREQUENTIE</label>
-                        <select id="delFreq">
-                            <option value="Dagelijks">Dagelijks</option>
-                            <option value="Wekelijks">Wekelijks</option>
-                            <option value="Maandelijks">Maandelijks</option>
-                            <option value="Kwartaal">Kwartaal</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>VERSTUREN AAN</label>
-                        <input type="text" id="delRecipients" placeholder="bv. Directie, Tilly" required>
-                    </div>
-                    <div class="form-group">
-                        <label>GEPLANDE STARTDATUM</label>
-                        <input type="date" id="delStart" required>
-                    </div>
-                    <div class="form-group">
-                        <label>DUUR (UREN)</label>
-                        <input type="number" id="delDuration" min="0.5" step="0.5" placeholder="bv. 4" required>
-                    </div>
-                    <div class="form-group">
-                        <label>DEADLINE</label>
-                        <input type="date" id="delDeadline" required>
-                    </div>
+        <!-- MAIN NAVIGATION TABS -->
+        <nav class="flex gap-2 overflow-x-auto pb-1">
+            <button class="px-4 py-2 bg-white/80 backdrop-blur-md rounded-xl text-xs font-bold text-slate-600 hover:bg-white">📊 Dashboard & KPI's</button>
+            <button class="px-4 py-2 bg-white/80 backdrop-blur-md rounded-xl text-xs font-bold text-slate-600 hover:bg-white">📋 Taken Tracker</button>
+            <button class="px-4 py-2 bg-white/80 backdrop-blur-md rounded-xl text-xs font-bold text-slate-600 hover:bg-white">🔒 Mijn Privé Spaarkas</button>
+            <button class="px-4 py-2 bg-white/80 backdrop-blur-md rounded-xl text-xs font-bold text-slate-600 hover:bg-white">📝 Management Summary</button>
+            <button class="px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-bold shadow-md">🎯 Project Deliverables & Planning</button>
+        </nav>
+
+        <!-- INVOERFORMULIER -->
+        <section class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl space-y-4">
+            <h2 class="text-sm font-black tracking-wider uppercase text-slate-800 flex items-center gap-2">
+                <span class="text-emerald-600 text-lg">+</span> Nieuwe Deliverable / Planning Invoeren
+            </h2>
+            <form id="add-deliverable-form" class="grid grid-cols-1 md:grid-cols-6 gap-3">
+                <div class="md:col-span-1">
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Deliverable Naam</label>
+                    <input type="text" id="input-title" placeholder="bv. Maandrapportage" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
                 </div>
-                <button type="submit" class="btn-action" style="width:100%;">Opslaan & Inplannen</button>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Frequentie</label>
+                    <select id="input-freq" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+                        <option>Dagelijks</option>
+                        <option>Wekelijks</option>
+                        <option>Maandelijks</option>
+                        <option>Kwartaal</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Versturen Aan</label>
+                    <input type="text" id="input-to" placeholder="bv. Directie, Tilly" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Geplande Startdatum</label>
+                    <input type="date" id="input-start" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Duur (Uren)</label>
+                    <input type="number" id="input-duration" placeholder="bv. 4" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Deadline</label>
+                    <input type="date" id="input-deadline" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+                </div>
+                <div class="md:col-span-6 mt-2">
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs transition-all shadow-md">
+                        Opslaan & Inplannen
+                    </button>
+                </div>
             </form>
-        </div>
+        </section>
 
-        <div class="card">
-            <div class="card-title">📅 INTERACTIVE CAPACITY & STATUS PLANNER</div>
-            <div class="view-picker">
-                <button class="filter-btn active" onclick="filterView('all', this)">Alles</button>
-                <button class="filter-btn" onclick="filterView('Dagelijks', this)">Dagbasis</button>
-                <button class="filter-btn" onclick="filterView('Wekelijks', this)">Weekbasis</button>
-                <button class="filter-btn" onclick="filterView('Maandelijks', this)">Maandbasis</button>
+        <!-- STATUS PLANNER TABEL -->
+        <section class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl space-y-4">
+            <div class="flex flex-wrap justify-between items-center gap-4">
+                <h2 class="text-sm font-black tracking-wider uppercase text-slate-800 flex items-center gap-2">
+                    🏛️ Interactive Capacity & Status Planner
+                </h2>
+                <div class="flex gap-1 bg-slate-100 p-1 rounded-lg text-xs font-semibold">
+                    <button class="px-3 py-1 bg-blue-600 text-white rounded-md shadow">Alles</button>
+                    <button class="px-3 py-1 text-slate-600 hover:bg-white rounded-md">Dagbasis</button>
+                    <button class="px-3 py-1 text-slate-600 hover:bg-white rounded-md">Weekbasis</button>
+                    <button class="px-3 py-1 text-slate-600 hover:bg-white rounded-md">Maandbasis</button>
+                </div>
             </div>
-            <div class="table-container">
-                <table>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs border-collapse">
                     <thead>
-                        <tr>
-                            <th>STATUS (STOPLICHT)</th>
-                            <th>DELIVERABLE</th>
-                            <th>FREQUENTIE</th>
-                            <th>VERSTUREN AAN</th>
-                            <th>STARTDATUM</th>
-                            <th>GEPLANDE DUUR</th>
-                            <th>DEADLINE</th>
-                            <th>ACTIE</th>
+                        <tr class="border-b border-slate-200 text-slate-400 font-bold uppercase text-[10px]">
+                            <th class="py-3 px-2">Status (Stoplicht)</th>
+                            <th class="py-3 px-2">Deliverable</th>
+                            <th class="py-3 px-2">Frequentie</th>
+                            <th class="py-3 px-2">Versturen Aan</th>
+                            <th class="py-3 px-2">Startdatum</th>
+                            <th class="py-3 px-2">Geplande Duur</th>
+                            <th class="py-3 px-2">Deadline</th>
+                            <th class="py-3 px-2 text-right">Actie</th>
                         </tr>
                     </thead>
-                    <tbody id="deliverablesTableBody"></tbody>
+                    <tbody id="planner-table-body" class="divide-y divide-slate-100 font-medium">
+                        <!-- Wordt dynamisch opgevuld door JavaScript -->
+                    </tbody>
                 </table>
             </div>
-        </div>
-    </div>
-</div>
+        </section>
 
-<!-- MODAL: TAAK TOEVOEGEN / BEWERKEN -->
-<div id="taskModal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeTaskModal()">&times;</span>
-        <h2 style="margin-top:0;" id="taskModalTitle">➕ Nieuwe Taak Aanmaken</h2>
-        <form id="taskForm">
-            <input type="hidden" id="taskId">
-            <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
-                <div class="form-group">
-                    <label>Omschrijving</label>
-                    <input type="text" id="taskDesc" placeholder="bv. Koetjes melken" required>
+    </div>
+
+    <!-- PIJLER 3: DYNAMISCHE CHECKLIST MODAL -->
+    <div id="checklist-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-slate-100">
+            <div class="flex justify-between items-start border-b border-slate-100 pb-3">
+                <div>
+                    <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">
+                        Kwaliteitscontrole Vóór Oplevering
+                    </span>
+                    <h3 id="modal-deliverable-name" class="text-lg font-bold text-slate-800 mt-1">Deliverable Naam</h3>
                 </div>
-                <div class="form-group">
-                    <label>Prioriteit</label>
-                    <select id="taskPriority">
-                        <option value="Laag">Laag</option>
-                        <option value="Middel" selected>Middel</option>
-                        <option value="Hoog">Hoog</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Toegewezen aan</label>
-                    <select id="taskAssignee">
-                        <option value="Alain">Alain</option>
-                        <option value="Tilly">Tilly</option>
-                        <option value="Eigenaar">Eigenaar</option>
-                        <option value="Piet">Piet</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Status</label>
-                    <select id="taskStatus">
-                        <option value="Open">Open</option>
-                        <option value="In Behandeling">In Behandeling</option>
-                        <option value="Afgerond">Afgerond</option>
-                    </select>
+                <div class="text-[11px] text-slate-400 bg-slate-50 px-2.5 py-1 rounded-md flex items-center gap-1 font-semibold">
+                    🔀 Dynamische Volgorde
                 </div>
             </div>
-            <button type="submit" class="btn-action" style="width:100%;">Opslaan</button>
-        </form>
-    </div>
-</div>
 
-<!-- MODAL CONFIG -->
-<div id="configModal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeConfigModal()">&times;</span>
-        <h2 style="margin-top:0;">⚙️ Gebruiker Instellingen</h2>
-        <p style="color:var(--text-muted); font-size:0.9rem;">Wissel van account om het persoonsgebonden dashboard te bekijken:</p>
-        <div style="display:flex; flex-direction:column; gap:10px; margin: 20px 0;">
-            <button class="filter-btn" style="padding:12px; text-align:left;" onclick="setUser('Alain', 'Operations Lead', 'A')">👤 Inloggen als Alain</button>
-            <button class="filter-btn" style="padding:12px; text-align:left;" onclick="setUser('Tilly', 'Management / Coach', 'T')">👩‍💼 Inloggen als Tilly</button>
-            <button class="filter-btn" style="padding:12px; text-align:left;" onclick="setUser('Eigenaar', 'Directeur', 'E')">👑 Inloggen als Eigenaar</button>
+            <p class="text-xs text-slate-500">
+                Vink alle onderstaande vragen af. De volgorde verandert willekeurig bij elke oplevering om de automatische piloot te voorkomen en een 99.5% KPI-score te borgen.
+            </p>
+
+            <div id="checklist-items-container" class="space-y-2">
+                <!-- Vragen worden hier gesorteerd ingeladen -->
+            </div>
+
+            <div id="checklist-error-msg" class="hidden bg-amber-50 text-amber-800 p-3 rounded-xl text-xs font-semibold flex items-center gap-2 border border-amber-200">
+                ⚠️ Rond eerst alle kwaliteitschecks af om de First-Time-Right target te behalen.
+            </div>
+
+            <div class="flex gap-2 pt-2">
+                <button onclick="closeChecklistModal()" class="w-1/3 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs">
+                    Annuleren
+                </button>
+                <button onclick="confirmOplevering()" class="w-2/3 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs shadow-md shadow-emerald-200 transition-all">
+                    ✓ Kwaliteit Goedgekeurd & Opleveren
+                </button>
+            </div>
         </div>
-        <button class="btn-action" style="width:100%;" onclick="closeConfigModal()">Sluiten</button>
     </div>
-</div>
 
-<!-- MODAL HELP -->
-<div id="helpModal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeHelpModal()">&times;</span>
-        <h2 style="margin-top:0; color:var(--accent-blue);">🆘 Hulp & Focus Assistentie</h2>
-        <p>Lopen taken vast? Breek ze op in kleinere stappen of geef een blokkade aan.</p>
-        <button class="btn-action" style="width:100%; background:var(--accent-blue);" onclick="alert('Signaal verzonden!'); closeHelpModal();">📞 Vraag ondersteuning</button>
-    </div>
-</div>
+    <script>
+        // Standaard takenlijst
+        let deliverables = [
+            { id: 1, name: "Sensoren Integratie Plan", freq: "Wekelijks", to: "Tech Team, Alain", start: "2026-07-25", duration: "4 uur", deadline: "2026-07-27", status: "Overdue / Actie" },
+            { id: 2, name: "Q3 Management Summary", freq: "Maandelijks", to: "Directie, Board", start: "2026-07-20", duration: "6 uur", deadline: "2026-07-26", status: "Overdue / Actie" },
+            { id: 3, name: "Dagelijkse Check Weide", freq: "Dagelijks", to: "Operationeel Team", start: "2026-07-28", duration: "0.5 uur", deadline: "2026-07-28", status: "Overdue / Actie" },
+            { id: 4, name: "Kwartaal Rapportage Veestapel", freq: "Kwartaal", to: "Directie", start: "2026-08-01", duration: "8 uur", deadline: "2026-08-15", status: "Ingepland" }
+        ];
 
-<script>
-    const DATA = {
-        currentUser: { name: "Alain", role: "Operations Lead", avatar: "A" },
-        koetjes: 10,
-        taken: [
-            { id: "TSK-101", desc: "Kalibratie temperatuursensoren weide B", priority: "Hoog", assignee: "Alain", status: "In Behandeling" },
-            { id: "TSK-102", desc: "Schoonmaken voederbakken zone 1", priority: "Middel", assignee: "Piet", status: "Open" },
-            { id: "TSK-103", desc: "Netwerkcheck hekwerk-communicatie", priority: "Laag", assignee: "Alain", status: "Afgerond" },
-            { id: "TSK-104", desc: "koetjes melken", priority: "Middel", assignee: "Eigenaar", status: "Open" }
-        ],
-        deliverables: [
-            { id: 1, title: "Sensoren Integratie Plan", freq: "Wekelijks", recipients: "Tech Team, Alain", start: "2026-07-25", duration: "4 uur", deadline: "2026-07-27" },
-            { id: 2, title: "Q3 Management Summary", freq: "Maandelijks", recipients: "Directie, Board", start: "2026-07-20", duration: "6 uur", deadline: "2026-07-26" },
-            { id: 3, title: "Dagelijkse Check Weide", freq: "Dagelijks", recipients: "Operationeel Team", start: "2026-07-28", duration: "0.5 uur", deadline: "2026-07-28" },
-            { id: 4, title: "Kwartaal Rapportage Veestapel", freq: "Kwartaal", recipients: "Directie", start: "2026-08-01", duration: "8 uur", deadline: "2026-08-15" }
-        ]
-    };
+        // Vragenlijst voor Pijler 3 Kwaliteitscontrole
+        const baseQuestions = [
+            "Zijn alle cijfers en data dubbel gecontroleerd op typefouten?",
+            "Is de bijlage/export correct geformatteerd en geüpload?",
+            "Zijn eventuele afwijkingen of vertragingen helder toegelicht?",
+            "Is de ontvanger correct ingesteld (bijv. Directie / Team)?",
+            "Is de communicatie vriendelijk en professioneel geformuleerd?"
+        ];
 
-    let currentFilter = 'all';
+        let selectedDeliverableId = null;
 
-    function switchTab(tabId, element) {
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-        element.classList.add('active');
-        document.getElementById('tab-' + tabId).classList.add('active');
-    }
+        function renderTable() {
+            const tbody = document.getElementById('planner-table-body');
+            tbody.innerHTML = '';
 
-    function openConfigModal() { document.getElementById('configModal').style.display = 'block'; }
-    function closeConfigModal() { document.getElementById('configModal').style.display = 'none'; }
-    function openHelpModal() { document.getElementById('helpModal').style.display = 'block'; }
-    function closeHelpModal() { document.getElementById('helpModal').style.display = 'none'; }
+            deliverables.forEach(item => {
+                const isOverdue = item.status.includes('Overdue');
+                const isGeleverd = item.status === 'Geleverd';
+                
+                let badgeClass = isOverdue 
+                    ? 'bg-red-100 text-red-700 pulse-red' 
+                    : (isGeleverd ? 'bg-emerald-100 text-emerald-700' : 'bg-blue-100 text-blue-700');
 
-    function setUser(name, role, avatar) {
-        DATA.currentUser = { name, role, avatar };
-        document.getElementById('userName').innerText = name;
-        document.getElementById('userRole').innerText = role;
-        document.getElementById('userAvatar').innerText = avatar;
-        
-        updateFocusBanner();
-        closeConfigModal();
-    }
-
-    function updateFocusBanner() {
-        const titleEl = document.getElementById('focusTitle');
-        const subEl = document.getElementById('focusSub');
-        const currUser = DATA.currentUser.name;
-
-        if (currUser === 'Alain') {
-            titleEl.innerText = `🎯 Realtime Focus & Capaciteit Monitor (Alain)`;
-            subEl.innerText = `Huidige taak: "Sensoren Integratie Plan" — Gestart om 09:30 uur`;
-        } else {
-            titleEl.innerText = `👁️ Meekijk-modus (${currUser}): Focus Alain`;
-            subEl.innerText = `Alain werkt momenteel met 82% focus aan zijn deliverables. Geen directe overbelasting.`;
-        }
-    }
-
-    function openTaskModal(taskId = null) {
-        if(taskId) {
-            const task = DATA.taken.find(t => t.id === taskId);
-            document.getElementById('taskModalTitle').innerText = "✏️ Taak Bewerken (" + task.id + ")";
-            document.getElementById('taskId').value = task.id;
-            document.getElementById('taskDesc').value = task.desc;
-            document.getElementById('taskPriority').value = task.priority;
-            document.getElementById('taskAssignee').value = task.assignee;
-            document.getElementById('taskStatus').value = task.status;
-        } else {
-            document.getElementById('taskModalTitle').innerText = "➕ Nieuwe Taak Aanmaken";
-            document.getElementById('taskId').value = "";
-            document.getElementById('taskForm').reset();
-        }
-        document.getElementById('taskModal').style.display = 'block';
-    }
-
-    function closeTaskModal() { document.getElementById('taskModal').style.display = 'none'; }
-
-    function toggleTaskStatus(taskId) {
-        const task = DATA.taken.find(t => t.id === taskId);
-        if(task.status === "Open") task.status = "In Behandeling";
-        else if(task.status === "In Behandeling") task.status = "Afgerond";
-        else task.status = "Open";
-        renderAll();
-    }
-
-    function deleteTask(taskId) {
-        DATA.taken = DATA.taken.filter(t => t.id !== taskId);
-        renderAll();
-    }
-
-    function calculateStatus(startDate, deadline) {
-        const today = new Date().toISOString().split('T')[0];
-        if (deadline < today) return `<span class="status-badge status-red"><span class="light-dot"></span> Overdue / Actie</span>`;
-        else if (startDate <= today && deadline >= today) return `<span class="status-badge status-orange"><span class="light-dot"></span> In Behandeling</span>`;
-        else return `<span class="status-badge status-green"><span class="light-dot"></span> Ingepland</span>`;
-    }
-
-    function renderAll() {
-        updateFocusBanner();
-
-        // Render Taken
-        const takenBody = document.getElementById('takenTableBody');
-        takenBody.innerHTML = '';
-        DATA.taken.forEach(t => {
-            const prioColor = t.priority === 'Hoog' ? 'red' : (t.priority === 'Middel' ? '#d97706' : 'black');
-            takenBody.innerHTML += `
-                <tr>
-                    <td><strong>${t.id}</strong></td>
-                    <td>${t.desc}</td>
-                    <td><span style="font-weight:bold; color:${prioColor}">${t.priority}</span></td>
-                    <td>${t.assignee}</td>
-                    <td><strong>${t.status}</strong></td>
-                    <td>
-                        <button class="filter-btn" onclick="toggleTaskStatus('${t.id}')">Status aanpassen</button>
-                        <button class="filter-btn" onclick="openTaskModal('${t.id}')">✏️ Edit</button>
-                        <button class="filter-btn" style="color:red;" onclick="deleteTask('${t.id}')">🗑️</button>
-                    </td>
-                </tr>
-            `;
-        });
-
-        // Render Alerts
-        const alertBody = document.getElementById('dashboardAlertsTable');
-        alertBody.innerHTML = '';
-        DATA.deliverables.forEach(d => {
-            alertBody.innerHTML += `
-                <tr>
-                    <td>${calculateStatus(d.start, d.deadline)}</td>
-                    <td><strong>${d.title}</strong></td>
-                    <td><span class="recipient-pill">📬 ${d.recipients}</span></td>
-                    <td>${d.deadline}</td>
-                    <td><button class="filter-btn" onclick="openHelpModal()">Focus / Hulp</button></td>
-                </tr>
-            `;
-        });
-
-        // Render Deliverables
-        const plannerBody = document.getElementById('deliverablesTableBody');
-        plannerBody.innerHTML = '';
-        const filtered = currentFilter === 'all' ? DATA.deliverables : DATA.deliverables.filter(d => d.freq === currentFilter);
-
-        filtered.forEach(d => {
-            plannerBody.innerHTML += `
-                <tr>
-                    <td>${calculateStatus(d.start, d.deadline)}</td>
-                    <td><strong>${d.title}</strong></td>
-                    <td>${d.freq}</td>
-                    <td><span class="recipient-pill">📬 ${d.recipients}</span></td>
-                    <td>${d.start}</td>
-                    <td>${d.duration}</td>
-                    <td>${d.deadline}</td>
-                    <td><button class="filter-btn" style="color:red;" onclick="deleteDeliverable(${d.id})">🗑️</button></td>
-                </tr>
-            `;
-        });
-    }
-
-    function filterView(freq, btn) {
-        currentFilter = freq;
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        renderAll();
-    }
-
-    function deleteDeliverable(id) {
-        DATA.deliverables = DATA.deliverables.filter(d => d.id !== id);
-        renderAll();
-    }
-
-    document.getElementById('taskForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const taskId = document.getElementById('taskId').value;
-        const desc = document.getElementById('taskDesc').value;
-        const priority = document.getElementById('taskPriority').value;
-        const assignee = document.getElementById('taskAssignee').value;
-        const status = document.getElementById('taskStatus').value;
-
-        if(taskId) {
-            const task = DATA.taken.find(t => t.id === taskId);
-            task.desc = desc;
-            task.priority = priority;
-            task.assignee = assignee;
-            task.status = status;
-        } else {
-            const newId = "TSK-" + (100 + DATA.taken.length + 1);
-            DATA.taken.push({ id: newId, desc, priority, assignee, status });
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50/80 transition-colors">
+                        <td class="py-3 px-2">
+                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold inline-flex items-center gap-1 ${badgeClass}">
+                                ● ${item.status}
+                            </span>
+                        </td>
+                        <td class="py-3 px-2 font-bold text-slate-800">${item.name}</td>
+                        <td class="py-3 px-2 text-slate-500">${item.freq}</td>
+                        <td class="py-3 px-2">
+                            <span class="bg-blue-50 text-blue-600 px-2 py-0.5 rounded text-[10px] font-semibold">📬 ${item.to}</span>
+                        </td>
+                        <td class="py-3 px-2 text-slate-500">${item.start}</td>
+                        <td class="py-3 px-2 text-slate-500">${item.duration}</td>
+                        <td class="py-3 px-2 text-slate-500">${item.deadline}</td>
+                        <td class="py-3 px-2 text-right">
+                            ${isGeleverd 
+                                ? '<span class="text-emerald-600 font-bold text-[11px]">✓ Voltooid</span>' 
+                                : `<button onclick="openChecklistModal(${item.id})" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold px-3 py-1 rounded-lg transition-all shadow-sm">
+                                    Opleveren
+                                   </button>`
+                            }
+                        </td>
+                    </tr>
+                `;
+            });
         }
 
-        renderAll();
-        closeTaskModal();
-    });
+        function openChecklistModal(id) {
+            selectedDeliverableId = id;
+            const item = deliverables.find(d => d.id === id);
+            document.getElementById('modal-deliverable-name').innerText = item.name;
 
-    document.getElementById('plannerForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const newItem = {
-            id: Date.now(),
-            title: document.getElementById('delName').value,
-            freq: document.getElementById('delFreq').value,
-            recipients: document.getElementById('delRecipients').value,
-            start: document.getElementById('delStart').value,
-            duration: document.getElementById('delDuration').value + " uur",
-            deadline: document.getElementById('delDeadline').value
-        };
-        DATA.deliverables.push(newItem);
-        renderAll();
-        this.reset();
-    });
+            // Hussel vragen willekeurig (Anti-automatische piloot)
+            const shuffledQuestions = [...baseQuestions].sort(() => Math.random() - 0.5);
 
-    renderAll();
-</script>
+            const container = document.getElementById('checklist-items-container');
+            container.innerHTML = '';
+            
+            shuffledQuestions.forEach((q, idx) => {
+                container.innerHTML += `
+                    <label class="flex items-start gap-3 p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/80 cursor-pointer transition-all">
+                        <input type="checkbox" class="chk-item mt-0.5 h-4 w-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500">
+                        <span class="text-xs text-slate-700 font-medium leading-tight">${q}</span>
+                    </label>
+                `;
+            });
 
+            document.getElementById('checklist-error-msg').classList.add('hidden');
+            document.getElementById('checklist-modal').classList.remove('hidden');
+            document.getElementById('checklist-modal').classList.add('flex');
+        }
+
+        function closeChecklistModal() {
+            document.getElementById('checklist-modal').classList.add('hidden');
+            document.getElementById('checklist-modal').classList.remove('flex');
+        }
+
+        function confirmOplevering() {
+            const checkboxes = document.querySelectorAll('.chk-item');
+            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+
+            if (!allChecked) {
+                document.getElementById('checklist-error-msg').classList.remove('hidden');
+                return;
+            }
+
+            // Update status naar Geleverd
+            deliverables = deliverables.map(d => d.id === selectedDeliverableId ? { ...d, status: 'Geleverd' } : d);
+            renderTable();
+            closeChecklistModal();
+        }
+
+        // Formulier afhandeling
+        document.getElementById('add-deliverable-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const newObj = {
+                id: Date.now(),
+                name: document.getElementById('input-title').value,
+                freq: document.getElementById('input-freq').value,
+                to: document.getElementById('input-to').value,
+                start: document.getElementById('input-start').value,
+                duration: document.getElementById('input-duration').value + ' uur',
+                deadline: document.getElementById('input-deadline').value,
+                status: 'Ingepland'
+            };
+            deliverables.unshift(newObj);
+            renderTable();
+            this.reset();
+        });
+
+        // Eerste load
+        renderTable();
+    </script>
 </body>
 </html>
