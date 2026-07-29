@@ -14,73 +14,100 @@
             background-attachment: fixed;
             background-position: center;
         }
-        .pulse-red {
-            animation: pulse-red-anim 1.5s infinite;
-        }
-        @keyframes pulse-red-anim {
-            0% { opacity: 1; }
-            50% { opacity: 0.4; }
-            100% { opacity: 1; }
-        }
     </style>
 </head>
 <body class="min-h-screen text-slate-800 font-sans p-4 md:p-8 flex flex-col justify-between">
 
-    <!-- 1. LOGIN & PROFIEL INTAKE MODAL -->
+    <!-- 1. SIMPEL INLOGSCHERM -->
     <div id="login-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-100 relative">
-            <div class="text-center space-y-1">
-                <div class="text-3xl">🦄</div>
-                <h2 class="text-xl font-bold text-slate-900">Welkom bij SafeSpace Work</h2>
-                <p class="text-xs text-slate-500">Meld je aan om je persoonlijke dashboard te openen.</p>
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl space-y-4 border border-slate-100 text-center">
+            <div class="text-3xl">🦄</div>
+            <div>
+                <h2 class="text-xl font-bold text-slate-900">SafeSpace Work</h2>
+                <p class="text-xs text-slate-500">Meld je aan om door te gaan</p>
             </div>
 
-            <form id="login-form" onsubmit="handleLogin(event)" class="space-y-3">
+            <form id="login-form" onsubmit="handleLogin(event)" class="space-y-3 text-left">
                 <div>
-                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Volledige Naam</label>
-                    <input type="text" id="login-name" placeholder="bv. Alain" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
-                </div>
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Functie / Rol</label>
-                    <input type="text" id="login-role-title" placeholder="bv. Operations Lead" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Gebruikersnaam / Naam</label>
+                    <input type="text" id="login-name" value="Alain" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
                 </div>
                 <div>
                     <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Selecteer Toegangsrol</label>
-                    <select id="login-role-type" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+                    <select id="login-role-type" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
                         <option value="alain">👨‍💼 Alain (Gebruiker)</option>
                         <option value="watcher">👀 Ouders / Coach (Watcher)</option>
                     </select>
                 </div>
 
-                <div class="border-t border-slate-100 pt-3 space-y-2">
-                    <p class="text-[11px] font-bold text-slate-700">Persoonlijke Profiel Vragen (Intake):</p>
-                    <div>
-                        <label class="block text-[10px] text-slate-500 mb-1">Wat is jouw belangrijkste focusdoel deze maand?</label>
-                        <input type="text" id="login-goal" placeholder="bv. 100% First-Time-Right opleveringen" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] text-slate-500 mb-1">Hoeveel uur werk je idealiter per dag?</label>
-                        <input type="number" id="login-hours" placeholder="bv. 8" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
-                    </div>
-                </div>
-
                 <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs transition-all shadow-md mt-2">
-                    🚀 Inloggen & Dashboard Openen
+                    🚀 Inloggen
                 </button>
             </form>
+        </div>
+    </div>
 
-            <div class="text-center pt-2 border-t border-slate-100">
-                <button onclick="openLegalModal()" class="text-[10px] text-slate-400 hover:text-slate-600 underline">
-                    v1.2.0 • SJworks Proprietary Code & Legal Disclaimer
-                </button>
+    <!-- 2. INTAKE PROFIEL MODAL (EERSTE KEER GEBRUIK) -->
+    <div id="intake-prompt-modal" class="fixed inset-0 bg-slate-900/85 backdrop-blur-md z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-100 text-center">
+            <div class="text-4xl">📋</div>
+            <h2 class="text-lg font-bold text-slate-900">Welkom bij je persoonlijke omgeving!</h2>
+            <p class="text-xs text-slate-600 leading-relaxed bg-blue-50 p-3 rounded-xl border border-blue-100 font-medium">
+                "We willen je profiel maken zodat we je straks goed kunnen coachen en challengen."
+            </p>
+            <p class="text-[11px] text-slate-500">Vul de intake in om jouw KPI's en maandoelen scherp neer te zetten.</p>
+            
+            <button onclick="openProfileIntakeForm()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-xs transition-all shadow-lg">
+                ✍️ Start Profiel Vragenlijst
+            </button>
+        </div>
+    </div>
+
+    <!-- 3. PROFIEL VRAGENLIJST FORMULIER MODAL -->
+    <div id="profile-form-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-slate-100 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <h3 class="text-base font-bold text-slate-900">👨‍💼 Persoonlijk Profiel & Coachings-KPI's</h3>
+                <button onclick="closeProfileFormModal()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
             </div>
+
+            <form id="profile-questions-form" onsubmit="saveProfileData(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">1. Functietitel / Operationele Rol</label>
+                    <input type="text" id="prof-role" placeholder="bv. Operations Lead" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">2. Belangrijkste Maanddoel (Kwaliteit / KPI)</label>
+                    <input type="text" id="prof-goal" placeholder="bv. 100% First-Time-Right opleveringen" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">3. Uren per dag (Target)</label>
+                        <input type="number" id="prof-hours" placeholder="8" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">4. Kwaliteit Target (%)</label>
+                        <input type="number" id="prof-target-ftr" value="100" min="50" max="100" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">5. Waar wil je dit kwartaal het meest op uitgedaagd/gecoacht worden?</label>
+                    <textarea id="prof-challenge" rows="2" placeholder="bv. Striktere tijdsbewaking op dossiers & communicatie met directie..." required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none"></textarea>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl transition-all shadow-md">
+                        💾 Profiel Opslaan & Aan KPI's Koppelen
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
     <!-- MAIN DASHBOARD CONTENT -->
     <div id="main-app" class="max-w-7xl mx-auto space-y-6 w-full hidden">
 
-        <!-- TOP BAR / HEADER -->
+        <!-- TOP BAR / HEADER (ZWARTE KNOP IS VERWIJDERD) -->
         <header class="bg-white/90 backdrop-blur-md rounded-2xl p-4 shadow-lg flex flex-wrap justify-between items-center gap-4">
             <div class="flex items-center gap-3">
                 <div class="bg-emerald-100 p-2 rounded-xl text-2xl">🦄</div>
@@ -90,13 +117,14 @@
                 </div>
             </div>
 
-            <div class="flex items-center gap-3 flex-wrap">
-                <button onclick="openLegalModal()" class="bg-slate-800 text-white hover:bg-slate-900 px-3 py-1.5 rounded-full text-[10px] font-mono font-bold tracking-tight shadow-sm transition-all flex items-center gap-1">
-                    ⚡ v1.2.0 | SJworks
+            <div class="flex items-center gap-2 flex-wrap">
+                <!-- NIEUWE EVALUATIE KNOP -->
+                <button onclick="openEvaluationModal()" class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1.5 rounded-full text-xs font-bold transition-all shadow-sm">
+                    📝 Persoonlijke Evaluatie
                 </button>
 
                 <button onclick="alert('Hulp/Support: Neem contact op met je coach of beheerder.')" class="bg-blue-100 text-blue-700 hover:bg-blue-200 px-3 py-1.5 rounded-full text-xs font-semibold transition-all">
-                    💡 Hulp nodig?
+                    💡 Hulp
                 </button>
                 <div class="bg-amber-100 text-amber-800 px-3 py-1.5 rounded-full text-xs font-semibold">
                     🔒 <span id="user-koetjes">10</span> Koetjes
@@ -133,12 +161,18 @@
                         <h2 class="text-lg font-bold text-slate-900 mt-1">Mijn Overall Status & Voortgang</h2>
                         <p class="text-xs text-slate-500">Overzicht van waar je nu staat met al je taken, deliverables en kwaliteit targets.</p>
                     </div>
-                    <div class="text-right bg-emerald-50 p-3 rounded-xl border border-emerald-200">
-                        <div class="text-[10px] font-bold text-emerald-800 uppercase">Mijn FtR Score</div>
-                        <div class="text-xl font-black text-emerald-600">100% Kwaliteit</div>
+                    <div class="flex items-center gap-3">
+                        <button onclick="openProfileFormModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-xl border border-slate-200 transition-all">
+                            ✏️ Profiel & KPI's Bewerken
+                        </button>
+                        <div class="text-right bg-emerald-50 p-3 rounded-xl border border-emerald-200">
+                            <div class="text-[10px] font-bold text-emerald-800 uppercase">Mijn FtR Score Target</div>
+                            <div id="profile-ftr-score" class="text-xl font-black text-emerald-600">100% Kwaliteit</div>
+                        </div>
                     </div>
                 </div>
 
+                <!-- CARDS VOOR ALAIN -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-1">
                         <div class="text-[10px] font-bold text-slate-500 uppercase">Geplande Deliverables</div>
@@ -152,13 +186,36 @@
                     </div>
                     <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-1">
                         <div class="text-[10px] font-bold text-slate-500 uppercase">Mijn Maanddoel</div>
-                        <div id="profile-display-goal" class="text-xs font-bold text-blue-600 truncate">Geen ingesteld</div>
-                        <div class="text-[11px] text-blue-600 font-medium">Ingevuld via Profiel</div>
+                        <div id="profile-display-goal" class="text-xs font-bold text-blue-600 truncate">Nog niet ingevuld</div>
+                        <div class="text-[11px] text-blue-600 font-medium">Gekoppeld aan profiel</div>
                     </div>
                     <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-1">
                         <div class="text-[10px] font-bold text-slate-500 uppercase">Mijn Beloning Status</div>
                         <div class="text-2xl font-black text-amber-600">10 Koetjes</div>
                         <div class="text-[11px] text-amber-600 font-semibold">Op koers voor maandbonus</div>
+                    </div>
+                </div>
+
+                <!-- LAATSTE ACTIONABLE TIPS UIT EVALUATIES -->
+                <div class="bg-purple-50 border border-purple-100 rounded-xl p-4 space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold text-purple-900 flex items-center gap-1.5">
+                            💡 Actuele Actionable Focus-Tip (Monitor uit Evaluatie)
+                        </span>
+                        <span class="text-[10px] bg-purple-200 text-purple-800 px-2 py-0.5 rounded-full font-bold" id="eval-last-date">Geen recente evaluatie</span>
+                    </div>
+                    <p id="eval-tip-display" class="text-xs text-purple-800 italic">
+                        Vul je eerste evaluatie in via de knop "📝 Persoonlijke Evaluatie" om hier direct concrete verbeter-tips te ontvangen.
+                    </p>
+                </div>
+
+                <!-- PROFIEL WIJZIGINGS LOGBOEK -->
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-2">
+                    <h3 class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                        📜 Profiel & KPI Wijzigings-Logbook
+                    </h3>
+                    <div id="profile-change-log" class="text-[11px] font-mono text-slate-600 space-y-1 max-h-24 overflow-y-auto divide-y divide-slate-100">
+                        <div class="py-1 text-slate-400">Nog geen profielwijzigingen vastgelegd.</div>
                     </div>
                 </div>
             </section>
@@ -276,14 +333,60 @@
 
     </div>
 
-    <!-- SUBTIELE FOOTER MET CODE & LEGAL CLAIMER -->
+    <!-- 4. PERSOONLIJKE EVALUATIE MODAL -->
+    <div id="evaluation-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-100 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <div class="flex items-center gap-2">
+                    <span class="text-lg">📝</span>
+                    <h3 class="text-base font-bold text-slate-900">Eerlijke Zelf-Evaluatie</h3>
+                </div>
+                <button onclick="closeEvaluationModal()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
+            </div>
+
+            <form id="evaluation-form" onsubmit="handleEvaluationSubmit(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Selecteer Evaluatie Periode</label>
+                    <select id="eval-period" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none font-bold">
+                        <option value="Dagelijks">📅 Dagelijkse Check-in</option>
+                        <option value="Wekelijks">🗓️ Wekelijkse Evaluatie</option>
+                        <option value="Maandelijks">🏆 Maandelijkse Review</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">1. Hoe beoordeel je je focus en werk-rustbalans? (1-10)</label>
+                    <input type="number" id="eval-score-focus" min="1" max="10" value="8" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none">
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">2. Heb je alle kwaliteitschecks vooraf uitgevoerd?</label>
+                    <select id="eval-ftr-check" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none">
+                        <option value="ja">Ja, 100% gecontroleerd via de checklist</option>
+                        <option value="nee">Nee, snelle oplevering gedaan zonder checklist</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">3. Eerlijke toelichting: Wat ging goed en wat kostte te veel energie?</label>
+                    <textarea id="eval-notes" rows="2" placeholder="bv. Te lang bezig geweest met een ad-hoc verzoek..." required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none"></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2.5 rounded-xl transition-all shadow-md">
+                    🎯 Evaluatie Verwerken & Actie-Tip Genereren
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SUBTIELE FOOTER MET LINK NAAR JURIDISCHE CLAIMER & VERSIE -->
     <footer class="mt-8 text-center text-slate-200/80 text-[11px] space-y-1 pb-4">
         <div>
-            <span class="font-bold">SafeSpace Work Dashboard</span> • Build <code class="bg-slate-800 px-1.5 py-0.5 rounded text-emerald-400 font-mono">v1.2.0-prod</code> • Ontwikkeld door <strong class="text-white">SJworks</strong> (Build: 29 juli 2026)
+            SafeSpace Work Dashboard • Build <code class="bg-slate-800 px-1.5 py-0.5 rounded text-emerald-400 font-mono">v1.3.0-prod</code> • Gebouwd door <strong class="text-white">SJworks</strong>
         </div>
         <div>
-            <button onclick="openLegalModal()" class="hover:underline text-slate-300">
-                © 2026 SJworks. Alle rechten voorbehouden. Klik voor juridische en auteursrechtelijke bepalingen.
+            <button onclick="openLegalModal()" class="hover:underline text-slate-300 font-medium">
+                © 2026 SJworks • Gebruiksvoorwaarden & Juridische Disclaimer (Klik voor details)
             </button>
         </div>
     </footer>
@@ -307,7 +410,7 @@
                 Het is streng verboden om zonder voorafgaande, expliciete en schriftelijke toestemming van SJworks deze code of onderdelen daarvan te kopiëren, te verveelvoudigen, te reverse-engineeren, te hergebruiken of te distribueren aan derden.</p>
 
                 <p><strong>Versiebeheer:</strong><br>
-                • Release: <code>v1.2.0</code><br>
+                • Release: <code>v1.3.0</code><br>
                 • Build Datum: 29 juli 2026<br>
                 • Architectuur: SJworks SafeSpace Framework</p>
             </div>
@@ -333,7 +436,7 @@
                 </div>
                 <div>
                     <label class="block font-bold text-slate-600 mb-1">Target First-Time-Right Kwaliteit Score (%)</label>
-                    <input type="number" id="config-target-score" value="99.5" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none">
+                    <input type="number" id="config-target-score" value="100" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none">
                 </div>
                 <div>
                     <label class="block font-bold text-slate-600 mb-1">Aantal Koetjes te verdienen per voltooid traject</label>
@@ -352,7 +455,7 @@
         </div>
     </div>
 
-    <!-- DYNAMISCHE CHECKLIST MODAL -->
+    <!-- CHECKLIST MODAL -->
     <div id="checklist-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
         <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-slate-100">
             <div class="flex justify-between items-start border-b border-slate-100 pb-3">
@@ -381,6 +484,8 @@
     <script>
         let currentUser = null;
         let deliverables = [];
+        let profileData = null;
+        let changeLogs = [];
 
         const masterQuestionPool = [
             "Zijn alle cijfers en data dubbel gecontroleerd op typefouten?",
@@ -397,7 +502,135 @@
 
         let selectedDeliverableId = null;
 
-        // LEGAL MODAL
+        function handleLogin(e) {
+            e.preventDefault();
+            const name = document.getElementById('login-name').value;
+            const roleType = document.getElementById('login-role-type').value;
+
+            currentUser = {
+                name: name,
+                roleType: roleType
+            };
+
+            document.getElementById('user-display-name').innerText = currentUser.name;
+            document.getElementById('user-avatar').innerText = currentUser.name.charAt(0).toUpperCase();
+
+            document.getElementById('login-modal').classList.add('hidden');
+
+            // Controleer of er al een profiel bestaat
+            if (!profileData && roleType === 'alain') {
+                document.getElementById('intake-prompt-modal').classList.remove('hidden');
+                document.getElementById('intake-prompt-modal').classList.add('flex');
+            } else {
+                openMainDashboard();
+            }
+        }
+
+        function openProfileIntakeForm() {
+            document.getElementById('intake-prompt-modal').classList.add('hidden');
+            document.getElementById('intake-prompt-modal').classList.remove('flex');
+            openProfileFormModal();
+        }
+
+        function openProfileFormModal() {
+            if (profileData) {
+                document.getElementById('prof-role').value = profileData.role || '';
+                document.getElementById('prof-goal').value = profileData.goal || '';
+                document.getElementById('prof-hours').value = profileData.hours || 8;
+                document.getElementById('prof-target-ftr').value = profileData.targetFtr || 100;
+                document.getElementById('prof-challenge').value = profileData.challenge || '';
+            }
+            document.getElementById('profile-form-modal').classList.remove('hidden');
+            document.getElementById('profile-form-modal').classList.add('flex');
+        }
+
+        function closeProfileFormModal() {
+            document.getElementById('profile-form-modal').classList.add('hidden');
+            document.getElementById('profile-form-modal').classList.remove('flex');
+            openMainDashboard();
+        }
+
+        function saveProfileData(e) {
+            e.preventDefault();
+            const now = new Date().toLocaleString('nl-NL');
+            
+            const newRole = document.getElementById('prof-role').value;
+            const newGoal = document.getElementById('prof-goal').value;
+            const newHours = document.getElementById('prof-hours').value;
+            const newTargetFtr = document.getElementById('prof-target-ftr').value;
+            const newChallenge = document.getElementById('prof-challenge').value;
+
+            profileData = {
+                role: newRole,
+                goal: newGoal,
+                hours: newHours,
+                targetFtr: newTargetFtr,
+                challenge: newChallenge
+            };
+
+            // Log de wijziging
+            changeLogs.unshift(`[${now}] Profiel & KPI's bijgewerkt: Maanddoel = "${newGoal}", FtR Target = ${newTargetFtr}%`);
+            renderLogs();
+
+            // Update UI elementen
+            document.getElementById('user-display-role').innerText = profileData.role;
+            document.getElementById('profile-display-goal').innerText = profileData.goal;
+            document.getElementById('profile-ftr-score').innerText = `${profileData.targetFtr}% Kwaliteit`;
+
+            closeProfileFormModal();
+        }
+
+        function renderLogs() {
+            const container = document.getElementById('profile-change-log');
+            container.innerHTML = changeLogs.map(log => `<div class="py-1">✏️ ${log}</div>`).join('');
+        }
+
+        function openMainDashboard() {
+            document.getElementById('main-app').classList.remove('hidden');
+            renderNavigation();
+            switchTab(currentUser.roleType === 'alain' ? 'alain-overall' : 'stavaza');
+        }
+
+        function logout() {
+            document.getElementById('main-app').classList.add('hidden');
+            document.getElementById('login-modal').classList.remove('hidden');
+        }
+
+        // EVALUATIE MODAL FUNCTIES
+        function openEvaluationModal() {
+            document.getElementById('evaluation-modal').classList.remove('hidden');
+            document.getElementById('evaluation-modal').classList.add('flex');
+        }
+
+        function closeEvaluationModal() {
+            document.getElementById('evaluation-modal').classList.add('hidden');
+            document.getElementById('evaluation-modal').classList.remove('flex');
+        }
+
+        function handleEvaluationSubmit(e) {
+            e.preventDefault();
+            const period = document.getElementById('eval-period').value;
+            const score = document.getElementById('eval-score-focus').value;
+            const ftrCheck = document.getElementById('eval-ftr-check').value;
+            const notes = document.getElementById('eval-notes').value;
+            const now = new Date().toLocaleDateString('nl-NL');
+
+            let generatedTip = "";
+            if (score < 7) {
+                generatedTip = `⚠️ Focus-Tip (${period}): Plan morgen minstens 1 uur voorbereidingstijd in zonder afleiding om je rust te herstellen.`;
+            } else if (ftrCheck === 'nee') {
+                generatedTip = `⚠️ Kwaliteits-Tip (${period}): Gebruik bij de volgende deliverable strikt de checklist vooraf om fouten te voorkomen.`;
+            } else {
+                generatedTip = `🌟 Excellent (${period}): Je bent goed op koers! Houd deze structuur vast en bewaak je geplande voorbereidingstijd.`;
+            }
+
+            document.getElementById('eval-last-date').innerText = `${period} (${now})`;
+            document.getElementById('eval-tip-display').innerText = `"${generatedTip}" (Notitie: ${notes})`;
+
+            alert(`Evaluatie opgeslagen! Actie-tip gegenereerd voor je dashboard.`);
+            closeEvaluationModal();
+        }
+
         function openLegalModal() {
             document.getElementById('legal-modal').classList.remove('hidden');
             document.getElementById('legal-modal').classList.add('flex');
@@ -408,35 +641,6 @@
             document.getElementById('legal-modal').classList.remove('flex');
         }
 
-        // INLOGGEN & PROFIELOPSLAG
-        function handleLogin(e) {
-            e.preventDefault();
-            currentUser = {
-                name: document.getElementById('login-name').value,
-                roleTitle: document.getElementById('login-role-title').value,
-                roleType: document.getElementById('login-role-type').value,
-                goal: document.getElementById('login-goal').value,
-                hours: document.getElementById('login-hours').value
-            };
-
-            document.getElementById('user-display-name').innerText = currentUser.name;
-            document.getElementById('user-display-role').innerText = currentUser.roleTitle;
-            document.getElementById('user-avatar').innerText = currentUser.name.charAt(0).toUpperCase();
-            document.getElementById('profile-display-goal').innerText = currentUser.goal;
-
-            document.getElementById('login-modal').classList.add('hidden');
-            document.getElementById('main-app').classList.remove('hidden');
-
-            renderNavigation();
-            switchTab(currentUser.roleType === 'alain' ? 'alain-overall' : 'stavaza');
-        }
-
-        function logout() {
-            document.getElementById('main-app').classList.add('hidden');
-            document.getElementById('login-modal').classList.remove('hidden');
-        }
-
-        // CONFIGURATIE MODAL
         function openConfigModal() {
             document.getElementById('config-modal').classList.remove('hidden');
             document.getElementById('config-modal').classList.add('flex');
