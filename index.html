@@ -3,770 +3,446 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SafeSpace Work - Gamified Operations & Behavioral Profiler</title>
+    <title>SafeSpace Work - Gamified Operations & Focus Platform</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
-                        url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2000&q=80');
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
+            /* Achtergrondafbeelding van SafeSpace Work */
+            background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), 
+                        url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2000&q=80') center/cover no-repeat fixed;
         }
-        .progress-bar-fill { transition: width 0.5s ease-in-out; }
     </style>
 </head>
-<body class="min-h-screen text-slate-800 font-sans p-4 md:p-8 flex flex-col justify-between">
+<body class="font-sans min-h-screen text-slate-800 flex flex-col pb-10">
 
-    <!-- LOGIN MODAL -->
-    <div id="login-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl space-y-4 text-center">
-            <div class="text-4xl">🐄</div>
-            <div>
-                <h2 class="text-xl font-bold text-slate-900">SafeSpace Work</h2>
-                <p class="text-xs text-slate-500">Gedrag, Profilering & Operations Dashboard</p>
-            </div>
-            <form id="login-form" onsubmit="handleLogin(event)" class="space-y-3 text-left">
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Naam</label>
-                    <input type="text" id="login-name" value="Alain" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+    <!-- HEADER BAR -->
+    <header class="max-w-7xl w-full mx-auto px-4 mt-4">
+        <div class="bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-lg border border-white/40 flex flex-wrap items-center justify-between gap-3">
+            
+            <!-- LOGO & RANG -->
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-emerald-100 border border-emerald-300 flex items-center justify-center text-xl shadow-sm">
+                    🐮
                 </div>
                 <div>
-                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Toegangsrol</label>
-                    <select id="login-role-type" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
-                        <option value="alain">👨‍💼 Alain (Gebruiker)</option>
-                        <option value="watcher">👀 Coach / Watcher (Dashboard & Analytiek)</option>
+                    <div class="flex items-center space-x-2">
+                        <span class="font-black text-slate-900 text-lg tracking-tight">SafeSpace Work</span>
+                        <span class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-amber-300">
+                            🐮 MELKER
+                        </span>
+                    </div>
+                    <p class="text-[11px] text-slate-500 font-medium">Operations, DISC & NLP Profilering</p>
+                </div>
+            </div>
+
+            <!-- HOOFDNAVIGATIE / HOOFDKNOPPEN -->
+            <div class="flex items-center space-x-2">
+                <!-- Originele knoppen -->
+                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm flex items-center space-x-1.5">
+                    <i class="fa-solid fa-table-cells-large"></i>
+                    <span>Mijn Dashboard</span>
+                </button>
+
+                <button onclick="switchTab('coaching')" id="nav-coaching" class="bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm flex items-center space-x-1.5 border border-amber-400">
+                    <i class="fa-solid fa-bullseye"></i>
+                    <span>Focus & Coaching</span>
+                </button>
+
+                <button onclick="openModal('coachModal')" class="bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm flex items-center space-x-1.5">
+                    <i class="fa-solid fa-headset"></i>
+                    <span>Profiel, DISC & NLP Test</span>
+                </button>
+
+                <!-- Koetjes Saldo Badge -->
+                <div onclick="openModal('addRewardModal')" class="bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-900 font-bold text-xs px-3 py-2 rounded-xl cursor-pointer transition-colors flex items-center space-x-1.5">
+                    <span>🎁</span>
+                    <span>10 Koetjes (500 pt)</span>
+                </div>
+
+                <!-- Config Knop (Aan/Uit Variabelen) -->
+                <button onclick="openModal('configModal')" class="border-2 border-slate-700 hover:bg-slate-100 text-slate-800 font-bold text-xs px-3 py-2 rounded-xl transition-all flex items-center space-x-1">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Config</span>
+                </button>
+
+                <!-- Ingelogde Gebruiker met Naam -->
+                <div class="flex items-center space-x-2 pl-2 border-l border-slate-300">
+                    <div class="w-8 h-8 rounded-full bg-sky-100 border border-sky-400 text-sky-800 font-bold text-xs flex items-center justify-center" id="user-initials">
+                        JD
+                    </div>
+                    <span class="text-xs font-bold text-slate-700" id="user-fullname">Jan de Vries</span>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- PROGRESSIE BAR (MELKER RANG) -->
+    <div class="max-w-7xl w-full mx-auto px-4 mt-3">
+        <div class="bg-white/90 backdrop-blur-md rounded-xl p-2.5 px-4 shadow-md border border-white/40 flex items-center justify-between text-xs">
+            <div class="flex items-center space-x-2">
+                <span class="font-bold text-slate-700">Huidige Rang:</span>
+                <span class="bg-amber-100 text-amber-900 font-extrabold px-2 py-0.5 rounded-md border border-amber-300">🐮 Melker</span>
+            </div>
+
+            <div class="flex-1 max-w-md mx-4">
+                <div class="flex justify-between text-[10px] text-slate-500 font-bold mb-1">
+                    <span>Progressie naar Melker</span>
+                    <span>500 / 750 pt</span>
+                </div>
+                <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                    <div class="bg-emerald-500 h-full w-[66%] rounded-full"></div>
+                </div>
+            </div>
+
+            <div class="text-rose-600 font-bold text-xs flex items-center space-x-1">
+                <span>🥩 Slachterij:</span>
+                <span class="font-black">0 Koetjes verloren</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-7xl w-full mx-auto px-4 mt-4 flex-1">
+
+        <!-- TAB 1: OORSPRONKELIJK SAFESPACE DASHBOARD -->
+        <div id="tab-dashboard" class="space-y-4">
+            
+            <div class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/50">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <span class="bg-blue-100 text-blue-800 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">Persoonlijk Overzicht</span>
+                        <h1 class="text-xl font-black text-slate-900 mt-2">Mijn Operations & Profilering Dashboard</h1>
+                    </div>
+                    <button onclick="openModal('addRewardModal')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md transition-all flex items-center space-x-2">
+                        <span>🎁</span>
+                        <span>Wat kan ik verdienen met Koetjes?</span>
+                    </button>
+                </div>
+
+                <!-- KPI CARDS -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 shadow-sm">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase">Geplande Deliverables</span>
+                        <p class="text-2xl font-black text-slate-800 mt-1">0 Momenten</p>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 shadow-sm">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase">Succesvol Opgeleverd</span>
+                        <p class="text-2xl font-black text-emerald-600 mt-1">0 Voltooid</p>
+                    </div>
+
+                    <div class="bg-amber-50 p-4 rounded-xl border border-amber-200 shadow-sm">
+                        <span class="text-[10px] font-bold text-amber-800 uppercase">Mijn Koetjes Saldo</span>
+                        <p class="text-2xl font-black text-amber-900 mt-1">10 Koetjes</p>
+                        <span class="text-[10px] text-amber-700 font-bold">= 500 Punten</span>
+                    </div>
+
+                    <div class="bg-purple-50 p-4 rounded-xl border border-purple-200 shadow-sm">
+                        <span class="text-[10px] font-bold text-purple-800 uppercase">DISC / NLP Status</span>
+                        <p class="text-sm font-bold text-purple-900 mt-2">Nog niet ingevuld</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- TAB 2: NIEUW FOCUS & COACHING DASHBOARD -->
+        <div id="tab-coaching" class="hidden space-y-5">
+            
+            <!-- FOCUS BANNER -->
+            <div id="sec-focus-banner" class="bg-sky-700 text-white rounded-2xl p-6 shadow-xl flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="space-y-1">
+                    <div class="inline-flex items-center bg-white/20 text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider font-bold">
+                        <i class="fa-solid fa-bolt mr-1"></i> Kern-Focus
+                    </div>
+                    <h1 class="text-2xl font-black">Focus, Focus, Focus & Tijdige Oplevering</h1>
+                    <p class="text-sky-100 text-xs">Houd je doelen scherp, bewaak je prioriteiten (Covey) en lever op tijd met kwaliteit.</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md px-5 py-3 rounded-xl border border-white/20 text-center min-w-[170px]">
+                    <span class="block text-[10px] text-sky-100 uppercase tracking-wider font-bold">Status Opleveringen</span>
+                    <span class="text-2xl font-black text-white">94% op tijd</span>
+                </div>
+            </div>
+
+            <!-- DASHBOARD GRID -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+
+                <!-- LINKS (2 Kolommen) -->
+                <div class="lg:col-span-2 space-y-5">
+
+                    <!-- OPERATIONS & PROFIEL COMPLEETHEID -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div id="sec-operations" class="bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200 p-5 shadow-lg flex flex-col justify-between">
+                            <div>
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-black text-slate-900 text-sm">Operations</h3>
+                                    <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Actief</span>
+                                </div>
+                                <p class="text-xs text-slate-600 mb-4">Bewaak de strakke planningscyclus en voorkom ad-hoc onderbrekingen.</p>
+                            </div>
+                            <button onclick="openAanpakModal('Operations')" class="w-full border-2 border-sky-600 text-sky-700 hover:bg-sky-50 text-xs font-bold py-2 rounded-xl transition-all flex items-center justify-center space-x-1">
+                                <i class="fa-regular fa-eye"></i>
+                                <span>Blink Bekijk Aanpak</span>
+                            </button>
+                        </div>
+
+                        <div id="sec-profiel-compleetheid" class="bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200 p-5 shadow-lg flex flex-col justify-between">
+                            <div>
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-black text-slate-900 text-sm">Profiel Compleetheid</h3>
+                                    <span class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full">85% Compleet</span>
+                                </div>
+                                <p class="text-xs text-slate-600 mb-4">Analyseer antwoorden over meerdere hoofdstukken op consistentie.</p>
+                            </div>
+                            <button onclick="openAanpakModal('Profiel Compleetheid')" class="w-full border-2 border-sky-600 text-sky-700 hover:bg-sky-50 text-xs font-bold py-2 rounded-xl transition-all flex items-center justify-center space-x-1">
+                                <i class="fa-regular fa-eye"></i>
+                                <span>Blink Bekijk Aanpak</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- KADOOTJES / BELONINGEN -->
+                    <div id="sec-kadootjes" class="bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200 p-5 shadow-lg">
+                        <div class="flex justify-between items-center mb-3">
+                            <h2 class="text-sm font-black text-slate-900 flex items-center">
+                                <i class="fa-solid fa-gift text-amber-500 mr-2"></i> Mijn Beloningen ("Waar ik voor ga")
+                            </h2>
+                            <button onclick="openModal('addRewardModal')" class="text-xs text-sky-700 hover:text-sky-800 font-bold flex items-center space-x-1">
+                                <i class="fa-solid fa-plus"></i>
+                                <span>Kadootje Opvoeren</span>
+                            </button>
+                        </div>
+                        <div id="rewardsList" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl flex justify-between items-center">
+                                <div>
+                                    <span class="block text-xs font-bold text-amber-900">Weekendje weg met partner</span>
+                                    <span class="text-[10px] text-amber-700">Bij 95% tijdige opleveringen kwartaal 3</span>
+                                </div>
+                                <span class="text-xl">🏕️</span>
+                            </div>
+                            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex justify-between items-center">
+                                <div>
+                                    <span class="block text-xs font-bold text-slate-800">Luxe diner uit eten</span>
+                                    <span class="text-[10px] text-slate-500">Bij afronden Covey Zelfevaluatie</span>
+                                </div>
+                                <span class="text-xl">🍽️</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- COVEY PRINCIPES -->
+                    <div id="sec-covey" class="bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200 p-5 shadow-lg space-y-4">
+                        <h2 class="text-sm font-black text-slate-900 flex items-center">
+                            <i class="fa-solid fa-compass text-sky-600 mr-2"></i> Covey Principes & Zelfevaluatie
+                        </h2>
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold text-xs text-slate-800">Eigenschap 1: Wees Proactief</span>
+                                <span class="text-[10px] bg-sky-100 text-sky-800 font-bold px-2 py-0.5 rounded-full">Focus Check</span>
+                            </div>
+                            <p class="text-[11px] text-slate-500 mb-2">Hulpvraag: Heb je vandaag invloed uitgeoefend op zaken binnen je 'Cirkel van Invloed'?</p>
+                            <textarea placeholder="Typ hier je korte reflectie..." class="w-full text-xs p-2 border border-slate-300 rounded-lg focus:ring-1 focus:ring-sky-500" rows="2"></textarea>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold text-xs text-slate-800">Eigenschap 3: Belangrijke Zaken Eerst</span>
+                                <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">Tijdige Oplevering</span>
+                            </div>
+                            <p class="text-[11px] text-slate-500 mb-2">Hulpvraag: Welke niet-urgente, maar wel belangrijke taak heeft vandaag voorrang gekregen?</p>
+                            <textarea placeholder="Typ hier je korte reflectie..." class="w-full text-xs p-2 border border-slate-300 rounded-lg focus:ring-1 focus:ring-sky-500" rows="2"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- RECHTS (1 Kolom) -->
+                <div class="space-y-5">
+                    
+                    <!-- ROL SELECTIE -->
+                    <div id="sec-rol-selectie" class="bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200 p-5 shadow-lg">
+                        <h3 class="font-black text-slate-900 text-sm mb-1 flex items-center">
+                            <i class="fa-solid fa-user-tag text-sky-600 mr-2"></i> Rol & Context
+                        </h3>
+                        <p class="text-xs text-slate-500 mb-3">Selecteer de specifieke rol voor feedback of evaluatie:</p>
+                        <select class="w-full text-xs border border-slate-300 rounded-xl p-2.5 bg-white font-semibold focus:ring-1 focus:ring-sky-500">
+                            <option value="" disabled selected>Kies een rol / perspectief...</option>
+                            <option value="directe_collega">Directe collega + rol</option>
+                            <option value="stakeholder">Stakeholder</option>
+                            <option value="teamlead">Teamlead (is je directe manager)</option>
+                            <option value="groepsmanager">Groepsmanager</option>
+                            <option value="klant">Klant</option>
+                            <option value="collega_afstand">Collega op afstand</option>
+                            <option value="beinvloeder">Belangrijke beïnvloeder (vertrouwen / kijk op werk)</option>
+                        </select>
+                    </div>
+
+                    <!-- PERSOONLIJK LOGBOEK -->
+                    <div id="sec-logboek" class="bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200 p-5 shadow-lg">
+                        <h3 class="font-black text-slate-900 text-sm mb-3 flex items-center">
+                            <i class="fa-solid fa-book-bookmark text-sky-600 mr-2"></i> Persoonlijk Logboek
+                        </h3>
+                        <div id="logbookList" class="space-y-2">
+                            <div class="p-2.5 bg-slate-50 rounded-xl border-l-4 border-sky-500 text-xs">
+                                <div class="flex justify-between text-slate-400 text-[10px]">
+                                    <span>Vraag aan Coach</span>
+                                    <span>Vandaag, 14:15</span>
+                                </div>
+                                <p class="font-bold text-slate-800">Onderwerp: Focus & Prioriteiten</p>
+                                <p class="text-slate-600 text-[11px]">Direct AI antwoord ontvangen over Covey Quadrant 2.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- MODAL 1: COACH MODAL -->
+    <div id="coachModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative">
+            <button onclick="closeModal('coachModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h3 class="text-base font-black text-slate-900 mb-4">Stel je vraag aan de Coach</h3>
+            <form onsubmit="handleCoachSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Onderwerp</label>
+                    <select id="coachTopic" required class="w-full text-xs border rounded-lg p-2.5 bg-white">
+                        <option value="">Selecteer onderwerp...</option>
+                        <option value="Focus & Prioriteiten">Focus & Prioriteiten (Covey)</option>
+                        <option value="Tijdige Oplevering">Tijdige Oplevering & Planning</option>
                     </select>
                 </div>
-                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs shadow-md mt-2">
-                    🚀 Start SafeSpace
-                </button>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Jouw Vraag</label>
+                    <textarea id="coachQuestion" required rows="3" class="w-full text-xs border rounded-lg p-2.5" placeholder="Waar loop je tegenaan?"></textarea>
+                </div>
+                <div class="flex justify-end space-x-2">
+                    <button type="button" onclick="closeModal('coachModal')" class="px-3 py-1.5 text-xs text-slate-600">Annuleren</button>
+                    <button type="submit" class="px-4 py-1.5 text-xs bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-lg">Versturen</button>
+                </div>
             </form>
         </div>
     </div>
 
-    <!-- MAIN DASHBOARD -->
-    <div id="main-app" class="max-w-7xl mx-auto space-y-6 w-full hidden">
-
-        <!-- HEADER -->
-        <header class="bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-lg flex flex-wrap justify-between items-center gap-4">
-            <div class="flex items-center gap-3">
-                <div class="bg-emerald-100 p-2.5 rounded-2xl text-2xl">🐮</div>
-                <div>
-                    <div class="flex items-center gap-2">
-                        <h1 class="text-lg font-bold text-slate-900">SafeSpace Work</h1>
-                        <span id="header-rank-badge" class="bg-amber-100 text-amber-800 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase border border-amber-300">
-                            🧑‍🌾 Stalhulpje
-                        </span>
-                    </div>
-                    <p class="text-xs text-slate-500 font-medium">Operations, DISC & NLP Profilering</p>
-                </div>
-            </div>
-
-            <div class="flex items-center gap-2 flex-wrap">
-                <button onclick="openAgendaModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-sm flex items-center gap-1.5">
-                    📅 Agenda & Startmomenten
-                </button>
-                <button onclick="openProfileModal()" class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-sm flex items-center gap-1">
-                    🧠 Profiel, DISC & NLP Test
-                </button>
-                <button onclick="openKoetjesModal()" class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-3.5 py-1.5 rounded-full text-xs font-black border border-amber-300 flex items-center gap-1.5">
-                    🐮 <span id="user-koetjes-display">10</span> Koetjes (<span id="user-points-display">500</span> pt)
-                </button>
-                <button onclick="openConfigModal()" class="bg-slate-100 text-slate-700 hover:bg-slate-200 px-3 py-1.5 rounded-full text-xs font-semibold">
-                    ⚙️ Config
-                </button>
-                <button onclick="logout()" class="ml-2 text-xs text-red-500 hover:underline font-semibold">Uitloggen</button>
-            </div>
-        </header>
-
-        <!-- PROGRESS BAR -->
-        <div class="bg-white/90 backdrop-blur-md rounded-xl p-3 shadow-md border border-slate-100 flex flex-col md:flex-row justify-between items-center gap-3 text-xs">
-            <div class="flex items-center gap-3 w-full md:w-auto">
-                <span class="font-bold text-slate-700">Huidige Rang:</span>
-                <span id="rank-title" class="font-extrabold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200">🧑‍🌾 Stalhulpje</span>
-            </div>
-            <div class="w-full md:w-1/2 space-y-1">
-                <div class="flex justify-between text-[10px] font-bold text-slate-500">
-                    <span>Progressie naar <span id="next-rank-name">Melker</span></span>
-                    <span id="points-progress-text">500 / 750 pt</span>
-                </div>
-                <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
-                    <div id="rank-progress-bar" class="bg-gradient-to-r from-amber-400 to-emerald-500 h-full progress-bar-fill" style="width: 66%"></div>
-                </div>
-            </div>
-            <div class="text-[11px] font-semibold text-slate-500">
-                🥩 Slachterij: <strong id="slachterij-count" class="text-red-600">0 Koetjes verloren</strong>
-            </div>
+    <!-- MODAL 2: CONFIGURATIE (VARIABELEN AAN/UIT) -->
+    <div id="configModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <button onclick="closeModal('configModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h3 class="text-base font-black text-slate-900 mb-1">Applicatie Configuratie</h3>
+            <p class="text-xs text-slate-500 mb-4">Zet hier de gewenste velden/secties in het scherm AAN of UIT:</p>
+            <div class="space-y-2 text-xs" id="config-toggles-container"></div>
+            <button onclick="closeModal('configModal')" class="mt-4 w-full bg-sky-700 text-white py-2 rounded-xl font-bold text-xs">Sluiten & Toepassen</button>
         </div>
-
-        <nav class="flex gap-2 overflow-x-auto pb-1" id="nav-tabs"></nav>
-
-        <!-- TAB 1: ALAIN OVERALL DASHBOARD -->
-        <div id="tab-content-alain-overall" class="space-y-6">
-            <section class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl space-y-6">
-                <div class="flex justify-between items-center border-b border-slate-100 pb-4">
-                    <div>
-                        <span class="bg-blue-100 text-blue-800 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">
-                            Persoonlijk Overzicht
-                        </span>
-                        <h2 class="text-lg font-bold text-slate-900 mt-1">Mijn Operations & Profilering Dashboard</h2>
-                    </div>
-                    <button onclick="openKoetjesModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-md">
-                        🎁 Wat kan ik verdienen met Koetjes?
-                    </button>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-1">
-                        <div class="text-[10px] font-bold text-slate-500 uppercase">Geplande Deliverables</div>
-                        <div id="alain-total-tasks" class="text-2xl font-black text-slate-800">0 Momenten</div>
-                    </div>
-                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-1">
-                        <div class="text-[10px] font-bold text-slate-500 uppercase">Succesvol Opgeleverd</div>
-                        <div id="alain-completed-tasks" class="text-2xl font-black text-emerald-600">0 Voltooid</div>
-                    </div>
-                    <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 space-y-1 cursor-pointer" onclick="openKoetjesModal()">
-                        <div class="text-[10px] font-bold text-amber-800 uppercase">Mijn Koetjes Saldo</div>
-                        <div class="text-2xl font-black text-amber-600"><span class="card-koetjes-val">10</span> Koetjes</div>
-                        <div class="text-[10px] text-amber-700 font-bold">= <span id="card-points-val">500</span> Punten</div>
-                    </div>
-                    <div class="bg-purple-50 border border-purple-200 rounded-xl p-4 space-y-1">
-                        <div class="text-[10px] font-bold text-purple-800 uppercase">DISC / NLP Status</div>
-                        <div id="card-disc-val" class="text-xs font-bold text-purple-900">Nog niet ingevuld</div>
-                    </div>
-                </div>
-
-                <!-- ADVIES RAPPORT BOX (NA INVULLEN PROFIEL) -->
-                <div id="communication-advice-box" class="hidden bg-gradient-to-r from-purple-900 to-indigo-900 text-white rounded-xl p-5 shadow-lg space-y-3">
-                    <div class="flex items-center gap-2">
-                        <span class="text-2xl">💡</span>
-                        <h3 class="text-sm font-bold uppercase tracking-wider text-purple-200">Jouw Communicatie & Beïnvloedings Strategie</h3>
-                    </div>
-                    <div id="advice-content" class="text-xs space-y-2 leading-relaxed text-purple-100">
-                        <!-- Wordt dynamisch opgebouwd -->
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- TAB 2: PLANNING -->
-        <div id="tab-content-planning" class="hidden space-y-6">
-            <section class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl space-y-4">
-                <h2 class="text-sm font-black tracking-wider uppercase text-slate-800 flex items-center gap-2">
-                    <span class="text-emerald-600 text-lg">+</span> Nieuwe Deliverable Inplannen
-                </h2>
-                <form id="add-deliverable-form" class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-7 gap-3">
-                    <div class="lg:col-span-2">
-                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Deliverable Naam</label>
-                        <input type="text" id="input-title" placeholder="bv. Voortgangsrapportage" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs outline-none">
-                    </div>
-                    <div class="lg:col-span-2">
-                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Versturen Aan</label>
-                        <input type="text" id="input-to" placeholder="bv. Directie, Manager" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Voorbereiding (Uur)</label>
-                        <input type="number" id="input-duration" step="0.5" value="2" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs outline-none">
-                    </div>
-                    <div class="lg:col-span-2">
-                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Deadline / Opleverdatum</label>
-                        <input type="date" id="input-end-date" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs outline-none">
-                    </div>
-                    <div class="lg:col-span-7 flex justify-end">
-                        <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2 rounded-xl text-xs shadow-md">
-                            🗓️ Inplannen
-                        </button>
-                    </div>
-                </form>
-            </section>
-
-            <section class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl space-y-4">
-                <h2 class="text-sm font-black tracking-wider uppercase text-slate-800">🏛️ Geplande Deliverables</h2>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs border-collapse">
-                        <thead>
-                            <tr class="border-b border-slate-200 text-slate-400 font-bold uppercase text-[10px]">
-                                <th class="py-3 px-2">Status</th>
-                                <th class="py-3 px-2">Deliverable</th>
-                                <th class="py-3 px-2">Versturen Aan</th>
-                                <th class="py-3 px-2">Startmoment</th>
-                                <th class="py-3 px-2">Deadline</th>
-                                <th class="py-3 px-2 text-right">Actie</th>
-                            </tr>
-                        </thead>
-                        <tbody id="planner-table-body" class="divide-y divide-slate-100 font-medium"></tbody>
-                    </table>
-                </div>
-            </section>
-        </div>
-
-        <!-- TAB 3: COACH DASHBOARD -->
-        <div id="tab-content-stavaza" class="hidden space-y-6">
-            <section class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl space-y-6">
-                <div>
-                    <span class="bg-purple-100 text-purple-800 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">
-                        Coach & Watcher Monitoring
-                    </span>
-                    <h2 class="text-lg font-bold text-slate-900 mt-1">Gedrags- & Profileringsanalyse</h2>
-                </div>
-
-                <div id="coach-profile-summary" class="bg-purple-50 border border-purple-200 p-4 rounded-xl text-xs text-purple-900 space-y-2">
-                    <strong>🧠 Profieloverzicht Gebruiker:</strong>
-                    <div id="coach-profile-details">Er is nog geen uitgebreid profiel ingevuld door de gebruiker.</div>
-                </div>
-            </section>
-        </div>
-
     </div>
 
-    <!-- MODAL: PROFIEL, DISC, NLP & MANAGER VRAGENLIJST -->
-    <div id="profile-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-2xl max-w-3xl w-full p-6 shadow-2xl space-y-6 border border-slate-100 max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center border-b pb-3">
+    <!-- MODAL 3: KADOOTJE OPVOEREN -->
+    <div id="addRewardModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <button onclick="closeModal('addRewardModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h3 class="text-base font-black text-slate-900 mb-4">Nieuw Kadootje Opvoeren</h3>
+            <form onsubmit="handleAddReward(event)" class="space-y-3">
                 <div>
-                    <h3 class="text-base font-bold text-slate-900">🧠 Uitgebreid Profiel & Samenwerkings-Assessment</h3>
-                    <p class="text-xs text-slate-500">Inclusief Zelf-reflectie, Upward Management, DISC & NLP Communicatiestijl</p>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Beloning / Kadootje</label>
+                    <input type="text" id="rewardTitle" required placeholder="bijv. E-reader, Wellness dag" class="w-full text-xs border rounded-lg p-2.5">
                 </div>
-                <button onclick="closeProfileModal()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
-            </div>
-
-            <form id="profile-form" onsubmit="saveProfileForm(event)" class="space-y-6 text-xs">
-                
-                <!-- SECTIE 1: ZELFREFLECTIE & SAMENWERKING (SLIDERS 1-10) -->
-                <div class="space-y-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
-                    <h4 class="font-bold text-slate-800 uppercase tracking-wider text-[11px] border-b pb-1">1. Algemene Samenwerking & Werkhouding</h4>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block font-semibold mb-1">Resultaatgerichtheid: <span id="val-res" class="font-bold text-emerald-600">7</span>/10</label>
-                            <input type="range" min="1" max="10" value="7" oninput="document.getElementById('val-res').innerText=this.value" class="w-full" id="score-resultaat">
-                        </div>
-                        <div>
-                            <label class="block font-semibold mb-1">Focus & Concentratie: <span id="val-foc" class="font-bold text-emerald-600">7</span>/10</label>
-                            <input type="range" min="1" max="10" value="7" oninput="document.getElementById('val-foc').innerText=this.value" class="w-full" id="score-focus">
-                        </div>
-                        <div>
-                            <label class="block font-semibold mb-1">Daadkracht & Besluitvaardigheid: <span id="val-daa" class="font-bold text-emerald-600">7</span>/10</label>
-                            <input type="range" min="1" max="10" value="7" oninput="document.getElementById('val-daa').innerText=this.value" class="w-full" id="score-daadkracht">
-                        </div>
-                        <div>
-                            <label class="block font-semibold mb-1">Omgaan met Kritiek & Feedback: <span id="val-kri" class="font-bold text-emerald-600">7</span>/10</label>
-                            <input type="range" min="1" max="10" value="7" oninput="document.getElementById('val-kri').innerText=this.value" class="w-full" id="score-kritiek">
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
-                        <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Hoe kom jij over op anderen?</label>
-                            <select id="prof-uitstraling" class="w-full bg-white border border-slate-200 p-2 rounded-lg outline-none">
-                                <option value="Professioneel & Formeel">Professioneel & Zakelijk</option>
-                                <option value="Vriendelijk & Toegankelijk">Vriendelijk & Enthousiast</option>
-                                <option value="Afwachtend / Ongeïnteresseerd">Soms ongeïnteresseerd / Afwezig</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Blijf je lang in dingen hangen bij tegenwind?</label>
-                            <select id="prof-hangen" class="w-full bg-white border border-slate-200 p-2 rounded-lg outline-none">
-                                <option value="Nee, direct doorschakelen">Nee, ik schakel snel door</option>
-                                <option value="Soms, heeft even tijd nodig">Soms, maal er 's avonds nog over</option>
-                                <option value="Ja, ik kan het moeilijk loslaten">Ja, blijf lang in frustratie hangen</option>
-                            </select>
-                        </div>
-                    </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Voor welke prestatie?</label>
+                    <input type="text" id="rewardCondition" required placeholder="bijv. 100% tijdig opgeleverd deze maand" class="w-full text-xs border rounded-lg p-2.5">
                 </div>
-
-                <!-- SECTIE 2: RELATIE MET MANAGER / UPWARD MANAGEMENT -->
-                <div class="space-y-4 bg-purple-50/50 p-4 rounded-xl border border-purple-200">
-                    <h4 class="font-bold text-purple-900 uppercase tracking-wider text-[11px] border-b border-purple-200 pb-1">2. Manager Relatie & Upward Management</h4>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Manage jij je manager goed (proactief informeren)?</label>
-                            <select id="mgr-management" class="w-full bg-white border border-slate-200 p-2 rounded-lg outline-none">
-                                <option value="Ja, altijd voor de deadline">Ja, ik stuur strak op zijn/haar verwachtingen</option>
-                                <option value="Matig, ik reageer vooral">Matig, ik wacht tot hij/zij erom vraagt</option>
-                                <option value="Nee, leidt vaak tot ruis">Nee, we hebben miscommunicatie</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Waar ervaar je knelpunten met je manager?</label>
-                            <select id="mgr-problemen" class="w-full bg-white border border-slate-200 p-2 rounded-lg outline-none">
-                                <option value="Geen problemen">Geen, fijne samenwerking</option>
-                                <option value="Onduidelijke verwachtingen">Onduidelijke prioriteiten/verwachtingen</option>
-                                <option value="Micro-management">Te veel controle / Micro-management</option>
-                                <option value="Slechte bereikbaarheid">Slecht bereikbaar voor feedback</option>
-                            </select>
-                        </div>
-                    </div>
+                <div class="flex justify-end space-x-2 pt-2">
+                    <button type="button" onclick="closeModal('addRewardModal')" class="px-3 py-1.5 text-xs text-slate-600">Annuleren</button>
+                    <button type="submit" class="px-4 py-1.5 text-xs bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-lg">Kadootje Opslaan</button>
                 </div>
-
-                <!-- SECTIE 3: COACHBAARHEID & ONTWIKKELING -->
-                <div class="space-y-3 bg-amber-50/50 p-4 rounded-xl border border-amber-200">
-                    <h4 class="font-bold text-amber-900 uppercase tracking-wider text-[11px] border-b border-amber-200 pb-1">3. Coachbaarheid & Gewenste Coachingstijl</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Wat is je grootste sterkte?</label>
-                            <input type="text" id="prof-sterkte" placeholder="bv. Doorzettingsvermogen, Secuur" required class="w-full bg-white border border-slate-200 p-2 rounded-lg outline-none">
-                        </div>
-                        <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Wat wil je ontwikkelen?</label>
-                            <input type="text" id="prof-ontwikkeling" placeholder="bv. Nee zeggen, Sneller opleveren" required class="w-full bg-white border border-slate-200 p-2 rounded-lg outline-none">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Hoe wil jij het liefst gecoacht worden?</label>
-                        <select id="coach-stijl" class="w-full bg-white border border-slate-200 p-2 rounded-lg outline-none">
-                            <option value="Direct & Concurrerend">Direct en spiegelend (Geen omwegen)</option>
-                            <option value="Aanmoedigend & Positief">Aanmoedigend, focus op successen</option>
-                            <option value="Stap-voor-stap & Gestructureerd">Gestructureerd met concrete huiswerkopdrachten</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- SECTIE 4: DISC PROFIEL (ZELF & COUNTERPART) -->
-                <div class="space-y-3 bg-blue-50/50 p-4 rounded-xl border border-blue-200">
-                    <h4 class="font-bold text-blue-900 uppercase tracking-wider text-[11px] border-b border-blue-200 pb-1">4. DISC Profilering (Gedragstijl)</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Jouw eigen DISC voorkeurstijl:</label>
-                            <select id="disc-zelf" class="w-full bg-white border border-slate-200 p-2 rounded-lg outline-none font-bold">
-                                <option value="Rood (Dominant)">🔴 Rood: Direct, Taakgericht, Besluitvaardig</option>
-                                <option value="Geel (Invloedrijk)">🟡 Geel: Enthousiast, Mensgericht, Prater</option>
-                                <option value="Groen (Stabiel)">🟢 Groen: Rustig, Geduldig, Teamplayer</option>
-                                <option value="Blauw (Consciëntieus)">🔵 Blauw: Analytisch, Grondig, Secuur</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block font-semibold text-slate-700 mb-1">DISC Profiel van je Manager / Counterpart:</label>
-                            <select id="disc-counterpart" class="w-full bg-white border border-slate-200 p-2 rounded-lg outline-none font-bold">
-                                <option value="Rood (Dominant)">🔴 Rood: Wil snel resultaat & de hoofdlijnen</option>
-                                <option value="Geel (Invloedrijk)">🟡 Geel: Wil inspiratie & goede sfeer</option>
-                                <option value="Groen (Stabiel)">🟢 Groen: Wil zekerheid & rust</option>
-                                <option value="Blauw (Consciëntieus)">🔵 Blauw: Wil details, data & onderbouwing</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- SECTIE 5: NLP REPRESENTATIESYSTEEM -->
-                <div class="space-y-3 bg-emerald-50/50 p-4 rounded-xl border border-emerald-200">
-                    <h4 class="font-bold text-emerald-900 uppercase tracking-wider text-[11px] border-b border-emerald-200 pb-1">5. NLP Representatiesysteem (VAK)</h4>
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Hoe verwerk jij (en je manager) informatie het beste?</label>
-                        <select id="nlp-systeem" class="w-full bg-white border border-slate-200 p-2 rounded-lg outline-none">
-                            <option value="Visueel">👁️ Visueel ("Ik wil het voor me zien, overzichten, dashboards")</option>
-                            <option value="Auditief">👂 Auditief ("Ik wil het bespreken en erover sparren")</option>
-                            <option value="Kinesthetisch">🤲 Kinesthetisch ("Ik moet het voelen en de ervaring meekrijgen")</option>
-                            <option value="Auditory Digital">🧠 Digitaal/Logisch ("Ik wil feiten, cijfers, logica en schema's")</option>
-                        </select>
-                    </div>
-                </div>
-
-                <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg text-xs">
-                    💾 Profiel Opslaan, Genereer Communicatie-Advies & Verdien +5 Koetjes
-                </button>
             </form>
         </div>
     </div>
 
-    <!-- MODAL: AGENDA -->
-    <div id="agenda-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl space-y-4 border border-slate-100 max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center border-b pb-3">
-                <div class="flex items-center gap-2">
-                    <span class="text-2xl">📅</span>
-                    <h3 class="text-base font-bold text-slate-900">Agenda & Startmomenten Overzicht</h3>
-                </div>
-                <button onclick="closeAgendaModal()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
-            </div>
-            <div id="agenda-list-container" class="space-y-3"></div>
-        </div>
-    </div>
-
-    <!-- MODAL: CHECKLIST -->
-    <div id="checklist-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-slate-100">
-            <div class="border-b pb-3">
-                <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">Kwaliteitscontrole</span>
-                <h3 id="modal-deliverable-name" class="text-lg font-bold text-slate-800 mt-1">Deliverable Naam</h3>
-            </div>
-            <div id="checklist-items-container" class="space-y-2 max-h-[350px] overflow-y-auto"></div>
-            <div id="checklist-error-msg" class="hidden bg-red-50 text-red-700 p-3 rounded-xl text-xs font-semibold border border-red-200">
-                ⚠️ Onvolledige oplevering stuur niet-afgeronde taken naar de 🥩 Slachterij (-2 Koetjes).
-            </div>
-            <div class="flex gap-2 pt-2">
-                <button onclick="closeChecklistModal()" class="w-1/3 py-2.5 bg-slate-100 text-slate-700 font-bold rounded-xl text-xs">Annuleren</button>
-                <button onclick="confirmOplevering()" class="w-2/3 py-2.5 bg-emerald-600 text-white font-bold rounded-xl text-xs shadow-md">✓ Goedgekeurd & Opleveren</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL: KOETJES SHOP -->
-    <div id="koetjes-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-slate-100">
-            <div class="flex justify-between items-center border-b pb-3">
-                <h3 class="text-base font-bold text-slate-900">🐮 Koetjes Saldo & Winkel</h3>
-                <button onclick="closeKoetjesModal()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
-            </div>
-            <div class="bg-gradient-to-r from-amber-500 to-emerald-600 text-white p-4 rounded-2xl shadow-lg space-y-1">
-                <div class="text-[10px] uppercase font-bold opacity-90">Actueel Saldo</div>
-                <div class="text-3xl font-black"><span class="card-koetjes-val">10</span> Koetjes (<span id="modal-points-val">500</span> pt)</div>
-            </div>
-            <div id="rewards-list-container" class="space-y-2"></div>
-        </div>
-    </div>
-
-    <!-- MODAL: CONFIG -->
-    <div id="config-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-slate-100">
-            <div class="flex justify-between items-center border-b pb-3">
-                <h3 class="text-lg font-bold text-slate-800">⚙️ Configuratiescherm</h3>
-                <button onclick="closeConfigModal()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
-            </div>
-            <div class="space-y-3 text-xs">
-                <div>
-                    <label class="block font-bold text-slate-600 mb-1">Waarde per Koetje (€)</label>
-                    <input type="number" id="config-koetje-eur" value="0.50" step="0.10" class="w-full bg-slate-50 border p-2 rounded-lg font-bold">
-                </div>
-            </div>
-            <button onclick="closeConfigModal()" class="w-full py-2.5 bg-emerald-600 text-white font-bold rounded-xl text-xs shadow-md">Opslaan</button>
-        </div>
-    </div>
-
-    <footer class="mt-8 text-center text-slate-200/80 text-[11px]">
-        SafeSpace Work Dashboard • Version <code class="bg-slate-800 px-1.5 py-0.5 rounded text-emerald-400 font-mono">v3.0.0-profiler</code> • SJworks © 2026
-    </footer>
-
+    <!-- JAVASCRIPT LOGICA -->
     <script>
-        let currentUser = null;
-        let deliverables = [];
-        let koetjesSaldo = 10;
-        let slachterijVerlies = 0;
-        let koetjeEurWaarde = 0.50;
-        let userProfileData = null;
+        // CONFIGURATIE MET VARIABELEN (AAN/UIT)
+        const CONFIG = {
+            focusBanner: true,
+            operationsCard: true,
+            profielCompleetheidCard: true,
+            kadootjesSectie: true,
+            coveySectie: true,
+            rolSelectieSectie: true,
+            logboekSectie: true
+        };
 
-        const masterQuestionPool = [
-            "Zijn alle cijfers en data dubbel gecontroleerd op typefouten?",
-            "Is de bijlage/export correct geformatteerd?",
-            "Zijn eventuele afwijkingen helder toegelicht?",
-            "Is de ontvanger correct ingesteld?",
-            "Is de communicatie vriendelijk en professioneel geformuleerd?"
-        ];
+        const ELEMENT_MAP = {
+            focusBanner: 'sec-focus-banner',
+            operationsCard: 'sec-operations',
+            profielCompleetheidCard: 'sec-profiel-compleetheid',
+            kadootjesSectie: 'sec-kadootjes',
+            coveySectie: 'sec-covey',
+            rolSelectieSectie: 'sec-rol-selectie',
+            logboekSectie: 'sec-logboek'
+        };
 
-        let selectedDeliverableId = null;
-
-        function getPoints() { return koetjesSaldo * 50; }
-
-        function getRankInfo(points) {
-            if (points < 250) return { title: "🧑‍🌾 Stalhulpje", next: "Melker", target: 250, min: 0 };
-            if (points < 750) return { title: "🥛 Melker", next: "Veehouder", target: 750, min: 250 };
-            if (points < 1500) return { title: "🚜 Veehouder", next: "Super Dairy Champ", target: 1500, min: 750 };
-            return { title: "👑 Super Dairy Champ", next: "MAX LEVEL", target: 3000, min: 1500 };
-        }
-
-        function updateGamificationUI(gainedKoetjes = 0) {
-            koetjesSaldo += gainedKoetjes;
-            if (koetjesSaldo < 0) koetjesSaldo = 0;
-
-            const pts = getPoints();
-            const rank = getRankInfo(pts);
-
-            document.getElementById('user-koetjes-display').innerText = koetjesSaldo;
-            document.getElementById('user-points-display').innerText = pts;
-            document.querySelectorAll('.card-koetjes-val').forEach(el => el.innerText = koetjesSaldo);
-            document.getElementById('card-points-val').innerText = pts;
-
-            document.getElementById('rank-title').innerText = rank.title;
-            document.getElementById('header-rank-badge').innerText = rank.title;
-
-            let progressPct = rank.next === "MAX LEVEL" ? 100 : Math.min(100, Math.max(0, ((pts - rank.min) / (rank.target - rank.min)) * 100));
-            document.getElementById('rank-progress-bar').style.width = `${progressPct}%`;
-            document.getElementById('points-progress-text').innerText = `${pts} / ${rank.target} pt`;
-
-            renderRewardsList();
-        }
-
-        function handleLogin(e) {
-            e.preventDefault();
-            currentUser = { 
-                name: document.getElementById('login-name').value, 
-                roleType: document.getElementById('login-role-type').value 
-            };
-            document.getElementById('login-modal').classList.add('hidden');
-            openMainDashboard();
-        }
-
-        function openMainDashboard() {
-            document.getElementById('main-app').classList.remove('hidden');
-            renderNavigation();
-            switchTab(currentUser.roleType === 'alain' ? 'alain-overall' : 'stavaza');
-            updateGamificationUI(0);
-        }
-
-        function logout() {
-            document.getElementById('main-app').classList.add('hidden');
-            document.getElementById('login-modal').classList.remove('hidden');
-        }
-
-        // PROFIEL & ADVIES ADVIES GENERATOR
-        function openProfileModal() {
-            document.getElementById('profile-modal').classList.remove('hidden');
-            document.getElementById('profile-modal').classList.add('flex');
-        }
-
-        function closeProfileModal() {
-            document.getElementById('profile-modal').classList.add('hidden');
-            document.getElementById('profile-modal').classList.remove('flex');
-        }
-
-        function saveProfileForm(e) {
-            e.preventDefault();
-            
-            userProfileData = {
-                resultaat: document.getElementById('score-resultaat').value,
-                focus: document.getElementById('score-focus').value,
-                daadkracht: document.getElementById('score-daadkracht').value,
-                kritiek: document.getElementById('score-kritiek').value,
-                uitstraling: document.getElementById('prof-uitstraling').value,
-                hangen: document.getElementById('prof-hangen').value,
-                mgrManagement: document.getElementById('mgr-management').value,
-                mgrProblemen: document.getElementById('mgr-problemen').value,
-                sterkte: document.getElementById('prof-sterkte').value,
-                ontwikkeling: document.getElementById('prof-ontwikkeling').value,
-                coachStijl: document.getElementById('coach-stijl').value,
-                discZelf: document.getElementById('disc-zelf').value,
-                discCounterpart: document.getElementById('disc-counterpart').value,
-                nlp: document.getElementById('nlp-systeem').value
-            };
-
-            generateCommunicationStrategy();
-            updateGamificationUI(5); // +5 koetjes reward
-            closeProfileModal();
-            alert("🎉 Profiel opgeslagen! Je hebt +5 Koetjes verdiend en jouw communicatieadvies is gegeneerd.");
-        }
-
-        function generateCommunicationStrategy() {
-            if (!userProfileData) return;
-
-            const box = document.getElementById('communication-advice-box');
-            const content = document.getElementById('advice-content');
-            box.classList.remove('hidden');
-
-            document.getElementById('card-disc-val').innerText = `${userProfileData.discZelf} | ${userProfileData.nlp}`;
-
-            let discTip = "";
-            if (userProfileData.discCounterpart.includes("Rood")) {
-                discTip = "<strong>Manager is Rood (Dominant):</strong> Lever extreem kort en direct op. Begin met het resultaat/de conclusie en vermijd lange verhalen.";
-            } else if (userProfileData.discCounterpart.includes("Geel")) {
-                discTip = "<strong>Manager is Geel (Invloedrijk):</strong> Toon enthousiasme, richt je op de kansen en houd het gesprek informeel en positief.";
-            } else if (userProfileData.discCounterpart.includes("Groen")) {
-                discTip = "<strong>Manager is Groen (Stabiel):</strong> Neem de tijd, zorg voor rust en geef van tevoren aan wat er verandert.";
-            } else {
-                discTip = "<strong>Manager is Blauw (Consciëntieus):</strong> Kom voorbereid met feiten, cijfers en details. Geen vage beloftes.";
-            }
-
-            let nlpTip = "";
-            if (userProfileData.nlp.includes("Visueel")) {
-                nlpTip = "<strong>NLP Visuele insteek:</strong> Gebruik woorden als 'Zie het voor je', 'Laten we de lijnen uitzetten' en stuur dashboards of overzichten mee.";
-            } else if (userProfileData.nlp.includes("Auditief")) {
-                nlpTip = "<strong>NLP Auditieve insteek:</strong> Gebruik woorden als 'Klinkt dit goed?', 'Laten we dit bespreken' en vraag om een korte mondelinge toelichting.";
-            } else {
-                nlpTip = "<strong>NLP Kinesthetisch/Logisch:</strong> Gebruik woorden als 'Grip krijgen op', 'Onderbouwd gevoel' en stuur heldere, logische stappenplannen.";
-            }
-
-            content.innerHTML = `
-                <div class="p-2 bg-white/10 rounded-lg">${discTip}</div>
-                <div class="p-2 bg-white/10 rounded-lg">${nlpTip}</div>
-                <div class="p-2 bg-purple-950/50 rounded-lg text-amber-200">
-                    <strong>🎯 Upward Management Tip:</strong> Aangezien je aangaf dat "<em>${userProfileData.mgrProblemen}</em>" soms opspeelt, stuur je deliverable direct 1 dag voor de deadline via de agenda-view!
-                </div>
-            `;
-
-            // Coach viewer vullen
-            document.getElementById('coach-profile-details').innerHTML = `
-                • <strong>DISC Zelf:</strong> ${userProfileData.discZelf} | <strong>Counterpart:</strong> ${userProfileData.discCounterpart}<br>
-                • <strong>NLP Voorkeur:</strong> ${userProfileData.nlp}<br>
-                • <strong>Self-score Focus/Kritiek:</strong> Focus (${userProfileData.focus}/10), Kritiek omgaan (${userProfileData.kritiek}/10)<br>
-                • <strong>Gewenste Coaching:</strong> ${userProfileData.coachStijl}
-            `;
-        }
-
-        // AGENDA MODAL
-        function openAgendaModal() {
-            const container = document.getElementById('agenda-list-container');
-            container.innerHTML = '';
-
-            if (deliverables.length === 0) {
-                container.innerHTML = `<div class="p-4 text-center text-xs text-slate-400">Nog geen deliverables gepland.</div>`;
-            } else {
-                deliverables.forEach(d => {
-                    const deadline = new Date(d.date);
-                    const startMoment = new Date(deadline);
-                    startMoment.setHours(startMoment.getHours() - (parseFloat(d.duration) || 2));
-
-                    container.innerHTML += `
-                        <div class="p-3 rounded-xl border bg-slate-50 border-slate-200 flex justify-between items-center text-xs">
-                            <div>
-                                <div class="font-bold text-slate-800">${d.name} (Aan: ${d.to})</div>
-                                <div class="text-[11px] text-slate-500">🚀 Start: ${startMoment.toLocaleDateString('nl-NL')} | 🏁 Deadline: ${d.date}</div>
-                            </div>
-                            <span class="bg-blue-100 text-blue-800 text-[10px] font-bold px-2.5 py-1 rounded-full">${d.status}</span>
-                        </div>
-                    `;
-                });
-            }
-            document.getElementById('agenda-modal').classList.remove('hidden');
-            document.getElementById('agenda-modal').classList.add('flex');
-        }
-
-        function closeAgendaModal() {
-            document.getElementById('agenda-modal').classList.add('hidden');
-            document.getElementById('agenda-modal').classList.remove('flex');
-        }
-
-        // FORM & TABLES
-        document.getElementById('add-deliverable-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            deliverables.push({
-                id: Date.now(),
-                name: document.getElementById('input-title').value,
-                to: document.getElementById('input-to').value,
-                duration: document.getElementById('input-duration').value,
-                date: document.getElementById('input-end-date').value,
-                status: 'Ingepland'
-            });
-            renderTable();
-            this.reset();
+        document.addEventListener("DOMContentLoaded", () => {
+            renderConfigToggles();
+            applyConfig();
         });
 
-        function renderTable() {
-            const tbody = document.getElementById('planner-table-body');
-            tbody.innerHTML = '';
-            let completed = 0;
-
-            deliverables.forEach(item => {
-                if (item.status === 'Geleverd') completed++;
-                tbody.innerHTML += `
-                    <tr class="hover:bg-slate-50 border-b border-slate-100">
-                        <td class="py-3 px-2"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${item.status === 'Geleverd' ? 'bg-emerald-100 text-emerald-700' : 'bg-blue-100 text-blue-700'}">${item.status}</span></td>
-                        <td class="py-3 px-2 font-bold text-slate-800">${item.name}</td>
-                        <td class="py-3 px-2 text-slate-600">${item.to}</td>
-                        <td class="py-3 px-2 text-purple-700 font-semibold">${item.duration}u voorbereiding</td>
-                        <td class="py-3 px-2 text-slate-700 font-semibold">${item.date}</td>
-                        <td class="py-3 px-2 text-right">
-                            ${item.status === 'Geleverd' ? '<span class="text-emerald-600 font-bold">✓ Voltooid</span>' : `<button onclick="openChecklistModal(${item.id})" class="bg-emerald-600 text-white text-[10px] font-bold px-3 py-1 rounded-lg">Opleveren</button>`}
-                        </td>
-                    </tr>
-                `;
-            });
-
-            document.getElementById('alain-total-tasks').innerText = `${deliverables.length} Momenten`;
-            document.getElementById('alain-completed-tasks').innerText = `${completed} Voltooid`;
+        function switchTab(tab) {
+            document.getElementById('tab-dashboard').classList.add('hidden');
+            document.getElementById('tab-coaching').classList.add('hidden');
+            document.getElementById('tab-' + tab).classList.remove('hidden');
         }
 
-        function openChecklistModal(id) {
-            selectedDeliverableId = id;
-            const item = deliverables.find(d => d.id === id);
-            document.getElementById('modal-deliverable-name').innerText = item.name;
+        function applyConfig() {
+            Object.keys(CONFIG).forEach(key => {
+                const el = document.getElementById(ELEMENT_MAP[key]);
+                if (el) CONFIG[key] ? el.classList.remove('hidden') : el.classList.add('hidden');
+            });
+        }
 
-            const container = document.getElementById('checklist-items-container');
+        function renderConfigToggles() {
+            const container = document.getElementById('config-toggles-container');
             container.innerHTML = '';
-            masterQuestionPool.forEach(q => {
-                container.innerHTML += `
-                    <label class="flex items-center gap-3 p-2.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer">
-                        <input type="checkbox" onchange="if(this.checked) updateGamificationUI(1)" class="chk-item h-4 w-4 text-emerald-600 rounded">
-                        <span class="text-xs text-slate-700 font-medium">${q}</span>
-                        <span class="ml-auto text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-bold">+1 Koetje</span>
-                    </label>
-                `;
+            Object.keys(CONFIG).forEach(key => {
+                const checked = CONFIG[key] ? 'checked' : '';
+                const row = document.createElement('label');
+                row.className = 'flex items-center justify-between p-2 bg-slate-50 rounded-lg border cursor-pointer';
+                row.innerHTML = `<span class="font-bold text-slate-700">${key}</span><input type="checkbox" ${checked} onchange="CONFIG['${key}']=this.checked; applyConfig();">`;
+                container.appendChild(row);
             });
-            document.getElementById('checklist-modal').classList.remove('hidden');
-            document.getElementById('checklist-modal').classList.add('flex');
         }
 
-        function closeChecklistModal() {
-            document.getElementById('checklist-modal').classList.add('hidden');
-            document.getElementById('checklist-modal').classList.remove('flex');
+        function openModal(id) { document.getElementById(id).classList.remove('hidden'); document.getElementById(id).classList.add('flex'); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); document.getElementById(id).classList.remove('flex'); }
+        function openAanpakModal(t) { alert("Aanpak geopend voor: " + t); }
+
+        function handleAddReward(e) {
+            e.preventDefault();
+            const title = document.getElementById('rewardTitle').value;
+            const cond = document.getElementById('rewardCondition').value;
+            const list = document.getElementById('rewardsList');
+            const card = document.createElement('div');
+            card.className = 'p-3 bg-amber-50 border border-amber-200 rounded-xl flex justify-between items-center';
+            card.innerHTML = `<div><span class="block text-xs font-bold text-amber-900">${title}</span><span class="text-[10px] text-amber-700">${cond}</span></div><span class="text-xl">🎁</span>`;
+            list.prepend(card);
+            closeModal('addRewardModal');
         }
 
-        function confirmOplevering() {
-            deliverables = deliverables.map(d => d.id === selectedDeliverableId ? { ...d, status: 'Geleverd' } : d);
-            renderTable();
-            closeChecklistModal();
-        }
-
-        function openKoetjesModal() {
-            renderRewardsList();
-            document.getElementById('koetjes-modal').classList.remove('hidden');
-            document.getElementById('koetjes-modal').classList.add('flex');
-        }
-
-        function closeKoetjesModal() {
-            document.getElementById('koetjes-modal').classList.add('hidden');
-            document.getElementById('koetjes-modal').classList.remove('flex');
-        }
-
-        function renderRewardsList() {
-            const container = document.getElementById('rewards-list-container');
-            const rewards = [
-                { name: "☕ Luxe Koffie Traktatie", koetjes: 10 },
-                { name: "🏖️ Vrijdag 2 Uur Eerder Vrij", koetjes: 40 },
-                { name: "🏆 Officiele Bonus In Dossier", koetjes: 100 }
-            ];
-            container.innerHTML = rewards.map(r => `
-                <div class="flex justify-between items-center p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs">
-                    <div>
-                        <div class="font-bold text-slate-800">${r.name}</div>
-                        <div class="text-[10px] text-slate-500">Waarde: €${(r.koetjes * koetjeEurWaarde).toFixed(2)}</div>
-                    </div>
-                    <button onclick="if(koetjesSaldo>=${r.koetjes}){updateGamificationUI(-${r.koetjes});alert('Geclaimd!');}else{alert('Onvoldoende Koetjes!');}" class="bg-amber-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg">
-                        ${r.koetjes} Koetjes
-                    </button>
-                </div>
-            `).join('');
-        }
-
-        function openConfigModal() {
-            document.getElementById('config-modal').classList.remove('hidden');
-            document.getElementById('config-modal').classList.add('flex');
-        }
-
-        function closeConfigModal() {
-            document.getElementById('config-modal').classList.add('hidden');
-            document.getElementById('config-modal').classList.remove('flex');
-        }
-
-        function renderNavigation() {
-            const nav = document.getElementById('nav-tabs');
-            if (currentUser.roleType === 'alain') {
-                nav.innerHTML = `
-                    <button onclick="switchTab('alain-overall')" id="tab-btn-alain-overall" class="px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-bold">📊 Mijn Dashboard</button>
-                    <button onclick="switchTab('planning')" id="tab-btn-planning" class="px-4 py-2 bg-white/80 rounded-xl text-xs font-bold text-slate-600">🎯 Deliverables & Planning</button>
-                `;
-            } else {
-                nav.innerHTML = `
-                    <button onclick="switchTab('stavaza')" id="tab-btn-stavaza" class="px-4 py-2 bg-purple-600 text-white rounded-xl text-xs font-bold">👀 Coach Dashboard</button>
-                    <button onclick="switchTab('planning')" id="tab-btn-planning" class="px-4 py-2 bg-white/80 rounded-xl text-xs font-bold text-slate-600">🎯 Deliverables & Planning</button>
-                `;
-            }
-        }
-
-        function switchTab(tabName) {
-            ['alain-overall', 'planning', 'stavaza'].forEach(t => {
-                const content = document.getElementById(`tab-content-${t}`);
-                const btn = document.getElementById(`tab-btn-${t}`);
-                if (content) content.classList.add('hidden');
-                if (btn) {
-                    btn.classList.remove('bg-blue-600', 'bg-purple-600', 'text-white');
-                    btn.classList.add('bg-white/80', 'text-slate-600');
-                }
-            });
-
-            const activeContent = document.getElementById(`tab-content-${tabName}`);
-            const activeBtn = document.getElementById(`tab-btn-${tabName}`);
-            if (activeContent) activeContent.classList.remove('hidden');
-            if (activeBtn) activeBtn.classList.add(tabName === 'stavaza' ? 'bg-purple-600' : 'bg-blue-600', 'text-white');
+        function handleCoachSubmit(e) {
+            e.preventDefault();
+            alert("Je vraag is opgeslagen en toegevoegd aan je logboek!");
+            closeModal('coachModal');
         }
     </script>
 </body>
