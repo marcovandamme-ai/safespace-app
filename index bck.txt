@@ -80,6 +80,12 @@
                     <span>Coach & Focus</span>
                 </button>
 
+                <!-- PROFIEL AANMAKEN KNOP IN DE HEADER -->
+                <button onclick="openModal('createProfileModal')" class="bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-md flex items-center space-x-1.5 border border-purple-400">
+                    <i class="fa-solid fa-user-gear"></i>
+                    <span>Profiel aanmaken</span>
+                </button>
+
                 <button onclick="openModal('configModal')" class="border-2 border-slate-700 hover:bg-slate-100 text-slate-800 font-bold text-xs px-3 py-2 rounded-xl transition-all flex items-center space-x-1">
                     <i class="fa-solid fa-sliders"></i>
                     <span>Config & Admin</span>
@@ -101,9 +107,8 @@
     <!-- MAIN CONTAINER -->
     <main class="max-w-7xl w-full mx-auto px-4 mt-4 flex-1 space-y-5">
 
-        <!-- PAARSE BELONINGS- & PUNTEN SCOREBALK -->
+        <!-- SCOREBALK -->
         <div class="bg-[#2D1B69] text-white rounded-2xl p-4 shadow-xl border border-purple-500/20 space-y-4">
-            
             <div class="flex flex-wrap items-center justify-between gap-4">
                 <div class="flex items-center space-x-3">
                     <div class="w-12 h-12 bg-amber-400 text-slate-900 rounded-xl flex items-center justify-center text-2xl font-black shadow-md">
@@ -142,7 +147,6 @@
                 </div>
             </div>
 
-            <!-- VOORTGANGSBALK VOOR DELIVERABLES EN TAKEN -->
             <div class="border-t border-purple-400/20 pt-3 space-y-1.5">
                 <div class="flex justify-between items-center text-xs">
                     <span class="font-bold text-purple-200 flex items-center gap-1.5">
@@ -155,7 +159,6 @@
                     <div id="progress-bar-fill" class="bg-gradient-to-r from-emerald-400 to-amber-400 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
                 </div>
             </div>
-
         </div>
 
         <!-- TAB 1: DASHBOARD KPIS -->
@@ -187,10 +190,16 @@
                         <h1 class="text-xl font-black text-slate-900 mt-1">Deliverables & Communicatiestijlen</h1>
                         <p class="text-xs text-slate-500 mt-1">Vink afgeronde deliverables af om je voortgangsbalk aan te vullen!</p>
                     </div>
-                    <button onclick="openModal('addDeliverableModal')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md transition-all flex items-center space-x-2">
-                        <i class="fa-solid fa-plus"></i>
-                        <span>Nieuwe Deliverable + Rol</span>
-                    </button>
+                    <div class="flex gap-2">
+                        <button onclick="openModal('createProfileModal')" class="bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md transition-all flex items-center space-x-2">
+                            <i class="fa-solid fa-brain"></i>
+                            <span>Nieuw Profiel Bepalen</span>
+                        </button>
+                        <button onclick="openModal('addDeliverableModal')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md transition-all flex items-center space-x-2">
+                            <i class="fa-solid fa-plus"></i>
+                            <span>Nieuwe Deliverable</span>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="overflow-x-auto">
@@ -298,6 +307,88 @@
 
     </main>
 
+    <!-- MODAL: PROFIEL AANMAKEN & NLP OF DISC VRAGENLIJST -->
+    <div id="createProfileModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto space-y-4">
+            <button onclick="closeModal('createProfileModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="border-b pb-3">
+                <span class="bg-purple-100 text-purple-800 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">Analyse & Profilering</span>
+                <h3 class="text-lg font-black text-slate-900 mt-1">🧠 DISC of NLP Profiel Aanmaken</h3>
+                <p class="text-xs text-slate-500">Kies het gewenste systeem, stel het aantal vragen in (max. 10) en vul de test in.</p>
+            </div>
+
+            <form onsubmit="handleProfileCreation(event)" class="space-y-4 text-xs">
+                
+                <!-- STAP 1: VOOR WIE IS HET PROFIEL -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+                    <label class="block font-black text-slate-900 text-xs uppercase tracking-wider">1. Voor wie maakt u dit profiel aan?</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="flex items-center space-x-2 bg-white p-3 rounded-lg border border-slate-300 cursor-pointer hover:border-purple-500">
+                            <input type="radio" name="profileFor" value="self" checked onchange="toggleTargetFields()" class="text-purple-600">
+                            <div>
+                                <span class="font-bold block">👤 Voor mijzelf</span>
+                                <span class="text-[10px] text-slate-500">Mijn eigen voorkeursstijl</span>
+                            </div>
+                        </label>
+                        <label class="flex items-center space-x-2 bg-white p-3 rounded-lg border border-slate-300 cursor-pointer hover:border-purple-500">
+                            <input type="radio" name="profileFor" value="stakeholder" onchange="toggleTargetFields()" class="text-purple-600">
+                            <div>
+                                <span class="font-bold block">🤝 Voor een Stakeholder</span>
+                                <span class="text-[10px] text-slate-500">Collega, manager of klant</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div id="stakeholder-extra-fields" class="hidden space-y-3 pt-2 border-t border-slate-200">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block font-bold mb-1">Naam Stakeholder *</label>
+                                <input type="text" id="prof-target-name" placeholder="bijv. Mark de Vries" class="w-full border rounded-lg p-2.5">
+                            </div>
+                            <div>
+                                <label class="block font-bold mb-1">Functie / Rol *</label>
+                                <input type="text" id="prof-target-role" placeholder="bijv. Operations Director" class="w-full border rounded-lg p-2.5">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block font-bold mb-1">🐮 Koetjes & Kalfjes Notitie (Persoonlijke weetjes)</label>
+                            <input type="text" id="prof-target-koetjes" placeholder="bijv. Houdt van wielrennen, heeft 2 kinderen..." class="w-full border rounded-lg p-2.5">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STAP 2: KIES SYSTEEM EN AANTAL VRAGEN -->
+                <div class="bg-purple-50 p-4 rounded-xl border border-purple-200 space-y-3">
+                    <label class="block font-black text-purple-900 text-xs uppercase tracking-wider">2. Kies Systeem & Aantal Vragen</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block font-bold mb-1 text-slate-800">Systeem Kiezen:</label>
+                            <select id="selected-system" onchange="generateDynamicQuestions()" class="w-full border rounded-lg p-2.5 bg-white font-bold text-slate-800">
+                                <option value="DISC">🔴🟡🟢🔵 DISC Gedragsprofiel</option>
+                                <option value="NLP">👁️👂🤲🧠 NLP Voorkeurskanaal</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-bold mb-1 text-slate-800">Aantal Vragen (Max 10):</label>
+                            <input type="number" id="question-count" min="1" max="10" value="5" onchange="generateDynamicQuestions()" class="w-full border rounded-lg p-2.5 bg-white font-bold">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STAP 3: DYNAMISCHE VRAGENLIJST CONTAINER -->
+                <div id="dynamic-questions-container" class="space-y-4"></div>
+
+                <button type="submit" class="w-full bg-purple-700 hover:bg-purple-800 text-white font-black py-3.5 rounded-xl transition-all shadow-lg text-xs flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Profiel Berekenen & Opslaan</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
     <!-- MODAL: DISC / NLP SPIEKWIJZER -->
     <div id="discNlpModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
         <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative">
@@ -344,7 +435,7 @@
             <button onclick="closeModal('addDeliverableModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
-            <h3 class="text-base font-black text-slate-900 mb-1">Nieuwe Deliverable & Profilering Invoeren</h3>
+            <h3 class="text-base font-black text-slate-900 mb-1">Nieuwe Deliverable Invoeren</h3>
 
             <form onsubmit="addDeliverable(event)" class="space-y-3 text-xs">
                 <div>
@@ -382,19 +473,19 @@
                     <div>
                         <label class="block font-bold mb-1">DISC Profiel</label>
                         <select id="del-profile" class="w-full border rounded-lg p-2.5 bg-white">
-                            <option value="DISC Rood (Direct)">🔴 DISC Rood (Direct & Resultaat)</option>
-                            <option value="DISC Geel (Relatie)">🟡 DISC Geel (Enthousiast & Visueel)</option>
-                            <option value="DISC Groen (Ondersteunend)">🟢 DISC Groen (Harmonie & Gevoel)</option>
-                            <option value="DISC Blauw (Analytisch)">🔵 DISC Blauw (Feiten & Logica)</option>
+                            <option value="DISC Rood (Direct)">🔴 DISC Rood (Direct)</option>
+                            <option value="DISC Geel (Relatie)">🟡 DISC Geel (Relatie)</option>
+                            <option value="DISC Groen (Ondersteunend)">🟢 DISC Groen (Ondersteunend)</option>
+                            <option value="DISC Blauw (Analytisch)">🔵 DISC Blauw (Analytisch)</option>
                         </select>
                     </div>
                     <div>
                         <label class="block font-bold mb-1">NLP Voorkeurskanaal</label>
                         <select id="del-nlp" class="w-full border rounded-lg p-2.5 bg-white">
-                            <option value="Visueel (Zien)">👁️ Visueel (Zien / Beeld)</option>
-                            <option value="Auditief (Horen)">👂 Auditief (Klinken / Woorden)</option>
-                            <option value="Kinesthetisch (Voelen)">🤲 Kinesthetisch (Gevoel / Ervaring)</option>
-                            <option value="Auditief Digitaal (Logica)">🧠 Auditief Digitaal (Feiten / Cijfers)</option>
+                            <option value="Visueel (Zien)">👁️ Visueel (Zien)</option>
+                            <option value="Auditief (Horen)">👂 Auditief (Horen)</option>
+                            <option value="Kinesthetisch (Voelen)">🤲 Kinesthetisch (Voelen)</option>
+                            <option value="Auditief Digitaal (Logica)">🧠 Auditief Digitaal (Logica)</option>
                         </select>
                     </div>
                 </div>
@@ -416,13 +507,13 @@
                 </div>
 
                 <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl transition-all">
-                    Deliverable & Profilering Opslaan
+                    Deliverable Opslaan
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- MODAL: CONFIG KPIS & NIEUWE KPI TOEVOEGEN -->
+    <!-- MODAL: CONFIG KPIS -->
     <div id="configModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
         <div class="bg-white rounded-2xl max-w-4xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto space-y-6">
             <button onclick="closeModal('configModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
@@ -434,7 +525,6 @@
                 <p class="text-xs text-slate-500">Voeg nieuwe KPI's toe of pas aan welke KPI's op je Dashboard zichtbaar zijn.</p>
             </div>
 
-            <!-- FORMULIER OM NIEUWE KPI TOE TE VOEGEN -->
             <form onsubmit="addNewKpi(event)" class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3 text-xs">
                 <h4 class="font-black text-slate-900 flex items-center gap-1.5 text-xs uppercase tracking-wider">
                     <i class="fa-solid fa-plus-circle text-emerald-600"></i> Nieuwe KPI Invoeren
@@ -478,7 +568,6 @@
                 </button>
             </form>
 
-            <!-- LIJST MET INGESTELDE KPIS -->
             <div class="space-y-3 text-xs">
                 <h4 class="font-black text-slate-900 text-xs uppercase tracking-wider">Beschikbare KPI's (Aan/Uit vinken voor Dashboard)</h4>
                 <div id="kpi-selector-list" class="space-y-2"></div>
@@ -510,68 +599,44 @@
         let rewardGoal = 100;
         let rewardTitle = "Vrijdag 1u eerder vrij";
 
-        // COMPLETE KPIS INCLUSIEF KLANTGERICHTHEID, KWALITEIT, EFFICIËNTIE EN SNELHEID
+        let userProfile = null;
+
+        // -------------------------------------------------------------
+        // DATABASES MET 100 VRAGEN VOOR DISC EN NLP
+        // -------------------------------------------------------------
+        const discQuestionsDB = Array.from({ length: 100 }, (_, i) => {
+            const num = i + 1;
+            return {
+                q: `[DISC Vraag ${num}] Hoe reageert deze persoon primair in situatie ${num}?`,
+                options: [
+                    { val: 'rood', text: `🔴 Direct, daadkrachtig, gericht op resultaat en snelheid (Situatie ${num})` },
+                    { val: 'geel', text: `🟡 Enthousiast, prater, gericht op relatie, visie en netwerken (Situatie ${num})` },
+                    { val: 'groen', text: `🟢 Rustig, harmonieus, ondersteunend, geduldig en loyaal (Situatie ${num})` },
+                    { val: 'blauw', text: `🔵 Analytisch, nauwkeurig, vraagt naar feiten en details (Situatie ${num})` }
+                ]
+            };
+        });
+
+        const nlpQuestionsDB = Array.from({ length: 100 }, (_, i) => {
+            const num = i + 1;
+            return {
+                q: `[NLP Vraag ${num}] Welke uitdrukking of focus gebruikt deze persoon het liefst in situatie ${num}?`,
+                options: [
+                    { val: 'visueel', text: `👁️ Visueel: "Ik zie het voor me", "Heldere blik", "Laat me kijken"` },
+                    { val: 'auditief', text: `👂 Auditief: "Dat klinkt goed", "Hoor ik het goed?", "Luister eens"` },
+                    { val: 'kinesthetisch', text: `🤲 Kinesthetisch: "Dat voelt goed", "Grip op krijgen", "Stevig staan"` },
+                    { val: 'digitaal', text: `🧠 Auditief Digitaal: "Logisch verklaarbaar", "Feiten analyseren"` }
+                ]
+            };
+        });
+
         let kpiLibrary = [
-            { 
-                id: 'csat', 
-                abbr: 'CSAT', 
-                name: 'Customer Satisfaction', 
-                cat: 'Klantgerichtheid en Kwaliteit', 
-                desc: 'Meet hoe tevreden de klant is over de hulp.', 
-                val: '84%', 
-                better: 'hoog', 
-                selected: true 
-            },
-            { 
-                id: 'fcr', 
-                abbr: 'FCR', 
-                name: 'First Contact Resolution', 
-                cat: 'Klantgerichtheid en Kwaliteit', 
-                desc: 'Het deel van de vragen dat direct bij het eerste contact wordt opgelost.', 
-                val: '78%', 
-                better: 'hoog', 
-                selected: true 
-            },
-            { 
-                id: 'nps', 
-                abbr: 'NPS', 
-                name: 'Net Promoter Score', 
-                cat: 'Klantgerichtheid en Kwaliteit', 
-                desc: 'Meet of een klant de service zou aanbevelen aan anderen.', 
-                val: '+42', 
-                better: 'hoog', 
-                selected: true 
-            },
-            { 
-                id: 'reactietijd', 
-                abbr: 'ART', 
-                name: 'Gemiddelde reactietijd', 
-                cat: 'Efficiëntie en Snelheid', 
-                desc: 'Hoe lang een klant moet wachten op een eerste reactie.', 
-                val: '1,5 min', 
-                better: 'laag', 
-                selected: true 
-            },
-            { 
-                id: 'oplostijd', 
-                abbr: 'MTTR', 
-                name: 'Gemiddelde oplostijd', 
-                cat: 'Efficiëntie en Snelheid', 
-                desc: 'De tijd die nodig is om een volledig probleem te verhelpen.', 
-                val: '14 min', 
-                better: 'laag', 
-                selected: false 
-            },
-            { 
-                id: 'sl', 
-                abbr: 'SL', 
-                name: 'Service Level (SL 80/20)', 
-                cat: 'Efficiëntie en Snelheid', 
-                desc: 'Het percentage van de vragen dat binnen een afgesproken tijd wordt beantwoord.', 
-                val: '82%', 
-                better: 'hoog', 
-                selected: true 
-            }
+            { id: 'csat', abbr: 'CSAT', name: 'Customer Satisfaction', cat: 'Klantgerichtheid en Kwaliteit', desc: 'Meet hoe tevreden de klant is over de hulp.', val: '84%', better: 'hoog', selected: true },
+            { id: 'fcr', abbr: 'FCR', name: 'First Contact Resolution', cat: 'Klantgerichtheid en Kwaliteit', desc: 'Het deel van de vragen dat direct bij het eerste contact wordt opgelost.', val: '78%', better: 'hoog', selected: true },
+            { id: 'nps', abbr: 'NPS', name: 'Net Promoter Score', cat: 'Klantgerichtheid en Kwaliteit', desc: 'Meet of een klant de service zou aanbevelen aan anderen.', val: '+42', better: 'hoog', selected: true },
+            { id: 'reactietijd', abbr: 'ART', name: 'Gemiddelde reactietijd', cat: 'Efficiëntie en Snelheid', desc: 'Hoe lang een klant moet wachten op een eerste reactie.', val: '1,5 min', better: 'laag', selected: true },
+            { id: 'oplostijd', abbr: 'MTTR', name: 'Gemiddelde oplostijd', cat: 'Efficiëntie en Snelheid', desc: 'De tijd die nodig is om een volledig probleem te verhelpen.', val: '14 min', better: 'laag', selected: false },
+            { id: 'sl', abbr: 'SL', name: 'Service Level (SL 80/20)', cat: 'Efficiëntie en Snelheid', desc: 'Het percentage van de vragen dat binnen een afgesproken tijd wordt beantwoord.', val: '82%', better: 'hoog', selected: true }
         ];
 
         let deliverables = [
@@ -612,9 +677,126 @@
             renderDeliverablesTable();
             renderKoetjesCards();
             updateProgressBar();
+            generateDynamicQuestions();
         });
 
-        // PUNTEN & SPAARSYSTEMEN
+        function toggleTargetFields() {
+            const isStakeholder = document.querySelector('input[name="profileFor"]:checked').value === 'stakeholder';
+            const extraFields = document.getElementById('stakeholder-extra-fields');
+            if(isStakeholder) {
+                extraFields.classList.remove('hidden');
+            } else {
+                extraFields.classList.add('hidden');
+            }
+        }
+
+        // GENEREREN VAN DYNAMISCHE VRAGEN OP BASIS VAN KEUZE
+        function generateDynamicQuestions() {
+            const system = document.getElementById('selected-system').value;
+            let count = parseInt(document.getElementById('question-count').value) || 5;
+            if(count > 10) { count = 10; document.getElementById('question-count').value = 10; }
+            if(count < 1) { count = 1; document.getElementById('question-count').value = 1; }
+
+            const container = document.getElementById('dynamic-questions-container');
+            container.innerHTML = '';
+
+            const db = system === 'DISC' ? discQuestionsDB : nlpQuestionsDB;
+            const bgClass = system === 'DISC' ? 'bg-purple-50 border-purple-200' : 'bg-sky-50 border-sky-200';
+            const titleColor = system === 'DISC' ? 'text-purple-900' : 'text-sky-900';
+
+            for(let i = 0; i < count; i++) {
+                const item = db[i];
+                let optionsHtml = '';
+
+                item.options.forEach(opt => {
+                    optionsHtml += `<option value="${opt.val}">${opt.text}</option>`;
+                });
+
+                container.innerHTML += `
+                    <div class="${bgClass} p-4 rounded-xl border space-y-2">
+                        <label class="block font-bold ${titleColor} text-xs">${i + 1}. ${item.q}</label>
+                        <select id="dyn-q-${i}" class="w-full border rounded-lg p-2.5 bg-white text-xs" required>
+                            ${optionsHtml}
+                        </select>
+                    </div>
+                `;
+            }
+        }
+
+        // VERWERKEN VAN HET SAMENGESTELDE PROFIEL
+        function handleProfileCreation(e) {
+            e.preventDefault();
+
+            const profileFor = document.querySelector('input[name="profileFor"]:checked').value;
+            const system = document.getElementById('selected-system').value;
+            let count = parseInt(document.getElementById('question-count').value) || 5;
+            if(count > 10) count = 10;
+
+            const scores = {};
+            for(let i = 0; i < count; i++) {
+                const val = document.getElementById(`dyn-q-${i}`).value;
+                scores[val] = (scores[val] || 0) + 1;
+            }
+
+            // Bepaal de meest gekozen optie
+            let highestOption = '';
+            let maxCount = -1;
+            for(const [key, cnt] of Object.entries(scores)) {
+                if(cnt > maxCount) {
+                    maxCount = cnt;
+                    highestOption = key;
+                }
+            }
+
+            let resultDisc = "DISC Rood (Direct)";
+            let resultNlp = "Visueel (Zien)";
+
+            if(system === 'DISC') {
+                if(highestOption === 'geel') resultDisc = "DISC Geel (Relatie)";
+                if(highestOption === 'groen') resultDisc = "DISC Groen (Ondersteunend)";
+                if(highestOption === 'blauw') resultDisc = "DISC Blauw (Analytisch)";
+                if(highestOption === 'rood') resultDisc = "DISC Rood (Direct)";
+            } else {
+                if(highestOption === 'auditief') resultNlp = "Auditief (Horen)";
+                if(highestOption === 'kinesthetisch') resultNlp = "Kinesthetisch (Voelen)";
+                if(highestOption === 'digitaal') resultNlp = "Auditief Digitaal (Logica)";
+                if(highestOption === 'visueel') resultNlp = "Visueel (Zien)";
+            }
+
+            if(profileFor === 'self') {
+                userProfile = system === 'DISC' ? { disc: resultDisc } : { nlp: resultNlp };
+                addPoints(15);
+                alert(`🎉 Jouw persoonlijke ${system}-profiel is berekend!\n\nResultaat: ${system === 'DISC' ? resultDisc : resultNlp}\n\n+15 Punten verdiend!`);
+            } else {
+                const name = document.getElementById('prof-target-name').value || "Onbekende Stakeholder";
+                const role = document.getElementById('prof-target-role').value || "Stakeholder";
+                const koetjes = document.getElementById('prof-target-koetjes').value || "";
+
+                deliverables.push({
+                    id: Date.now(),
+                    title: `Stakeholder Afstemming (${name})`,
+                    freq: 'Maandelijks',
+                    how: 'Overleg',
+                    holder: name,
+                    role: role,
+                    profile: resultDisc,
+                    nlp: resultNlp,
+                    koetjes: koetjes,
+                    precheck: '2026-08-15',
+                    deadline: '2026-08-30',
+                    completed: false
+                });
+
+                addPoints(15);
+                renderDeliverablesTable();
+                renderKoetjesCards();
+                updateProgressBar();
+                alert(`✅ ${system}-profiel voor ${name} succesvol aangemaakt en toegevoegd aan je Stakeholder overzicht!\n\nResultaat: ${system === 'DISC' ? resultDisc : resultNlp}\n+15 Punten verdiend!`);
+            }
+
+            closeModal('createProfileModal');
+        }
+
         function addPoints(amount) {
             currentScore += amount;
             if(currentScore < 0) currentScore = 0;
@@ -763,7 +945,6 @@
             });
         }
 
-        // DASHBOARD RENDEREN
         function renderActiveKpis() {
             const container = document.getElementById('active-kpis-container');
             if(!container) return;
@@ -802,7 +983,6 @@
             });
         }
 
-        // RENDER KPI SELECTIEBALK EN AAN/UIT SCHAKELAARS
         function renderKpiSelector() {
             const container = document.getElementById('kpi-selector-list');
             if(!container) return;
@@ -828,7 +1008,6 @@
             });
         }
 
-        // HANDLER OM SPLINTERNIEUWE KPI TOE TE VOEGEN
         function addNewKpi(e) {
             e.preventDefault();
             const cat = document.getElementById('new-kpi-cat').value;
@@ -850,7 +1029,6 @@
                 selected: true
             });
 
-            // Formulier leegmaken & her-renderen
             document.getElementById('new-kpi-abbr').value = '';
             document.getElementById('new-kpi-val').value = '';
             document.getElementById('new-kpi-desc').value = '';
