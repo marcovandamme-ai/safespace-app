@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SafeSpace Work & Dashboard</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -47,7 +46,7 @@
         </div>
     </div>
 
-    <!-- 2. INTAKE PROFIEL MODAL (EERSTE KEER GEBRUIK) -->
+    <!-- 2. INTAKE PROFIEL MODAL -->
     <div id="intake-prompt-modal" class="fixed inset-0 bg-slate-900/85 backdrop-blur-md z-50 hidden items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-100 text-center">
             <div class="text-4xl">📋</div>
@@ -63,51 +62,10 @@
         </div>
     </div>
 
-    <!-- 3. PROFIEL VRAGENLIJST FORMULIER MODAL -->
-    <div id="profile-form-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-slate-100 max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
-                <h3 class="text-base font-bold text-slate-900">👨‍💼 Persoonlijk Profiel & Coachings-KPI's</h3>
-                <button onclick="closeProfileFormModal()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
-            </div>
-
-            <form id="profile-questions-form" onsubmit="saveProfileData(event)" class="space-y-3 text-xs">
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">1. Functietitel / Operationele Rol</label>
-                    <input type="text" id="prof-role" placeholder="bv. Operations Lead" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none">
-                </div>
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">2. Belangrijkste Maanddoel (Kwaliteit / KPI)</label>
-                    <input type="text" id="prof-goal" placeholder="bv. 100% First-Time-Right opleveringen" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none">
-                </div>
-                <div class="grid grid-cols-2 gap-2">
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1">3. Uren per dag (Target)</label>
-                        <input type="number" id="prof-hours" placeholder="8" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none">
-                    </div>
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1">4. Kwaliteit Target (%)</label>
-                        <input type="number" id="prof-target-ftr" value="100" min="50" max="100" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none">
-                    </div>
-                </div>
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">5. Waar wil je dit kwartaal het meest op uitgedaagd/gecoacht worden?</label>
-                    <textarea id="prof-challenge" rows="2" placeholder="bv. Striktere tijdsbewaking op dossiers & communicatie met directie..." required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none"></textarea>
-                </div>
-
-                <div class="pt-2">
-                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl transition-all shadow-md">
-                        💾 Profiel Opslaan & Aan KPI's Koppelen
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <!-- MAIN DASHBOARD CONTENT -->
     <div id="main-app" class="max-w-7xl mx-auto space-y-6 w-full hidden">
 
-        <!-- TOP BAR / HEADER (ZWARTE KNOP IS VERWIJDERD) -->
+        <!-- TOP BAR / HEADER WITH ALL 4 WORKING BUTTONS -->
         <header class="bg-white/90 backdrop-blur-md rounded-2xl p-4 shadow-lg flex flex-wrap justify-between items-center gap-4">
             <div class="flex items-center gap-3">
                 <div class="bg-emerald-100 p-2 rounded-xl text-2xl">🦄</div>
@@ -117,18 +75,24 @@
                 </div>
             </div>
 
+            <!-- DE 4 KKNOPPEN BOVENIN -->
             <div class="flex items-center gap-2 flex-wrap">
-                <!-- NIEUWE EVALUATIE KNOP -->
-                <button onclick="openEvaluationModal()" class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1.5 rounded-full text-xs font-bold transition-all shadow-sm">
+                <!-- KNOP 1: EVALUATIE -->
+                <button onclick="openEvaluationModal()" class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1.5 rounded-full text-xs font-bold transition-all shadow-sm flex items-center gap-1">
                     📝 Persoonlijke Evaluatie
                 </button>
 
-                <button onclick="alert('Hulp/Support: Neem contact op met je coach of beheerder.')" class="bg-blue-100 text-blue-700 hover:bg-blue-200 px-3 py-1.5 rounded-full text-xs font-semibold transition-all">
+                <!-- KNOP 2: HULP -->
+                <button onclick="openHelpModal()" class="bg-blue-100 text-blue-700 hover:bg-blue-200 px-3 py-1.5 rounded-full text-xs font-semibold transition-all flex items-center gap-1">
                     💡 Hulp
                 </button>
-                <div class="bg-amber-100 text-amber-800 px-3 py-1.5 rounded-full text-xs font-semibold">
+
+                <!-- KNOP 3: KOETJES (GAMIFICATION) -->
+                <button onclick="openKoetjesModal()" class="bg-amber-100 hover:bg-amber-200 text-amber-800 px-3 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1">
                     🔒 <span id="user-koetjes">10</span> Koetjes
-                </div>
+                </button>
+
+                <!-- KNOP 4: CONFIG -->
                 <button onclick="openConfigModal()" class="bg-slate-100 text-slate-700 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 hover:bg-slate-200 transition-all">
                     ⚙️ Config
                 </button>
@@ -146,9 +110,7 @@
         </header>
 
         <!-- NAVIGATION TABS -->
-        <nav class="flex gap-2 overflow-x-auto pb-1" id="nav-tabs">
-            <!-- Dynamisch opgebouwd op basis van Rol -->
-        </nav>
+        <nav class="flex gap-2 overflow-x-auto pb-1" id="nav-tabs"></nav>
 
         <!-- TAB 1: ALAIN OVERALL DASHBOARD -->
         <div id="tab-content-alain-overall" class="space-y-6">
@@ -172,7 +134,7 @@
                     </div>
                 </div>
 
-                <!-- CARDS VOOR ALAIN -->
+                <!-- CARDS -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-1">
                         <div class="text-[10px] font-bold text-slate-500 uppercase">Geplande Deliverables</div>
@@ -189,24 +151,43 @@
                         <div id="profile-display-goal" class="text-xs font-bold text-blue-600 truncate">Nog niet ingevuld</div>
                         <div class="text-[11px] text-blue-600 font-medium">Gekoppeld aan profiel</div>
                     </div>
-                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-1">
-                        <div class="text-[10px] font-bold text-slate-500 uppercase">Mijn Beloning Status</div>
-                        <div class="text-2xl font-black text-amber-600">10 Koetjes</div>
-                        <div class="text-[11px] text-amber-600 font-semibold">Op koers voor maandbonus</div>
+                    <div class="bg-amber-50/50 border border-amber-200 rounded-xl p-4 space-y-1 cursor-pointer" onclick="openKoetjesModal()">
+                        <div class="text-[10px] font-bold text-amber-700 uppercase">Mijn Beloning Status</div>
+                        <div class="text-2xl font-black text-amber-600"><span class="card-koetjes-val">10</span> Koetjes</div>
+                        <div class="text-[11px] text-amber-700 font-semibold">Spaar voor maandbonus & beloningen 🎁</div>
                     </div>
                 </div>
 
-                <!-- LAATSTE ACTIONABLE TIPS UIT EVALUATIES -->
-                <div class="bg-purple-50 border border-purple-100 rounded-xl p-4 space-y-2">
-                    <div class="flex justify-between items-center">
-                        <span class="text-xs font-bold text-purple-900 flex items-center gap-1.5">
-                            💡 Actuele Actionable Focus-Tip (Monitor uit Evaluatie)
-                        </span>
-                        <span class="text-[10px] bg-purple-200 text-purple-800 px-2 py-0.5 rounded-full font-bold" id="eval-last-date">Geen recente evaluatie</span>
+                <!-- MEETBARE TOPS & TIPS RESULTAAT DASHBOARD CARD -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- LAATSTE TOP -->
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-emerald-900 flex items-center gap-1.5">
+                                🌟 Laatste Meetbare Top (Wat ging super?)
+                            </span>
+                            <span class="text-[10px] bg-emerald-200 text-emerald-800 px-2 py-0.5 rounded-full font-bold" id="top-date-display">Nog geen data</span>
+                        </div>
+                        <p id="top-text-display" class="text-xs text-emerald-800 italic">"Nog geen tops ingevuld via evaluatie."</p>
+                        <div class="text-[10px] font-bold text-emerald-700 border-t border-emerald-200 pt-1 flex justify-between">
+                            <span>Meetbare Impact: <strong id="top-score-display">-</strong>/10</span>
+                            <span id="top-reward-display" class="text-amber-700">+0 Koetjes verdient</span>
+                        </div>
                     </div>
-                    <p id="eval-tip-display" class="text-xs text-purple-800 italic">
-                        Vul je eerste evaluatie in via de knop "📝 Persoonlijke Evaluatie" om hier direct concrete verbeter-tips te ontvangen.
-                    </p>
+
+                    <!-- LAATSTE TIP & ACTIEPUNT -->
+                    <div class="bg-purple-50 border border-purple-200 rounded-xl p-4 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-purple-900 flex items-center gap-1.5">
+                                💡 Laatste Tip & Verbeter-actie
+                            </span>
+                            <span class="text-[10px] bg-purple-200 text-purple-800 px-2 py-0.5 rounded-full font-bold" id="tip-date-display">Nog geen data</span>
+                        </div>
+                        <p id="tip-text-display" class="text-xs text-purple-800 italic">"Nog geen tips of actiepunten vastgelegd."</p>
+                        <div class="text-[10px] font-bold text-purple-700 border-t border-purple-200 pt-1">
+                            Status: <span id="tip-status-display" class="text-amber-700">Wordt gemonitord in volgende sessie</span>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- PROFIEL WIJZIGINGS LOGBOEK -->
@@ -333,90 +314,225 @@
 
     </div>
 
-    <!-- 4. PERSOONLIJKE EVALUATIE MODAL -->
+    <!-- MODAL 1: PROFIEL FORMULIER MODAL -->
+    <div id="profile-form-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-slate-100 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <h3 class="text-base font-bold text-slate-900">👨‍💼 Persoonlijk Profiel & Coachings-KPI's</h3>
+                <button onclick="closeProfileFormModal()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
+            </div>
+
+            <form id="profile-questions-form" onsubmit="saveProfileData(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">1. Functietitel / Operationele Rol</label>
+                    <input type="text" id="prof-role" placeholder="bv. Operations Lead" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">2. Belangrijkste Maanddoel (Kwaliteit / KPI)</label>
+                    <input type="text" id="prof-goal" placeholder="bv. 100% First-Time-Right opleveringen" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">3. Uren per dag (Target)</label>
+                        <input type="number" id="prof-hours" placeholder="8" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">4. Kwaliteit Target (%)</label>
+                        <input type="number" id="prof-target-ftr" value="100" min="50" max="100" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">5. Waar wil je dit kwartaal op gecoacht worden?</label>
+                    <textarea id="prof-challenge" rows="2" placeholder="bv. Tijdsbewaking en nauwkeurige oplevering..." required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none"></textarea>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl transition-all shadow-md">
+                        💾 Profiel Opslaan & Opslaan in Logbook
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: PERSOONLIJKE EVALUATIE (MET TOPS & TIPS + GAMIFICATION) -->
     <div id="evaluation-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-100 max-h-[90vh] overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-slate-100 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3">
                 <div class="flex items-center gap-2">
                     <span class="text-lg">📝</span>
-                    <h3 class="text-base font-bold text-slate-900">Eerlijke Zelf-Evaluatie</h3>
+                    <h3 class="text-base font-bold text-slate-900">Eerlijke Zelf-Evaluatie (Tops & Tips)</h3>
                 </div>
                 <button onclick="closeEvaluationModal()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
             </div>
 
+            <div class="bg-amber-50 border border-amber-200 p-3 rounded-xl text-[11px] text-amber-800 font-medium">
+                🎁 <strong>Gamification:</strong> Het eerlijk invullen van deze evaluatie levert direct <strong>+3 tot +5 Koetjes</strong> op voor je beloningen-saldo!
+            </div>
+
             <form id="evaluation-form" onsubmit="handleEvaluationSubmit(event)" class="space-y-3 text-xs">
                 <div>
-                    <label class="block font-bold text-slate-700 mb-1">Selecteer Evaluatie Periode</label>
+                    <label class="block font-bold text-slate-700 mb-1">Evaluatie Frequentie</label>
                     <select id="eval-period" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none font-bold">
                         <option value="Dagelijks">📅 Dagelijkse Check-in</option>
-                        <option value="Wekelijks">🗓️ Wekelijkse Evaluatie</option>
-                        <option value="Maandelijks">🏆 Maandelijkse Review</option>
+                        <option value="Wekelijks">🗓️ Wekelijkse Review</option>
+                        <option value="Maandelijks">🏆 Maandelijkse Audit</option>
                     </select>
                 </div>
 
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">1. Hoe beoordeel je je focus en werk-rustbalans? (1-10)</label>
-                    <input type="number" id="eval-score-focus" min="1" max="10" value="8" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none">
+                <!-- MEETBARE TOP -->
+                <div class="bg-emerald-50/50 p-3 rounded-xl border border-emerald-200 space-y-2">
+                    <label class="block font-bold text-emerald-900">🌟 TOP: Wat ging er goed? (Compliment / Succes)</label>
+                    <input type="text" id="eval-top-text" placeholder="bv. Alle opleveringen vóór 12:00 afgerond zonder afleiding..." required class="w-full bg-white border border-emerald-200 rounded-lg p-2 outline-none">
+                    
+                    <div class="grid grid-cols-2 gap-2 pt-1">
+                        <div>
+                            <label class="block font-bold text-emerald-800 text-[10px]">Meetbare Impact Score (1-10)</label>
+                            <input type="number" id="eval-top-score" min="1" max="10" value="9" required class="w-full bg-white border border-emerald-200 rounded-lg p-1.5 outline-none">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-emerald-800 text-[10px]">Categorie Top</label>
+                            <select id="eval-top-cat" class="w-full bg-white border border-emerald-200 rounded-lg p-1.5 outline-none">
+                                <option value="Focus & Snelheid">⚡ Focus & Snelheid</option>
+                                <option value="Foutloos Werken">🎯 Foutloos Werken (FtR)</option>
+                                <option value="Rust & Balans">🧘 Rust & Balans</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TIP -->
+                <div class="bg-purple-50/50 p-3 rounded-xl border border-purple-200 space-y-2">
+                    <label class="block font-bold text-purple-900">💡 TIP: Wat moet ik de volgende keer anders/beter doen?</label>
+                    <textarea id="eval-tip-text" rows="2" placeholder="bv. Tussentijds de e-mail uitschakelen tijdens de voorbereiding..." required class="w-full bg-white border border-purple-200 rounded-lg p-2 outline-none"></textarea>
                 </div>
 
                 <div>
-                    <label class="block font-bold text-slate-700 mb-1">2. Heb je alle kwaliteitschecks vooraf uitgevoerd?</label>
+                    <label class="block font-bold text-slate-700 mb-1">Kwaliteitscheck uitgevoerd?</label>
                     <select id="eval-ftr-check" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none">
-                        <option value="ja">Ja, 100% gecontroleerd via de checklist</option>
-                        <option value="nee">Nee, snelle oplevering gedaan zonder checklist</option>
+                        <option value="ja">Ja, 100% gecontroleerd via de kwaliteits-checklist</option>
+                        <option value="nee">Nee, zonder checklist verzonden</option>
                     </select>
-                </div>
-
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">3. Eerlijke toelichting: Wat ging goed en wat kostte te veel energie?</label>
-                    <textarea id="eval-notes" rows="2" placeholder="bv. Te lang bezig geweest met een ad-hoc verzoek..." required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none"></textarea>
                 </div>
 
                 <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2.5 rounded-xl transition-all shadow-md">
-                    🎯 Evaluatie Verwerken & Actie-Tip Genereren
+                    🎯 Evaluatie Opslaan, Koetjes Verdienen & Dashboard Bijwerken
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- SUBTIELE FOOTER MET LINK NAAR JURIDISCHE CLAIMER & VERSIE -->
-    <footer class="mt-8 text-center text-slate-200/80 text-[11px] space-y-1 pb-4">
-        <div>
-            SafeSpace Work Dashboard • Build <code class="bg-slate-800 px-1.5 py-0.5 rounded text-emerald-400 font-mono">v1.3.0-prod</code> • Gebouwd door <strong class="text-white">SJworks</strong>
-        </div>
-        <div>
-            <button onclick="openLegalModal()" class="hover:underline text-slate-300 font-medium">
-                © 2026 SJworks • Gebruiksvoorwaarden & Juridische Disclaimer (Klik voor details)
-            </button>
-        </div>
-    </footer>
+    <!-- MODAL 3: GAMIFICATION / KOETJES WINKEL & HISTORIE -->
+    <div id="koetjes-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-5 border border-slate-100 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl">🔒</span>
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900">Mijn Koetjes & Beloningsprogramma</h3>
+                        <p class="text-[11px] text-slate-500">Gamification voor bewezen kwaliteit en structurele reflectie</p>
+                    </div>
+                </div>
+                <button onclick="closeKoetjesModal()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
+            </div>
 
-    <!-- JURIDISCHE MODAL / DISCLAIMER SCHERM -->
-    <div id="legal-modal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+            <!-- KOETJES SALDO DISPLAY -->
+            <div class="bg-gradient-to-r from-amber-500 to-amber-600 text-white p-4 rounded-2xl flex justify-between items-center shadow-lg">
+                <div>
+                    <div class="text-[10px] uppercase font-extrabold tracking-wider opacity-90">Actueel Saldo</div>
+                    <div class="text-3xl font-black"><span class="card-koetjes-val">10</span> Koetjes</div>
+                </div>
+                <div class="text-4xl">🐮</div>
+            </div>
+
+            <!-- HOE VERDIEN JE KOETJES? -->
+            <div class="space-y-2">
+                <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider">💡 Hoe verdien je Koetjes?</h4>
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                    <div class="bg-slate-50 border border-slate-200 p-2.5 rounded-xl flex items-center gap-2">
+                        <span class="text-lg">📝</span>
+                        <div>
+                            <div class="font-bold text-slate-800">+3 Koetjes</div>
+                            <div class="text-[10px] text-slate-500">Eerlijke Evaluatie invullen</div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 p-2.5 rounded-xl flex items-center gap-2">
+                        <span class="text-lg">🎯</span>
+                        <div>
+                            <div class="font-bold text-slate-800">+5 Koetjes</div>
+                            <div class="text-[10px] text-slate-500">Deliverable via Checklist opleveren</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BELONINGEN WINKEL -->
+            <div class="space-y-2 pt-2 border-t border-slate-100">
+                <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider">🎁 Beschikbare Beloningen</h4>
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center p-3 bg-slate-50 rounded-xl border border-slate-200">
+                        <div>
+                            <div class="font-bold text-xs text-slate-800">☕ Extra Koffie / Team Traktatie</div>
+                            <div class="text-[10px] text-slate-500">Kleine waardering tussendoor</div>
+                        </div>
+                        <button onclick="claimReward('Extra Koffie Traktatie', 15)" class="bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all">
+                            15 Koetjes
+                        </button>
+                    </div>
+                    <div class="flex justify-between items-center p-3 bg-slate-50 rounded-xl border border-slate-200">
+                        <div>
+                            <div class="font-bold text-xs text-slate-800">🏖️ Vrijdag 2 Uur Eerder Vrij</div>
+                            <div class="text-[10px] text-slate-500">Beloning voor 100% FtR kwaliteit op deliverables</div>
+                        </div>
+                        <button onclick="claimReward('Vrijdag Vroeger Vrij', 50)" class="bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all">
+                            50 Koetjes
+                        </button>
+                    </div>
+                    <div class="flex justify-between items-center p-3 bg-slate-50 rounded-xl border border-slate-200">
+                        <div>
+                            <div class="font-bold text-xs text-slate-800">🏆 Maandelijkse Prestatie Bonus</div>
+                            <div class="text-[10px] text-slate-500">Officiële erkenning & bonus in het dossier</div>
+                        </div>
+                        <button onclick="claimReward('Maandelijkse Bonus', 100)" class="bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all">
+                            100 Koetjes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KOETJES HISTORIE LOGBOOK -->
+            <div class="space-y-2 pt-2 border-t border-slate-100">
+                <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider">📜 Saldo Transactie Historie</h4>
+                <div id="koetjes-history-log" class="text-[11px] font-mono space-y-1 max-h-28 overflow-y-auto divide-y divide-slate-100 bg-slate-50 p-2 rounded-xl">
+                    <div class="py-1 text-slate-500">🎉 Startsaldo ontvangen: +10 Koetjes</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 4: HULP MODAL -->
+    <div id="help-modal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-100 text-left">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3">
                 <div class="flex items-center gap-2">
-                    <span class="text-lg">⚖️</span>
-                    <h3 class="text-sm font-bold text-slate-900">Juridische Verklaring & Intellectual Property</h3>
+                    <span class="text-lg">💡</span>
+                    <h3 class="text-sm font-bold text-slate-900">SafeSpace Work Support & Uitleg</h3>
                 </div>
-                <button onclick="closeLegalModal()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
+                <button onclick="closeHelpModal()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
             </div>
 
-            <div class="space-y-2 text-[11px] text-slate-600 leading-relaxed max-h-[250px] overflow-y-auto">
-                <p><strong>Auteursrecht & Eigendom:</strong><br>
-                Deze applicatie, inclusief alle bijbehorende broncode, bronbestanden, logica, workflows en het unieke interface-ontwerp, is het intellectueel eigendom van <strong>SJworks</strong>.</p>
-                
-                <p><strong>Gebruiksrecht & Beperking van Kopiëren:</strong><br>
-                Het is streng verboden om zonder voorafgaande, expliciete en schriftelijke toestemming van SJworks deze code of onderdelen daarvan te kopiëren, te verveelvoudigen, te reverse-engineeren, te hergebruiken of te distribueren aan derden.</p>
-
-                <p><strong>Versiebeheer:</strong><br>
-                • Release: <code>v1.3.0</code><br>
-                • Build Datum: 29 juli 2026<br>
-                • Architectuur: SJworks SafeSpace Framework</p>
+            <div class="space-y-3 text-xs text-slate-600 leading-relaxed">
+                <p><strong>Hoe werkt dit dashboard?</strong></p>
+                <ul class="list-disc pl-4 space-y-1">
+                    <li><strong>Mijn Overall Status:</strong> Bekijk je KPI's, maandoelen en actuele focus-tips uit evaluaties.</li>
+                    <li><strong>Deliverables Inplannen:</strong> Plan vaste agenda-momenten in en lever deze af via de 5-punts kwaliteitschecklist.</li>
+                    <li><strong>Persoonlijke Evaluatie:</strong> Vul dagelijks of wekelijks je Tops & Tips in om je voortgang meetbaar te maken en Koetjes te verdienen.</li>
+                    <li><strong>Koetjes:</strong> Je gespaarde punten voor beloningen en de maandbonus.</li>
+                </ul>
             </div>
 
-            <button onclick="closeLegalModal()" class="w-full py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs transition-all">
-                Begrepen & Sluiten
+            <button onclick="closeHelpModal()" class="w-full py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs transition-all">
+                Sluiten & Terug
             </button>
         </div>
     </div>
@@ -439,7 +555,7 @@
                     <input type="number" id="config-target-score" value="100" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none">
                 </div>
                 <div>
-                    <label class="block font-bold text-slate-600 mb-1">Aantal Koetjes te verdienen per voltooid traject</label>
+                    <label class="block font-bold text-slate-600 mb-1">Beloning per Oplevering (Koetjes)</label>
                     <input type="number" id="config-koetjes-reward" value="5" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none">
                 </div>
             </div>
@@ -476,8 +592,44 @@
 
             <div class="flex gap-2 pt-2">
                 <button onclick="closeChecklistModal()" class="w-1/3 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs">Annuleren</button>
-                <button onclick="confirmOplevering()" class="w-2/3 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs shadow-md">✓ Goedgekeurd & Opleveren</button>
+                <button onclick="confirmOplevering()" class="w-2/3 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs shadow-md">✓ Goedgekeurd & Opleveren (+5 Koetjes)</button>
             </div>
+        </div>
+    </div>
+
+    <!-- SUBTIELE FOOTER MET LINK NAAR JURIDISCHE CLAIMER -->
+    <footer class="mt-8 text-center text-slate-200/80 text-[11px] space-y-1 pb-4">
+        <div>
+            SafeSpace Work Dashboard • Build <code class="bg-slate-800 px-1.5 py-0.5 rounded text-emerald-400 font-mono">v1.4.0-prod</code> • Gebouwd door <strong class="text-white">SJworks</strong>
+        </div>
+        <div>
+            <button onclick="openLegalModal()" class="hover:underline text-slate-300 font-medium">
+                © 2026 SJworks • Gebruiksvoorwaarden & Juridische Disclaimer (Klik voor details)
+            </button>
+        </div>
+    </footer>
+
+    <!-- JURIDISCHE MODAL -->
+    <div id="legal-modal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-100 text-left">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <div class="flex items-center gap-2">
+                    <span class="text-lg">⚖️</span>
+                    <h3 class="text-sm font-bold text-slate-900">Juridische Verklaring & Intellectual Property</h3>
+                </div>
+                <button onclick="closeLegalModal()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
+            </div>
+
+            <div class="space-y-2 text-[11px] text-slate-600 leading-relaxed max-h-[250px] overflow-y-auto">
+                <p><strong>Auteursrecht & Eigendom:</strong><br>
+                Deze applicatie, inclusief alle bijbehorende broncode en logica, is het intellectueel eigendom van <strong>SJworks</strong>.</p>
+                <p><strong>Gebruiksrecht & Beperking:</strong><br>
+                Het is streng verboden om zonder voorafgaande toestemming van SJworks deze code te kopiëren, te hergebruiken of te distribueren.</p>
+            </div>
+
+            <button onclick="closeLegalModal()" class="w-full py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs transition-all">
+                Begrepen & Sluiten
+            </button>
         </div>
     </div>
 
@@ -486,6 +638,8 @@
         let deliverables = [];
         let profileData = null;
         let changeLogs = [];
+        let koetjesSaldo = 10;
+        let koetjesHistory = ["🎉 Startsaldo ontvangen: +10 Koetjes"];
 
         const masterQuestionPool = [
             "Zijn alle cijfers en data dubbel gecontroleerd op typefouten?",
@@ -502,22 +656,37 @@
 
         let selectedDeliverableId = null;
 
+        function updateKoetjesUI(amount, reason) {
+            koetjesSaldo += amount;
+            
+            // Update alle elementen op de pagina
+            document.getElementById('user-koetjes').innerText = koetjesSaldo;
+            document.querySelectorAll('.card-koetjes-val').forEach(el => el.innerText = koetjesSaldo);
+
+            if (reason) {
+                const now = new Date().toLocaleTimeString('nl-NL', {hour: '2-digit', minute:'2-digit'});
+                const sign = amount >= 0 ? '+' : '';
+                koetjesHistory.unshift(`[${now}] ${reason}: ${sign}${amount} Koetjes`);
+                
+                const historyContainer = document.getElementById('koetjes-history-log');
+                if (historyContainer) {
+                    historyContainer.innerHTML = koetjesHistory.map(h => `<div class="py-1 border-b border-slate-100">${h}</div>`).join('');
+                }
+            }
+        }
+
         function handleLogin(e) {
             e.preventDefault();
             const name = document.getElementById('login-name').value;
             const roleType = document.getElementById('login-role-type').value;
 
-            currentUser = {
-                name: name,
-                roleType: roleType
-            };
+            currentUser = { name, roleType };
 
             document.getElementById('user-display-name').innerText = currentUser.name;
             document.getElementById('user-avatar').innerText = currentUser.name.charAt(0).toUpperCase();
 
             document.getElementById('login-modal').classList.add('hidden');
 
-            // Controleer of er al een profiel bestaat
             if (!profileData && roleType === 'alain') {
                 document.getElementById('intake-prompt-modal').classList.remove('hidden');
                 document.getElementById('intake-prompt-modal').classList.add('flex');
@@ -554,25 +723,17 @@
             e.preventDefault();
             const now = new Date().toLocaleString('nl-NL');
             
-            const newRole = document.getElementById('prof-role').value;
-            const newGoal = document.getElementById('prof-goal').value;
-            const newHours = document.getElementById('prof-hours').value;
-            const newTargetFtr = document.getElementById('prof-target-ftr').value;
-            const newChallenge = document.getElementById('prof-challenge').value;
-
             profileData = {
-                role: newRole,
-                goal: newGoal,
-                hours: newHours,
-                targetFtr: newTargetFtr,
-                challenge: newChallenge
+                role: document.getElementById('prof-role').value,
+                goal: document.getElementById('prof-goal').value,
+                hours: document.getElementById('prof-hours').value,
+                targetFtr: document.getElementById('prof-target-ftr').value,
+                challenge: document.getElementById('prof-challenge').value
             };
 
-            // Log de wijziging
-            changeLogs.unshift(`[${now}] Profiel & KPI's bijgewerkt: Maanddoel = "${newGoal}", FtR Target = ${newTargetFtr}%`);
+            changeLogs.unshift(`[${now}] Profiel bijgewerkt: Maanddoel = "${profileData.goal}", Target = ${profileData.targetFtr}%`);
             renderLogs();
 
-            // Update UI elementen
             document.getElementById('user-display-role').innerText = profileData.role;
             document.getElementById('profile-display-goal').innerText = profileData.goal;
             document.getElementById('profile-ftr-score').innerText = `${profileData.targetFtr}% Kwaliteit`;
@@ -596,7 +757,7 @@
             document.getElementById('login-modal').classList.remove('hidden');
         }
 
-        // EVALUATIE MODAL FUNCTIES
+        // EVALUATIE MODAL FUNCTIES (TOPS & TIPS)
         function openEvaluationModal() {
             document.getElementById('evaluation-modal').classList.remove('hidden');
             document.getElementById('evaluation-modal').classList.add('flex');
@@ -610,27 +771,64 @@
         function handleEvaluationSubmit(e) {
             e.preventDefault();
             const period = document.getElementById('eval-period').value;
-            const score = document.getElementById('eval-score-focus').value;
-            const ftrCheck = document.getElementById('eval-ftr-check').value;
-            const notes = document.getElementById('eval-notes').value;
+            const topText = document.getElementById('eval-top-text').value;
+            const topScore = document.getElementById('eval-top-score').value;
+            const topCat = document.getElementById('eval-top-cat').value;
+            const tipText = document.getElementById('eval-tip-text').value;
             const now = new Date().toLocaleDateString('nl-NL');
 
-            let generatedTip = "";
-            if (score < 7) {
-                generatedTip = `⚠️ Focus-Tip (${period}): Plan morgen minstens 1 uur voorbereidingstijd in zonder afleiding om je rust te herstellen.`;
-            } else if (ftrCheck === 'nee') {
-                generatedTip = `⚠️ Kwaliteits-Tip (${period}): Gebruik bij de volgende deliverable strikt de checklist vooraf om fouten te voorkomen.`;
-            } else {
-                generatedTip = `🌟 Excellent (${period}): Je bent goed op koers! Houd deze structuur vast en bewaak je geplande voorbereidingstijd.`;
-            }
+            // Koetjes Beloning Toekennen
+            const verdiendeKoetjes = 4;
+            updateKoetjesUI(verdiendeKoetjes, `Eerlijke ${period} Evaluatie ingevuld`);
 
-            document.getElementById('eval-last-date').innerText = `${period} (${now})`;
-            document.getElementById('eval-tip-display').innerText = `"${generatedTip}" (Notitie: ${notes})`;
+            // Update UI Tops & Tips op Dashboard
+            document.getElementById('top-date-display').innerText = `${period} (${now})`;
+            document.getElementById('top-text-display').innerText = `"${topText}" [${topCat}]`;
+            document.getElementById('top-score-display').innerText = topScore;
+            document.getElementById('top-reward-display').innerText = `+${verdiendeKoetjes} Koetjes verdiend!`;
 
-            alert(`Evaluatie opgeslagen! Actie-tip gegenereerd voor je dashboard.`);
+            document.getElementById('tip-date-display').innerText = `${period} (${now})`;
+            document.getElementById('tip-text-display').innerText = `"${tipText}"`;
+
+            alert(`🎉 Gefeliciteerd! Je evaluatie is verwerkt en je hebt +${verdiendeKoetjes} Koetjes verdiend!`);
             closeEvaluationModal();
         }
 
+        // KOETJES WINKEL MODAL
+        function openKoetjesModal() {
+            document.getElementById('koetjes-modal').classList.remove('hidden');
+            document.getElementById('koetjes-modal').classList.add('flex');
+        }
+
+        function closeKoetjesModal() {
+            document.getElementById('koetjes-modal').classList.add('hidden');
+            document.getElementById('koetjes-modal').classList.remove('flex');
+        }
+
+        function claimReward(rewardName, cost) {
+            if (koetjesSaldo < cost) {
+                alert(`⚠️ Oeps! Je hebt nog ${cost - koetjesSaldo} Koetjes te weinig voor deze beloning. Vul je evaluatie in of lever deliverables op!`);
+                return;
+            }
+
+            if (confirm(`Wil je ${cost} Koetjes inwisselen voor "${rewardName}"?`)) {
+                updateKoetjesUI(-cost, `Beloning geclaimd: ${rewardName}`);
+                alert(`🎁 Gefeliciteerd! Je hebt "${rewardName}" succesvol geclaimd. Je coach/beheerder is op de hoogte gebracht.`);
+            }
+        }
+
+        // HULP MODAL
+        function openHelpModal() {
+            document.getElementById('help-modal').classList.remove('hidden');
+            document.getElementById('help-modal').classList.add('flex');
+        }
+
+        function closeHelpModal() {
+            document.getElementById('help-modal').classList.add('hidden');
+            document.getElementById('help-modal').classList.remove('flex');
+        }
+
+        // LEGAL & CONFIG MODALS
         function openLegalModal() {
             document.getElementById('legal-modal').classList.remove('hidden');
             document.getElementById('legal-modal').classList.add('flex');
@@ -658,7 +856,6 @@
 
         function renderNavigation() {
             const nav = document.getElementById('nav-tabs');
-            
             if (currentUser && currentUser.roleType === 'alain') {
                 nav.innerHTML = `
                     <button onclick="switchTab('alain-overall')" id="tab-btn-alain-overall" class="px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-bold shadow-md transition-all">
@@ -837,8 +1034,13 @@
             }
 
             deliverables = deliverables.map(d => d.id === selectedDeliverableId ? { ...d, status: 'Geleverd' } : d);
+            
+            // Koetjes toekennen voor goedgekeurde oplevering
+            updateKoetjesUI(5, "Deliverable goedgekeurd via kwaliteits-checklist");
+
             renderTable();
             closeChecklistModal();
+            alert("✓ Deliverable goedgekeurd & opgeleverd! Je hebt +5 Koetjes verdiend!");
         }
     </script>
 </body>
