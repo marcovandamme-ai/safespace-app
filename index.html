@@ -24,11 +24,11 @@
         }
     </style>
 </head>
-<body class="min-h-screen text-slate-800 font-sans p-4 md:p-8">
+<body class="min-h-screen text-slate-800 font-sans p-4 md:p-8 flex flex-col justify-between">
 
-    <!-- 1. LOGIN & PROFIEL INTAKE MODAL (EERSTE SCHERM) -->
+    <!-- 1. LOGIN & PROFIEL INTAKE MODAL -->
     <div id="login-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-100">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-100 relative">
             <div class="text-center space-y-1">
                 <div class="text-3xl">🦄</div>
                 <h2 class="text-xl font-bold text-slate-900">Welkom bij SafeSpace Work</h2>
@@ -68,11 +68,17 @@
                     🚀 Inloggen & Dashboard Openen
                 </button>
             </form>
+
+            <div class="text-center pt-2 border-t border-slate-100">
+                <button onclick="openLegalModal()" class="text-[10px] text-slate-400 hover:text-slate-600 underline">
+                    v1.2.0 • SJworks Proprietary Code & Legal Disclaimer
+                </button>
+            </div>
         </div>
     </div>
 
     <!-- MAIN DASHBOARD CONTENT -->
-    <div id="main-app" class="max-w-7xl mx-auto space-y-6 hidden">
+    <div id="main-app" class="max-w-7xl mx-auto space-y-6 w-full hidden">
 
         <!-- TOP BAR / HEADER -->
         <header class="bg-white/90 backdrop-blur-md rounded-2xl p-4 shadow-lg flex flex-wrap justify-between items-center gap-4">
@@ -85,6 +91,10 @@
             </div>
 
             <div class="flex items-center gap-3 flex-wrap">
+                <button onclick="openLegalModal()" class="bg-slate-800 text-white hover:bg-slate-900 px-3 py-1.5 rounded-full text-[10px] font-mono font-bold tracking-tight shadow-sm transition-all flex items-center gap-1">
+                    ⚡ v1.2.0 | SJworks
+                </button>
+
                 <button onclick="alert('Hulp/Support: Neem contact op met je coach of beheerder.')" class="bg-blue-100 text-blue-700 hover:bg-blue-200 px-3 py-1.5 rounded-full text-xs font-semibold transition-all">
                     💡 Hulp nodig?
                 </button>
@@ -129,7 +139,6 @@
                     </div>
                 </div>
 
-                <!-- CARDS VOOR ALAIN -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-1">
                         <div class="text-[10px] font-bold text-slate-500 uppercase">Geplande Deliverables</div>
@@ -183,7 +192,6 @@
                             <option value="day">Per Dag</option>
                         </select>
                     </div>
-                    <!-- GEWIJZIGDE KNOP / VELDNAAM -->
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Voorbereidingstijd (Uur)</label>
                         <input type="number" id="input-duration" step="0.5" placeholder="bv. 2" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
@@ -204,7 +212,6 @@
                 </form>
             </section>
 
-            <!-- STATUS PLANNER TABEL -->
             <section class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl space-y-4">
                 <div class="flex flex-wrap justify-between items-center gap-4">
                     <h2 class="text-sm font-black tracking-wider uppercase text-slate-800 flex items-center gap-2">
@@ -269,7 +276,49 @@
 
     </div>
 
-    <!-- CONFIGURATIE MODAL (CONFIG SCHERM) -->
+    <!-- SUBTIELE FOOTER MET CODE & LEGAL CLAIMER -->
+    <footer class="mt-8 text-center text-slate-200/80 text-[11px] space-y-1 pb-4">
+        <div>
+            <span class="font-bold">SafeSpace Work Dashboard</span> • Build <code class="bg-slate-800 px-1.5 py-0.5 rounded text-emerald-400 font-mono">v1.2.0-prod</code> • Ontwikkeld door <strong class="text-white">SJworks</strong> (Build: 29 juli 2026)
+        </div>
+        <div>
+            <button onclick="openLegalModal()" class="hover:underline text-slate-300">
+                © 2026 SJworks. Alle rechten voorbehouden. Klik voor juridische en auteursrechtelijke bepalingen.
+            </button>
+        </div>
+    </footer>
+
+    <!-- JURIDISCHE MODAL / DISCLAIMER SCHERM -->
+    <div id="legal-modal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-100 text-left">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <div class="flex items-center gap-2">
+                    <span class="text-lg">⚖️</span>
+                    <h3 class="text-sm font-bold text-slate-900">Juridische Verklaring & Intellectual Property</h3>
+                </div>
+                <button onclick="closeLegalModal()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
+            </div>
+
+            <div class="space-y-2 text-[11px] text-slate-600 leading-relaxed max-h-[250px] overflow-y-auto">
+                <p><strong>Auteursrecht & Eigendom:</strong><br>
+                Deze applicatie, inclusief alle bijbehorende broncode, bronbestanden, logica, workflows en het unieke interface-ontwerp, is het intellectueel eigendom van <strong>SJworks</strong>.</p>
+                
+                <p><strong>Gebruiksrecht & Beperking van Kopiëren:</strong><br>
+                Het is streng verboden om zonder voorafgaande, expliciete en schriftelijke toestemming van SJworks deze code of onderdelen daarvan te kopiëren, te verveelvoudigen, te reverse-engineeren, te hergebruiken of te distribueren aan derden.</p>
+
+                <p><strong>Versiebeheer:</strong><br>
+                • Release: <code>v1.2.0</code><br>
+                • Build Datum: 29 juli 2026<br>
+                • Architectuur: SJworks SafeSpace Framework</p>
+            </div>
+
+            <button onclick="closeLegalModal()" class="w-full py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs transition-all">
+                Begrepen & Sluiten
+            </button>
+        </div>
+    </div>
+
+    <!-- CONFIGURATIE MODAL -->
     <div id="config-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
         <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-slate-100">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3">
@@ -347,6 +396,17 @@
         ];
 
         let selectedDeliverableId = null;
+
+        // LEGAL MODAL
+        function openLegalModal() {
+            document.getElementById('legal-modal').classList.remove('hidden');
+            document.getElementById('legal-modal').classList.add('flex');
+        }
+
+        function closeLegalModal() {
+            document.getElementById('legal-modal').classList.add('hidden');
+            document.getElementById('legal-modal').classList.remove('flex');
+        }
 
         // INLOGGEN & PROFIELOPSLAG
         function handleLogin(e) {
