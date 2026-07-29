@@ -144,7 +144,7 @@
                         </tr>
                     </thead>
                     <tbody id="planner-table-body" class="divide-y divide-slate-100 font-medium">
-                        <!-- Wordt dynamisch opgevuld door JavaScript -->
+                        <!-- Dynamische inhoud -->
                     </tbody>
                 </table>
             </div>
@@ -152,7 +152,7 @@
 
     </div>
 
-    <!-- PIJLER 3: DYNAMISCHE CHECKLIST MODAL -->
+    <!-- PIJLER 3: DYNAMISCHE CHECKLIST MODAL MET 25 ROULEER-VRAGEN -->
     <div id="checklist-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
         <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-slate-100">
             <div class="flex justify-between items-start border-b border-slate-100 pb-3">
@@ -162,21 +162,21 @@
                     </span>
                     <h3 id="modal-deliverable-name" class="text-lg font-bold text-slate-800 mt-1">Deliverable Naam</h3>
                 </div>
-                <div class="text-[11px] text-slate-400 bg-slate-50 px-2.5 py-1 rounded-md flex items-center gap-1 font-semibold">
-                    🔀 Dynamische Volgorde
+                <div class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-md flex items-center gap-1 font-semibold">
+                    🔀 5 van 25 vragen geselecteerd
                 </div>
             </div>
 
             <p class="text-xs text-slate-500">
-                Vink alle onderstaande vragen af. De volgorde verandert willekeurig bij elke oplevering om de automatische piloot te voorkomen en een 99.5% KPI-score te borgen.
+                Om de automatische piloot te voorkomen, kiest het systeem willekeurig 5 van de 25 kwaliteitsvragen in een wisselende volgorde.
             </p>
 
-            <div id="checklist-items-container" class="space-y-2">
-                <!-- Vragen worden hier gesorteerd ingeladen -->
+            <div id="checklist-items-container" class="space-y-2 max-h-[350px] overflow-y-auto pr-1">
+                <!-- Vragen worden hier roulerend ingeladen -->
             </div>
 
-            <div id="checklist-error-msg" class="hidden bg-amber-50 text-amber-800 p-3 rounded-xl text-xs font-semibold flex items-center gap-2 border border-amber-200">
-                ⚠️ Rond eerst alle kwaliteitschecks af om de First-Time-Right target te behalen.
+            <div id="checklist-error-msg" class="hidden bg-red-50 text-red-700 p-3 rounded-xl text-xs font-semibold flex items-center gap-2 border border-red-200">
+                ⚠️ Vink eerst alle kwaliteitschecks af om de target van 99.5% te borgen.
             </div>
 
             <div class="flex gap-2 pt-2">
@@ -191,7 +191,6 @@
     </div>
 
     <script>
-        // Standaard takenlijst
         let deliverables = [
             { id: 1, name: "Sensoren Integratie Plan", freq: "Wekelijks", to: "Tech Team, Alain", start: "2026-07-25", duration: "4 uur", deadline: "2026-07-27", status: "Overdue / Actie" },
             { id: 2, name: "Q3 Management Summary", freq: "Maandelijks", to: "Directie, Board", start: "2026-07-20", duration: "6 uur", deadline: "2026-07-26", status: "Overdue / Actie" },
@@ -199,13 +198,33 @@
             { id: 4, name: "Kwartaal Rapportage Veestapel", freq: "Kwartaal", to: "Directie", start: "2026-08-01", duration: "8 uur", deadline: "2026-08-15", status: "Ingepland" }
         ];
 
-        // Vragenlijst voor Pijler 3 Kwaliteitscontrole
-        const baseQuestions = [
+        // UITGEBREIDE MASTER POOL VAN 25 KWALITEITSVRAGEN
+        const masterQuestionPool = [
             "Zijn alle cijfers en data dubbel gecontroleerd op typefouten?",
             "Is de bijlage/export correct geformatteerd en geüpload?",
             "Zijn eventuele afwijkingen of vertragingen helder toegelicht?",
             "Is de ontvanger correct ingesteld (bijv. Directie / Team)?",
-            "Is de communicatie vriendelijk en professioneel geformuleerd?"
+            "Is de communicatie vriendelijk en professioneel geformuleerd?",
+            "Zijn de vervolgstappen of actiepunten concreet gedefinieerd?",
+            "Is het document voorzien van de juiste versie en datum?",
+            "Zijn alle knelpunten ('hiccups') eerst intern afgestemd?",
+            "Is er gecontroleerd of alle verplichte velden zijn ingevuld?",
+            "Voldoet het bestand aan de AVG / privacy-richtlijnen?",
+            "Is de e-mailtekst kort, bondig en resultaatgericht opgesteld?",
+            "Zijn eventuele afhankelijkheden van collega's tijdig gecontroleerd?",
+            "Is er een duidelijke deadline gecommuniceerd naar de ontvangers?",
+            "Zijn de brondocumenten en berekeningen na te rekenen?",
+            "Is de deliverable gecontroleerd op First-Time-Right kwaliteit?",
+            "Zijn de vakterminologie en definities correct gebruikt?",
+            "Is er rekening gehouden met de SLA en afgesproken reactietijd?",
+            "Zijn bijlagen gecontroleerd op leesbaarheid en juiste extensie?",
+            "Is gecheckt of er geen vertrouwelijke AI-data gelekt wordt?",
+            "Is de opmaak in lijn met de vereiste huisstijl/standaarden?",
+            "Zijn de wijzigingen ten opzichte van de vorige versie genoteerd?",
+            "Is het kritieke pad van het project niet in gevaar gebracht?",
+            "Is er bij twijfel even kort afgestemd met een collega of watcher?",
+            "Zijn de geformuleerde afspraken meetbaar en realistisch?",
+            "Is de deliverable op een veilige en toegankelijke plek opgeslagen?"
         ];
 
         let selectedDeliverableId = null;
@@ -255,13 +274,16 @@
             const item = deliverables.find(d => d.id === id);
             document.getElementById('modal-deliverable-name').innerText = item.name;
 
-            // Hussel vragen willekeurig (Anti-automatische piloot)
-            const shuffledQuestions = [...baseQuestions].sort(() => Math.random() - 0.5);
+            // 1. Hussel de gehele lijst van 25 vragen willekeurig
+            const shuffledPool = [...masterQuestionPool].sort(() => Math.random() - 0.5);
+            
+            // 2. Pik er telkens willekeurig 5 uit voor de pop-up
+            const selectedQuestions = shuffledPool.slice(0, 5);
 
             const container = document.getElementById('checklist-items-container');
             container.innerHTML = '';
             
-            shuffledQuestions.forEach((q, idx) => {
+            selectedQuestions.forEach((q) => {
                 container.innerHTML += `
                     <label class="flex items-start gap-3 p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/80 cursor-pointer transition-all">
                         <input type="checkbox" class="chk-item mt-0.5 h-4 w-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500">
@@ -289,13 +311,11 @@
                 return;
             }
 
-            // Update status naar Geleverd
             deliverables = deliverables.map(d => d.id === selectedDeliverableId ? { ...d, status: 'Geleverd' } : d);
             renderTable();
             closeChecklistModal();
         }
 
-        // Formulier afhandeling
         document.getElementById('add-deliverable-form').addEventListener('submit', function(e) {
             e.preventDefault();
             const newObj = {
@@ -313,7 +333,6 @@
             this.reset();
         });
 
-        // Eerste load
         renderTable();
     </script>
 </body>
