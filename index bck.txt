@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SafeSpace Work - Koetjes, Rangen & Performance Hub</title>
+    <title>SafeSpace Work - Klantcontact & Operations Hub</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -22,10 +22,10 @@
         <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl space-y-6 border border-white/20">
             <div class="text-center space-y-2">
                 <div class="w-16 h-16 rounded-2xl bg-emerald-100 border border-emerald-300 flex items-center justify-center text-3xl shadow-md mx-auto">
-                    🐮
+                    🎯
                 </div>
                 <h1 class="font-black text-2xl text-slate-900">SafeSpace Work</h1>
-                <p class="text-xs text-slate-500 font-medium">Klantcontact, DISC/NLP & Ranch Gamification</p>
+                <p class="text-xs text-slate-500 font-medium">Klantcontact & Operations Hub</p>
             </div>
 
             <form onsubmit="handleLogin(event)" class="space-y-4 text-xs">
@@ -49,12 +49,12 @@
         <div class="bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-lg border border-white/40 flex flex-wrap items-center justify-between gap-3">
             
             <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('dashboard')">
-                <div class="w-10 h-10 rounded-xl bg-emerald-100 border border-emerald-300 flex items-center justify-center text-xl shadow-sm">
-                    🐮
+                <div class="w-10 h-10 rounded-2xl bg-emerald-100 border border-emerald-300 flex items-center justify-center text-xl shadow-sm">
+                    🎯
                 </div>
                 <div>
                     <span class="font-black text-slate-900 text-lg tracking-tight block leading-none">SafeSpace Work</span>
-                    <span class="text-xs text-sky-700 font-bold">Klantcontact & Operations</span>
+                    <span class="text-xs text-sky-600 font-bold">Klantcontact & Operations</span>
                 </div>
             </div>
 
@@ -101,46 +101,59 @@
     <!-- MAIN CONTAINER -->
     <main class="max-w-7xl w-full mx-auto px-4 mt-4 flex-1 space-y-5">
 
-        <!-- GAMIFICATION SCOREBORD: MELKFLESJES, SLAGERIJ & RANGEN -->
-        <div class="bg-gradient-to-r from-purple-900 via-indigo-900 to-slate-900 text-white rounded-2xl p-5 shadow-xl border border-purple-500/30 flex flex-wrap items-center justify-between gap-4">
+        <!-- PAARSE BELONINGS- & PUNTEN SCOREBALK -->
+        <div class="bg-[#2D1B69] text-white rounded-2xl p-4 shadow-xl border border-purple-500/20 space-y-4">
             
-            <div class="flex items-center space-x-4">
-                <div class="w-14 h-14 bg-amber-400 text-slate-900 rounded-2xl flex items-center justify-center text-3xl font-black shadow-lg">
-                    🐮
+            <div class="flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-amber-400 text-slate-900 rounded-xl flex items-center justify-center text-2xl font-black shadow-md">
+                        🏆
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold text-purple-200 uppercase tracking-wider block">BELONINGS- & PUNTEN SYSTEEM</span>
+                        <div class="flex items-baseline space-x-2">
+                            <span class="text-2xl font-black text-white" id="user-score">50</span>
+                            <span class="text-xs text-purple-200 font-medium">Punten verzameld</span>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <div class="flex items-center space-x-2">
-                        <span class="bg-amber-400 text-slate-900 text-[10px] font-black uppercase px-2 py-0.5 rounded" id="user-rank">🧹 Staljongen (Lvl 1)</span>
-                        <span class="text-[10px] text-purple-200 font-bold uppercase">Ranch Status</span>
+
+                <div class="flex items-center space-x-2">
+                    <button onclick="addPoints(10)" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs px-3 py-2 rounded-xl shadow transition-all flex items-center space-x-1">
+                        <span>+ 10 Ptn</span>
+                    </button>
+                    <button onclick="addPoints(-5)" class="bg-rose-500 hover:bg-rose-600 text-white font-bold text-xs px-3 py-2 rounded-xl shadow transition-all flex items-center space-x-1">
+                        <span>− 5 Ptn</span>
+                    </button>
+                    <button onclick="adjustKoetjes(1)" class="bg-pink-500 hover:bg-pink-600 text-white font-bold text-xs px-3 py-2 rounded-xl shadow transition-all flex items-center space-x-1">
+                        <span>🐮 +1 Koetje</span>
+                    </button>
+                </div>
+
+                <div class="bg-white/10 border border-white/20 px-4 py-2 rounded-xl flex items-center space-x-3 text-xs">
+                    <div>
+                        <span class="text-[10px] font-bold text-purple-200 uppercase block">ACTUEEL DOEL & BELONING</span>
+                        <span class="font-bold text-white block" id="reward-name">Vrijdag 1u eerder vrij</span>
+                        <span class="text-[10px] text-amber-300 font-semibold" id="reward-progress">Nog 50 punten nodig</span>
                     </div>
-                    <div class="flex items-baseline space-x-2 mt-1">
-                        <span class="text-3xl font-black text-white" id="user-score">50</span>
-                        <span class="text-xs text-purple-200">Punten</span>
-                        <span class="text-xs text-amber-300 font-bold" id="milk-bottles">(5 🥛 Melkflesjes)</span>
-                    </div>
+                    <button onclick="openModal('rewardModal')" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-black text-xs p-2 rounded-lg shadow">
+                        <i class="fa-solid fa-gift"></i>
+                    </button>
                 </div>
             </div>
 
-            <!-- ACTIES: SPAREN VS SLAGERIJ -->
-            <div class="flex items-center space-x-2">
-                <button onclick="addMilkBottle(1)" class="bg-emerald-500 hover:bg-emerald-600 text-white font-black text-xs px-3 py-2 rounded-xl shadow transition-all flex items-center space-x-1" title="Taak behaald: Verdien 1 Melkflesje (+10 Ptn)">
-                    <span>🥛 +1 Flesje (+10)</span>
-                </button>
-                <button onclick="sendToButcher()" class="bg-rose-600 hover:bg-rose-700 text-white font-black text-xs px-3 py-2 rounded-xl shadow transition-all flex items-center space-x-1" title="Doel niet gehaald: Koetje naar de slagerij! (-15 Ptn)">
-                    <span>🥩 Naar Slagerij (-15)</span>
-                </button>
-            </div>
-
-            <!-- BELONING STATUS -->
-            <div class="bg-white/10 backdrop-blur-md border border-white/20 p-3 rounded-xl flex items-center space-x-3 text-xs">
-                <div>
-                    <span class="text-[10px] font-bold text-purple-200 uppercase block">Actueel Doel & Beloning</span>
-                    <span class="font-bold text-white block" id="reward-name">Vrijdag 1u eerder vrij</span>
-                    <span class="text-[10px] text-amber-300 font-semibold" id="reward-progress">Nog 50 punten nodig</span>
+            <!-- VOORTGANGSBALK VOOR DELIVERABLES EN TAKEN -->
+            <div class="border-t border-purple-400/20 pt-3 space-y-1.5">
+                <div class="flex justify-between items-center text-xs">
+                    <span class="font-bold text-purple-200 flex items-center gap-1.5">
+                        <i class="fa-solid fa-bars-progress text-amber-400"></i>
+                        <span>Voortgang Deliverables & Taken</span>
+                    </span>
+                    <span class="font-black text-amber-300" id="progress-percent-text">0% Afgerond</span>
                 </div>
-                <button onclick="openModal('rewardModal')" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-black text-xs px-2.5 py-1.5 rounded-lg shadow">
-                    <i class="fa-solid fa-gift"></i>
-                </button>
+                <div class="w-full bg-purple-950/60 rounded-full h-3 p-0.5 border border-purple-400/30">
+                    <div id="progress-bar-fill" class="bg-gradient-to-r from-emerald-400 to-amber-400 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
             </div>
 
         </div>
@@ -151,13 +164,13 @@
                 <div class="flex justify-between items-center flex-wrap gap-2">
                     <div>
                         <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full inline-flex items-center gap-1">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Klantcontact Performance Dashboard
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> KLANTCONTACT PERFORMANCE DASHBOARD
                         </span>
                         <h1 class="text-xl font-black text-slate-900 mt-2">Actieve KPI Monitor & Performance</h1>
                     </div>
                     <button onclick="openModal('configModal')" class="bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md transition-all flex items-center space-x-2">
-                        <i class="fa-solid fa-gear"></i>
-                        <span>KPI's Beheren</span>
+                        <i class="fa-solid fa-plus-circle"></i>
+                        <span>KPI's Beheren / Toevoegen</span>
                     </button>
                 </div>
 
@@ -172,7 +185,7 @@
                     <div>
                         <span class="bg-purple-100 text-purple-800 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">DISC Gedrag & NLP Interactie</span>
                         <h1 class="text-xl font-black text-slate-900 mt-1">Deliverables & Communicatiestijlen</h1>
-                        <p class="text-xs text-slate-500 mt-1">Opleveringen behalen levert 🥛 Melkflesjes op. Te laat? Pas op voor de 🥩 Slagerij!</p>
+                        <p class="text-xs text-slate-500 mt-1">Vink afgeronde deliverables af om je voortgangsbalk aan te vullen!</p>
                     </div>
                     <button onclick="openModal('addDeliverableModal')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md transition-all flex items-center space-x-2">
                         <i class="fa-solid fa-plus"></i>
@@ -184,6 +197,7 @@
                     <table class="w-full text-left text-xs border-collapse">
                         <thead>
                             <tr class="bg-slate-100 text-slate-700 border-b border-slate-200 uppercase text-[10px] tracking-wider">
+                                <th class="p-3 font-bold text-center">Status</th>
                                 <th class="p-3 font-bold">Deliverable</th>
                                 <th class="p-3 font-bold">Stakeholder & Rol</th>
                                 <th class="p-3 font-bold">DISC Profiel</th>
@@ -191,7 +205,6 @@
                                 <th class="p-3 font-bold">Pre-Check</th>
                                 <th class="p-3 font-bold">Deadline</th>
                                 <th class="p-3 font-bold text-center">Spiekwijzer</th>
-                                <th class="p-3 font-bold text-center">Status / Beloning</th>
                             </tr>
                         </thead>
                         <tbody id="full-deliverables-table-body" class="divide-y divide-slate-200"></tbody>
@@ -248,7 +261,7 @@
 
                     <div class="bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200 p-5 shadow-lg space-y-3">
                         <h3 class="font-black text-slate-900 text-sm flex items-center">
-                            <i class="fa-solid fa-pen-to-square text-amber-600 mr-2"></i> Dagelijks Focus Logboek (+1 Melkflesje 🥛)
+                            <i class="fa-solid fa-pen-to-square text-amber-600 mr-2"></i> Dagelijks Focus Logboek (+10 Ptn)
                         </h3>
                         <textarea id="coaching-notes" class="w-full text-xs p-3 border rounded-xl focus:ring-1 focus:ring-amber-500" rows="3" placeholder="Wat ging er goed in de afstemming vandaag?"></textarea>
                         <button onclick="saveCoachingNote()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs px-4 py-2 rounded-xl">Logboek Opslaan</button>
@@ -409,25 +422,74 @@
         </div>
     </div>
 
-    <!-- MODAL: CONFIG KPIS & ADMIN SYSTEM RESET -->
+    <!-- MODAL: CONFIG KPIS & NIEUWE KPI TOEVOEGEN -->
     <div id="configModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-2xl max-w-3xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto space-y-6">
+        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto space-y-6">
             <button onclick="closeModal('configModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
-            <div>
-                <h3 class="text-base font-black text-slate-900">KPI Bibliotheek & Instellingen</h3>
-                <p class="text-xs text-slate-500">Selecteer zichtbare KPI's op het dashboard.</p>
-            </div>
             
-            <div class="space-y-3 text-xs" id="kpi-selector-list"></div>
+            <div>
+                <h3 class="text-base font-black text-slate-900">📊 KPI Bibliotheek & Beheer</h3>
+                <p class="text-xs text-slate-500">Voeg nieuwe KPI's toe of pas aan welke KPI's op je Dashboard zichtbaar zijn.</p>
+            </div>
+
+            <!-- FORMULIER OM NIEUWE KPI TOE TE VOEGEN -->
+            <form onsubmit="addNewKpi(event)" class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3 text-xs">
+                <h4 class="font-black text-slate-900 flex items-center gap-1.5 text-xs uppercase tracking-wider">
+                    <i class="fa-solid fa-plus-circle text-emerald-600"></i> Nieuwe KPI Invoeren
+                </h4>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                        <label class="block font-bold mb-1">Soort KPI (Categorie)</label>
+                        <select id="new-kpi-cat" class="w-full border rounded-lg p-2 bg-white" required>
+                            <option value="Klantgerichtheid en Kwaliteit">Klantgerichtheid en Kwaliteit</option>
+                            <option value="Efficiëntie en Snelheid">Efficiëntie en Snelheid</option>
+                            <option value="Operations & Productiviteit">Operations & Productiviteit</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-1">Afkorting / Naam</label>
+                        <input type="text" id="new-kpi-abbr" required placeholder="bijv. CSAT of NPS" class="w-full border rounded-lg p-2">
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-1">Huidige Waarde</label>
+                        <input type="text" id="new-kpi-val" required placeholder="bijv. 84% of 2,5 min" class="w-full border rounded-lg p-2">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div class="sm:col-span-2">
+                        <label class="block font-bold mb-1">Omschrijving</label>
+                        <input type="text" id="new-kpi-desc" required placeholder="bijv. Meet hoe tevreden de klant is over de hulp." class="w-full border rounded-lg p-2">
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-1">Richtlijn</label>
+                        <select id="new-kpi-trend" class="w-full border rounded-lg p-2 bg-white" required>
+                            <option value="hoog">📈 Hoger is beter</option>
+                            <option value="laag">📉 Lager is beter</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-xl transition-all shadow text-xs">
+                    + KPI Toevoegen aan Bibliotheek
+                </button>
+            </form>
+
+            <!-- LIJST MET INGESTELDE KPIS -->
+            <div class="space-y-3 text-xs">
+                <h4 class="font-black text-slate-900 text-xs uppercase tracking-wider">Beschikbare KPI's (Aan/Uit vinken voor Dashboard)</h4>
+                <div id="kpi-selector-list" class="space-y-2"></div>
+            </div>
 
             <div class="border-t pt-4">
                 <h4 class="text-xs font-black text-rose-800 uppercase tracking-wider mb-2">⚙️ Administrator Beheer</h4>
                 <div class="p-4 bg-rose-50 border border-rose-200 rounded-2xl flex justify-between items-center">
                     <div>
                         <span class="font-bold text-xs text-rose-900 block">Systeem Reset</span>
-                        <span class="text-[10px] text-rose-700">Zet alle punten, melkflesjes en rangen terug naar de beginstand.</span>
+                        <span class="text-[10px] text-rose-700">Zet alle punten en voortgang terug naar de beginstand.</span>
                     </div>
                     <button onclick="adminResetSystem()" class="bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow">
                         <i class="fa-solid fa-rotate-left mr-1"></i> Reset Systeem
@@ -448,10 +510,68 @@
         let rewardGoal = 100;
         let rewardTitle = "Vrijdag 1u eerder vrij";
 
+        // COMPLETE KPIS INCLUSIEF KLANTGERICHTHEID, KWALITEIT, EFFICIËNTIE EN SNELHEID
         let kpiLibrary = [
-            { id: 'fcr', name: 'First Contact Resolution (FCR)', cat: 'Kwaliteit', val: '78%', selected: true },
-            { id: 'csat', name: 'Customer Satisfaction (CSAT)', cat: 'Kwaliteit', val: '84%', selected: true },
-            { id: 'sl', name: 'Service Level (SL 80/20)', cat: 'Bereikbaarheid', val: '82%', selected: true }
+            { 
+                id: 'csat', 
+                abbr: 'CSAT', 
+                name: 'Customer Satisfaction', 
+                cat: 'Klantgerichtheid en Kwaliteit', 
+                desc: 'Meet hoe tevreden de klant is over de hulp.', 
+                val: '84%', 
+                better: 'hoog', 
+                selected: true 
+            },
+            { 
+                id: 'fcr', 
+                abbr: 'FCR', 
+                name: 'First Contact Resolution', 
+                cat: 'Klantgerichtheid en Kwaliteit', 
+                desc: 'Het deel van de vragen dat direct bij het eerste contact wordt opgelost.', 
+                val: '78%', 
+                better: 'hoog', 
+                selected: true 
+            },
+            { 
+                id: 'nps', 
+                abbr: 'NPS', 
+                name: 'Net Promoter Score', 
+                cat: 'Klantgerichtheid en Kwaliteit', 
+                desc: 'Meet of een klant de service zou aanbevelen aan anderen.', 
+                val: '+42', 
+                better: 'hoog', 
+                selected: true 
+            },
+            { 
+                id: 'reactietijd', 
+                abbr: 'ART', 
+                name: 'Gemiddelde reactietijd', 
+                cat: 'Efficiëntie en Snelheid', 
+                desc: 'Hoe lang een klant moet wachten op een eerste reactie.', 
+                val: '1,5 min', 
+                better: 'laag', 
+                selected: true 
+            },
+            { 
+                id: 'oplostijd', 
+                abbr: 'MTTR', 
+                name: 'Gemiddelde oplostijd', 
+                cat: 'Efficiëntie en Snelheid', 
+                desc: 'De tijd die nodig is om een volledig probleem te verhelpen.', 
+                val: '14 min', 
+                better: 'laag', 
+                selected: false 
+            },
+            { 
+                id: 'sl', 
+                abbr: 'SL', 
+                name: 'Service Level (SL 80/20)', 
+                cat: 'Efficiëntie en Snelheid', 
+                desc: 'Het percentage van de vragen dat binnen een afgesproken tijd wordt beantwoord.', 
+                val: '82%', 
+                better: 'hoog', 
+                selected: true 
+            }
         ];
 
         let deliverables = [
@@ -464,10 +584,24 @@
                 role: 'Operations Manager',
                 profile: 'DISC Rood (Direct)',
                 nlp: 'Auditief Digitaal (Logica)',
-                points: 20,
                 koetjes: 'Gepassioneerd wielrenner. Houdt van to-the-point samenvattingen.',
                 precheck: '2026-08-05',
-                deadline: '2026-08-12'
+                deadline: '2026-08-12',
+                completed: false
+            },
+            {
+                id: 2,
+                title: 'FCR Wekelijkse Rapportage',
+                freq: 'Wekelijks',
+                how: 'Excel / Dashboard',
+                holder: 'Sanne Bakker',
+                role: 'Teamlead Service',
+                profile: 'DISC Blauw (Analytisch)',
+                nlp: 'Visueel (Zien)',
+                koetjes: 'Liefhebber van reizen en bakken.',
+                precheck: '2026-08-02',
+                deadline: '2026-08-07',
+                completed: true
             }
         ];
 
@@ -477,44 +611,25 @@
             renderActiveKpis();
             renderDeliverablesTable();
             renderKoetjesCards();
+            updateProgressBar();
         });
 
-        // SPAARSYSTEMEN & SLAGERIJ LOGICA
-        function addMilkBottle(amount) {
-            currentScore += (amount * 10);
-            updateScoreDisplay();
-            alert(`🥛 +${amount} Melkflesje verdiend! (+${amount * 10} punten)`);
-        }
-
-        function sendToButcher() {
-            currentScore -= 15;
+        // PUNTEN & SPAARSYSTEMEN
+        function addPoints(amount) {
+            currentScore += amount;
             if(currentScore < 0) currentScore = 0;
             updateScoreDisplay();
-            alert(`🥩 Oeps! Doel/deadline niet gehaald. Een koetje is naar de slagerij gestuurd (-15 punten).`);
         }
 
         function adjustKoetjes(amount) {
             koetjesCount += amount;
             if(koetjesCount < 0) koetjesCount = 0;
             document.getElementById('koetjes-count-display').innerText = `${koetjesCount} 🐮`;
-            addMilkBottle(1); // 1 koetje extra levert ook 1 melkflesje op!
+            addPoints(10);
         }
 
         function updateScoreDisplay() {
             document.getElementById('user-score').innerText = currentScore;
-            
-            // Bereken melkflesjes & Rangen
-            const bottles = Math.floor(currentScore / 10);
-            document.getElementById('milk-bottles').innerText = `(${bottles} 🥛 Melkflesjes)`;
-
-            // Rangen update
-            let rank = "🧹 Staljongen (Lvl 1)";
-            if(currentScore >= 200) rank = "👑 Master Rancher (Lvl 4)";
-            else if(currentScore >= 100) rank = "🟣 Ervaren Veehouder (Lvl 3)";
-            else if(currentScore >= 50) rank = "🔵 Junior Herder (Lvl 2)";
-            
-            document.getElementById('user-rank').innerText = rank;
-
             document.getElementById('reward-name').innerText = rewardTitle;
             const needed = rewardGoal - currentScore;
             if(needed <= 0) {
@@ -524,13 +639,41 @@
             }
         }
 
-        // ADMIN RESET FUNCTIONALITEIT
+        function updateProgressBar() {
+            if(deliverables.length === 0) {
+                document.getElementById('progress-bar-fill').style.width = '0%';
+                document.getElementById('progress-percent-text').innerText = '0% Afgerond';
+                return;
+            }
+
+            const completedCount = deliverables.filter(d => d.completed).length;
+            const percentage = Math.round((completedCount / deliverables.length) * 100);
+
+            document.getElementById('progress-bar-fill').style.width = `${percentage}%`;
+            document.getElementById('progress-percent-text').innerText = `${percentage}% Afgerond (${completedCount}/${deliverables.length})`;
+        }
+
+        function toggleDeliverableComplete(id) {
+            const del = deliverables.find(d => d.id === id);
+            if(del) {
+                del.completed = !del.completed;
+                if(del.completed) {
+                    addPoints(10);
+                }
+                renderDeliverablesTable();
+                updateProgressBar();
+            }
+        }
+
         function adminResetSystem() {
-            if(confirm("⚠️ Weet je zeker dat je als Administrator het hele systeem wilt resetten? Alle punten, melkflesjes en voortgang worden teruggezet naar 0.")) {
+            if(confirm("⚠️ Weet je zeker dat je alle punten en voortgang wilt resetten?")) {
                 currentScore = 0;
                 koetjesCount = 0;
+                deliverables.forEach(d => d.completed = false);
                 updateScoreDisplay();
-                alert("Systeem succesvol gereset.");
+                updateProgressBar();
+                renderDeliverablesTable();
+                alert("Systeem hersteld.");
                 closeModal('configModal');
             }
         }
@@ -543,29 +686,17 @@
             closeModal('rewardModal');
         }
 
-        function completeDeliverable(id, points) {
-            addMilkBottle(2); // 2 melkflesjes bij afronding
-        }
-
         function showDiscNlpAdvice(profile, nlp, name) {
             document.getElementById('disc-modal-title').innerText = `Spiekwijzer: ${name}`;
             
-            let advice = "";
-            if(profile.includes("Rood")) {
-                advice = `
-                    <div class="p-3 bg-red-50 border border-red-200 rounded-xl space-y-2">
-                        <strong class="text-red-900 block font-bold">🔴 DISC Rood Strategie:</strong>
-                        <p>Kom direct ter zake. Geef opties en laat hen beslissen. Focus op resultaat en tijdwinst.</p>
-                        <strong class="text-purple-900 block font-bold mt-2">🧠 NLP Predikaten (${nlp}):</strong>
-                        <p>Gebruik actiewoorden: <em>"Direct", "Doelgericht", "Efficiënt"</em>.</p>
-                    </div>`;
-            } else {
-                advice = `
-                    <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl space-y-2">
-                        <strong class="text-blue-900 block font-bold">🔵 DISC & NLP Advies:</strong>
-                        <p>Zorg voor accurate onderbouwing, stuur de data tijdig vooraf en stem rustig af.</p>
-                    </div>`;
-            }
+            let advice = `
+                <div class="p-3 bg-indigo-50 border border-indigo-200 rounded-xl space-y-2">
+                    <strong class="text-indigo-900 block font-bold">💡 Communicatiestijl & Profiel:</strong>
+                    <p>DISC: <strong>${profile}</strong></p>
+                    <p>NLP Voorkeurskanaal: <strong>${nlp}</strong></p>
+                    <strong class="text-slate-900 block font-bold mt-2">Advies bij overleg:</strong>
+                    <p class="text-slate-600">Stem af op het gewenste kanaal. Zorg bij visueel ingestelde mensen voor heldere sheets en bij analytische profielen voor concrete data.</p>
+                </div>`;
 
             document.getElementById('disc-modal-content').innerHTML = advice;
             openModal('discNlpModal');
@@ -578,10 +709,13 @@
 
             deliverables.forEach(d => {
                 tbody.innerHTML += `
-                    <tr class="hover:bg-slate-50/80">
+                    <tr class="hover:bg-slate-50/80 ${d.completed ? 'bg-emerald-50/50' : ''}">
+                        <td class="p-3 text-center">
+                            <input type="checkbox" ${d.completed ? 'checked' : ''} onchange="toggleDeliverableComplete(${d.id})" class="w-4 h-4 text-emerald-600 rounded cursor-pointer">
+                        </td>
                         <td class="p-3">
-                            <span class="font-bold text-slate-900 block">${d.title}</span>
-                            <span class="text-[10px] text-slate-500">Format: ${d.how} (${d.freq})</span>
+                            <span class="font-bold text-slate-900 block ${d.completed ? 'line-through text-slate-400' : ''}">${d.title}</span>
+                            <span class="text-[10px] text-slate-500">${d.how} (${d.freq})</span>
                         </td>
                         <td class="p-3">
                             <span class="font-bold text-slate-800 block">${d.holder}</span>
@@ -598,14 +732,6 @@
                         <td class="p-3 text-center">
                             <button onclick="showDiscNlpAdvice('${d.profile}', '${d.nlp}', '${d.holder}')" class="bg-purple-600 hover:bg-purple-700 text-white font-bold text-[10px] px-2.5 py-1 rounded-lg shadow">
                                 💡 Advice
-                            </button>
-                        </td>
-                        <td class="p-3 text-center flex items-center justify-center space-x-1">
-                            <button onclick="completeDeliverable(${d.id})" class="bg-emerald-500 hover:bg-emerald-600 text-white font-black text-[10px] px-2 py-1 rounded-lg" title="Behaald! (+2 Flesjes)">
-                                🥛 Behaald
-                            </button>
-                            <button onclick="sendToButcher()" class="bg-rose-600 hover:bg-rose-700 text-white font-black text-[10px] px-1.5 py-1 rounded-lg" title="Te laat / Gemist!">
-                                🥩
                             </button>
                         </td>
                     </tr>
@@ -626,7 +752,7 @@
                                 <h3 class="font-black text-slate-900 text-sm">${d.holder}</h3>
                                 <span class="text-[10px] text-indigo-700 font-bold block">${d.role}</span>
                             </div>
-                            <button onclick="adjustKoetjes(1)" class="text-xl hover:scale-125 transition-all" title="+1 Koetje toevoegen (+1 Flesje 🥛)">🐮</button>
+                            <button onclick="adjustKoetjes(1)" class="text-xl hover:scale-125 transition-all" title="+1 Koetje toevoegen">🐮</button>
                         </div>
                         <div class="bg-pink-50/60 p-3 rounded-xl border border-pink-100 text-xs text-slate-700">
                             <span class="font-bold text-pink-900 block mb-1">Koetjes & Kalfjes Details:</span>
@@ -637,23 +763,38 @@
             });
         }
 
+        // DASHBOARD RENDEREN
         function renderActiveKpis() {
             const container = document.getElementById('active-kpis-container');
             if(!container) return;
             container.innerHTML = '';
-            kpiLibrary.filter(k => k.selected).forEach(kpi => {
+
+            const selectedKpis = kpiLibrary.filter(k => k.selected);
+
+            if(selectedKpis.length === 0) {
+                container.innerHTML = `<div class="col-span-3 text-center py-8 text-slate-400 font-bold text-xs">Geen actieve KPI's geselecteerd. Klik op "KPI's Beheren" om ze aan te vinken.</div>`;
+                return;
+            }
+
+            selectedKpis.forEach(kpi => {
+                const trendIcon = kpi.better === 'hoog' 
+                    ? '<span class="text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded text-[10px] font-bold" title="Hoger is beter">📈 Hoger is beter</span>' 
+                    : '<span class="text-amber-600 bg-amber-50 px-2 py-0.5 rounded text-[10px] font-bold" title="Lager is beter">📉 Lager is beter</span>';
+
                 container.innerHTML += `
-                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
                         <div class="flex justify-between items-start">
                             <div>
                                 <span class="text-[10px] font-bold text-emerald-700 uppercase block">${kpi.cat}</span>
-                                <h3 class="font-black text-slate-900 text-sm mt-0.5">${kpi.name}</h3>
+                                <h3 class="font-black text-slate-900 text-sm mt-0.5">${kpi.abbr} - ${kpi.name}</h3>
                             </div>
                             <span class="text-xl font-black text-slate-900 bg-slate-100 px-3 py-1 rounded-xl">${kpi.val}</span>
                         </div>
+                        <p class="text-xs text-slate-500 leading-relaxed">${kpi.desc}</p>
                         <div class="border-t pt-3 flex justify-between items-center text-xs">
-                            <button onclick="addMilkBottle(1)" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-800 font-bold px-2.5 py-1 rounded-lg text-[11px]">
-                                🥛 +1 Flesje Claimen
+                            ${trendIcon}
+                            <button onclick="addPoints(10)" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-800 font-bold px-2.5 py-1 rounded-lg text-[11px] transition-all">
+                                +10 Ptn Claimen
                             </button>
                         </div>
                     </div>
@@ -661,20 +802,62 @@
             });
         }
 
+        // RENDER KPI SELECTIEBALK EN AAN/UIT SCHAKELAARS
         function renderKpiSelector() {
             const container = document.getElementById('kpi-selector-list');
             if(!container) return;
             container.innerHTML = '';
+
             kpiLibrary.forEach(kpi => {
                 container.innerHTML += `
                     <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200">
-                        <label class="flex items-center space-x-3 cursor-pointer">
-                            <input type="checkbox" id="chk-${kpi.id}" ${kpi.selected ? 'checked' : ''} class="w-4 h-4 text-emerald-600 rounded">
-                            <span class="font-bold text-slate-900">${kpi.name} (${kpi.val})</span>
-                        </label>
+                        <div class="flex items-start space-x-3">
+                            <input type="checkbox" id="chk-${kpi.id}" ${kpi.selected ? 'checked' : ''} class="w-4 h-4 text-emerald-600 rounded mt-1 cursor-pointer">
+                            <div>
+                                <div class="flex items-center space-x-2">
+                                    <span class="font-bold text-slate-900">${kpi.abbr} - ${kpi.name}</span>
+                                    <span class="text-[10px] bg-slate-200 px-1.5 py-0.5 rounded font-bold text-slate-700">${kpi.val}</span>
+                                    <span class="text-[10px] font-bold text-slate-500">(${kpi.better === 'hoog' ? 'Hoger is beter' : 'Lager is beter'})</span>
+                                </div>
+                                <p class="text-[11px] text-slate-500 mt-0.5">${kpi.desc}</p>
+                            </div>
+                        </div>
+                        <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 px-2 py-1 rounded-lg">${kpi.cat}</span>
                     </div>
                 `;
             });
+        }
+
+        // HANDLER OM SPLINTERNIEUWE KPI TOE TE VOEGEN
+        function addNewKpi(e) {
+            e.preventDefault();
+            const cat = document.getElementById('new-kpi-cat').value;
+            const abbr = document.getElementById('new-kpi-abbr').value;
+            const val = document.getElementById('new-kpi-val').value;
+            const desc = document.getElementById('new-kpi-desc').value;
+            const trend = document.getElementById('new-kpi-trend').value;
+
+            const newId = 'kpi_' + Date.now();
+
+            kpiLibrary.push({
+                id: newId,
+                abbr: abbr,
+                name: abbr,
+                cat: cat,
+                desc: desc,
+                val: val,
+                better: trend,
+                selected: true
+            });
+
+            // Formulier leegmaken & her-renderen
+            document.getElementById('new-kpi-abbr').value = '';
+            document.getElementById('new-kpi-val').value = '';
+            document.getElementById('new-kpi-desc').value = '';
+
+            renderKpiSelector();
+            renderActiveKpis();
+            alert(`✅ KPI "${abbr}" succesvol toegevoegd en geactiveerd!`);
         }
 
         function saveKpiSelection() {
@@ -697,21 +880,22 @@
                 role: document.getElementById('del-role').value,
                 profile: document.getElementById('del-profile').value,
                 nlp: document.getElementById('del-nlp').value,
-                points: 15,
                 koetjes: document.getElementById('del-koetjes').value,
                 precheck: document.getElementById('del-precheck').value,
-                deadline: document.getElementById('del-deadline').value
+                deadline: document.getElementById('del-deadline').value,
+                completed: false
             });
             closeModal('addDeliverableModal');
             renderDeliverablesTable();
             renderKoetjesCards();
+            updateProgressBar();
         }
 
         function saveCoachingNote() {
             const note = document.getElementById('coaching-notes').value;
             if(!note) return alert('Voer een reflectie in.');
-            addMilkBottle(1);
-            alert('Reflectie opgeslagen! +1 Melkflesje verdiend.');
+            addPoints(10);
+            alert('Reflectie opgeslagen! +10 Punten verdiend.');
             document.getElementById('coaching-notes').value = '';
         }
 
