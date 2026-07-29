@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SafeSpace Work & Dashboard</title>
-    <!-- Tailwind CSS voor styling & Lucide Icons -->
+    <!-- Tailwind CSS & Icons -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         body {
             background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
@@ -35,7 +34,7 @@
                 <div class="bg-emerald-100 p-2 rounded-xl text-2xl">🦄</div>
                 <div>
                     <h1 class="text-xl font-bold text-slate-900">SafeSpace Work & Dashboard</h1>
-                    <p class="text-xs text-slate-500 font-medium">Operationele Besturingsomgeving</p>
+                    <p class="text-xs text-slate-500 font-medium">Operationele Besturingsomgeving • FrieslandCampina</p>
                 </div>
             </div>
 
@@ -65,90 +64,177 @@
 
         <!-- MAIN NAVIGATION TABS -->
         <nav class="flex gap-2 overflow-x-auto pb-1">
-            <button class="px-4 py-2 bg-white/80 backdrop-blur-md rounded-xl text-xs font-bold text-slate-600 hover:bg-white">📊 Dashboard & KPI's</button>
-            <button class="px-4 py-2 bg-white/80 backdrop-blur-md rounded-xl text-xs font-bold text-slate-600 hover:bg-white">📋 Taken Tracker</button>
-            <button class="px-4 py-2 bg-white/80 backdrop-blur-md rounded-xl text-xs font-bold text-slate-600 hover:bg-white">🔒 Mijn Privé Spaarkas</button>
-            <button class="px-4 py-2 bg-white/80 backdrop-blur-md rounded-xl text-xs font-bold text-slate-600 hover:bg-white">📝 Management Summary</button>
-            <button class="px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-bold shadow-md">🎯 Project Deliverables & Planning</button>
+            <button onclick="switchTab('planning')" id="tab-btn-planning" class="px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-bold shadow-md transition-all">
+                🎯 Project Deliverables & Planning
+            </button>
+            <button onclick="switchTab('stavaza')" id="tab-btn-stavaza" class="px-4 py-2 bg-white/80 backdrop-blur-md rounded-xl text-xs font-bold text-slate-600 hover:bg-white transition-all">
+                👀 Watchers Coaching ('Stavaza')
+            </button>
+            <button onclick="switchTab('kpis')" id="tab-btn-kpis" class="px-4 py-2 bg-white/80 backdrop-blur-md rounded-xl text-xs font-bold text-slate-600 hover:bg-white transition-all">
+                📊 Dashboard & KPI's
+            </button>
+            <button onclick="switchTab('taken')" id="tab-btn-taken" class="px-4 py-2 bg-white/80 backdrop-blur-md rounded-xl text-xs font-bold text-slate-600 hover:bg-white transition-all">
+                📋 Taken Tracker
+            </button>
+            <button onclick="switchTab('spaarkas')" id="tab-btn-spaarkas" class="px-4 py-2 bg-white/80 backdrop-blur-md rounded-xl text-xs font-bold text-slate-600 hover:bg-white transition-all">
+                🔒 Mijn Privé Spaarkas
+            </button>
         </nav>
 
-        <!-- INVOERFORMULIER -->
-        <section class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl space-y-4">
-            <h2 class="text-sm font-black tracking-wider uppercase text-slate-800 flex items-center gap-2">
-                <span class="text-emerald-600 text-lg">+</span> Nieuwe Deliverable / Planning Invoeren
-            </h2>
-            <form id="add-deliverable-form" class="grid grid-cols-1 md:grid-cols-6 gap-3">
-                <div class="md:col-span-1">
-                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Deliverable Naam</label>
-                    <input type="text" id="input-title" placeholder="bv. Maandrapportage" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
-                </div>
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Frequentie</label>
-                    <select id="input-freq" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
-                        <option>Dagelijks</option>
-                        <option>Wekelijks</option>
-                        <option>Maandelijks</option>
-                        <option>Kwartaal</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Versturen Aan</label>
-                    <input type="text" id="input-to" placeholder="bv. Directie, Tilly" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
-                </div>
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Geplande Startdatum</label>
-                    <input type="date" id="input-start" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
-                </div>
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Duur (Uren)</label>
-                    <input type="number" id="input-duration" placeholder="bv. 4" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
-                </div>
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Deadline</label>
-                    <input type="date" id="input-deadline" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
-                </div>
-                <div class="md:col-span-6 mt-2">
-                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs transition-all shadow-md">
-                        Opslaan & Inplannen
-                    </button>
-                </div>
-            </form>
-        </section>
-
-        <!-- STATUS PLANNER TABEL -->
-        <section class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl space-y-4">
-            <div class="flex flex-wrap justify-between items-center gap-4">
+        <!-- TAB 1: PLANNING & DELIVERABLES -->
+        <div id="tab-content-planning" class="space-y-6">
+            <!-- INVOERFORMULIER -->
+            <section class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl space-y-4">
                 <h2 class="text-sm font-black tracking-wider uppercase text-slate-800 flex items-center gap-2">
-                    🏛️ Interactive Capacity & Status Planner
+                    <span class="text-emerald-600 text-lg">+</span> Nieuwe Deliverable / Planning Invoeren
                 </h2>
-                <div class="flex gap-1 bg-slate-100 p-1 rounded-lg text-xs font-semibold">
-                    <button class="px-3 py-1 bg-blue-600 text-white rounded-md shadow">Alles</button>
-                    <button class="px-3 py-1 text-slate-600 hover:bg-white rounded-md">Dagbasis</button>
-                    <button class="px-3 py-1 text-slate-600 hover:bg-white rounded-md">Weekbasis</button>
-                    <button class="px-3 py-1 text-slate-600 hover:bg-white rounded-md">Maandbasis</button>
-                </div>
-            </div>
+                <form id="add-deliverable-form" class="grid grid-cols-1 md:grid-cols-6 gap-3">
+                    <div class="md:col-span-1">
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Deliverable Naam</label>
+                        <input type="text" id="input-title" placeholder="bv. Maandrapportage" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Frequentie</label>
+                        <select id="input-freq" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+                            <option>Dagelijks</option>
+                            <option>Wekelijks</option>
+                            <option>Maandelijks</option>
+                            <option>Kwartaal</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Versturen Aan</label>
+                        <input type="text" id="input-to" placeholder="bv. Directie, Tilly" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Geplande Startdatum</label>
+                        <input type="date" id="input-start" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Duur (Uren)</label>
+                        <input type="number" id="input-duration" placeholder="bv. 4" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Deadline</label>
+                        <input type="date" id="input-deadline" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+                    </div>
+                    <div class="md:col-span-6 mt-2">
+                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs transition-all shadow-md">
+                            Opslaan & Inplannen
+                        </button>
+                    </div>
+                </form>
+            </section>
 
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-xs border-collapse">
-                    <thead>
-                        <tr class="border-b border-slate-200 text-slate-400 font-bold uppercase text-[10px]">
-                            <th class="py-3 px-2">Status (Stoplicht)</th>
-                            <th class="py-3 px-2">Deliverable</th>
-                            <th class="py-3 px-2">Frequentie</th>
-                            <th class="py-3 px-2">Versturen Aan</th>
-                            <th class="py-3 px-2">Startdatum</th>
-                            <th class="py-3 px-2">Geplande Duur</th>
-                            <th class="py-3 px-2">Deadline</th>
-                            <th class="py-3 px-2 text-right">Actie</th>
-                        </tr>
-                    </thead>
-                    <tbody id="planner-table-body" class="divide-y divide-slate-100 font-medium">
-                        <!-- Dynamische inhoud -->
-                    </tbody>
-                </table>
-            </div>
-        </section>
+            <!-- STATUS PLANNER TABEL -->
+            <section class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl space-y-4">
+                <div class="flex flex-wrap justify-between items-center gap-4">
+                    <h2 class="text-sm font-black tracking-wider uppercase text-slate-800 flex items-center gap-2">
+                        🏛️ Interactive Capacity & Status Planner
+                    </h2>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-200 text-slate-400 font-bold uppercase text-[10px]">
+                                <th class="py-3 px-2">Status (Stoplicht)</th>
+                                <th class="py-3 px-2">Deliverable</th>
+                                <th class="py-3 px-2">Frequentie</th>
+                                <th class="py-3 px-2">Versturen Aan</th>
+                                <th class="py-3 px-2">Startdatum</th>
+                                <th class="py-3 px-2">Geplande Duur</th>
+                                <th class="py-3 px-2">Deadline</th>
+                                <th class="py-3 px-2 text-right">Actie</th>
+                            </tr>
+                        </thead>
+                        <tbody id="planner-table-body" class="divide-y divide-slate-100 font-medium">
+                            <!-- Dynamische inhoud -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- TAB 2: PIJLER 5 - STAVAZA & WATCHERS COACHING (NIEUW) -->
+        <div id="tab-content-stavaza" class="hidden space-y-6">
+            <section class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl space-y-6">
+                <div class="flex justify-between items-center border-b border-slate-100 pb-4">
+                    <div>
+                        <span class="bg-purple-100 text-purple-800 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">
+                            Watchers of Quality & Deployment
+                        </span>
+                        <h2 class="text-lg font-bold text-slate-900 mt-1">Sectie 'Stavaza' (Stand van Zaken)</h2>
+                        <p class="text-xs text-slate-500">Coachingdashboard voor Ouders (Vader & Moeder Tilly) ter ondersteuning van Alain op structuur en focus bij FrieslandCampina.</p>
+                    </div>
+                    <div class="text-right bg-slate-50 p-3 rounded-xl border border-slate-200">
+                        <div class="text-[10px] font-bold text-slate-400 uppercase">Coaching Target</div>
+                        <div class="text-lg font-black text-emerald-600">99.5% Kwaliteit</div>
+                    </div>
+                </div>
+
+                <!-- CARDS MET DAGINZICHTEN -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-1">
+                        <div class="text-[10px] font-bold text-slate-500 uppercase">Dagelijkse Deployment</div>
+                        <div class="text-2xl font-black text-slate-800">100% Actief</div>
+                        <div class="text-[11px] text-emerald-600 font-semibold">✓ Inlog & structuur geborgd</div>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-1">
+                        <div class="text-[10px] font-bold text-slate-500 uppercase">Focus & Rust Index</div>
+                        <div class="text-2xl font-black text-blue-600">9.2 / 10</div>
+                        <div class="text-[11px] text-blue-600 font-semibold">Gelijkmatige werkverdeling</div>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-1">
+                        <div class="text-[10px] font-bold text-slate-500 uppercase">Knelpunten ('Hiccups')</div>
+                        <div class="text-2xl font-black text-amber-600">1 Openstaand</div>
+                        <div class="text-[11px] text-amber-600 font-semibold">Proactief gecommuniceerd</div>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-1">
+                        <div class="text-[10px] font-bold text-slate-500 uppercase">Dossieropbouw Manager</div>
+                        <div class="text-2xl font-black text-purple-600">24 Bewijsstukken</div>
+                        <div class="text-[11px] text-purple-600 font-semibold">100% Onderbouwd gesprek</div>
+                    </div>
+                </div>
+
+                <!-- HISTORISCHE DOSSIEROPBOUW -->
+                <div class="space-y-3">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700">📜 Historisch Dossier & Voortgang op Dagniveau</h3>
+                    <div class="space-y-2">
+                        <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl flex justify-between items-center text-xs">
+                            <div>
+                                <span class="font-bold text-emerald-900">Vandaag • FrieslandCampina</span>
+                                <p class="text-slate-600 text-[11px]">4 van de 4 dagelijkse checks succesvol afgerond met de dynamische kwaliteitscontrole.</p>
+                            </div>
+                            <span class="bg-emerald-600 text-white font-bold text-[10px] px-2 py-1 rounded">100% FtR Score</span>
+                        </div>
+                        <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl flex justify-between items-center text-xs">
+                            <div>
+                                <span class="font-bold text-amber-900">Gisteren • Knelpunt opgelost</span>
+                                <p class="text-slate-600 text-[11px]">Vertraging bij leverancier tijdig geëscaleerd naar ontvangers vóór deadline.</p>
+                            </div>
+                            <span class="bg-amber-600 text-white font-bold text-[10px] px-2 py-1 rounded">Proactief Gehandeld</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- TAB 3: KPIS & OVERIGE (TIJDELIJKE PLACEHOLDER) -->
+        <div id="tab-content-kpis" class="hidden bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl text-center py-12">
+            <h3 class="text-lg font-bold text-slate-800">📊 Business KPI's Dashboard</h3>
+            <p class="text-xs text-slate-500 mt-1">SLA scores (99.5%), Cost of Poor Quality (CoPQ) & First Time Right overzichten.</p>
+        </div>
+
+        <div id="tab-content-taken" class="hidden bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl text-center py-12">
+            <h3 class="text-lg font-bold text-slate-800">📋 Snelheids Taken Tracker</h3>
+            <p class="text-xs text-slate-500 mt-1">Achter elkaar supersnel acties afwerken.</p>
+        </div>
+
+        <div id="tab-content-spaarkas" class="hidden bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl text-center py-12">
+            <h3 class="text-lg font-bold text-slate-800">🔒 Mijn Privé Spaarkas</h3>
+            <p class="text-xs text-slate-500 mt-1">Persoonlijke beloningen en gespaarde koetjes.</p>
+        </div>
 
     </div>
 
@@ -198,7 +284,6 @@
             { id: 4, name: "Kwartaal Rapportage Veestapel", freq: "Kwartaal", to: "Directie", start: "2026-08-01", duration: "8 uur", deadline: "2026-08-15", status: "Ingepland" }
         ];
 
-        // UITGEBREIDE MASTER POOL VAN 25 KWALITEITSVRAGEN
         const masterQuestionPool = [
             "Zijn alle cijfers en data dubbel gecontroleerd op typefouten?",
             "Is de bijlage/export correct geformatteerd en geüpload?",
@@ -228,6 +313,28 @@
         ];
 
         let selectedDeliverableId = null;
+
+        // SWITCH TABBLADEN
+        function switchTab(tabName) {
+            const tabs = ['planning', 'stavaza', 'kpis', 'taken', 'spaarkas'];
+            tabs.forEach(t => {
+                const content = document.getElementById(`tab-content-${t}`);
+                const btn = document.getElementById(`tab-btn-${t}`);
+                if (content) content.classList.add('hidden');
+                if (btn) {
+                    btn.classList.remove('bg-emerald-600', 'text-white', 'shadow-md');
+                    btn.classList.add('bg-white/80', 'text-slate-600');
+                }
+            });
+
+            const activeContent = document.getElementById(`tab-content-${tabName}`);
+            const activeBtn = document.getElementById(`tab-btn-${tabName}`);
+            if (activeContent) activeContent.classList.remove('hidden');
+            if (activeBtn) {
+                activeBtn.classList.add('bg-emerald-600', 'text-white', 'shadow-md');
+                activeBtn.classList.remove('bg-white/80', 'text-slate-600');
+            }
+        }
 
         function renderTable() {
             const tbody = document.getElementById('planner-table-body');
@@ -274,10 +381,7 @@
             const item = deliverables.find(d => d.id === id);
             document.getElementById('modal-deliverable-name').innerText = item.name;
 
-            // 1. Hussel de gehele lijst van 25 vragen willekeurig
             const shuffledPool = [...masterQuestionPool].sort(() => Math.random() - 0.5);
-            
-            // 2. Pik er telkens willekeurig 5 uit voor de pop-up
             const selectedQuestions = shuffledPool.slice(0, 5);
 
             const container = document.getElementById('checklist-items-container');
