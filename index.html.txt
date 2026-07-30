@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeSpace Work - Klantcontact & Operations Hub</title>
+    <link rel="manifest" href="manifest.json">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="font-sans min-h-screen text-slate-800 flex flex-col pb-10">
+
+    <!-- LOGIN OVERLAY -->
+    <div id="login-overlay" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[100] flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl space-y-6 border border-white/20">
+            <div class="text-center space-y-2">
+                <div class="w-16 h-16 rounded-2xl bg-emerald-100 border border-emerald-300 flex items-center justify-center text-3xl shadow-md mx-auto">🎯</div>
+                <h1 class="font-black text-2xl text-slate-900">SafeSpace Work</h1>
+                <p class="text-xs text-slate-500 font-medium">Klantcontact & Operations Hub</p>
+            </div>
+            <form onsubmit="handleLogin(event)" class="space-y-4 text-xs">
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Uw Volledige Naam</label>
+                    <input type="text" id="login-name" required placeholder="bijv. Sophie Jansen" class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">E-mailadres</label>
+                    <input type="email" id="login-email" required placeholder="naam@klantcontact.nl" class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                </div>
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3.5 rounded-xl transition-all shadow-lg text-sm">
+                    Inloggen op Workspace
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- HEADER BAR -->
+    <header class="max-w-7xl w-full mx-auto px-4 mt-4">
+        <div class="bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-lg border border-white/40 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('dashboard')">
+                <div class="w-10 h-10 rounded-2xl bg-emerald-100 border border-emerald-300 flex items-center justify-center text-xl shadow-sm">🎯</div>
+                <div>
+                    <span class="font-black text-slate-900 text-lg tracking-tight block leading-none">SafeSpace Work</span>
+                    <span class="text-xs text-sky-600 font-bold">Klantcontact & Operations</span>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-2 flex-wrap gap-y-2">
+                <button onclick="switchTab('dashboard')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm flex items-center space-x-1.5">
+                    <i class="fa-solid fa-chart-pie"></i><span>Dashboard</span>
+                </button>
+                <button onclick="switchTab('deliverables')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm flex items-center space-x-1.5">
+                    <i class="fa-solid fa-box-archive"></i><span>Deliverables & DISC/NLP</span>
+                </button>
+                <button onclick="switchTab('koetjes')" class="bg-pink-600 hover:bg-pink-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm flex items-center space-x-1.5 border border-pink-400">
+                    <i class="fa-solid fa-comments"></i><span>Koetjes & Kalfjes</span>
+                </button>
+                <button onclick="switchTab('coaching')" class="bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm flex items-center space-x-1.5 border border-amber-400">
+                    <i class="fa-solid fa-bullseye"></i><span>Coach & Focus</span>
+                </button>
+                <button onclick="openModal('createProfileModal')" class="bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-md flex items-center space-x-1.5 border border-purple-400">
+                    <i class="fa-solid fa-user-gear"></i><span>Profiel aanmaken</span>
+                </button>
+                <button onclick="openModal('configModal')" class="border-2 border-slate-700 hover:bg-slate-100 text-slate-800 font-bold text-xs px-3 py-2 rounded-xl transition-all flex items-center space-x-1">
+                    <i class="fa-solid fa-sliders"></i><span>Config & Admin</span>
+                </button>
+                <div class="flex items-center space-x-2 pl-2 border-l border-slate-300">
+                    <div class="w-8 h-8 rounded-full bg-sky-100 border border-sky-400 text-sky-800 font-bold text-xs flex items-center justify-center" id="user-avatar">--</div>
+                    <span class="text-xs font-bold text-slate-700" id="user-display-name">Niet ingelogd</span>
+                </div>
+                <button onclick="logout()" class="bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xs px-3 py-2 rounded-xl transition-all flex items-center space-x-1 border border-rose-300">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-7xl w-full mx-auto px-4 mt-4 flex-1 space-y-5">
+        <div class="bg-[#2D1B69] text-white rounded-2xl p-4 shadow-xl border border-purple-500/20 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-amber-400 text-slate-900 rounded-xl flex items-center justify-center text-2xl font-black shadow-md">🏆</div>
+                    <div>
+                        <span class="text-[10px] font-bold text-purple-200 uppercase tracking-wider block">BELONINGS- & PUNTEN SYSTEEM</span>
+                        <div class="flex items-baseline space-x-2">
+                            <span class="text-2xl font-black text-white" id="user-score">50</span>
+                            <span class="text-xs text-purple-200 font-medium">Punten verzameld</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button onclick="addPoints(10)" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs px-3 py-2 rounded-xl shadow">+ 10 Ptn</button>
+                    <button onclick="addPoints(-5)" class="bg-rose-500 hover:bg-rose-600 text-white font-bold text-xs px-3 py-2 rounded-xl shadow">− 5 Ptn</button>
+                    <button onclick="adjustKoetjes(1)" class="bg-pink-500 hover:bg-pink-600 text-white font-bold text-xs px-3 py-2 rounded-xl shadow">🐮 +1 Koetje</button>
+                </div>
+                <div class="bg-white/10 border border-white/20 px-4 py-2 rounded-xl flex items-center space-x-3 text-xs">
+                    <div>
+                        <span class="text-[10px] font-bold text-purple-200 uppercase block">ACTUEEL DOEL & BELONING</span>
+                        <span class="font-bold text-white block" id="reward-name">Vrijdag 1u eerder vrij</span>
+                        <span class="text-[10px] text-amber-300 font-semibold" id="reward-progress">Nog 50 punten nodig</span>
+                    </div>
+                    <button onclick="openModal('rewardModal')" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-black text-xs p-2 rounded-lg shadow">
+                        <i class="fa-solid fa-gift"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="border-t border-purple-400/20 pt-3 space-y-1.5">
+                <div class="flex justify-between items-center text-xs">
+                    <span class="font-bold text-purple-200 flex items-center gap-1.5"><i class="fa-solid fa-bars-progress text-amber-400"></i> Voortgang Deliverables & Taken</span>
+                    <span class="font-black text-amber-300" id="progress-percent-text">0% Afgerond</span>
+                </div>
+                <div class="w-full bg-purple-950/60 rounded-full h-3 p-0.5 border border-purple-400/30">
+                    <div id="progress-bar-fill" class="bg-gradient-to-r from-emerald-400 to-amber-400 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-dashboard" class="space-y-5">
+            <div class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/50 space-y-6">
+                <div class="flex justify-between items-center flex-wrap gap-2">
+                    <div>
+                        <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full inline-flex items-center gap-1">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> KLANTCONTACT PERFORMANCE DASHBOARD
+                        </span>
+                        <h1 class="text-xl font-black text-slate-900 mt-2">Actieve KPI Monitor & Performance</h1>
+                    </div>
+                    <button onclick="openModal('configModal')" class="bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md transition-all flex items-center space-x-2">
+                        <i class="fa-solid fa-plus-circle"></i><span>KPI's Beheren / Toevoegen</span>
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="active-kpis-container"></div>
+            </div>
+        </div>
+
+        <div id="tab-deliverables" class="hidden space-y-5">
+            <div class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/50 space-y-6">
+                <div class="flex justify-between items-center flex-wrap gap-4 border-b pb-4">
+                    <div>
+                        <span class="bg-purple-100 text-purple-800 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">DISC Gedrag & NLP Interactie</span>
+                        <h1 class="text-xl font-black text-slate-900 mt-1">Deliverables & Communicatiestijlen</h1>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="openModal('createProfileModal')" class="bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md flex items-center space-x-2">
+                            <i class="fa-solid fa-brain"></i><span>Nieuw Profiel Bepalen</span>
+                        </button>
+                        <button onclick="openModal('addDeliverableModal')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md flex items-center space-x-2">
+                            <i class="fa-solid fa-plus"></i><span>Nieuwe Deliverable</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 border-b border-slate-200 uppercase text-[10px] tracking-wider">
+                                <th class="p-3 font-bold text-center">Status</th>
+                                <th class="p-3 font-bold">Deliverable</th>
+                                <th class="p-3 font-bold">Stakeholder & Rol</th>
+                                <th class="p-3 font-bold">DISC Profiel</th>
+                                <th class="p-3 font-bold">NLP Voorkeurskanaal</th>
+                                <th class="p-3 font-bold">Pre-Check</th>
+                                <th class="p-3 font-bold">Deadline</th>
+                                <th class="p-3 font-bold text-center">Spiekwijzer</th>
+                            </tr>
+                        </thead>
+                        <tbody id="full-deliverables-table-body" class="divide-y divide-slate-200"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-koetjes" class="hidden space-y-5">
+            <div class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/50 space-y-6">
+                <div class="flex justify-between items-center border-b pb-4 flex-wrap gap-3">
+                    <div>
+                        <span class="bg-pink-100 text-pink-800 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">Relatiebeheer & Soft Skills</span>
+                        <h1 class="text-xl font-black text-slate-900 mt-1">🐮 Koetjes & Kalfjes Logboek</h1>
+                    </div>
+                    <div class="bg-pink-50 border border-pink-200 px-4 py-2 rounded-xl text-center">
+                        <span class="text-[10px] font-bold text-pink-800 uppercase block">Totaal Koetjes Score</span>
+                        <span class="text-xl font-black text-pink-700" id="koetjes-count-display">3 🐮</span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="koetjes-cards-container"></div>
+            </div>
+        </div>
+
+        <div id="tab-coaching" class="hidden space-y-5">
+            <div class="bg-gradient-to-r from-amber-600 to-amber-700 text-white rounded-2xl p-6 shadow-xl space-y-2">
+                <span class="bg-white/20 text-xs font-bold px-3 py-1 rounded-full uppercase">Coach & Focus Hub</span>
+                <h1 class="text-2xl font-black">Maximale Uitvoering & Stakeholder Afstemming</h1>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+                <div class="lg:col-span-2 space-y-5">
+                    <div class="bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200 p-5 shadow-lg space-y-3">
+                        <h3 class="font-black text-slate-900 text-sm flex items-center"><i class="fa-solid fa-pen-to-square text-amber-600 mr-2"></i> Dagelijks Focus Logboek (+10 Ptn)</h3>
+                        <textarea id="coaching-notes" class="w-full text-xs p-3 border rounded-xl focus:ring-1 focus:ring-amber-500" rows="3" placeholder="Wat ging er goed in de afstemming vandaag?"></textarea>
+                        <button onclick="saveCoachingNote()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs px-4 py-2 rounded-xl">Logboek Opslaan</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- MODALS -->
+    <div id="createProfileModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto space-y-4">
+            <button onclick="closeModal('createProfileModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <div class="border-b pb-3">
+                <span class="bg-purple-100 text-purple-800 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">Analyse & Profilering</span>
+                <h3 class="text-lg font-black text-slate-900 mt-1">🧠 DISC of NLP Profiel Aanmaken</h3>
+            </div>
+            <form onsubmit="handleProfileCreation(event)" class="space-y-4 text-xs">
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+                    <label class="block font-black text-slate-900 text-xs uppercase">1. Voor wie maakt u dit profiel aan?</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="flex items-center space-x-2 bg-white p-3 rounded-lg border border-slate-300 cursor-pointer">
+                            <input type="radio" name="profileFor" value="self" checked onchange="toggleTargetFields()" class="text-purple-600">
+                            <div><span class="font-bold block">👤 Voor mijzelf</span></div>
+                        </label>
+                        <label class="flex items-center space-x-2 bg-white p-3 rounded-lg border border-slate-300 cursor-pointer">
+                            <input type="radio" name="profileFor" value="stakeholder" onchange="toggleTargetFields()" class="text-purple-600">
+                            <div><span class="font-bold block">🤝 Voor een Stakeholder</span></div>
+                        </label>
+                    </div>
+                    <div id="stakeholder-extra-fields" class="hidden space-y-3 pt-2 border-t border-slate-200">
+                        <div class="grid grid-cols-2 gap-3">
+                            <input type="text" id="prof-target-name" placeholder="Naam Stakeholder" class="w-full border rounded-lg p-2.5">
+                            <input type="text" id="prof-target-role" placeholder="Functie / Rol" class="w-full border rounded-lg p-2.5">
+                        </div>
+                        <input type="text" id="prof-target-koetjes" placeholder="Koetjes & Kalfjes Notitie" class="w-full border rounded-lg p-2.5">
+                    </div>
+                </div>
+                <div class="bg-purple-50 p-4 rounded-xl border border-purple-200 space-y-3">
+                    <label class="block font-black text-purple-900 text-xs uppercase">2. Kies Systeem & Aantal Vragen</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <select id="selected-system" onchange="generateDynamicQuestions()" class="w-full border rounded-lg p-2.5 bg-white font-bold">
+                            <option value="DISC">🔴🟡🟢🔵 DISC Gedragsprofiel</option>
+                            <option value="NLP">👁️👂🤲🧠 NLP Voorkeurskanaal</option>
+                        </select>
+                        <input type="number" id="question-count" min="1" max="10" value="5" onchange="generateDynamicQuestions()" class="w-full border rounded-lg p-2.5 bg-white font-bold">
+                    </div>
+                </div>
+                <div id="dynamic-questions-container" class="space-y-4"></div>
+                <button type="submit" class="w-full bg-purple-700 hover:bg-purple-800 text-white font-black py-3.5 rounded-xl shadow-lg">Profiel Berekenen & Opslaan</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCRIPT COUPLING -->
+    <script src="js/questions-db.js"></script>
+    <script src="js/kpis.js"></script>
+    <script src="js/deliverables.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js').then(() => console.log('App Geregistreerd!'));
+      }
+    </script>
+</body>
+</html>

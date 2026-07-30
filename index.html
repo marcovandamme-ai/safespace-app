@@ -3,21 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SafeSpace Work - Focus, KPI, DISC/NLP & Beloningen</title>
-    <!-- Tailwind CSS CDN -->
+    <title>SafeSpace Work - Klantcontact- en operationeel centrum</title>
+    
+    <link rel="stylesheet" href="css/style.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body {
-            background: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), 
-                        url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2000&q=80') center/cover no-repeat fixed;
-        }
-    </style>
 </head>
 <body class="font-sans min-h-screen text-slate-800 flex flex-col pb-10">
 
-    <!-- LOGIN OVERLAY -->
+    <!-- INLOGOVERLAY -->
     <div id="login-overlay" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[100] flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl space-y-6 border border-white/20">
             <div class="text-center space-y-2">
@@ -25,7 +19,7 @@
                     🎯
                 </div>
                 <h1 class="font-black text-2xl text-slate-900">SafeSpace Work</h1>
-                <p class="text-xs text-slate-500 font-medium">Klantcontact, DISC/NLP & Performance Hub</p>
+                <p class="text-xs text-slate-500 font-medium">Klantcontact & Operations Hub</p>
             </div>
 
             <form onsubmit="handleLogin(event)" class="space-y-4 text-xs">
@@ -44,714 +38,219 @@
         </div>
     </div>
 
-    <!-- HEADER BAR -->
+    <!-- KOPBALK EN HOOFDMENU -->
     <header class="max-w-7xl w-full mx-auto px-4 mt-4">
         <div class="bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-lg border border-white/40 flex flex-wrap items-center justify-between gap-3">
             
             <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('dashboard')">
-                <div class="w-10 h-10 rounded-xl bg-emerald-100 border border-emerald-300 flex items-center justify-center text-xl shadow-sm">
+                <div class="w-10 h-10 rounded-2xl bg-emerald-100 border border-emerald-300 flex items-center justify-center text-xl shadow-sm">
                     🎯
                 </div>
                 <div>
                     <span class="font-black text-slate-900 text-lg tracking-tight block leading-none">SafeSpace Work</span>
-                    <span class="text-xs text-sky-700 font-bold">Klantcontact & Operations</span>
+                    <span class="text-xs text-sky-600 font-bold">Klantcontact & Operations</span>
                 </div>
             </div>
 
-            <!-- NAVIGATIEKNOPPEN -->
-            <div class="flex items-center space-x-2 flex-wrap gap-y-2">
-                <button onclick="switchTab('dashboard')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm flex items-center space-x-1.5">
-                    <i class="fa-solid fa-chart-pie"></i>
-                    <span>Dashboard</span>
+            <!-- HOOFDMENU KNOPPEN -->
+            <nav class="flex space-x-2">
+                <button onclick="switchTab('dashboard')" class="px-4 py-2 rounded-xl bg-slate-100 font-bold text-xs hover:bg-slate-200">
+                    📊 Dashboard
                 </button>
-
-                <button onclick="switchTab('deliverables')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm flex items-center space-x-1.5">
-                    <i class="fa-solid fa-box-archive"></i>
-                    <span>Deliverables & DISC/NLP</span>
+                <button onclick="switchTab('configuratie')" class="px-4 py-2 rounded-xl bg-indigo-600 text-white font-bold text-xs hover:bg-indigo-700 shadow-md">
+                    ⚙️ Configuratiescherm
                 </button>
+            </nav>
 
-                <button onclick="switchTab('koetjes')" class="bg-pink-600 hover:bg-pink-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm flex items-center space-x-1.5 border border-pink-400">
-                    <i class="fa-solid fa-comments"></i>
-                    <span>Koetjes & Kalfjes</span>
-                </button>
-
-                <button onclick="switchTab('coaching')" class="bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm flex items-center space-x-1.5 border border-amber-400">
-                    <i class="fa-solid fa-bullseye"></i>
-                    <span>Coach & Focus</span>
-                </button>
-
-                <button onclick="openModal('configModal')" class="border-2 border-slate-700 hover:bg-slate-100 text-slate-800 font-bold text-xs px-3 py-2 rounded-xl transition-all flex items-center space-x-1">
-                    <i class="fa-solid fa-sliders"></i>
-                    <span>Config & KPI's</span>
-                </button>
-
+            <!-- GEBRUIKER INFO -->
+            <div class="flex items-center space-x-2">
                 <div class="flex items-center space-x-2 pl-2 border-l border-slate-300">
                     <div class="w-8 h-8 rounded-full bg-sky-100 border border-sky-400 text-sky-800 font-bold text-xs flex items-center justify-center" id="user-avatar">--</div>
                     <span class="text-xs font-bold text-slate-700" id="user-display-name">Niet ingelogd</span>
                 </div>
-
-                <button onclick="logout()" class="bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xs px-3 py-2 rounded-xl transition-all flex items-center space-x-1 border border-rose-300">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                </button>
             </div>
-
         </div>
     </header>
 
-    <!-- MAIN CONTAINER -->
-    <main class="max-w-7xl w-full mx-auto px-4 mt-4 flex-1 space-y-5">
+    <!-- INHOUD PER SCHERM -->
+    <main class="max-w-7xl w-full mx-auto px-4 mt-6">
+        
+        <!-- SCHERM 1: DASHBOARD -->
+        <div id="tab-dashboard" class="tab-content space-y-6">
+            <div class="bg-white/95 backdrop-blur-md rounded-2xl p-8 shadow-xl text-center space-y-3">
+                <h2 class="text-2xl font-black text-slate-900">Welkom in de Workspace! 🎉</h2>
+                <p class="text-sm text-slate-600">Selecteer <b>⚙️ Configuratiescherm</b> in het hoofdmenu om deliverables of stakeholders te beheren.</p>
+            </div>
+        </div>
 
-        <!-- SCOREBORD & BELONINGEN BAR -->
-        <div class="bg-gradient-to-r from-purple-900 via-indigo-900 to-slate-900 text-white rounded-2xl p-5 shadow-xl border border-purple-500/30 flex flex-wrap items-center justify-between gap-4">
+        <!-- SCHERM 2: CONFIGURATIESCHERM -->
+        <div id="tab-configuratie" class="tab-content hidden space-y-6">
             
-            <div class="flex items-center space-x-4">
-                <div class="w-14 h-14 bg-amber-400 text-slate-900 rounded-2xl flex items-center justify-center text-3xl font-black shadow-lg">
-                    🏆
-                </div>
+            <!-- CONFIGURATIE HEADER & SUB-NAVIGATIE -->
+            <div class="bg-white rounded-3xl p-6 shadow-md border border-slate-200 space-y-4">
                 <div>
-                    <span class="text-[10px] font-bold text-amber-300 uppercase tracking-wider block">Belonings- & Punten Systeem</span>
-                    <div class="flex items-baseline space-x-2">
-                        <span class="text-3xl font-black text-white" id="user-score">50</span>
-                        <span class="text-xs text-purple-200">Punten verzameld</span>
-                    </div>
+                    <h2 class="text-2xl font-black text-slate-900">⚙️ Configuratiescherm</h2>
+                    <p class="text-xs text-slate-500">Beheer losse deliverables, stakeholder-profielen en voorkeuren.</p>
+                </div>
+                
+                <div class="flex space-x-3 border-b border-slate-200 pb-3">
+                    <button onclick="switchConfigSubTab('deliverables')" id="subtab-btn-deliverables" class="font-bold text-xs px-4 py-2 rounded-xl bg-indigo-100 text-indigo-700">
+                        📦 Deliverables Configureren
+                    </button>
+                    <button onclick="switchConfigSubTab('stakeholders')" id="subtab-btn-stakeholders" class="font-bold text-xs px-4 py-2 rounded-xl text-slate-500 hover:bg-slate-100">
+                        👤 Stakeholders & Profielen (DISC/NLP)
+                    </button>
                 </div>
             </div>
 
-            <!-- OP- EN AFTELLEN VAN PUNTEN EN KOETJES -->
-            <div class="flex items-center space-x-2">
-                <button onclick="adjustPoints(10)" class="bg-emerald-500 hover:bg-emerald-600 text-white font-black text-xs px-3 py-2 rounded-xl shadow transition-all flex items-center space-x-1">
-                    <i class="fa-solid fa-plus"></i> <span>10 Ptn</span>
-                </button>
-                <button onclick="adjustPoints(-5)" class="bg-rose-500 hover:bg-rose-600 text-white font-black text-xs px-3 py-2 rounded-xl shadow transition-all flex items-center space-x-1">
-                    <i class="fa-solid fa-minus"></i> <span>5 Ptn</span>
-                </button>
-                <button onclick="adjustKoetjes(1)" class="bg-pink-500 hover:bg-pink-600 text-white font-black text-xs px-3 py-2 rounded-xl shadow transition-all flex items-center space-x-1 border border-pink-300">
-                    <span>🐮 +1 Koetje</span>
-                </button>
-            </div>
-
-            <!-- BELONING status -->
-            <div class="bg-white/10 backdrop-blur-md border border-white/20 p-3 rounded-xl flex items-center space-x-3 text-xs">
-                <div>
-                    <span class="text-[10px] font-bold text-purple-200 uppercase block">Actueel Doel & Beloning</span>
-                    <span class="font-bold text-white block" id="reward-name">Vrijdag 1u eerder vrij</span>
-                    <span class="text-[10px] text-amber-300 font-semibold" id="reward-progress">Nog 50 punten nodig</span>
-                </div>
-                <button onclick="openModal('rewardModal')" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-black text-xs px-2.5 py-1.5 rounded-lg shadow">
-                    <i class="fa-solid fa-gift"></i>
-                </button>
-            </div>
-
-        </div>
-
-        <!-- TAB 1: DASHBOARD KPIS -->
-        <div id="tab-dashboard" class="space-y-5">
-            <div class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/50 space-y-6">
-                <div class="flex justify-between items-center flex-wrap gap-2">
+            <!-- SUB-SCHERM A: DELIVERABLES BEHEER -->
+            <div id="config-subtab-deliverables" class="config-subtab space-y-4">
+                <div class="flex justify-between items-center bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
                     <div>
-                        <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full inline-flex items-center gap-1">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Klantcontact Performance Dashboard
-                        </span>
-                        <h1 class="text-xl font-black text-slate-900 mt-2">Actieve KPI Monitor & Performance</h1>
+                        <h3 class="font-bold text-slate-800 text-base">Deliverable Overzicht</h3>
+                        <p class="text-xs text-slate-500">Koppel taken en rapportages aan stakeholders</p>
                     </div>
-                    <button onclick="openModal('configModal')" class="bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md transition-all flex items-center space-x-2">
-                        <i class="fa-solid fa-gear"></i>
-                        <span>KPI's Beheren</span>
+                    <button onclick="openModal('modal-deliverable')" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-md transition-all">
+                        + Nieuwe Deliverables Toevoegen
                     </button>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="active-kpis-container"></div>
+                <div id="deliverables-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Deliverables worden via JS ingeladen -->
+                </div>
             </div>
-        </div>
 
-        <!-- TAB 2: DELIVERABLES & DISC / NLP functionaliteit -->
-        <div id="tab-deliverables" class="hidden space-y-5">
-            <div class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/50 space-y-6">
-                <div class="flex justify-between items-center flex-wrap gap-4 border-b pb-4">
+            <!-- SUB-SCHERM B: STAKEHOLDERS BEHEER -->
+            <div id="config-subtab-stakeholders" class="config-subtab hidden space-y-4">
+                <div class="flex justify-between items-center bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
                     <div>
-                        <span class="bg-purple-100 text-purple-800 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">DISC Gedrag & NLP Interactie</span>
-                        <h1 class="text-xl font-black text-slate-900 mt-1">Deliverables & Communicatiestijlen</h1>
-                        <p class="text-xs text-slate-500 mt-1">Stuur op opleveringen en stem je communicatie af op het profiel van de stakeholder.</p>
+                        <h3 class="font-bold text-slate-800 text-base">Stakeholder Profielen</h3>
+                        <p class="text-xs text-slate-500">Persoonlijke voorkeuren, DISC & NLP instellen</p>
                     </div>
-                    <button onclick="openModal('addDeliverableModal')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md transition-all flex items-center space-x-2">
-                        <i class="fa-solid fa-plus"></i>
-                        <span>Nieuwe Deliverable + Rol</span>
+                    <button onclick="openModal('modal-stakeholder')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-md transition-all">
+                        + Nieuwe Stakeholder Profileren
                     </button>
                 </div>
 
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs border-collapse">
-                        <thead>
-                            <tr class="bg-slate-100 text-slate-700 border-b border-slate-200 uppercase text-[10px] tracking-wider">
-                                <th class="p-3 font-bold">Deliverable</th>
-                                <th class="p-3 font-bold">Stakeholder & Rol</th>
-                                <th class="p-3 font-bold">DISC Profiel</th>
-                                <th class="p-3 font-bold">NLP Voorkeurskanaal</th>
-                                <th class="p-3 font-bold">Pre-Check</th>
-                                <th class="p-3 font-bold">Deadline</th>
-                                <th class="p-3 font-bold text-center">DISC/NLP Spiekwijzer</th>
-                                <th class="p-3 font-bold text-center">Acties</th>
-                            </tr>
-                        </thead>
-                        <tbody id="full-deliverables-table-body" class="divide-y divide-slate-200"></tbody>
-                    </table>
+                <div id="stakeholders-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Stakeholders worden via JS ingeladen -->
                 </div>
             </div>
-        </div>
 
-        <!-- TAB 3: KOETJES & KALFJES -->
-        <div id="tab-koetjes" class="hidden space-y-5">
-            <div class="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/50 space-y-6">
-                <div class="flex justify-between items-center border-b pb-4 flex-wrap gap-3">
-                    <div>
-                        <span class="bg-pink-100 text-pink-800 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">Relatiebeheer & Soft Skills</span>
-                        <h1 class="text-xl font-black text-slate-900 mt-1">🐮 Koetjes & Kalfjes Logboek</h1>
-                        <p class="text-xs text-slate-500 mt-0.5">Onthoud persoonlijke details en vakanties voor betere rapportopbouw (NLP Rapport).</p>
-                    </div>
-                    <div class="bg-pink-50 border border-pink-200 px-4 py-2 rounded-xl text-center">
-                        <span class="text-[10px] font-bold text-pink-800 uppercase block">Totaal Koetjes Score</span>
-                        <span class="text-xl font-black text-pink-700" id="koetjes-count-display">3 🐮</span>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="koetjes-cards-container"></div>
-            </div>
-        </div>
-
-        <!-- TAB 4: COACH & FOCUS + NLP COACHING -->
-        <div id="tab-coaching" class="hidden space-y-5">
-            <div class="bg-gradient-to-r from-amber-600 to-amber-700 text-white rounded-2xl p-6 shadow-xl space-y-2">
-                <span class="bg-white/20 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Coach & Focus Hub</span>
-                <h1 class="text-2xl font-black">Maximale Uitvoering & Stakeholder Afstemming</h1>
-                <p class="text-amber-100 text-xs">Analyseer je dagelijkse focus en pas NLP-rapportage en DISC toe bij lastige gesprekken.</p>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
-                <div class="lg:col-span-2 space-y-5">
-                    <div class="bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200 p-5 shadow-lg space-y-4">
-                        <h2 class="text-sm font-black text-slate-900 flex items-center justify-between">
-                            <span class="flex items-center"><i class="fa-solid fa-list-check text-amber-600 mr-2"></i> Focus & Prioriteitenmatrix</span>
-                            <span class="text-[10px] bg-amber-100 text-amber-900 px-2 py-0.5 rounded font-bold">Week Focus</span>
-                        </h2>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                            <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl space-y-1">
-                                <span class="font-bold text-rose-900 block">🔥 1. Dringend & Belangrijk</span>
-                                <p class="text-slate-700">Pre-check Q3 Service Audit met Alain (DISC Rood direct benaderen).</p>
-                            </div>
-                            <div class="p-3 bg-sky-50 border border-sky-200 rounded-xl space-y-1">
-                                <span class="font-bold text-sky-900 block">🎯 2. Niet Dringend, Wel Belangrijk</span>
-                                <p class="text-slate-700">Analyseren First Contact Resolution (FCR) rapportage.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- NLP COACHING HULP -->
-                    <div class="bg-white/95 backdrop-blur-md rounded-2xl border border-purple-200 p-5 shadow-lg space-y-3">
-                        <h3 class="font-black text-purple-900 text-sm flex items-center">
-                            <i class="fa-solid fa-brain text-purple-600 mr-2"></i> NLP Rapport & Afstemming Coach
-                        </h3>
-                        <p class="text-xs text-slate-600">Voordat je in gesprek gaat met een stakeholder, kies je hun DISC profiel om de juiste NLP spraakpredikaten te gebruiken:</p>
-                        
-                        <div class="grid grid-cols-2 gap-2 text-xs pt-2">
-                            <div class="p-2.5 bg-red-50 border border-red-200 rounded-xl">
-                                <strong class="text-red-800 block">🔴 DISC Rood (Resultaat)</strong>
-                                <span class="text-[11px] text-slate-600">NLP: Focus op resultaten en doelen. Gebruik snelle, krachtige woorden. "Het resultaat is...", "Direct toepasbaar".</span>
-                            </div>
-                            <div class="p-2.5 bg-amber-50 border border-amber-200 rounded-xl">
-                                <strong class="text-amber-800 block">🟡 DISC Geel (Relatie)</strong>
-                                <span class="text-[11px] text-slate-600">NLP: Visueel & Enthousiast. Gebruik woorden als: "Zie je voor je hoe...", "Mooi perspectief", "Samen".</span>
-                            </div>
-                            <div class="p-2.5 bg-emerald-50 border border-emerald-200 rounded-xl">
-                                <strong class="text-emerald-800 block">🟢 DISC Groen (Stabiliteit)</strong>
-                                <span class="text-[11px] text-slate-600">NLP: Gevoelsmatig (Kinesthetisch). Gebruik: "Hoe voelt dit?", "Stap voor stap", "Veiligheid en continuïteit".</span>
-                            </div>
-                            <div class="p-2.5 bg-blue-50 border border-blue-200 rounded-xl">
-                                <strong class="text-blue-800 block">🔵 DISC Blauw (Kwaliteit)</strong>
-                                <span class="text-[11px] text-slate-600">NLP: Auditief/Digitaal & Logica. Gebruik: "De data toont aan...", "Logischerwijs", "Analyse en feiten".</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200 p-5 shadow-lg space-y-3">
-                        <h3 class="font-black text-slate-900 text-sm flex items-center">
-                            <i class="fa-solid fa-pen-to-square text-amber-600 mr-2"></i> Dagelijks Focus Logboek (+5 ptn)
-                        </h3>
-                        <textarea id="coaching-notes" class="w-full text-xs p-3 border rounded-xl focus:ring-1 focus:ring-amber-500" rows="3" placeholder="Wat ging er goed in de afstemming vandaag?"></textarea>
-                        <button onclick="saveCoachingNote()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs px-4 py-2 rounded-xl">Logboek Opslaan</button>
-                    </div>
-                </div>
-
-                <div class="space-y-5">
-                    <div class="bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200 p-5 shadow-lg space-y-4">
-                        <h3 class="font-black text-slate-900 text-sm flex items-center">
-                            <i class="fa-solid fa-bullseye text-amber-600 mr-2"></i> Coaching Voortgang
-                        </h3>
-                        <div class="space-y-3 text-xs">
-                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1.5">
-                                <div class="flex justify-between font-bold">
-                                    <span>Tijdige Oplevering</span>
-                                    <span class="text-emerald-600">85%</span>
-                                </div>
-                                <div class="w-full bg-slate-200 h-2 rounded-full"><div class="bg-emerald-500 h-full rounded-full" style="width: 85%"></div></div>
-                            </div>
-                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1.5">
-                                <div class="flex justify-between font-bold">
-                                    <span>Stakeholder Afstemming (DISC)</span>
-                                    <span class="text-amber-600">75%</span>
-                                </div>
-                                <div class="w-full bg-slate-200 h-2 rounded-full"><div class="bg-amber-500 h-full rounded-full" style="width: 75%"></div></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
     </main>
 
-    <!-- MODAL: DISC / NLP SPIEKWIJZER -->
-    <div id="discNlpModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative">
-            <button onclick="closeModal('discNlpModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-            <div class="flex items-center space-x-2 text-purple-700 mb-2">
-                <i class="fa-solid fa-brain text-xl"></i>
-                <h3 class="text-base font-black" id="disc-modal-title">DISC & NLP Communicatie Advies</h3>
+    <!-- MODAL 1: DELIVERABLE CONFIGURATIESCHERM -->
+    <div id="modal-deliverable" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-[110] hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-slate-200">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-black text-slate-900 text-lg">📦 Nieuwe Deliverable Configureren</h3>
+                <button onclick="closeModal('modal-deliverable')" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            
-            <div class="space-y-4 text-xs text-slate-700 mt-3" id="disc-modal-content">
-                <!-- Dynamische inhoud op basis van geselecteerde DISC profiel -->
-            </div>
-        </div>
-    </div>
 
-    <!-- MODAL: BELONING INSTELLEN -->
-    <div id="rewardModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
-            <button onclick="closeModal('rewardModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-            <h3 class="text-base font-black text-slate-900 mb-1">🎁 Beloning Instellen</h3>
-            <p class="text-xs text-slate-500 mb-4">Stel je persoonlijke beloning en benodigde aantal punten in.</p>
+            <form onsubmit="saveDeliverable(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Deliverable Titel</label>
+                    <input type="text" id="del-titel" required placeholder="bijv. Q3 Service Rapportage" class="w-full p-2.5 border rounded-xl">
+                </div>
 
-            <form onsubmit="saveReward(event)" class="space-y-3 text-xs">
-                <div>
-                    <label class="block font-bold mb-1">Beloning Titel</label>
-                    <input type="text" id="input-reward-title" required placeholder="bijv. Vrijdagmiddag 1 uur eerder vrij" class="w-full border rounded-lg p-2.5">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Frequentie</label>
+                        <select id="del-frequentie" class="w-full p-2.5 border rounded-xl">
+                            <option>Wekelijks</option>
+                            <option>Maandelijks</option>
+                            <option>Kwartaal</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Format</label>
+                        <input type="text" id="del-format" placeholder="bijv. PowerPoint" class="w-full p-2.5 border rounded-xl">
+                    </div>
                 </div>
+
                 <div>
-                    <label class="block font-bold mb-1">Benodigde Punten Goal</label>
-                    <input type="number" id="input-reward-goal" required placeholder="100" class="w-full border rounded-lg p-2.5">
+                    <label class="block font-bold text-slate-700 mb-1">Koppel aan Stakeholder</label>
+                    <select id="del-stakeholder" class="w-full p-2.5 border rounded-xl">
+                        <!-- Stakeholders worden dynamisch geladen -->
+                    </select>
                 </div>
-                <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-3 rounded-xl transition-all">
-                    Beloning Opslaan
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Pre-Check Datum</label>
+                        <input type="date" id="del-precheck" class="w-full p-2.5 border rounded-xl">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Deadline</label>
+                        <input type="date" id="del-deadline" class="w-full p-2.5 border rounded-xl">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl transition-all shadow-md mt-2">
+                    Deliverables Opslaan
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- MODAL: ADD DELIVERABLE MET NLP/DISC SELECTION -->
-    <div id="addDeliverableModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-            <button onclick="closeModal('addDeliverableModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-            <h3 class="text-base font-black text-slate-900 mb-1">Nieuwe Deliverable & Profilering Invoeren</h3>
+    <!-- MODAL 2: STAKEHOLDER & PERSOONLIJKE VOORKEUREN SCHERM -->
+    <div id="modal-stakeholder" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-[110] hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-slate-200">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-black text-slate-900 text-lg">👤 Stakeholder & Voorkeuren</h3>
+                <button onclick="closeModal('modal-stakeholder')" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
+            </div>
 
-            <form onsubmit="addDeliverable(event)" class="space-y-3 text-xs">
+            <form onsubmit="saveStakeholder(event)" class="space-y-3 text-xs">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Stakeholder Naam</label>
+                        <input type="text" id="stk-naam" required placeholder="bijv. Alain de Jong" class="w-full p-2.5 border rounded-xl">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Functierol</label>
+                        <input type="text" id="stk-rol" placeholder="bijv. Operations Manager" class="w-full p-2.5 border rounded-xl">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">DISC Profiel</label>
+                        <select id="stk-disc" class="w-full p-2.5 border rounded-xl">
+                            <option>DISC Rood (Direct)</option>
+                            <option>DISC Geel (Enthousiast)</option>
+                            <option>DISC Groen (Ondersteunend)</option>
+                            <option>DISC Blauw (Analytisch)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">NLP Voorkeurskanaal</label>
+                        <select id="stk-nlp" class="w-full p-2.5 border rounded-xl">
+                            <option>Visueel (Zien)</option>
+                            <option>Auditief (Horen)</option>
+                            <option>Kinesthetisch (Voelen)</option>
+                            <option>Auditief Digitaal (Logica)</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div>
-                    <label class="block font-bold mb-1">Deliverable Titel</label>
-                    <input type="text" id="del-title" required placeholder="bijv. Maandelijks FCR Rapport" class="w-full border rounded-lg p-2.5">
+                    <label class="block font-bold text-slate-700 mb-1">☕ Koetjes & Kalfjes Notitie</label>
+                    <textarea id="stk-weetjes" rows="3" placeholder="Persoonlijke weetjes, hobbies..." class="w-full p-2.5 border rounded-xl"></textarea>
                 </div>
 
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block font-bold mb-1">Frequentie</label>
-                        <select id="del-freq" class="w-full border rounded-lg p-2.5 bg-white">
-                            <option value="Wekelijks">Wekelijks</option>
-                            <option value="Maandelijks">Maandelijks</option>
-                            <option value="Kwartaal">Kwartaal</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block font-bold mb-1">Format</label>
-                        <input type="text" id="del-how" placeholder="bijv. PowerPoint via Teams" class="w-full border rounded-lg p-2.5">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block font-bold mb-1">Stakeholder Naam</label>
-                        <input type="text" id="del-holder" required class="w-full border rounded-lg p-2.5">
-                    </div>
-                    <div>
-                        <label class="block font-bold mb-1">Functierol</label>
-                        <input type="text" id="del-role" required placeholder="bijv. Operations Manager" class="w-full border rounded-lg p-2.5">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block font-bold mb-1">DISC Profiel</label>
-                        <select id="del-profile" class="w-full border rounded-lg p-2.5 bg-white">
-                            <option value="DISC Rood (Direct)">🔴 DISC Rood (Direct & Resultaat)</option>
-                            <option value="DISC Geel (Relatie)">🟡 DISC Geel (Enthousiast & Visueel)</option>
-                            <option value="DISC Groen (Ondersteunend)">🟢 DISC Groen (Harmonie & Gevoel)</option>
-                            <option value="DISC Blauw (Analytisch)">🔵 DISC Blauw (Feiten & Logica)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block font-bold mb-1">NLP Voorkeurskanaal</label>
-                        <select id="del-nlp" class="w-full border rounded-lg p-2.5 bg-white">
-                            <option value="Visueel (Zien)">👁️ Visueel (Zien / Beeld)</option>
-                            <option value="Auditief (Horen)">👂 Auditief (Klinken / Woorden)</option>
-                            <option value="Kinesthetisch (Voelen)">🤲 Kinesthetisch (Gevoel / Ervaring)</option>
-                            <option value="Auditief Digitaal (Logica)">🧠 Auditief Digitaal (Feiten / Cijfers)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="bg-pink-50 border border-pink-200 p-3 rounded-xl space-y-1">
-                    <label class="block font-bold text-pink-900 mb-1">🐮 Koetjes & Kalfjes Notitie</label>
-                    <textarea id="del-koetjes" class="w-full border rounded-lg p-2 bg-white" rows="2" placeholder="Persoonlijke weetjes / hobbies..."></textarea>
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block font-bold mb-1">Pre-Check Datum</label>
-                        <input type="date" id="del-precheck" required class="w-full border rounded-lg p-2.5">
-                    </div>
-                    <div>
-                        <label class="block font-bold mb-1">Deadline</label>
-                        <input type="date" id="del-deadline" required class="w-full border rounded-lg p-2.5">
-                    </div>
-                </div>
-
-                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl transition-all">
-                    Deliverable & Profilering Opslaan
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition-all shadow-md mt-2">
+                    Stakeholder Opslaan (+15 ptn)
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- MODAL: CONFIG KPIS -->
-    <div id="configModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-2xl max-w-3xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-            <button onclick="closeModal('configModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-            <div class="flex justify-between items-center mb-4 pr-6">
-                <div>
-                    <h3 class="text-base font-black text-slate-900">KPI Bibliotheek</h3>
-                    <p class="text-xs text-slate-500">Selecteer welke KPI's zichtbaar zijn op je dashboard.</p>
-                </div>
-            </div>
-            <div class="space-y-3 text-xs" id="kpi-selector-list"></div>
-            <button onclick="saveKpiSelection()" class="w-full bg-slate-900 hover:bg-black text-white font-bold py-3 rounded-xl transition-all mt-5">
-                Dashboard Bijwerken
-            </button>
-        </div>
-    </div>
-
-    <!-- JAVASCRIPT LOGICA -->
-    <script>
-        let currentScore = 50;
-        let koetjesCount = 3;
-        let rewardGoal = 100;
-        let rewardTitle = "Vrijdag 1u eerder vrij";
-
-        let kpiLibrary = [
-            { id: 'fcr', name: 'First Contact Resolution (FCR)', cat: 'Kwaliteit', val: '78%', selected: true },
-            { id: 'csat', name: 'Customer Satisfaction (CSAT)', cat: 'Kwaliteit', val: '84%', selected: true },
-            { id: 'sl', name: 'Service Level (SL 80/20)', cat: 'Bereikbaarheid', val: '82%', selected: true }
-        ];
-
-        let deliverables = [
-            {
-                id: 1,
-                title: 'Q3 Klantcontact Kwaliteitsanalyse',
-                freq: 'Maandelijks',
-                how: 'PowerPoint',
-                holder: 'Alain de Jong',
-                role: 'Operations Manager',
-                profile: 'DISC Rood (Direct)',
-                nlp: 'Auditief Digitaal (Logica)',
-                points: 20,
-                koetjes: 'Gepassioneerd wielrenner. Houdt van to-the-point samenvattingen.',
-                precheck: '2026-08-05',
-                deadline: '2026-08-12'
-            }
-        ];
-
-        document.addEventListener("DOMContentLoaded", () => {
-            updateScoreDisplay();
-            renderKpiSelector();
-            renderActiveKpis();
-            renderDeliverablesTable();
-            renderKoetjesCards();
-        });
-
-        // PUNTEN LOGICA
-        function adjustPoints(amount) {
-            currentScore += amount;
-            if(currentScore < 0) currentScore = 0;
-            updateScoreDisplay();
-        }
-
-        function adjustKoetjes(amount) {
-            koetjesCount += amount;
-            if(koetjesCount < 0) koetjesCount = 0;
-            document.getElementById('koetjes-count-display').innerText = `${koetjesCount} 🐮`;
-            adjustPoints(amount * 5);
-        }
-
-        function updateScoreDisplay() {
-            document.getElementById('user-score').innerText = currentScore;
-            document.getElementById('reward-name').innerText = rewardTitle;
-            const needed = rewardGoal - currentScore;
-            if(needed <= 0) {
-                document.getElementById('reward-progress').innerHTML = "<span class='text-emerald-400 font-bold'>🎉 Beloning Ontgrendeld!</span>";
-            } else {
-                document.getElementById('reward-progress').innerText = `Nog ${needed} punten nodig`;
-            }
-        }
-
-        function saveReward(e) {
-            e.preventDefault();
-            rewardTitle = document.getElementById('input-reward-title').value;
-            rewardGoal = parseInt(document.getElementById('input-reward-goal').value) || 100;
-            updateScoreDisplay();
-            closeModal('rewardModal');
-        }
-
-        function completeDeliverable(id, points) {
-            adjustPoints(points);
-            alert(`Deliverable afgerond! +${points} punten toegevoegd.`);
-        }
-
-        // DISC & NLP SPIEKWIJZER MODAL
-        function showDiscNlpAdvice(profile, nlp, name) {
-            document.getElementById('disc-modal-title').innerText = `Communicatie Spiekwijzer: ${name}`;
-            
-            let advice = "";
-            if(profile.includes("Rood")) {
-                advice = `
-                    <div class="p-3 bg-red-50 border border-red-200 rounded-xl space-y-2">
-                        <strong class="text-red-900 block font-bold">🔴 DISC Rood Strategie:</strong>
-                        <p>Kom direct ter zake. Geef opties en laat hen beslissen. Focus op resultaat en tijdwinst.</p>
-                        <strong class="text-purple-900 block font-bold mt-2">🧠 NLP Predikaten (${nlp}):</strong>
-                        <p>Gebruik actiewoorden: <em>"Direct", "Doelgericht", "Efficiënt", "Regie pakken"</em>.</p>
-                        <strong class="text-slate-800 block font-bold mt-2">⚠️ Vermijd:</strong>
-                        <p>Lange inleidingen of te veel details tijdens de pre-check.</p>
-                    </div>`;
-            } else if(profile.includes("Geel")) {
-                advice = `
-                    <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl space-y-2">
-                        <strong class="text-amber-900 block font-bold">🟡 DISC Geel Strategie:</strong>
-                        <p>Toon enthousiasme en ruimte voor ideeën. Begin met een informeel praatje (Koetjes & Kalfjes).</p>
-                        <strong class="text-purple-900 block font-bold mt-2">🧠 NLP Predikaten (${nlp}):</strong>
-                        <p>Gebruik visuele woorden: <em>"Zien", "Helder beeld", "Inspirerend perspectief"</em>.</p>
-                    </div>`;
-            } else if(profile.includes("Groen")) {
-                advice = `
-                    <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl space-y-2">
-                        <strong class="text-emerald-900 block font-bold">🟢 DISC Groen Strategie:</strong>
-                        <p>Bied zekerheid, wees geduldig en neem de tijd voor de pre-check. Geef niet te veel onverwachte veranderingen.</p>
-                        <strong class="text-purple-900 block font-bold mt-2">🧠 NLP Predikaten (${nlp}):</strong>
-                        <p>Gebruik kinesthetische/gevoelswoorden: <em>"Voelt goed", "Samen afstemmen", "Stap voor stap"</em>.</p>
-                    </div>`;
-            } else {
-                advice = `
-                    <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl space-y-2">
-                        <strong class="text-blue-900 block font-bold">🔵 DISC Blauw Strategie:</strong>
-                        <p>Zorg voor feiten, onderbouwing en accurate data. Stuur de stukken ruim voor de pre-check op.</p>
-                        <strong class="text-purple-900 block font-bold mt-2">🧠 NLP Predikaten (${nlp}):</strong>
-                        <p>Gebruik analytische woorden: <em>"Analyse", "Logisch getoond", "Nauwkeurig", "Feiten"</em>.</p>
-                    </div>`;
-            }
-
-            document.getElementById('disc-modal-content').innerHTML = advice;
-            openModal('discNlpModal');
-        }
-
-        // RENDER TABLE & CARDS
-        function renderDeliverablesTable() {
-            const tbody = document.getElementById('full-deliverables-table-body');
-            if(!tbody) return;
-            tbody.innerHTML = '';
-
-            deliverables.forEach(d => {
-                tbody.innerHTML += `
-                    <tr class="hover:bg-slate-50/80">
-                        <td class="p-3">
-                            <span class="font-bold text-slate-900 block">${d.title}</span>
-                            <span class="text-[10px] text-slate-500">Format: ${d.how} (${d.freq})</span>
-                        </td>
-                        <td class="p-3">
-                            <span class="font-bold text-slate-800 block">${d.holder}</span>
-                            <span class="text-[10px] font-bold text-indigo-700">${d.role}</span>
-                        </td>
-                        <td class="p-3">
-                            <span class="bg-purple-100 text-purple-900 text-[10px] font-bold px-2 py-0.5 rounded">${d.profile}</span>
-                        </td>
-                        <td class="p-3">
-                            <span class="bg-sky-100 text-sky-900 text-[10px] font-bold px-2 py-0.5 rounded">${d.nlp || 'Visueel'}</span>
-                        </td>
-                        <td class="p-3 font-bold text-amber-700">${d.precheck}</td>
-                        <td class="p-3 font-bold text-rose-700">${d.deadline}</td>
-                        <td class="p-3 text-center">
-                            <button onclick="showDiscNlpAdvice('${d.profile}', '${d.nlp}', '${d.holder}')" class="bg-purple-600 hover:bg-purple-700 text-white font-bold text-[10px] px-2.5 py-1 rounded-lg shadow">
-                                💡 Advice
-                            </button>
-                        </td>
-                        <td class="p-3 text-center">
-                            <button onclick="completeDeliverable(${d.id}, ${d.points})" class="bg-emerald-500 hover:bg-emerald-600 text-white font-black text-[10px] px-2 py-1 rounded-lg">
-                                +${d.points} Ptn
-                            </button>
-                        </td>
-                    </tr>
-                `;
-            });
-        }
-
-        function renderKoetjesCards() {
-            const container = document.getElementById('koetjes-cards-container');
-            if(!container) return;
-            container.innerHTML = '';
-
-            deliverables.forEach(d => {
-                container.innerHTML += `
-                    <div class="bg-white p-5 rounded-2xl border border-pink-200 shadow-sm space-y-3">
-                        <div class="flex items-center justify-between border-b border-pink-100 pb-2">
-                            <div>
-                                <h3 class="font-black text-slate-900 text-sm">${d.holder}</h3>
-                                <span class="text-[10px] text-indigo-700 font-bold block">${d.role}</span>
-                            </div>
-                            <button onclick="adjustKoetjes(1)" class="text-xl hover:scale-125 transition-all" title="+1 Koetje toevoegen">🐮</button>
-                        </div>
-                        <div class="space-y-1">
-                            <span class="bg-purple-100 text-purple-900 text-[9px] font-bold px-2 py-0.5 rounded">${d.profile}</span>
-                            <span class="bg-sky-100 text-sky-900 text-[9px] font-bold px-2 py-0.5 rounded">${d.nlp || 'Visueel'}</span>
-                        </div>
-                        <div class="bg-pink-50/60 p-3 rounded-xl border border-pink-100 text-xs text-slate-700">
-                            <span class="font-bold text-pink-900 block mb-1">Koetjes & Kalfjes Details:</span>
-                            <p class="italic">${d.koetjes || 'Nog geen notitie ingevoerd.'}</p>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        function renderActiveKpis() {
-            const container = document.getElementById('active-kpis-container');
-            if(!container) return;
-            container.innerHTML = '';
-            kpiLibrary.filter(k => k.selected).forEach(kpi => {
-                container.innerHTML += `
-                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <span class="text-[10px] font-bold text-emerald-700 uppercase block">${kpi.cat}</span>
-                                <h3 class="font-black text-slate-900 text-sm mt-0.5">${kpi.name}</h3>
-                            </div>
-                            <span class="text-xl font-black text-slate-900 bg-slate-100 px-3 py-1 rounded-xl">${kpi.val}</span>
-                        </div>
-                        <div class="border-t pt-3 flex justify-between items-center text-xs">
-                            <button onclick="adjustPoints(10)" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-800 font-bold px-2.5 py-1 rounded-lg text-[11px]">
-                                +10 Ptn Claimen
-                            </button>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        function renderKpiSelector() {
-            const container = document.getElementById('kpi-selector-list');
-            if(!container) return;
-            container.innerHTML = '';
-            kpiLibrary.forEach(kpi => {
-                container.innerHTML += `
-                    <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200">
-                        <label class="flex items-center space-x-3 cursor-pointer">
-                            <input type="checkbox" id="chk-${kpi.id}" ${kpi.selected ? 'checked' : ''} class="w-4 h-4 text-emerald-600 rounded">
-                            <span class="font-bold text-slate-900">${kpi.name} (${kpi.val})</span>
-                        </label>
-                    </div>
-                `;
-            });
-        }
-
-        function saveKpiSelection() {
-            kpiLibrary.forEach(kpi => {
-                const chk = document.getElementById(`chk-${kpi.id}`);
-                if(chk) kpi.selected = chk.checked;
-            });
-            renderActiveKpis();
-            closeModal('configModal');
-        }
-
-        function addDeliverable(e) {
-            e.preventDefault();
-            deliverables.push({
-                id: Date.now(),
-                title: document.getElementById('del-title').value,
-                freq: document.getElementById('del-freq').value,
-                how: document.getElementById('del-how').value,
-                holder: document.getElementById('del-holder').value,
-                role: document.getElementById('del-role').value,
-                profile: document.getElementById('del-profile').value,
-                nlp: document.getElementById('del-nlp').value,
-                points: 15,
-                koetjes: document.getElementById('del-koetjes').value,
-                precheck: document.getElementById('del-precheck').value,
-                deadline: document.getElementById('del-deadline').value
-            });
-            closeModal('addDeliverableModal');
-            renderDeliverablesTable();
-            renderKoetjesCards();
-        }
-
-        function saveCoachingNote() {
-            const note = document.getElementById('coaching-notes').value;
-            if(!note) return alert('Voer een reflectie in.');
-            adjustPoints(5);
-            alert('Reflectie opgeslagen en +5 punten verdiend!');
-            document.getElementById('coaching-notes').value = '';
-        }
-
-        function handleLogin(e) {
-            e.preventDefault();
-            const name = document.getElementById('login-name').value;
-            document.getElementById('user-display-name').innerText = name;
-            document.getElementById('user-avatar').innerText = name.substring(0, 2).toUpperCase();
-            document.getElementById('login-overlay').classList.add('hidden');
-        }
-
-        function logout() {
-            if(confirm("Uitloggen?")) location.reload();
-        }
-
-        function switchTab(tab) {
-            document.getElementById('tab-dashboard').classList.add('hidden');
-            document.getElementById('tab-deliverables').classList.add('hidden');
-            document.getElementById('tab-koetjes').classList.add('hidden');
-            document.getElementById('tab-coaching').classList.add('hidden');
-            
-            const activeTab = document.getElementById('tab-' + tab);
-            if(activeTab) activeTab.classList.remove('hidden');
-        }
-
-        function openModal(id) { 
-            const m = document.getElementById(id);
-            if(m) { m.classList.remove('hidden'); m.classList.add('flex'); }
-        }
-
-        function closeModal(id) { 
-            const m = document.getElementById(id);
-            if(m) { m.classList.add('hidden'); m.classList.remove('flex'); }
-        }
-    </script>
+    <!-- SCRIPTS KOPPELING -->
+    <script src="js/stakeholders.js" defer></script>
+    <script src="js/deliverables.js" defer></script>
+    <script src="js/app.js" defer></script>
 </body>
 </html>
