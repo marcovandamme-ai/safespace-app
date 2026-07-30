@@ -229,4 +229,4 @@ function saveSpaarprogramma(e) {
 
     alert("✨ Spaarprogramma en Gamification spelregels succesvol bijgewerkt!");
     switchTab('dashboard');
-}
+}   
