@@ -25,7 +25,7 @@
             <form onsubmit="handleLogin(event)" class="space-y-4 text-xs">
                 <div>
                     <label class="block font-bold text-slate-700 mb-1">Uw Volledige Naam</label>
-                    <input type="text" id="login-name" required placeholder="bijv. Sophie Jansen" class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    <input type="text" id="login-name" required placeholder="bijv. Alain" class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none">
                 </div>
                 <div>
                     <label class="block font-bold text-slate-700 mb-1">E-mailadres</label>
@@ -52,21 +52,30 @@
                 </div>
             </div>
 
-            <!-- HOOFDMENU KNOPPEN -->
-            <nav class="flex space-x-2">
-                <button onclick="switchTab('dashboard')" id="nav-btn-dashboard" class="px-4 py-2 rounded-xl bg-slate-900 text-white font-bold text-xs shadow-md">
+            <!-- SNELMENU KNOPPEN OVEREENKOMSTIG MET JOUW LAYOUT -->
+            <nav class="flex flex-wrap items-center gap-2 text-xs font-bold">
+                <button onclick="switchTab('dashboard')" class="px-4 py-2 rounded-xl bg-blue-600 text-white shadow-md flex items-center gap-2">
                     📊 Dashboard
                 </button>
-                <button onclick="switchTab('configuratie')" id="nav-btn-configuratie" class="px-4 py-2 rounded-xl bg-slate-100 font-bold text-xs hover:bg-slate-200">
-                    ⚙️ Configuratiescherm
+                <button onclick="switchTab('configuratie'); switchConfigSubTab('deliverables');" class="px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm flex items-center gap-2">
+                    📁 Deliverables & DISC/NLP
+                </button>
+                <button onclick="switchTab('configuratie'); switchConfigSubTab('stakeholders');" class="px-4 py-2 rounded-xl bg-pink-600 text-white hover:bg-pink-700 shadow-sm flex items-center gap-2">
+                    💬 Koetjes & Kalfjes
+                </button>
+                <button class="px-4 py-2 rounded-xl bg-amber-500 text-white hover:bg-amber-600 shadow-sm flex items-center gap-2">
+                    💡 Coach & Focus
+                </button>
+                <button onclick="switchTab('configuratie')" class="px-3 py-2 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 flex items-center gap-1.5 ml-2">
+                    ⚙️ Config & KPI's
                 </button>
             </nav>
 
             <!-- GEBRUIKER INFO -->
             <div class="flex items-center space-x-2">
                 <div class="flex items-center space-x-2 pl-2 border-l border-slate-300">
-                    <div class="w-8 h-8 rounded-full bg-sky-100 border border-sky-400 text-sky-800 font-bold text-xs flex items-center justify-center" id="user-avatar">--</div>
-                    <span class="text-xs font-bold text-slate-700" id="user-display-name">Niet ingelogd</span>
+                    <div class="w-8 h-8 rounded-full bg-sky-100 border border-sky-400 text-sky-800 font-bold text-xs flex items-center justify-center" id="user-avatar">AL</div>
+                    <span class="text-xs font-bold text-slate-700" id="user-display-name">Alain</span>
                 </div>
             </div>
         </div>
@@ -75,18 +84,113 @@
     <!-- INHOUD PER SCHERM -->
     <main class="max-w-7xl w-full mx-auto px-4 mt-6">
         
-        <!-- SCHERM 1: DASHBOARD (STANDAARD ZICHTBAAR) -->
+        <!-- SCHERM 1: ECHTE DASHBOARD MET BELONINGEN EN KPI'S -->
         <div id="tab-dashboard" class="tab-content space-y-6">
-            <div class="bg-white/95 backdrop-blur-md rounded-2xl p-8 shadow-xl text-center space-y-3">
-                <h2 class="text-2xl font-black text-slate-900">Welkom in de Workspace! 🎉</h2>
-                <p class="text-sm text-slate-600">Kies <b>⚙️ Configuratiescherm</b> in het hoofdmenu om losse deliverables of stakeholderprofielen (DISC/NLP) te beheren.</p>
+            
+            <!-- BELONINGS- & PUNTEN BANNER -->
+            <div class="bg-indigo-950 text-white rounded-3xl p-6 shadow-xl flex flex-wrap items-center justify-between gap-6">
+                <div class="flex items-center space-x-4">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-400 flex items-center justify-center text-3xl shadow-lg">
+                        🏆
+                    </div>
+                    <div>
+                        <span class="text-[10px] uppercase tracking-wider font-extrabold text-amber-300 block">BELONINGS- & PUNTEN SYSTEEM</span>
+                        <div class="flex items-baseline space-x-2">
+                            <span class="text-3xl font-black">50</span>
+                            <span class="text-xs font-medium text-slate-300">Punten verzameld</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-3">
+                    <button class="bg-emerald-500 hover:bg-emerald-600 font-bold text-xs px-4 py-2 rounded-xl text-white shadow-md transition-all">
+                        + 10 Ptn
+                    </button>
+                    <button class="bg-rose-500 hover:bg-rose-600 font-bold text-xs px-4 py-2 rounded-xl text-white shadow-md transition-all">
+                        — 5 Ptn
+                    </button>
+                    <button class="bg-pink-500 hover:bg-pink-600 font-bold text-xs px-4 py-2 rounded-xl text-white shadow-md transition-all">
+                        🐄 +1 Koetje
+                    </button>
+                </div>
+
+                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/10 flex items-center space-x-3">
+                    <div>
+                        <span class="text-[9px] uppercase font-bold text-slate-300 block">ACTUEEL DOEL & BELONING</span>
+                        <span class="text-xs font-bold text-white block">Vrijdag 1u eerder vrij</span>
+                        <span class="text-[10px] text-amber-300 font-medium">Nog 50 punten nodig</span>
+                    </div>
+                    <div class="text-2xl">🎁</div>
+                </div>
             </div>
+
+            <!-- KPI PERFORMANCE MONITOR SECTIE -->
+            <div class="bg-white rounded-3xl p-6 shadow-xl border border-slate-100 space-y-6">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <span class="text-[10px] font-bold text-emerald-600 uppercase bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+                            KLANTCONTACT PERFORMANCE DASHBOARD
+                        </span>
+                        <h2 class="text-xl font-black text-slate-900 mt-2">Actieve KPI Monitor & Performance</h2>
+                    </div>
+                    <button onclick="switchTab('configuratie')" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-md transition-all">
+                        ⚙️ KPI's Beheren
+                    </button>
+                </div>
+
+                <!-- 3 KPI KAARTEN -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- FCR Kaart -->
+                    <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-5 space-y-4 hover:shadow-md transition-all">
+                        <div>
+                            <span class="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block">KWALITEIT</span>
+                            <h3 class="font-bold text-slate-800 text-sm">First Contact Resolution (FCR)</h3>
+                        </div>
+                        <div class="flex justify-end items-baseline">
+                            <span class="text-3xl font-black text-slate-900">78%</span>
+                        </div>
+                        <button class="bg-emerald-100 hover:bg-emerald-200 text-emerald-800 text-xs font-bold py-2 px-3 rounded-xl w-fit shadow-xs transition-all">
+                            +10 Ptn Claimen
+                        </button>
+                    </div>
+
+                    <!-- CSAT Kaart -->
+                    <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-5 space-y-4 hover:shadow-md transition-all">
+                        <div>
+                            <span class="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block">KWALITEIT</span>
+                            <h3 class="font-bold text-slate-800 text-sm">Customer Satisfaction (CSAT)</h3>
+                        </div>
+                        <div class="flex justify-end items-baseline">
+                            <span class="text-3xl font-black text-slate-900">84%</span>
+                        </div>
+                        <button class="bg-emerald-100 hover:bg-emerald-200 text-emerald-800 text-xs font-bold py-2 px-3 rounded-xl w-fit shadow-xs transition-all">
+                            +10 Ptn Claimen
+                        </button>
+                    </div>
+
+                    <!-- Service Level Kaart -->
+                    <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-5 space-y-4 hover:shadow-md transition-all">
+                        <div>
+                            <span class="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block">BEREIKBAARHEID</span>
+                            <h3 class="font-bold text-slate-800 text-sm">Service Level (SL 80/20)</h3>
+                        </div>
+                        <div class="flex justify-end items-baseline">
+                            <span class="text-3xl font-black text-slate-900">82%</span>
+                        </div>
+                        <button class="bg-emerald-100 hover:bg-emerald-200 text-emerald-800 text-xs font-bold py-2 px-3 rounded-xl w-fit shadow-xs transition-all">
+                            +10 Ptn Claimen
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
 
-        <!-- SCHERM 2: CONFIGURATIESCHERM (STANDAARD VERBORGEN) -->
+        <!-- SCHERM 2: CONFIGURATIESCHERM -->
         <div id="tab-configuratie" class="tab-content hidden space-y-6">
             
-            <!-- CONFIGURATIE HEADER & SUB-NAVIGATIE -->
             <div class="bg-white rounded-3xl p-6 shadow-md border border-slate-200 space-y-4">
                 <div>
                     <h2 class="text-2xl font-black text-slate-900">⚙️ Configuratiescherm</h2>
@@ -115,9 +219,7 @@
                     </button>
                 </div>
 
-                <div id="deliverables-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Deliverables worden via JS ingeladen -->
-                </div>
+                <div id="deliverables-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </div>
 
             <!-- SUB-SCHERM B: STAKEHOLDERS BEHEER -->
@@ -132,9 +234,7 @@
                     </button>
                 </div>
 
-                <div id="stakeholders-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Stakeholders worden via JS ingeladen -->
-                </div>
+                <div id="stakeholders-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </div>
 
         </div>
@@ -174,9 +274,7 @@
 
                 <div>
                     <label class="block font-bold text-slate-700 mb-1">Koppel aan Stakeholder</label>
-                    <select id="del-stakeholder" required class="w-full p-2.5 border rounded-xl">
-                        <!-- Stakeholders worden dynamisch geladen -->
-                    </select>
+                    <select id="del-stakeholder" required class="w-full p-2.5 border rounded-xl"></select>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
@@ -197,7 +295,7 @@
         </div>
     </div>
 
-    <!-- MODAL 2: STAKEHOLDER & PERSOONLIJKE VOORKEUREN SCHERM -->
+    <!-- MODAL 2: STAKEHOLDER CONFIGURATIESCHERM -->
     <div id="modal-stakeholder" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-[110] hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-slate-200 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b pb-3">
@@ -255,7 +353,6 @@
         </div>
     </div>
 
-    <!-- SCRIPTS KOPPELING -->
     <script src="js/stakeholders.js" defer></script>
     <script src="js/deliverables.js" defer></script>
     <script src="js/app.js" defer></script>
