@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Schermen initialiseren
+    switchTab('dashboard');
     renderStakeholders();
     renderDeliverables();
 });
@@ -10,17 +12,32 @@ function handleLogin(e) {
         document.getElementById('user-display-name').innerText = name;
         document.getElementById('user-avatar').innerText = name.substring(0, 2).toUpperCase();
         
-        // Login scherm verbergen en direct naar Hoofdscherm (Dashboard)
+        // Overlay sluiten en direct naar Hoofddashboard sturen
         document.getElementById('login-overlay').classList.add('hidden');
         switchTab('dashboard');
     }
 }
 
 function switchTab(tabName) {
+    // Verberg alle tabs
     document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+    
+    // Knop opmaak herstellen
+    const btnDash = document.getElementById('nav-btn-dashboard');
+    const btnConfig = document.getElementById('nav-btn-configuratie');
+    
+    if (btnDash) btnDash.className = "px-4 py-2 rounded-xl bg-slate-100 font-bold text-xs hover:bg-slate-200 text-slate-800";
+    if (btnConfig) btnConfig.className = "px-4 py-2 rounded-xl bg-slate-100 font-bold text-xs hover:bg-slate-200 text-slate-800";
+
+    // Actieve tab en knop highlighten
     const target = document.getElementById(`tab-${tabName}`);
     if (target) {
         target.classList.remove('hidden');
+    }
+
+    const activeBtn = document.getElementById(`nav-btn-${tabName}`);
+    if (activeBtn) {
+        activeBtn.className = "px-4 py-2 rounded-xl bg-slate-900 text-white font-bold text-xs shadow-md";
     }
 }
 
@@ -45,11 +62,13 @@ function openModal(id) {
     if (id === 'modal-deliverable') {
         populateStakeholderDropdown();
     }
-    document.getElementById(id).classList.remove('hidden');
+    const modal = document.getElementById(id);
+    if (modal) modal.classList.remove('hidden');
 }
 
 function closeModal(id) {
-    document.getElementById(id).classList.add('hidden');
+    const modal = document.getElementById(id);
+    if (modal) modal.classList.add('hidden');
 }
 
 function populateStakeholderDropdown() {
@@ -137,8 +156,6 @@ function saveStakeholder(e) {
     addStakeholder(newStk);
     renderStakeholders();
     closeModal('modal-stakeholder');
-    
-    // Formulier leegmaken
     e.target.reset();
 }
 
@@ -156,7 +173,5 @@ function saveDeliverable(e) {
     addDeliverable(newDel);
     renderDeliverables();
     closeModal('modal-deliverable');
-    
-    // Formulier leegmaken
     e.target.reset();
 }
