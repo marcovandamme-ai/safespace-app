@@ -9,7 +9,10 @@ function handleLogin(e) {
     if (name) {
         document.getElementById('user-display-name').innerText = name;
         document.getElementById('user-avatar').innerText = name.substring(0, 2).toUpperCase();
+        
+        // Login scherm verbergen en direct naar Hoofdscherm (Dashboard)
         document.getElementById('login-overlay').classList.add('hidden');
+        switchTab('dashboard');
     }
 }
 
@@ -53,6 +56,12 @@ function populateStakeholderDropdown() {
     const select = document.getElementById('del-stakeholder');
     if (!select) return;
     const list = getStakeholders();
+    
+    if (list.length === 0) {
+        select.innerHTML = `<option value="">Geen stakeholders beschikbaar - maak er eerst een aan</option>`;
+        return;
+    }
+    
     select.innerHTML = list.map(s => `<option value="${s.id}">${s.naam} (${s.rol})</option>`).join('');
 }
 
@@ -60,6 +69,12 @@ function renderStakeholders() {
     const container = document.getElementById('stakeholders-container');
     if (!container) return;
     const list = getStakeholders();
+
+    if (list.length === 0) {
+        container.innerHTML = `<div class="col-span-2 text-center p-6 text-slate-400 text-xs">Nog geen stakeholders ingevoerd.</div>`;
+        return;
+    }
+
     container.innerHTML = list.map(s => `
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-2">
             <div class="flex justify-between items-start">
@@ -69,8 +84,11 @@ function renderStakeholders() {
                 </div>
                 <span class="px-2 py-1 bg-indigo-50 text-indigo-700 text-[10px] font-bold rounded-lg">${s.disc}</span>
             </div>
-            <p class="text-xs text-slate-600 bg-slate-50 p-2 rounded-xl"><b>NLP:</b> ${s.nlp}</p>
-            <p class="text-xs text-slate-500 italic">" ${s.weetjes} "</p>
+            <div class="bg-slate-50 p-2.5 rounded-xl space-y-1">
+                <p class="text-xs text-slate-600"><b>NLP Kanaal:</b> ${s.nlp}</p>
+                ${s.stijl ? `<p class="text-xs text-slate-600"><b>Stijl:</b> ${s.stijl}</p>` : ''}
+            </div>
+            ${s.weetjes ? `<p class="text-xs text-slate-500 italic bg-amber-50/50 p-2 rounded-xl">☕ "${s.weetjes}"</p>` : ''}
         </div>
     `).join('');
 }
@@ -80,6 +98,11 @@ function renderDeliverables() {
     if (!container) return;
     const list = getDeliverables();
     const stakeholders = getStakeholders();
+
+    if (list.length === 0) {
+        container.innerHTML = `<div class="col-span-2 text-center p-6 text-slate-400 text-xs">Nog geen deliverables ingevoerd.</div>`;
+        return;
+    }
 
     container.innerHTML = list.map(d => {
         const stk = stakeholders.find(s => s.id === d.stakeholderId) || { naam: "Onbekend" };
@@ -108,11 +131,15 @@ function saveStakeholder(e) {
         rol: document.getElementById('stk-rol').value,
         disc: document.getElementById('stk-disc').value,
         nlp: document.getElementById('stk-nlp').value,
+        stijl: document.getElementById('stk-stijl').value,
         weetjes: document.getElementById('stk-weetjes').value
     };
     addStakeholder(newStk);
     renderStakeholders();
     closeModal('modal-stakeholder');
+    
+    // Formulier leegmaken
+    e.target.reset();
 }
 
 function saveDeliverable(e) {
@@ -129,4 +156,7 @@ function saveDeliverable(e) {
     addDeliverable(newDel);
     renderDeliverables();
     closeModal('modal-deliverable');
+    
+    // Formulier leegmaken
+    e.target.reset();
 }

@@ -5,7 +5,8 @@ const stakeholdersData = [
         rol: "Operations Manager",
         disc: "DISC Rood",
         nlp: "Auditief Digitaal",
-        weetjes: "Gepassioneerd wielrenner. Houdt van to-the-point samenvattingen."
+        stijl: "Direct, to-the-point, facts & figures",
+        weetjes: "Gepassioneerd wielrenner. Houdt van korte, bondige samenvattingen."
     },
     {
         id: "stk-2",
@@ -13,6 +14,7 @@ const stakeholdersData = [
         rol: "Teamlead Service",
         disc: "DISC Blauw",
         nlp: "Visueel",
+        stijl: "Gestructureerd, duidelijke dashboards",
         weetjes: "Liefhebber van reizen en bakken."
     }
 ];
